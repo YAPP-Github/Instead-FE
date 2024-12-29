@@ -6,7 +6,7 @@
     "dev": "turbo dev",
     "web": "turbo dev --filter web",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "prepare": "husky install",
+    "prepare": "husky",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
     "lint-staged": "lint-staged"
