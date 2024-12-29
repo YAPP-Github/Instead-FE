@@ -1,0 +1,12 @@
+# Node modules
+node_modules/
+
+# 빌드 출력 디렉토리
+dist/
+build/
+
+# 환경 설정 파일
+.env
+
+# 특정 파일 또는 디렉토리 제외
+**/*.{json,css,scss,md,html,yml}
