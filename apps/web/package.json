@@ -11,18 +11,19 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "next": "14.2.21",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.21"
+    "react-dom": "^18"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "typescript": "5.5.4",
     "@types/node": "^20.11.24",
     "@types/react": "18.3.0",
     "@types/react-dom": "18.3.1",
+    "@vanilla-extract/next-plugin": "^2.4.8",
     "eslint": "^8",
-    "eslint-config-next": "14.2.21"
+    "eslint-config-next": "14.2.21",
+    "typescript": "5.5.4"
   }
 }
