@@ -5,10 +5,10 @@ import tseslint from 'typescript-eslint';
 import onlyWarn from 'eslint-plugin-only-warn';
 
 /**
- * 레포지토리 공용 ESLint 구성
+ * A shared ESLint configuration for the repository.
  *
  * @type {import("eslint").Linter.Config}
- */
+ * */
 export const config = [
   js.configs.recommended,
   eslintConfigPrettier,

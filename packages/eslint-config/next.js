@@ -5,13 +5,13 @@ import pluginReactHooks from 'eslint-plugin-react-hooks';
 import pluginReact from 'eslint-plugin-react';
 import globals from 'globals';
 import pluginNext from '@next/eslint-plugin-next';
-import { config as baseConfig } from './base.mjs';
+import { config as baseConfig } from './base.js';
 
 /**
- * Next.js를 사용하는 라이브러리를 위한 맞춤 ESLint 구성
+ * A custom ESLint configuration for libraries that use Next.js.
  *
  * @type {import("eslint").Linter.Config}
- */
+ * */
 export const nextJsConfig = [
   ...baseConfig,
   js.configs.recommended,
@@ -42,7 +42,7 @@ export const nextJsConfig = [
     settings: { react: { version: 'detect' } },
     rules: {
       ...pluginReactHooks.configs.recommended.rules,
-      // 새로운 JSX 변환과 함께 React 스코프는 더 이상 필요하지 않습니다.
+      // React scope no longer necessary with new JSX transform.
       'react/react-in-jsx-scope': 'off',
     },
   },

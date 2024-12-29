@@ -1,16 +1,15 @@
 {
   "name": "25th-web-team-1-fe",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
     "web": "turbo dev --filter web",
+    "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky",
-    "postinstall": "husky",
-    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
-    "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
-    "lint-staged": "lint-staged"
+    "postinstall": "husky"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
@@ -26,7 +25,7 @@
     "typescript": "5.5.4"
   },
   "lint-staged": {
-    "**/*.{ts,tsx}": [
+    "**/*.{ts,tsx,js,jsx}": [
       "eslint --fix",
       "prettier --write -u"
     ]

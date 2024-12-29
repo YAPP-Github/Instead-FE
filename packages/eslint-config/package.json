@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "type": "module",
   "private": true,
-  "files": [
-    "next.mjs"
-  ],
+  "exports": {
+    "./base": "./base.js",
+    "./next-js": "./next.js"
+  },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
     "@next/eslint-plugin-next": "^15.1.0",
