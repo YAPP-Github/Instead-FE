@@ -7,6 +7,7 @@
     "web": "turbo dev --filter web",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky",
+    "postinstall": "husky",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
     "lint-staged": "lint-staged"
@@ -26,9 +27,8 @@
   "lint-staged": {
     "*.{ts,tsx}": [
       "eslint --fix",
-      "prettier --config ./.prettierrc --write -u"
-    ],
-    "**/*.styles.ts": "stylelint --fix"
+      "prettier --write -u"
+    ]
   },
   "packageManager": "pnpm@9.0.0",
   "engines": {
