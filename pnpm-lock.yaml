@@ -128,6 +128,28 @@ importers:
         specifier: ^8.15.0
         version: 8.15.0(eslint@9.15.0)(typescript@5.5.4)
 
+  packages/theme:
+    dependencies:
+      '@vanilla-extract/css':
+        specifier: ^1.17.0
+        version: 1.17.0
+      '@vanilla-extract/next-plugin':
+        specifier: ^2.4.8
+        version: 2.4.8(@types/node@20.17.6)(next@14.2.21(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(terser@5.37.0)(webpack@5.97.1(esbuild@0.24.2))
+      '@vanilla-extract/recipes':
+        specifier: ^0.5.5
+        version: 0.5.5(@vanilla-extract/css@1.17.0)
+      '@vanilla-extract/sprinkles':
+        specifier: ^1.6.3
+        version: 1.6.3(@vanilla-extract/css@1.17.0)
+    devDependencies:
+      '@vanilla-extract/esbuild-plugin':
+        specifier: ^2.3.5
+        version: 2.3.13(@types/node@20.17.6)(esbuild@0.24.2)(terser@5.37.0)
+      esbuild:
+        specifier: ^0.24.0
+        version: 0.24.2
+
   packages/typescript-config: {}
 
   packages/ui:
@@ -135,6 +157,9 @@ importers:
       '@vanilla-extract/css':
         specifier: ^1.17.0
         version: 1.17.0
+      '@vanilla-extract/recipes':
+        specifier: ^0.5.5
+        version: 0.5.5(@vanilla-extract/css@1.17.0)
       react:
         specifier: ^18
         version: 18.3.1
@@ -1073,6 +1098,16 @@ packages:
 
   '@vanilla-extract/private@1.0.6':
     resolution: {integrity: sha512-ytsG/JLweEjw7DBuZ/0JCN4WAQgM9erfSTdS1NQY778hFQSZ6cfCDEZZ0sgVm4k54uNz6ImKB33AYvSR//fjxw==}
+
+  '@vanilla-extract/recipes@0.5.5':
+    resolution: {integrity: sha512-VadU7+IFUwLNLMgks29AHav/K5h7DOEfTU91RItn5vwdPfzduodNg317YbgWCcpm7FSXkuR3B3X8ZOi95UOozA==}
+    peerDependencies:
+      '@vanilla-extract/css': ^1.0.0
+
+  '@vanilla-extract/sprinkles@1.6.3':
+    resolution: {integrity: sha512-oCHlQeYOBIJIA2yWy2GnY5wE2A7hGHDyJplJo4lb+KEIBcJWRnDJDg8ywDwQS5VfWJrBBO3drzYZPFpWQjAMiQ==}
+    peerDependencies:
+      '@vanilla-extract/css': ^1.0.0
 
   '@vanilla-extract/webpack-plugin@2.3.16':
     resolution: {integrity: sha512-/KkXlbQS+dXCKgxR0BhfjxNR/IZbxAPlj5VRI3ZKoUafJQ/WqUT7LEO7OUFhLQoqRj5oeMHYZ8YmkZk8na7mjQ==}
@@ -3692,6 +3727,23 @@ snapshots:
       - supports-color
       - terser
 
+  '@vanilla-extract/next-plugin@2.4.8(@types/node@20.17.6)(next@14.2.21(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(terser@5.37.0)(webpack@5.97.1(esbuild@0.24.2))':
+    dependencies:
+      '@vanilla-extract/webpack-plugin': 2.3.16(@types/node@20.17.6)(terser@5.37.0)(webpack@5.97.1(esbuild@0.24.2))
+      next: 14.2.21(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+    transitivePeerDependencies:
+      - '@types/node'
+      - babel-plugin-macros
+      - less
+      - lightningcss
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - webpack
+
   '@vanilla-extract/next-plugin@2.4.8(@types/node@20.17.6)(next@14.2.21(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(terser@5.37.0)(webpack@5.97.1)':
     dependencies:
       '@vanilla-extract/webpack-plugin': 2.3.16(@types/node@20.17.6)(terser@5.37.0)(webpack@5.97.1)
@@ -3710,6 +3762,33 @@ snapshots:
       - webpack
 
   '@vanilla-extract/private@1.0.6': {}
+
+  '@vanilla-extract/recipes@0.5.5(@vanilla-extract/css@1.17.0)':
+    dependencies:
+      '@vanilla-extract/css': 1.17.0
+
+  '@vanilla-extract/sprinkles@1.6.3(@vanilla-extract/css@1.17.0)':
+    dependencies:
+      '@vanilla-extract/css': 1.17.0
+
+  '@vanilla-extract/webpack-plugin@2.3.16(@types/node@20.17.6)(terser@5.37.0)(webpack@5.97.1(esbuild@0.24.2))':
+    dependencies:
+      '@vanilla-extract/integration': 7.1.12(@types/node@20.17.6)(terser@5.37.0)
+      debug: 4.4.0
+      loader-utils: 2.0.4
+      picocolors: 1.1.1
+      webpack: 5.97.1(esbuild@0.24.2)
+    transitivePeerDependencies:
+      - '@types/node'
+      - babel-plugin-macros
+      - less
+      - lightningcss
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
 
   '@vanilla-extract/webpack-plugin@2.3.16(@types/node@20.17.6)(terser@5.37.0)(webpack@5.97.1)':
     dependencies:
@@ -5594,6 +5673,17 @@ snapshots:
 
   tapable@2.2.1: {}
 
+  terser-webpack-plugin@5.3.11(esbuild@0.24.2)(webpack@5.97.1(esbuild@0.24.2)):
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.25
+      jest-worker: 27.5.1
+      schema-utils: 4.3.0
+      serialize-javascript: 6.0.2
+      terser: 5.37.0
+      webpack: 5.97.1(esbuild@0.24.2)
+    optionalDependencies:
+      esbuild: 0.24.2
+
   terser-webpack-plugin@5.3.11(webpack@5.97.1):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
@@ -5787,6 +5877,36 @@ snapshots:
       schema-utils: 3.3.0
       tapable: 2.2.1
       terser-webpack-plugin: 5.3.11(webpack@5.97.1)
+      watchpack: 2.4.2
+      webpack-sources: 3.2.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - esbuild
+      - uglify-js
+
+  webpack@5.97.1(esbuild@0.24.2):
+    dependencies:
+      '@types/eslint-scope': 3.7.7
+      '@types/estree': 1.0.6
+      '@webassemblyjs/ast': 1.14.1
+      '@webassemblyjs/wasm-edit': 1.14.1
+      '@webassemblyjs/wasm-parser': 1.14.1
+      acorn: 8.14.0
+      browserslist: 4.24.3
+      chrome-trace-event: 1.0.4
+      enhanced-resolve: 5.18.0
+      es-module-lexer: 1.6.0
+      eslint-scope: 5.1.1
+      events: 3.3.0
+      glob-to-regexp: 0.4.1
+      graceful-fs: 4.2.11
+      json-parse-even-better-errors: 2.3.1
+      loader-runner: 4.3.0
+      mime-types: 2.1.35
+      neo-async: 2.6.2
+      schema-utils: 3.3.0
+      tapable: 2.2.1
+      terser-webpack-plugin: 5.3.11(esbuild@0.24.2)(webpack@5.97.1(esbuild@0.24.2))
       watchpack: 2.4.2
       webpack-sources: 3.2.3
     transitivePeerDependencies:
