@@ -20,7 +20,7 @@ jobs:
             const mention = context.payload.pull_request.requested_reviewers.map((user) => {
                 const login = user.login;
                 const mappedValue = workers[login];
-                return mappedValue ? <@${mappedValue}> : No mapping found for ${login};
+                return mappedValue ? `<@${mappedValue}>` : `No mapping found for ${login}`;
             });
             return mention.join(', ');
           result-encoding: string
