@@ -1,0 +1,30 @@
+export const colors = {
+  primary: {
+    green100: '#F1FFB5',
+    green200: '#E6FF79',
+    green300: '#D0F141',
+    green400: '#D2F634',
+  },
+  semantic: {
+    warning300: '#FF724E',
+    warning500: '#FF3300',
+    blue: '#1662E3',
+  },
+  grey: {
+    0: '#FFFFFF',
+    25: '#F7F9FB',
+    50: '#EAEFF4',
+    '50B': '#E5EEF7',
+    100: '#D8E3ED',
+    200: '#C2CDDE',
+    300: '#A3ADBD',
+    400: '#788391',
+    500: '#5A6471',
+    600: '#3F4750',
+    700: '#293342',
+    800: '#1D222C',
+    900: '#14181F',
+    950: '#0E0F15',
+    1000: '#000000',
+  },
+} as const;
