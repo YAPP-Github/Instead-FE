@@ -13,14 +13,14 @@ export const XIcon = (props: SVGProps<SVGSVGElement>) => {
       <path
         d="M8 7.5L25 24.5"
         stroke="#A3ADBD"
-        stroke-width="3"
-        stroke-linecap="round"
+        strokeWidth="3"
+        strokeLinecap="round"
       />
       <path
         d="M25 7.5L8 24.5"
         stroke="#A3ADBD"
-        stroke-width="3"
-        stroke-linecap="round"
+        strokeWidth="3"
+        strokeLinecap="round"
       />
     </svg>
   );
