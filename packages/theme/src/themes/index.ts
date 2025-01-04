@@ -1,11 +1,5 @@
-import { createTheme } from '@vanilla-extract/css';
-import { lightTheme } from './light';
-import { darkTheme } from './dark';
-import type { ThemeContract } from './contract';
+import { vars } from './themes.css';
 
-const [lightThemeClass, vars] = createTheme<ThemeContract>(lightTheme);
-const darkThemeClass = createTheme(vars, darkTheme);
-
-export { lightThemeClass, darkThemeClass, vars };
-export type { ThemeContract };
+export * from './themes.css';
+export type { ThemeContract } from './contract';
 export type Vars = typeof vars;
