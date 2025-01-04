@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@vanilla-extract/esbuild-plugin": "^2.3.5",
-    "esbuild": "^0.24.0",
+    "esbuild": "^0.21.0",
     "esbuild-plugin-preserve-directives": "^0.0.11"
   }
 }
