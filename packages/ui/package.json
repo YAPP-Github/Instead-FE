@@ -9,7 +9,7 @@
     ".": {
       "import": "./dist/index.js"
     },
-    "./styles": "./dist/index.css"
+    "./styles": "./dist/styles.css"
   },
   "scripts": {
     "build": "tsc && node esbuild.config.mjs",
