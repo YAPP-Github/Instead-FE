@@ -5,8 +5,14 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./styles": "./dist/index.css"
+  },
   "scripts": {
-    "build": "tsc --emitDeclarationOnly && esbuild src/index.ts --bundle --platform=node --format=esm --outfile=dist/index.mjs && esbuild src/index.ts --bundle --platform=node --format=cjs --outfile=dist/index.js",
+    "build": "node esbuild.config.mjs && tsc --emitDeclarationOnly",
     "dev": "esbuild src/index.ts --bundle --platform=node --format=esm --outfile=dist/index.mjs --watch",
     "lint": "eslint . --max-warnings 0"
   },
@@ -18,6 +24,8 @@
   },
   "devDependencies": {
     "@vanilla-extract/esbuild-plugin": "^2.3.5",
-    "esbuild": "^0.24.0"
+    "esbuild": "^0.24.0",
+    "esbuild-plugin-preserve-directives": "^0.0.11",
+    "esbuild-plugin-svgr": "^3.1.0"
   }
 }

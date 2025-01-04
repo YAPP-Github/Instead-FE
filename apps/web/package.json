@@ -14,7 +14,9 @@
     "@repo/ui": "workspace:^",
     "next": "14.2.21",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "@vanilla-extract/css": "^1.17.0",
+    "@vanilla-extract/recipes": "^0.5.5"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
