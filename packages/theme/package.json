@@ -12,7 +12,7 @@
     "./styles": "./dist/index.css"
   },
   "scripts": {
-    "build": "node esbuild.config.mjs && tsc --emitDeclarationOnly",
+    "build": "tsc && node esbuild.config.mjs",
     "dev": "esbuild src/index.ts --bundle --platform=node --format=esm --outfile=dist/index.mjs --watch",
     "lint": "eslint . --max-warnings 0"
   },
