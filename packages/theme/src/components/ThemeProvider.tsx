@@ -1,10 +1,10 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import { lightThemeClass, darkThemeClass } from '../themes/themes.css';
 
-interface ThemeProviderProps {
-  children: React.ReactNode;
+type ThemeProviderProps = {
+  children: ReactNode;
   theme?: 'light' | 'dark';
-}
+};
 
 export function ThemeProvider({
   children,
