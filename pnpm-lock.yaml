@@ -142,7 +142,13 @@ importers:
       '@vanilla-extract/sprinkles':
         specifier: ^1.6.3
         version: 1.6.3(@vanilla-extract/css@1.17.0)
+      react:
+        specifier: ^18
+        version: 18.3.1
     devDependencies:
+      '@types/react':
+        specifier: ^18.2.0
+        version: 18.3.0
       '@vanilla-extract/esbuild-plugin':
         specifier: ^2.3.5
         version: 2.3.13(@types/node@20.17.6)(esbuild@0.21.5)(terser@5.37.0)
@@ -1793,6 +1799,7 @@ packages:
 
   loose-envify@1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
+    hasBin: true
 
   lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
