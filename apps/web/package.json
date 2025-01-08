@@ -2,6 +2,7 @@
   "name": "web",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -19,6 +20,10 @@
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+<<<<<<< HEAD
+=======
+    "@repo/theme": "workspace:*",
+>>>>>>> 33b4d38 (feat(packages/ui): Icon 컴포넌트)
     "@repo/ui": "workspace:*",
     "@types/node": "^20.11.24",
     "@types/react": "18.3.0",
