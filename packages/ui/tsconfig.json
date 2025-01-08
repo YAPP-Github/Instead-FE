@@ -9,6 +9,6 @@
     "outDir": "./dist",
     "declaration": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "global.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

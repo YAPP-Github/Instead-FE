@@ -2,6 +2,9 @@
   "name": "@repo/theme",
   "version": "0.0.0",
   "private": true,
+  "main": "./dist/index.js",
+  "type": "module",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
