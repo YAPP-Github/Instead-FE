@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 export * from './Spacing/Spacing';
+<<<<<<< HEAD
 =======
 export * from './Icon/Icon';
 <<<<<<< HEAD
@@ -7,3 +8,6 @@ export * from './Icon/Icon';
 =======
 export * from './Spacing/Spacing';
 >>>>>>> 4afce2e ([Feat] Spacing 컴포넌트 추가 (#49))
+=======
+export * from './Icon/Icon';
+>>>>>>> a244d57 (fix: resolve conflicts)
