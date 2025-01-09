@@ -3299,17 +3299,6 @@ snapshots:
     dependencies:
       '@vanilla-extract/private': 1.0.6
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> e9068cd (fix: resolve conflicts)
->>>>>>> a244d57 (fix: resolve conflicts)
-=======
->>>>>>> 286dd73 (fix: resolve conflicts)
   '@vanilla-extract/esbuild-plugin@2.3.13(@types/node@20.17.12)(esbuild@0.21.5)(terser@5.37.0)':
     dependencies:
       '@vanilla-extract/integration': 7.1.12(@types/node@20.17.12)(terser@5.37.0)
@@ -3327,17 +3316,6 @@ snapshots:
       - supports-color
       - terser
 
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 33b4d38 (feat(packages/ui): Icon 컴포넌트)
-=======
-<<<<<<< HEAD
-=======
->>>>>>> 33b4d38 (feat(packages/ui): Icon 컴포넌트)
->>>>>>> e9068cd (fix: resolve conflicts)
->>>>>>> a244d57 (fix: resolve conflicts)
-=======
->>>>>>> 286dd73 (fix: resolve conflicts)
   '@vanilla-extract/esbuild-plugin@2.3.13(@types/node@20.17.6)(esbuild@0.21.5)(terser@5.37.0)':
     dependencies:
       '@vanilla-extract/integration': 7.1.12(@types/node@20.17.6)(terser@5.37.0)
