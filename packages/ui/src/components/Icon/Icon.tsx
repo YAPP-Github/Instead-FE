@@ -9,7 +9,7 @@ export type IconName = keyof typeof icons;
 export type IconProps = SVGProps<SVGSVGElement> & {
   name: IconName;
   type?: 'fill' | 'stroke';
-  color?: (typeof tokens.colors)[keyof typeof tokens.colors];
+  color?: string;
   size?: number | string;
   'aria-label'?: string;
 };
