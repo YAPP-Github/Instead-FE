@@ -25,14 +25,16 @@ export function Icon({
 }: IconProps) {
   const SVG = icons[name];
 
+  const colorStyle = {
+    ...(type !== 'stroke' && { [styles.fillColor]: color }),
+    ...(type !== 'fill' && { [styles.strokeColor]: color }),
+  };
+
   return (
     <SVG
       className={styles.parent}
       style={{
-        ...assignInlineVars({
-          [styles.strokeColor]: type === 'fill' ? 'none' : color,
-          [styles.fillColor]: type === 'stroke' ? 'none' : color,
-        }),
+        ...assignInlineVars(colorStyle),
         width: size,
         height: size,
         ...iconStyle,
