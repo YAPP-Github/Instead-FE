@@ -1,2 +1,3 @@
 export * from './Spacing/Spacing';
-export * from './Icon/Icon';
+export { Icon } from './Icon/Icon';
+export type { IconName, IconProps } from './Icon/Icon';
