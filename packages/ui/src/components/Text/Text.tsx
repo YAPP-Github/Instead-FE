@@ -1,9 +1,7 @@
-import { tokens } from '@repo/theme';
+import { tokens, TypographyType } from '@repo/theme';
 import { ComponentPropsWithoutRef } from 'react';
 import { colorVar, sizeVar, textStyle, weightVar } from './Text.css';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
-
-type TypographyType = typeof tokens.typography;
 
 export type AllowedTags =
   | 'span'
