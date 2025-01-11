@@ -1,12 +1,30 @@
 export const colors = {
-  green100: '#F1FFB5',
-  green200: '#E6FF79',
-  green300: '#D0F141',
-  green400: '#D2F634',
+  green100: '#F1FFB5', // TODO: 삭제 예정
+  green200: '#E6FF79', // TODO: 삭제 예정
+  green300: '#D0F141', // TODO: 삭제 예정
+  green400: '#D2F634', // TODO: 삭제 예정
+
+  primary500: '#7081F4',
+  primary600: '#5266EC',
+  primary700: '#3348D6',
+  primary800: '#2035BC',
 
   warning300: '#FF724E',
   warning500: '#FF3300',
+  shadow: 'rgba(74, 98, 139, 0.3)',
   blue: '#1662E3',
+
+  pink200: '#FFD6D6',
+  pink400: '#EAAEAE',
+  pink800: '#A63535',
+
+  orange200: '#FFEAD9',
+  orange400: '#E09366',
+  orange800: '#903F28',
+
+  blue200: '#CDDFFF',
+  blue400: '#7698E2',
+  blue800: '#153C66',
 
   grey0: '#FFFFFF',
   grey25: '#F7F9FB',
