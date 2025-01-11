@@ -38,6 +38,7 @@
     "ts-node": "^10.9.2"
   },
   "peerDependencies": {
-    "react": "^18"
+    "react": "^18",
+    "react-dom": "^18"
   }
 }

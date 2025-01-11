@@ -4,10 +4,13 @@ import {
   ReactNode,
   forwardRef,
   useEffect,
+  KeyboardEvent,
+  useRef,
 } from 'react';
 import { ToastIcon } from './compounds/Icon/Icon';
 import * as styles from './Toast.css';
 import { useTimer } from './hooks/useTimer';
+import { mergeRefs } from '@/utils';
 
 export type ToastType = 'default' | 'success' | 'error';
 
@@ -68,19 +71,27 @@ const ToastComponent = forwardRef<HTMLDivElement, ToastProps>(
       onTimerEnd: onClose,
       timeoutSecond: duration,
     });
+    const toastRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
       if (open) {
         onOpen?.();
         startCurrentTimer();
+        toastRef.current?.focus();
       }
     }, [open, onOpen, startCurrentTimer]);
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose?.();
+      }
+    };
 
     return (
       <AnimatePresence onExitComplete={onExited}>
         {open && (
           <motion.div
-            ref={ref}
+            ref={mergeRefs(ref, toastRef)}
             className={styles.container}
             initial={{ y: '120%', opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -99,10 +110,16 @@ const ToastComponent = forwardRef<HTMLDivElement, ToastProps>(
             style={{
               ...toastStyle,
             }}
+            role="alert"
+            aria-live="polite"
+            tabIndex={0}
+            onKeyDown={handleKeyDown}
             {...restProps}
           >
             <div className={styles.content}>
-              {leftAddon ?? <ToastIcon toastType={toastType} />}
+              {leftAddon ?? (
+                <ToastIcon toastType={toastType} aria-hidden="true" />
+              )}
               <span className={styles.message}>{children}</span>
             </div>
           </motion.div>
