@@ -15,79 +15,32 @@ type TextCompoundType = {
 
 const BaseText = Text as TextCompoundType;
 
-const TextWithCompounds = Object.assign(BaseText, {
-  h1: (props?: Omit<TextProps<'h1'>, 'as'>) =>
-    CreateSubText({
-      as: 'h1',
-      fontSize: 14,
-      fontWeight: 'bold',
-      color: 'grey50',
-      ...props,
-    }),
-  h2: (props?: Omit<TextProps<'h2'>, 'as'>) =>
-    CreateSubText({
-      as: 'h2',
-      fontSize: 14,
-      fontWeight: 'bold',
-      color: 'grey50',
-      ...props,
-    }),
-  h3: (props?: Omit<TextProps<'h3'>, 'as'>) =>
-    CreateSubText({
-      as: 'h3',
-      fontSize: 14,
-      fontWeight: 'bold',
-      color: 'grey50',
-      ...props,
-    }),
-  h4: (props?: Omit<TextProps<'h4'>, 'as'>) =>
-    CreateSubText({
-      as: 'h4',
-      fontSize: 14,
-      fontWeight: 'bold',
-      color: 'grey50',
-      ...props,
-    }),
-  h5: (props?: Omit<TextProps<'h5'>, 'as'>) =>
-    CreateSubText({
-      as: 'h5',
-      fontSize: 14,
-      fontWeight: 'bold',
-      color: 'grey50',
-      ...props,
-    }),
-  h6: (props?: Omit<TextProps<'h6'>, 'as'>) =>
-    CreateSubText({
-      as: 'h6',
-      fontSize: 14,
-      fontWeight: 'bold',
-      color: 'grey50',
-      ...props,
-    }),
-  p: (props?: Omit<TextProps<'p'>, 'as'>) =>
-    CreateSubText({
-      as: 'p',
-      fontSize: 14,
-      fontWeight: 'bold',
-      color: 'grey50',
-      ...props,
-    }),
-  span: (props?: Omit<TextProps<'span'>, 'as'>) =>
-    CreateSubText({
-      as: 'span',
-      fontSize: 14,
-      fontWeight: 'bold',
-      color: 'grey50',
-      ...props,
-    }),
-  div: (props?: Omit<TextProps<'div'>, 'as'>) =>
-    CreateSubText({
-      as: 'div',
-      fontSize: 14,
-      fontWeight: 'bold',
-      color: 'grey50',
-      ...props,
-    }),
-});
+const tags: AllowedTags[] = [
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'p',
+  'span',
+  'div',
+];
+
+const compounds = tags.reduce(
+  (acc, tag) => {
+    acc[tag] = (props?: Omit<TextProps<typeof tag>, 'as'>) =>
+      CreateSubText({
+        as: tag,
+        ...props,
+      });
+    return acc;
+  },
+  {} as {
+    [K in AllowedTags]: (props?: Omit<TextProps<K>, 'as'>) => JSX.Element;
+  }
+);
+
+const TextWithCompounds = Object.assign(BaseText, compounds);
 
 export { TextWithCompounds as Text };

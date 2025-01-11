@@ -16,16 +16,16 @@ export type AllowedTags =
 
 export type TextProps<T extends AllowedTags> = {
   as?: T;
-  color: keyof typeof tokens.colors;
-  fontSize: keyof TypographyType['fontSize'];
-  fontWeight: keyof TypographyType['fontWeight'];
+  color?: keyof typeof tokens.colors;
+  fontSize?: keyof TypographyType['fontSize'];
+  fontWeight?: keyof TypographyType['fontWeight'];
 } & ComponentPropsWithoutRef<T>;
 
 export function Text<T extends AllowedTags = 'span'>({
   as,
-  color,
-  fontSize,
-  fontWeight,
+  color = 'grey950',
+  fontSize = 14,
+  fontWeight = 'medium',
   ...rest
 }: TextProps<T>) {
   const Component = as || 'span';
