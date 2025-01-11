@@ -31,6 +31,26 @@ export type ThemeContract = {
     grey100to700Hover: string;
     grey950toPrimary: string;
     grey1000to1000: string;
+
+    primary500: string;
+    primary600: string;
+    primary700: string;
+    primary800: string;
+
+    shadow: string;
+    blue: string;
+
+    pink200: string;
+    pink400: string;
+    pink800: string;
+
+    orange200: string;
+    orange400: string;
+    orange800: string;
+
+    blue200: string;
+    blue400: string;
+    blue800: string;
   };
   space: {
     [K in keyof typeof tokens.spacing]: string;

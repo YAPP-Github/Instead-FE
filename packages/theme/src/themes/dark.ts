@@ -35,6 +35,26 @@ export const darkTheme: ThemeContract = {
     grey100to700Hover: tokens.colors.grey600,
     grey950toPrimary: tokens.colors.green200,
     grey1000to1000: tokens.colors.grey1000,
+
+    primary500: tokens.colors.primary500,
+    primary600: tokens.colors.primary600,
+    primary700: tokens.colors.primary700,
+    primary800: tokens.colors.primary800,
+
+    shadow: tokens.colors.shadow,
+    blue: tokens.colors.blue,
+
+    pink200: tokens.colors.pink200,
+    pink400: tokens.colors.pink400,
+    pink800: tokens.colors.pink800,
+
+    orange200: tokens.colors.orange200,
+    orange400: tokens.colors.orange400,
+    orange800: tokens.colors.orange800,
+
+    blue200: tokens.colors.blue200,
+    blue400: tokens.colors.blue400,
+    blue800: tokens.colors.blue800,
   },
   space: tokens.spacing,
   borderRadius: tokens.radius,
