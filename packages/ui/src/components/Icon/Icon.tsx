@@ -9,7 +9,7 @@ export type IconName = keyof typeof icons;
 export type IconProps = SVGProps<SVGSVGElement> & {
   name: IconName;
   type?: 'fill' | 'stroke';
-  color?: string;
+  color?: keyof typeof tokens.colors;
   size?: number | string;
   'aria-label'?: string;
 };
@@ -17,7 +17,7 @@ export type IconProps = SVGProps<SVGSVGElement> & {
 export function Icon({
   name,
   type = 'fill',
-  color = tokens.colors.grey300,
+  color = 'grey300',
   size = 24,
   style: iconStyle,
   'aria-label': ariaLabel,
@@ -26,8 +26,8 @@ export function Icon({
   const SVG = icons[name];
 
   const colorStyle = {
-    ...(type !== 'stroke' && { [styles.fillColor]: color }),
-    ...(type !== 'fill' && { [styles.strokeColor]: color }),
+    ...(type !== 'stroke' && { [styles.fillColor]: tokens.colors[color] }),
+    ...(type !== 'fill' && { [styles.strokeColor]: tokens.colors[color] }),
   };
 
   return (

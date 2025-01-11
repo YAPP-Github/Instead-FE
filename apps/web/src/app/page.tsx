@@ -6,12 +6,7 @@ export default function Home() {
       웹 1팀 파이팅!
       <Icon size={24} name="stack" type="stroke" />
       <Icon size={24} name="stack" type="fill" />
-      <Icon
-        size={24}
-        name="stack"
-        type="stroke"
-        color={tokens.colors.warning300}
-      />
+      <Icon size={24} name="stack" type="stroke" color="warning300" />
     </div>
   );
 }
