@@ -10,15 +10,7 @@ function CreateSubText<T extends AllowedTags>({
 type TextCompoundType = {
   <T extends AllowedTags = 'span'>(props: TextProps<T>): JSX.Element;
 } & {
-  h1: (props?: Omit<TextProps<'h1'>, 'as'>) => JSX.Element;
-  h2: (props?: Omit<TextProps<'h2'>, 'as'>) => JSX.Element;
-  h3: (props?: Omit<TextProps<'h3'>, 'as'>) => JSX.Element;
-  h4: (props?: Omit<TextProps<'h4'>, 'as'>) => JSX.Element;
-  h5: (props?: Omit<TextProps<'h5'>, 'as'>) => JSX.Element;
-  h6: (props?: Omit<TextProps<'h6'>, 'as'>) => JSX.Element;
-  p: (props?: Omit<TextProps<'p'>, 'as'>) => JSX.Element;
-  span: (props?: Omit<TextProps<'span'>, 'as'>) => JSX.Element;
-  div: (props?: Omit<TextProps<'div'>, 'as'>) => JSX.Element;
+  [K in AllowedTags]: (props?: Omit<TextProps<K>, 'as'>) => JSX.Element;
 };
 
 const BaseText = Text as TextCompoundType;
