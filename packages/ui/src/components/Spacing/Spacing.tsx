@@ -1,8 +1,9 @@
+import { HTMLAttributes } from 'react';
 import { tokens } from '@repo/theme';
 import { directionVar, sizeVar, spacingStyle } from './Spacing.css';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 
-export type SpacingProps = React.HTMLAttributes<HTMLDivElement> & {
+export type SpacingProps = HTMLAttributes<HTMLDivElement> & {
   direction?: 'row' | 'column';
   size: keyof typeof tokens.spacing;
 };
