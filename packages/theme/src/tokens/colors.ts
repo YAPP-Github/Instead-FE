@@ -26,6 +26,12 @@ export const colors = {
   blue400: '#7698E2',
   blue800: '#153C66',
 
+  violet0: '#F2F3FF',
+  violet100: '#DFE1FE',
+  violet200: '#B7B4FF',
+  violet400: '#817ED5',
+  violet800: '#4A46A3',
+
   grey0: '#FFFFFF',
   grey25: '#F7F9FB',
   grey50: '#EAEFF4',

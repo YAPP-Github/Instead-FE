@@ -51,6 +51,12 @@ export type ThemeContract = {
     blue200: string;
     blue400: string;
     blue800: string;
+
+    violet0: string;
+    violet100: string;
+    violet200: string;
+    violet400: string;
+    violet800: string;
   };
   space: {
     [K in keyof typeof tokens.spacing]: string;
