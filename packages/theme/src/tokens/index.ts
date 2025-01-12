@@ -15,4 +15,8 @@ export const tokens = {
   typography,
 } as const;
 
-export type Tokens = typeof tokens;
+export type TypographyType = typeof typography;
+export type ColorsType = typeof colors;
+export type RadiusType = typeof radius;
+export type SpacingType = typeof spacing;
+export type TokensType = typeof tokens;

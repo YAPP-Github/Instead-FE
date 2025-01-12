@@ -3,9 +3,9 @@ import type { ThemeContract } from './contract';
 
 export const lightTheme: ThemeContract = {
   colors: {
-    primary: tokens.colors.green200,
-    primary400to200: tokens.colors.green400,
-    primaryHover: tokens.colors.green300,
+    primary: tokens.colors.green200, // TODO: 삭제 예정
+    primary400to200: tokens.colors.green400, // TODO: 삭제 예정
+    primaryHover: tokens.colors.green300, // TODO: 삭제 예정
 
     warning: tokens.colors.warning500,
 
@@ -35,6 +35,26 @@ export const lightTheme: ThemeContract = {
     grey100to700Hover: tokens.colors.grey200,
     grey950toPrimary: tokens.colors.grey950,
     grey1000to1000: tokens.colors.grey1000,
+
+    primary500: tokens.colors.primary500,
+    primary600: tokens.colors.primary600,
+    primary700: tokens.colors.primary700,
+    primary800: tokens.colors.primary800,
+
+    shadow: tokens.colors.shadow,
+    blue: tokens.colors.blue,
+
+    pink200: tokens.colors.pink200,
+    pink400: tokens.colors.pink400,
+    pink800: tokens.colors.pink800,
+
+    orange200: tokens.colors.orange200,
+    orange400: tokens.colors.orange400,
+    orange800: tokens.colors.orange800,
+
+    blue200: tokens.colors.blue200,
+    blue400: tokens.colors.blue400,
+    blue800: tokens.colors.blue800,
   },
   space: tokens.spacing,
   borderRadius: tokens.radius,
