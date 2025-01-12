@@ -43,11 +43,11 @@ export default function Home() {
         <Badge size="medium" variant="neautral" shape="round">
           X Premium 계정 전용
         </Badge>
-        <Badge size="medium" variant="pink" shape="square">
-          전체 적용
-        </Badge>
         <Badge size="medium" variant="primary" shape="round">
           X Premium 계정 전용
+        </Badge>
+        <Badge size="medium" variant="pink" shape="square">
+          전체 적용
         </Badge>
         <Badge size="medium" variant="blue" shape="square">
           개별 적용

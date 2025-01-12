@@ -2,12 +2,36 @@ import { forwardRef } from 'react';
 import type { HTMLAttributes } from 'react';
 import * as styles from './Badge.css';
 
+export type BadgeSize = 'medium' | 'large';
+export type BadgeVariant = 'neautral' | 'primary' | 'pink' | 'blue';
+export type BadgeShape = 'round' | 'square';
+
 type BadgeCombination =
-  | { size: 'medium'; variant: 'neautral'; shape: 'round' }
-  | { size: 'medium'; variant: 'pink'; shape: 'square' }
-  | { size: 'medium'; variant: 'primary'; shape: 'round' }
-  | { size: 'medium'; variant: 'blue'; shape: 'square' }
-  | { size: 'large'; variant: 'neautral'; shape: 'square' };
+  | {
+      size: Extract<BadgeSize, 'medium'>;
+      variant: Extract<BadgeVariant, 'neautral'>;
+      shape: Extract<BadgeShape, 'round'>;
+    }
+  | {
+      size: Extract<BadgeSize, 'medium'>;
+      variant: Extract<BadgeVariant, 'pink'>;
+      shape: Extract<BadgeShape, 'square'>;
+    }
+  | {
+      size: Extract<BadgeSize, 'medium'>;
+      variant: Extract<BadgeVariant, 'primary'>;
+      shape: Extract<BadgeShape, 'round'>;
+    }
+  | {
+      size: Extract<BadgeSize, 'medium'>;
+      variant: Extract<BadgeVariant, 'blue'>;
+      shape: Extract<BadgeShape, 'square'>;
+    }
+  | {
+      size: Extract<BadgeSize, 'large'>;
+      variant: Extract<BadgeVariant, 'neautral'>;
+      shape: Extract<BadgeShape, 'square'>;
+    };
 
 export type BadgeProps = HTMLAttributes<HTMLSpanElement> &
   BadgeCombination & {

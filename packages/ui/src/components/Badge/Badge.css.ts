@@ -7,6 +7,7 @@ export const badge = recipe({
     alignItems: 'center',
     justifyContent: 'center',
     whiteSpace: 'nowrap',
+    height: 'fit-content',
   },
 
   variants: {
@@ -17,7 +18,7 @@ export const badge = recipe({
         lineHeight: '150%',
       },
       large: {
-        fontSize: vars.typography.fontSize[16],
+        fontSize: vars.typography.fontSize[20],
         fontWeight: vars.typography.fontWeight.semibold,
         lineHeight: '150%',
       },
@@ -42,13 +43,26 @@ export const badge = recipe({
     },
     shape: {
       round: {
-        padding: '4px 10px',
         borderRadius: 100,
       },
       square: {
-        padding: '2px 6px',
         borderRadius: '4px',
       },
     },
   },
+
+  compoundVariants: [
+    {
+      variants: { shape: 'round', size: 'medium' },
+      style: { padding: '4px 10px' },
+    },
+    {
+      variants: { shape: 'square', size: 'medium' },
+      style: { padding: '2px 6px' },
+    },
+    {
+      variants: { shape: 'square', size: 'large' },
+      style: { padding: '4px 8px' },
+    },
+  ],
 });
