@@ -1,6 +1,6 @@
 'use client';
 
-import { Icon, Toast } from '@repo/ui';
+import { Icon, Toast, Text } from '@repo/ui';
 import { overlay } from 'overlay-kit';
 
 export default function Home() {
@@ -36,6 +36,9 @@ export default function Home() {
       <Icon size={24} name="stack" type="stroke" color="warning300" />
       <button onClick={notify1}>success 토스트 열기</button>
       <button onClick={notify2}>warning 토스트 열기</button>
+      <Text.H1 color="grey950" fontSize={28} fontWeight="semibold">
+        hihi
+      </Text.H1>
     </div>
   );
 }
