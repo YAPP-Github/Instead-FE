@@ -29,7 +29,10 @@ const tags: AllowedTags[] = [
 
 const compounds = tags.reduce(
   (acc, tag) => {
-    acc[tag] = (props?: Omit<TextProps<typeof tag>, 'as'>) =>
+    const capitalizedTag = (tag.charAt(0).toUpperCase() +
+      tag.slice(1)) as Capitalize<typeof tag>;
+
+    acc[capitalizedTag] = (props?: Omit<TextProps<typeof tag>, 'as'>) =>
       CreateSubText({
         as: tag,
         ...props,
@@ -37,7 +40,9 @@ const compounds = tags.reduce(
     return acc;
   },
   {} as {
-    [K in AllowedTags]: (props?: Omit<TextProps<K>, 'as'>) => JSX.Element;
+    [K in AllowedTags as Capitalize<K>]: (
+      props?: Omit<TextProps<K>, 'as'>
+    ) => JSX.Element;
   }
 );
 

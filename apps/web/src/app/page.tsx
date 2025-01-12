@@ -6,9 +6,9 @@ export default function Home() {
       <Icon size={24} name="stack" type="stroke" />
       <Icon size={24} name="stack" type="fill" />
       <Icon size={24} name="stack" type="stroke" color="warning300" />
-      <Text.h1 color="grey950" fontSize={28} fontWeight="semibold">
+      <Text.H1 color="grey950" fontSize={28} fontWeight="semibold">
         hihi
-      </Text.h1>
+      </Text.H1>
     </div>
   );
 }
