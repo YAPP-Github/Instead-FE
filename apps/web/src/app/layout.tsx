@@ -3,7 +3,7 @@ import localFont from 'next/font/local';
 import './globals.css';
 import '@repo/theme/styles';
 import '@repo/ui/styles';
-import { ThemeProvider } from '@repo/theme';
+import { Providers } from '../components/Providers/Providers';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -29,8 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <ThemeProvider theme="light">{children}</ThemeProvider>{' '}
-        {/** TODO: 추후 시스템 감지 설정 추가 예정 */}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

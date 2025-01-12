@@ -55,6 +55,12 @@ export const darkTheme: ThemeContract = {
     blue200: tokens.colors.blue200,
     blue400: tokens.colors.blue400,
     blue800: tokens.colors.blue800,
+
+    violet0: tokens.colors.violet0,
+    violet100: tokens.colors.violet100,
+    violet200: tokens.colors.violet200,
+    violet400: tokens.colors.violet400,
+    violet800: tokens.colors.violet800,
   },
   space: tokens.spacing,
   borderRadius: tokens.radius,
