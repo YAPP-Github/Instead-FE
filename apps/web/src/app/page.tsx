@@ -1,6 +1,6 @@
 'use client';
 
-import { Icon, Toast, Text } from '@repo/ui';
+import { Icon, Toast, Text, Badge } from '@repo/ui';
 import { overlay } from 'overlay-kit';
 
 export default function Home() {
@@ -39,6 +39,23 @@ export default function Home() {
       <Text.H1 color="grey950" fontSize={28} fontWeight="semibold">
         hihi
       </Text.H1>
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <Badge size="medium" variant="neautral" shape="round">
+          X Premium 계정 전용
+        </Badge>
+        <Badge size="medium" variant="pink" shape="square">
+          전체 적용
+        </Badge>
+        <Badge size="medium" variant="primary" shape="round">
+          X Premium 계정 전용
+        </Badge>
+        <Badge size="medium" variant="blue" shape="square">
+          개별 적용
+        </Badge>
+        <Badge size="large" variant="neautral" shape="square">
+          요약
+        </Badge>
+      </div>
     </div>
   );
 }
