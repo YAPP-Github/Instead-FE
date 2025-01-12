@@ -1,6 +1,5 @@
 import { Icon } from '@repo/ui';
 import type { IconProps } from '@repo/ui';
-import { tokens } from '@repo/theme';
 import { ToastType } from '../../Toast';
 
 export type ToastIconProps = Omit<IconProps, 'name'> & {
@@ -29,9 +28,9 @@ export function ToastIcon({
   const iconColor = (() => {
     switch (toastType) {
       case 'success':
-        return tokens.colors.green200;
+        return 'violet200';
       case 'error':
-        return tokens.colors.warning300;
+        return 'warning300';
     }
   })();
 
