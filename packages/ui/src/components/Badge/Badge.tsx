@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import * as styles from './Badge.css';
 
 export type BadgeSize = 'medium' | 'large';
@@ -35,7 +35,7 @@ type BadgeCombination =
 
 export type BadgeProps = HTMLAttributes<HTMLSpanElement> &
   BadgeCombination & {
-    children: React.ReactNode;
+    children: ReactNode;
   };
 
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
