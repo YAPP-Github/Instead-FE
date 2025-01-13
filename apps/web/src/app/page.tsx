@@ -1,6 +1,6 @@
 'use client';
 
-import { Icon, Toast, Text } from '@repo/ui';
+import { Icon, Toast, Text, Button } from '@repo/ui';
 import { overlay } from 'overlay-kit';
 
 export default function Home() {
@@ -39,6 +39,12 @@ export default function Home() {
       <Text.H1 color="grey950" fontSize={28} fontWeight="semibold">
         hihi
       </Text.H1>
+      <Button size="small" variant="primary" leftIcon="stack" rightIcon="chat">
+        버튼
+      </Button>
+      <Button size="large" variant="primary" leftIcon="stack" rightIcon="chat">
+        버튼
+      </Button>
     </div>
   );
 }
