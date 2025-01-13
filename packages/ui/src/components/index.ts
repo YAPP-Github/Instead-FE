@@ -6,3 +6,5 @@ export { Toast } from './Toast';
 export type { ToastProps, ToastType, ToastIconProps } from './Toast';
 export { Text } from './Text/Text.subComponents';
 export type { AllowedTags, TextProps } from './Text/Text';
+export { Badge } from './Badge/Badge';
+export type { BadgeProps } from './Badge/Badge';
