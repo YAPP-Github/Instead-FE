@@ -8,3 +8,5 @@ export { Text } from './Text/Text.subComponents';
 export type { AllowedTags, TextProps } from './Text/Text';
 export { Badge } from './Badge/Badge';
 export type { BadgeProps } from './Badge/Badge';
+export { Checkbox } from './Checkbox/Checkbox';
+export type { CheckboxProps } from './Checkbox/Checkbox';
