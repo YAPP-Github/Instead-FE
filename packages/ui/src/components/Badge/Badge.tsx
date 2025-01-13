@@ -3,13 +3,13 @@ import type { HTMLAttributes, ReactNode } from 'react';
 import * as styles from './Badge.css';
 
 export type BadgeSize = 'medium' | 'large';
-export type BadgeVariant = 'neautral' | 'primary' | 'pink' | 'blue';
+export type BadgeVariant = 'neutral' | 'primary' | 'pink' | 'blue';
 export type BadgeShape = 'round' | 'square';
 
 type BadgeCombination =
   | {
       size: Extract<BadgeSize, 'medium'>;
-      variant: Extract<BadgeVariant, 'neautral'>;
+      variant: Extract<BadgeVariant, 'neutral'>;
       shape: Extract<BadgeShape, 'round'>;
     }
   | {
@@ -29,7 +29,7 @@ type BadgeCombination =
     }
   | {
       size: Extract<BadgeSize, 'large'>;
-      variant: Extract<BadgeVariant, 'neautral'>;
+      variant: Extract<BadgeVariant, 'neutral'>;
       shape: Extract<BadgeShape, 'square'>;
     };
 

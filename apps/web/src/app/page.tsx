@@ -40,7 +40,7 @@ export default function Home() {
         hihi
       </Text.H1>
       <div style={{ display: 'flex', gap: '8px' }}>
-        <Badge size="medium" variant="neautral" shape="round">
+        <Badge size="medium" variant="neutral" shape="round">
           X Premium 계정 전용
         </Badge>
         <Badge size="medium" variant="primary" shape="round">
@@ -52,7 +52,7 @@ export default function Home() {
         <Badge size="medium" variant="blue" shape="square">
           개별 적용
         </Badge>
-        <Badge size="large" variant="neautral" shape="square">
+        <Badge size="large" variant="neutral" shape="square">
           요약
         </Badge>
       </div>

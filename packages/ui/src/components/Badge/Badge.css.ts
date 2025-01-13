@@ -24,7 +24,7 @@ export const badge = recipe({
       },
     },
     variant: {
-      neautral: {
+      neutral: {
         backgroundColor: vars.colors.grey50,
         color: vars.colors.grey600,
       },
