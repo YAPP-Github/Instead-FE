@@ -22,14 +22,14 @@ export const buttonRecipe = recipe({
   variants: {
     size: {
       large: {
-        gap: '0.4rem',
+        gap: '0.8rem',
         padding: '1.6rem 2rem',
         borderRadius: tokens.radius[12],
         fontSize: tokens.typography.fontSize[22],
         fontWeight: tokens.typography.fontWeight.semibold,
       },
       small: {
-        gap: '0.8rem',
+        gap: '0.4rem',
         padding: '1rem 2rem',
         borderRadius: tokens.radius[8],
         fontSize: tokens.typography.fontSize[18],
