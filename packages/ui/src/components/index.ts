@@ -8,3 +8,5 @@ export { Text } from './Text/Text.subComponents';
 export type { AllowedTags, TextProps } from './Text/Text';
 export { Button } from './Button/Button';
 export type { ButtonSize, ButtonVariant, ButtonProps } from './Button/Button';
+export { Badge } from './Badge/Badge';
+export type { BadgeProps } from './Badge/Badge';

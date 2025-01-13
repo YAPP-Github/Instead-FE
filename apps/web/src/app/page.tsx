@@ -1,6 +1,6 @@
 'use client';
 
-import { Icon, Toast, Text, Button } from '@repo/ui';
+import { Icon, Toast, Text, Button, Badge } from '@repo/ui';
 import { overlay } from 'overlay-kit';
 
 export default function Home() {
@@ -45,6 +45,23 @@ export default function Home() {
       <Button size="large" variant="primary" leftIcon="stack" rightIcon="chat">
         버튼
       </Button>
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <Badge size="medium" variant="neutral" shape="round">
+          X Premium 계정 전용
+        </Badge>
+        <Badge size="medium" variant="primary" shape="round">
+          X Premium 계정 전용
+        </Badge>
+        <Badge size="medium" variant="pink" shape="square">
+          전체 적용
+        </Badge>
+        <Badge size="medium" variant="blue" shape="square">
+          개별 적용
+        </Badge>
+        <Badge size="large" variant="neutral" shape="square">
+          요약
+        </Badge>
+      </div>
     </div>
   );
 }
