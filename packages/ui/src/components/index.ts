@@ -10,3 +10,5 @@ export { Badge } from './Badge/Badge';
 export type { BadgeProps } from './Badge/Badge';
 export { Checkbox } from './Checkbox/Checkbox';
 export type { CheckboxProps } from './Checkbox/Checkbox';
+export { Label } from './Label/Label';
+export type { LabelProps, LabelVariant } from './Label/Label';
