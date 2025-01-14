@@ -86,7 +86,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === ' ' || event.key === 'Enter') {
+      if (event.key === ' ') {
         event.preventDefault();
         if (!disabled) {
           const newValue = !checkboxState;
