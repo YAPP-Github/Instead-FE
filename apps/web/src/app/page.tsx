@@ -1,6 +1,6 @@
 'use client';
 
-import { Icon, Toast, Text, Badge } from '@repo/ui';
+import { Icon, Toast, Text, Badge, Checkbox } from '@repo/ui';
 import { overlay } from 'overlay-kit';
 
 export default function Home() {
@@ -56,6 +56,10 @@ export default function Home() {
           요약
         </Badge>
       </div>
+      <Checkbox />
+      <Checkbox label="체크박스" />
+      <Checkbox label="체크박스" disabled checked />
+      <Checkbox label="체크박스" disabled />
     </div>
   );
 }
