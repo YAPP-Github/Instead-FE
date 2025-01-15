@@ -1,10 +1,10 @@
-import { ButtonHTMLAttributes, forwardRef, ReactElement } from 'react';
+import { ComponentPropsWithoutRef, forwardRef, ReactElement } from 'react';
 import { addonRootStyle, buttonRecipe } from './Button.css';
 
 export type ButtonSize = 'small' | 'large';
 export type ButtonVariant = 'primary' | 'neutral' | 'terminal';
 
-export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+export type ButtonProps = ComponentPropsWithoutRef<'button'> & {
   size: ButtonSize;
   variant: ButtonVariant;
   isLoading?: boolean;
