@@ -1,6 +1,15 @@
 'use client';
 
-import { Icon, Toast, Text, Badge, Checkbox, Label } from '@repo/ui';
+import {
+  Icon,
+  Toast,
+  Text,
+  Badge,
+  Checkbox,
+  Label,
+  Breadcrumb,
+} from '@repo/ui';
+import Link from 'next/link';
 import { overlay } from 'overlay-kit';
 
 export default function Home() {
@@ -64,6 +73,29 @@ export default function Home() {
         <Label variant="default">어떤 글을 생성할까요?</Label>
         <Label variant="required">어떤 글을 생성할까요?</Label>
         <Label variant="optional">어떤 글을 생성할까요?</Label>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <Breadcrumb>
+          <Breadcrumb.Item>
+            <Link href="/">
+              <Icon name="stack" size={32} color="grey900" />
+            </Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <Link href="/">경제</Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item active>
+            <Link href="/">기초 경제 지식</Link>
+          </Breadcrumb.Item>
+        </Breadcrumb>
+
+        <Breadcrumb>
+          <Breadcrumb.Item>
+            <Icon name="stack" size={32} color="grey900" />
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>경제</Breadcrumb.Item>
+          <Breadcrumb.Item active>기초 경제 지식</Breadcrumb.Item>
+        </Breadcrumb>
       </div>
     </div>
   );
