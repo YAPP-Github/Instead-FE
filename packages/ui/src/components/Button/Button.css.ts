@@ -1,5 +1,7 @@
 import { tokens } from '@repo/theme';
-import { recipe } from '@vanilla-extract/recipes';
+import { styleVariants } from '@vanilla-extract/css';
+import { recipe, RecipeVariants } from '@vanilla-extract/recipes';
+import { ButtonSize } from './Button';
 
 export const buttonRecipe = recipe({
   base: {
@@ -82,5 +84,18 @@ export const buttonRecipe = recipe({
         },
       },
     },
+  },
+});
+
+export type ButtonRecipeVariants = RecipeVariants<typeof buttonRecipe>;
+
+export const addonRootStyle = styleVariants({
+  large: {
+    width: '2.4rem',
+    height: '2.4rem',
+  },
+  small: {
+    width: '1.6rem',
+    height: '1.6rem',
   },
 });

@@ -1,6 +1,5 @@
-import { ButtonHTMLAttributes, forwardRef } from 'react';
-import { buttonRecipe } from './Button.css';
-import { Icon, IconName } from '../Icon/Icon';
+import { ButtonHTMLAttributes, forwardRef, ReactElement } from 'react';
+import { addonRootStyle, buttonRecipe } from './Button.css';
 
 export type ButtonSize = 'small' | 'large';
 export type ButtonVariant = 'primary' | 'neutral' | 'terminal';
@@ -8,18 +7,13 @@ export type ButtonVariant = 'primary' | 'neutral' | 'terminal';
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   size: ButtonSize;
   variant: ButtonVariant;
-  leftIcon?: IconName;
-  rightIcon?: IconName;
-};
-
-const iconSize: Record<ButtonSize, string> = {
-  small: '2.4rem',
-  large: '1.6rem',
+  leftAddon?: ReactElement;
+  rightAddon?: ReactElement;
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { size, variant, leftIcon, rightIcon, children, className = '', ...rest },
+    { size, variant, leftAddon, rightAddon, children, className = '', ...rest },
     ref
   ) => (
     <button
@@ -27,9 +21,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className={`${buttonRecipe({ size, variant })} ${className}`}
       {...rest}
     >
-      {leftIcon && <Icon name={leftIcon} size={iconSize[size]} />}
+      {leftAddon && <div className={addonRootStyle[size]}>{leftAddon}</div>}
       {children}
-      {rightIcon && <Icon name={rightIcon} size={iconSize[size]} />}
+      {rightAddon && <div className={addonRootStyle[size]}>{rightAddon}</div>}
     </button>
   )
 );

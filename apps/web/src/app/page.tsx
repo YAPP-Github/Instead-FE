@@ -39,10 +39,20 @@ export default function Home() {
       <Text.H1 color="grey950" fontSize={28} fontWeight="semibold">
         hihi
       </Text.H1>
-      <Button size="small" variant="primary" leftIcon="stack" rightIcon="chat">
+      <Button
+        size="small"
+        variant="primary"
+        leftAddon={<Icon name="stack" />}
+        rightAddon={<Icon name="chat" />}
+      >
         버튼
       </Button>
-      <Button size="large" variant="primary" leftIcon="stack" rightIcon="chat">
+      <Button
+        size="large"
+        variant="primary"
+        leftAddon={<Icon name="stack" />}
+        rightAddon={<Icon name="chat" />}
+      >
         버튼
       </Button>
       <div style={{ display: 'flex', gap: '8px' }}>
