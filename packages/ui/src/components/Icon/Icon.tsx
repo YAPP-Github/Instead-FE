@@ -18,7 +18,7 @@ export function Icon({
   name,
   type = 'fill',
   color,
-  size = 24,
+  size = '100%',
   style: iconStyle,
   'aria-label': ariaLabel,
   ...restProps
