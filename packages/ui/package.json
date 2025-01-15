@@ -2,7 +2,6 @@
   "name": "@repo/ui",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -10,6 +9,7 @@
     ".": {
       "import": "./dist/index.js"
     },
+    "./LottieAnimation": "./dist/components/LottieAnimation/LottieAnimation.js",
     "./styles": "./dist/index.css"
   },
   "scripts": {
@@ -17,7 +17,9 @@
     "dev": "esbuild src/index.ts --bundle --platform=node --format=esm --outfile=dist/index.mjs --watch",
     "lint": "eslint . --max-warnings 0",
     "build:icons": "esbuild src/scripts/generate-icon-map.ts --bundle --platform=node --outdir=dist/scripts",
-    "generate:icons": "pnpm run build:icons && node dist/scripts/generate-icon-map.js"
+    "generate:icons": "pnpm run build:icons && node dist/scripts/generate-icon-map.js",
+    "build:lotties": "esbuild src/scripts/generate-lottie-map.ts --bundle --platform=node --outdir=dist/scripts",
+    "generate:lotties": "pnpm run build:lotties && node dist/scripts/generate-lottie-map.js"
   },
   "dependencies": {
     "@repo/theme": "workspace:^",
