@@ -17,8 +17,8 @@ export type IconProps = SVGProps<SVGSVGElement> & {
 export function Icon({
   name,
   type = 'fill',
-  color = 'grey300',
-  size = 24,
+  color,
+  size = '100%',
   style: iconStyle,
   'aria-label': ariaLabel,
   ...restProps
@@ -26,8 +26,12 @@ export function Icon({
   const SVG = icons[name];
 
   const colorStyle = {
-    ...(type !== 'stroke' && { [styles.fillColor]: tokens.colors[color] }),
-    ...(type !== 'fill' && { [styles.strokeColor]: tokens.colors[color] }),
+    ...(type !== 'stroke' && {
+      [styles.fillColor]: color ? tokens.colors[color] : 'currentColor',
+    }),
+    ...(type !== 'fill' && {
+      [styles.strokeColor]: color ? tokens.colors[color] : 'currentColor',
+    }),
   };
 
   return (
