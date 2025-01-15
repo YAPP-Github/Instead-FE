@@ -7,13 +7,23 @@ export type ButtonVariant = 'primary' | 'neutral' | 'terminal';
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   size: ButtonSize;
   variant: ButtonVariant;
+  isLoading?: boolean;
   leftAddon?: ReactElement;
   rightAddon?: ReactElement;
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { size, variant, leftAddon, rightAddon, children, className = '', ...rest },
+    {
+      size,
+      variant,
+      isLoading = false,
+      leftAddon,
+      rightAddon,
+      children,
+      className = '',
+      ...rest
+    },
     ref
   ) => (
     <button
@@ -21,9 +31,20 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className={`${buttonRecipe({ size, variant })} ${className}`}
       {...rest}
     >
-      {leftAddon && <div className={addonRootStyle[size]}>{leftAddon}</div>}
-      {children}
-      {rightAddon && <div className={addonRootStyle[size]}>{rightAddon}</div>}
+      {isLoading ? (
+        <>
+          // TODO Spinner 컴포넌트 넣을 예정
+          <span>로딩</span>
+        </>
+      ) : (
+        <>
+          {leftAddon && <div className={addonRootStyle[size]}>{leftAddon}</div>}
+          {children}
+          {rightAddon && (
+            <div className={addonRootStyle[size]}>{rightAddon}</div>
+          )}
+        </>
+      )}
     </button>
   )
 );

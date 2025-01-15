@@ -1,7 +1,6 @@
 import { tokens } from '@repo/theme';
 import { styleVariants } from '@vanilla-extract/css';
 import { recipe, RecipeVariants } from '@vanilla-extract/recipes';
-import { ButtonSize } from './Button';
 
 export const buttonRecipe = recipe({
   base: {
@@ -41,11 +40,11 @@ export const buttonRecipe = recipe({
 
     variant: {
       primary: {
-        backgroundColor: tokens.colors.primary600,
+        backgroundColor: tokens.colors.primary700,
         color: tokens.colors.grey0,
         selectors: {
           '&:hover': {
-            backgroundColor: tokens.colors.primary700,
+            backgroundColor: tokens.colors.primary600,
             color: tokens.colors.grey0,
           },
           '&:disabled': {

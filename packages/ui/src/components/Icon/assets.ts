@@ -18,6 +18,7 @@ import IconShopping from '@/assets/icons/IconShopping.svg';
 import IconSmile from '@/assets/icons/IconSmile.svg';
 import IconStack from '@/assets/icons/IconStack.svg';
 import IconStar from '@/assets/icons/IconStar.svg';
+import IconTwinkle from '@/assets/icons/IconTwinkle.svg';
 import IconX from '@/assets/icons/IconX.svg';
 import IconXCircle from '@/assets/icons/IconXCircle.svg';
 
@@ -42,6 +43,7 @@ export const icons = {
   smile: IconSmile,
   stack: IconStack,
   star: IconStar,
+  twinkle: IconTwinkle,
   x: IconX,
   xCircle: IconXCircle,
 };

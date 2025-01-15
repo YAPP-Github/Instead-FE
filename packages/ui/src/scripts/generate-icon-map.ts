@@ -20,7 +20,7 @@ const ICONS_DIR: string = path.resolve(__dirname, '../../src/assets/icons');
 // 결과물을 저장할 파일 경로
 const OUTPUT_PATH: string = path.resolve(
   __dirname,
-  '../../src/components/Icon/icons.ts'
+  '../../src/components/Icon/assets.ts'
 );
 
 // .svg 파일 목록 가져오기
