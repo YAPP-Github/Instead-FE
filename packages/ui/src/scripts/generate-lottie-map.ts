@@ -19,7 +19,7 @@ const jsonFiles: string[] = fs
   .filter((file) => file.endsWith('.json'));
 
 if (jsonFiles.length === 0) {
-  console.log('No SVG files found in:', LOTTIES_DIR);
+  console.log('No JSON files found in:', LOTTIES_DIR);
   process.exit(0);
 }
 
