@@ -1,6 +1,6 @@
 'use client';
 
-import { Icon, Toast, Text, Button, Badge } from '@repo/ui';
+import { Icon, Toast, Text, Button, Badge, Checkbox, Label } from '@repo/ui';
 import { overlay } from 'overlay-kit';
 
 export default function Home() {
@@ -88,6 +88,15 @@ export default function Home() {
         <Badge size="large" variant="neutral" shape="square">
           요약
         </Badge>
+      </div>
+      <Checkbox />
+      <Checkbox label="체크박스" />
+      <Checkbox label="체크박스" disabled checked />
+      <Checkbox label="체크박스" disabled />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <Label variant="default">어떤 글을 생성할까요?</Label>
+        <Label variant="required">어떤 글을 생성할까요?</Label>
+        <Label variant="optional">어떤 글을 생성할까요?</Label>
       </div>
     </div>
   );

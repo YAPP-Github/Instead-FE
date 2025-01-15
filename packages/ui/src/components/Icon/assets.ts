@@ -21,6 +21,8 @@ import IconStar from '@/assets/icons/IconStar.svg';
 import IconTwinkle from '@/assets/icons/IconTwinkle.svg';
 import IconX from '@/assets/icons/IconX.svg';
 import IconXCircle from '@/assets/icons/IconXCircle.svg';
+import IconCheckbox from '@/assets/icons/IconCheckbox.svg';
+import IconUnSelectedCheckbox from '@/assets/icons/IconUnSelectedCheckbox.svg';
 
 export const icons = {
   arrowBottom: IconArrowBottom,
@@ -46,4 +48,6 @@ export const icons = {
   twinkle: IconTwinkle,
   x: IconX,
   xCircle: IconXCircle,
+  checkbox: IconCheckbox,
+  unSelectedCheckbox: IconUnSelectedCheckbox,
 };
