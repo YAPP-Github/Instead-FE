@@ -1,6 +1,6 @@
 'use client';
 
-import { Icon, Toast, Text, Badge, Checkbox, Label } from '@repo/ui';
+import { Icon, Toast, Text, Button, Badge, Checkbox, Label } from '@repo/ui';
 import { overlay } from 'overlay-kit';
 
 export default function Home() {
@@ -29,16 +29,49 @@ export default function Home() {
     ));
 
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
       웹 1팀 파이팅!
-      <Icon size={24} name="stack" type="stroke" />
-      <Icon size={24} name="stack" type="fill" />
-      <Icon size={24} name="stack" type="stroke" color="warning300" />
-      <button onClick={notify1}>success 토스트 열기</button>
-      <button onClick={notify2}>warning 토스트 열기</button>
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <Icon size={24} name="stack" type="stroke" />
+        <Icon size={24} name="stack" type="fill" />
+        <Icon size={24} name="stack" type="stroke" color="warning300" />
+      </div>
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <button onClick={notify1}>success 토스트 열기</button>
+        <button onClick={notify2}>warning 토스트 열기</button>
+      </div>
       <Text.H1 color="grey950" fontSize={28} fontWeight="semibold">
-        hihi
+        Text 컴포넌트
       </Text.H1>
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <Button
+          size="large"
+          variant="primary"
+          leftAddon={<Icon name="twinkle" />}
+        >
+          생성하기
+        </Button>
+        <Button
+          size="large"
+          variant="primary"
+          leftAddon={<Icon name="twinkle" />}
+          disabled
+        >
+          생성하기
+        </Button>
+        <Button size="small" variant="neutral">
+          다음
+        </Button>
+        <Button size="small" variant="neutral" disabled>
+          다음
+        </Button>
+        <Button size="large" variant="terminal">
+          이전
+        </Button>
+        <Button size="small" variant="terminal">
+          이전
+        </Button>
+      </div>
       <div style={{ display: 'flex', gap: '8px' }}>
         <Badge size="medium" variant="neutral" shape="round">
           X Premium 계정 전용
