@@ -12,3 +12,11 @@ export { Checkbox } from './Checkbox/Checkbox';
 export type { CheckboxProps } from './Checkbox/Checkbox';
 export { Label } from './Label/Label';
 export type { LabelProps, LabelVariant } from './Label/Label';
+export { TextField } from './TextField/TextField';
+export type {
+  TextFieldProps,
+  TextFieldLabelProps,
+  TextFieldInputProps,
+  TextFieldSubmitProps,
+  TextFieldCounterProps,
+} from './TextField/TextField';
