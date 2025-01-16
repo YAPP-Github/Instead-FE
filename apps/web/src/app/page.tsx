@@ -1,8 +1,19 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { Icon, Toast, Text, Badge, Checkbox, Label, TextField } from '@repo/ui';
+import {
+  Icon,
+  Toast,
+  Text,
+  Button,
+  Badge,
+  Checkbox,
+  Label,
+  Breadcrumb,
+  TextField,
+} from '@repo/ui';
 import { overlay } from 'overlay-kit';
+import Link from 'next/link';
 
 type FormValues = {
   topic: string;
@@ -47,16 +58,49 @@ export default function Home() {
     ));
 
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
       웹 1팀 파이팅!
-      <Icon size={24} name="stack" type="stroke" />
-      <Icon size={24} name="stack" type="fill" />
-      <Icon size={24} name="stack" type="stroke" color="warning300" />
-      <button onClick={notify1}>success 토스트 열기</button>
-      <button onClick={notify2}>warning 토스트 열기</button>
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <Icon size={24} name="stack" type="stroke" />
+        <Icon size={24} name="stack" type="fill" />
+        <Icon size={24} name="stack" type="stroke" color="warning300" />
+      </div>
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <button onClick={notify1}>success 토스트 열기</button>
+        <button onClick={notify2}>warning 토스트 열기</button>
+      </div>
       <Text.H1 color="grey950" fontSize={28} fontWeight="semibold">
-        hihi
+        Text 컴포넌트
       </Text.H1>
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <Button
+          size="large"
+          variant="primary"
+          leftAddon={<Icon name="twinkle" />}
+        >
+          생성하기
+        </Button>
+        <Button
+          size="large"
+          variant="primary"
+          leftAddon={<Icon name="twinkle" />}
+          disabled
+        >
+          생성하기
+        </Button>
+        <Button size="small" variant="neutral">
+          다음
+        </Button>
+        <Button size="small" variant="neutral" disabled>
+          다음
+        </Button>
+        <Button size="large" variant="terminal">
+          이전
+        </Button>
+        <Button size="small" variant="terminal">
+          이전
+        </Button>
+      </div>
       <div style={{ display: 'flex', gap: '8px' }}>
         <Badge size="medium" variant="neutral" shape="round">
           X Premium 계정 전용
@@ -123,6 +167,29 @@ export default function Home() {
           </TextField>
         </div>
       </form>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <Breadcrumb>
+          <Breadcrumb.Item>
+            <Link href="/">
+              <Icon name="stack" size={32} color="grey900" />
+            </Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <Link href="/">경제</Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item active>
+            <Link href="/">기초 경제 지식</Link>
+          </Breadcrumb.Item>
+        </Breadcrumb>
+
+        <Breadcrumb>
+          <Breadcrumb.Item>
+            <Icon name="stack" size={32} color="grey900" />
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>경제</Breadcrumb.Item>
+          <Breadcrumb.Item active>기초 경제 지식</Breadcrumb.Item>
+        </Breadcrumb>
+      </div>
     </div>
   );
 }

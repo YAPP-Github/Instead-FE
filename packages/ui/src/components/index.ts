@@ -6,12 +6,20 @@ export { Toast } from './Toast';
 export type { ToastProps, ToastType, ToastIconProps } from './Toast';
 export { Text } from './Text/Text.subComponents';
 export type { AllowedTags, TextProps } from './Text/Text';
+export { Button } from './Button/Button';
+export type { ButtonSize, ButtonVariant, ButtonProps } from './Button/Button';
 export { Badge } from './Badge/Badge';
 export type { BadgeProps } from './Badge/Badge';
 export { Checkbox } from './Checkbox/Checkbox';
 export type { CheckboxProps } from './Checkbox/Checkbox';
 export { Label } from './Label/Label';
 export type { LabelProps, LabelVariant } from './Label/Label';
+export { Breadcrumb } from './Breadcrumb/Breadcrumb';
+export type {
+  BreadcrumbProps,
+  BreadcrumbItemProps,
+  BreadcrumbSeparatorProps,
+} from './Breadcrumb/Breadcrumb';
 export { TextField } from './TextField/TextField';
 export type {
   TextFieldProps,
