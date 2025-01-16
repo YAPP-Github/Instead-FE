@@ -19,6 +19,7 @@
     "generate:icons": "pnpm run build:icons && node dist/scripts/generate-icon-map.js"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.1.1",
     "@repo/theme": "workspace:^",
     "@types/react-dom": "18.3.1",
     "@vanilla-extract/css": "^1.17.0",
