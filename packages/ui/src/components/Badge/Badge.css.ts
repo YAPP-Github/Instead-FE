@@ -46,7 +46,7 @@ export const badge = recipe({
         borderRadius: 100,
       },
       square: {
-        borderRadius: '4px',
+        borderRadius: '0.4rem',
       },
     },
   },
@@ -54,15 +54,15 @@ export const badge = recipe({
   compoundVariants: [
     {
       variants: { shape: 'round', size: 'medium' },
-      style: { padding: '4px 10px' },
+      style: { padding: '0.4rem 1rem' },
     },
     {
       variants: { shape: 'square', size: 'medium' },
-      style: { padding: '2px 6px' },
+      style: { padding: '0.2rem 0.6rem' },
     },
     {
       variants: { shape: 'square', size: 'large' },
-      style: { padding: '4px 8px' },
+      style: { padding: '0.4rem 0.8rem' },
     },
   ],
 });

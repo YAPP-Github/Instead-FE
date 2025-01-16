@@ -1,12 +1,12 @@
 export const typography = {
   fontSize: {
-    14: '14px',
-    16: '16px',
-    18: '18px',
-    20: '20px',
-    22: '22px',
-    24: '24px',
-    28: '28px',
+    14: '1.4rem',
+    16: '1.6rem',
+    18: '1.8rem',
+    20: '2.0rem',
+    22: '2.2rem',
+    24: '2.4rem',
+    28: '2.8rem',
   },
   fontWeight: {
     medium: '500',

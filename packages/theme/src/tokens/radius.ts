@@ -1,8 +1,8 @@
 export const radius = {
-  4: '4px',
-  8: '8px',
-  10: '10px',
-  12: '12px',
-  16: '16px',
-  24: '24px',
+  4: '0.4rem',
+  8: '0.8rem',
+  10: '1rem',
+  12: '1.2rem',
+  16: '1.6rem',
+  24: '2.4rem',
 } as const;
