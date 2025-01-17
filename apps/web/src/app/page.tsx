@@ -20,6 +20,13 @@ const LottieAnimation = dynamic(
   }
 );
 
+const Spinner = dynamic(
+  () => import('@repo/ui/Spinner').then((mod) => mod.Spinner),
+  {
+    ssr: false,
+  }
+);
+
 export default function Home() {
   const notify1 = () =>
     overlay.open(({ isOpen, close, unmount }) => (
@@ -142,6 +149,16 @@ export default function Home() {
           <Breadcrumb.Item>경제</Breadcrumb.Item>
           <Breadcrumb.Item active>기초 경제 지식</Breadcrumb.Item>
         </Breadcrumb>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          gap: '8px',
+          backgroundColor: 'grey',
+        }}
+      >
+        <Spinner color="black" />
+        <Spinner color="white" />
       </div>
     </div>
   );
