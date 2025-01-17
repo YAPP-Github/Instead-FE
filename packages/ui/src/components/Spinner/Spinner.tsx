@@ -26,12 +26,14 @@ export type SpinnerProps = {
 export const Spinner = forwardRef<HTMLSpanElement, SpinnerProps>(
   ({ color = 'white', width = '4rem', height = '4rem', ...rest }) => {
     return (
-      <LottieAnimation
-        animationData={SpinnerColor[color]}
-        width={width}
-        height={height}
-        {...rest}
-      />
+      <span>
+        <LottieAnimation
+          animationData={SpinnerColor[color]}
+          width={width}
+          height={height}
+          {...rest}
+        />
+      </span>
     );
   }
 );
