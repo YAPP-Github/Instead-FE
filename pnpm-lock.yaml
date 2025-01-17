@@ -17,6 +17,9 @@ importers:
       '@vanilla-extract/recipes':
         specifier: ^0.5.5
         version: 0.5.5(@vanilla-extract/css@1.17.0)
+      lottie-react:
+        specifier: ^2.4.0
+        version: 2.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@eslint/js':
         specifier: ^9.17.0
@@ -90,7 +93,7 @@ importers:
         version: 18.3.1
       '@vanilla-extract/next-plugin':
         specifier: ^2.4.8
-        version: 2.4.8(@types/node@20.17.6)(next@14.2.21(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(webpack@5.97.1)
+        version: 2.4.8(@types/node@20.17.6)(next@14.2.21(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(terser@5.37.0)(webpack@5.97.1)
       eslint-config-next:
         specifier: 14.2.21
         version: 14.2.21(eslint@9.17.0)(typescript@5.5.4)
@@ -141,7 +144,7 @@ importers:
         version: 1.17.0
       '@vanilla-extract/next-plugin':
         specifier: ^2.4.8
-        version: 2.4.8(next@14.2.21(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(terser@5.37.0)(webpack@5.97.1(esbuild@0.21.5))
+        version: 2.4.8(@types/node@20.17.12)(next@14.2.21(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(terser@5.37.0)(webpack@5.97.1(esbuild@0.21.5))
       '@vanilla-extract/recipes':
         specifier: ^0.5.5
         version: 0.5.5(@vanilla-extract/css@1.17.0)
@@ -157,7 +160,7 @@ importers:
         version: 18.3.0
       '@vanilla-extract/esbuild-plugin':
         specifier: ^2.3.5
-        version: 2.3.13(@types/node@20.17.6)(esbuild@0.21.5)(terser@5.37.0)
+        version: 2.3.13(@types/node@20.17.12)(esbuild@0.21.5)(terser@5.37.0)
       esbuild:
         specifier: ^0.21.0
         version: 0.21.5
@@ -2002,6 +2005,15 @@ packages:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
     hasBin: true
 
+  lottie-react@2.4.0:
+    resolution: {integrity: sha512-pDJGj+AQlnlyHvOHFK7vLdsDcvbuqvwPZdMlJ360wrzGFurXeKPr8SiRCjLf3LrNYKANQtSsh5dz9UYQHuqx4w==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+
+  lottie-web@5.12.2:
+    resolution: {integrity: sha512-uvhvYPC8kGPjXT3MyKMrL3JitEAmDMp30lVkuq/590Mw9ok6pWcFCwXJveo0t5uqYw1UREQHofD+jVpdjBv8wg==}
+
   lower-case@2.0.2:
     resolution: {integrity: sha512-7fm3l3NAF9WfN6W3JOmf5drwpVqX78JtoGJ3A6W0a6ZnldM41w2fV5D490psKFTpMds8TJse/eHLFFsNHHjHgg==}
 
@@ -3396,11 +3408,54 @@ snapshots:
     dependencies:
       '@vanilla-extract/private': 1.0.6
 
+  '@vanilla-extract/esbuild-plugin@2.3.13(@types/node@20.17.12)(esbuild@0.21.5)(terser@5.37.0)':
+    dependencies:
+      '@vanilla-extract/integration': 7.1.12(@types/node@20.17.12)(terser@5.37.0)
+    optionalDependencies:
+      esbuild: 0.21.5
+    transitivePeerDependencies:
+      - '@types/node'
+      - babel-plugin-macros
+      - less
+      - lightningcss
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+
   '@vanilla-extract/esbuild-plugin@2.3.13(@types/node@20.17.6)(esbuild@0.21.5)(terser@5.37.0)':
     dependencies:
       '@vanilla-extract/integration': 7.1.12(@types/node@20.17.6)(terser@5.37.0)
     optionalDependencies:
       esbuild: 0.21.5
+    transitivePeerDependencies:
+      - '@types/node'
+      - babel-plugin-macros
+      - less
+      - lightningcss
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+
+  '@vanilla-extract/integration@7.1.12(@types/node@20.17.12)(terser@5.37.0)':
+    dependencies:
+      '@babel/core': 7.26.0
+      '@babel/plugin-syntax-typescript': 7.25.9(@babel/core@7.26.0)
+      '@vanilla-extract/babel-plugin-debug-ids': 1.2.0
+      '@vanilla-extract/css': 1.17.0
+      dedent: 1.5.3
+      esbuild: 0.21.5
+      eval: 0.1.8
+      find-up: 5.0.0
+      javascript-stringify: 2.1.0
+      mlly: 1.7.3
+      vite: 5.4.11(@types/node@20.17.12)(terser@5.37.0)
+      vite-node: 1.6.0(@types/node@20.17.12)(terser@5.37.0)
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -3439,9 +3494,9 @@ snapshots:
       - supports-color
       - terser
 
-  '@vanilla-extract/next-plugin@2.4.8(@types/node@20.17.6)(next@14.2.21(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(webpack@5.97.1)':
+  '@vanilla-extract/next-plugin@2.4.8(@types/node@20.17.12)(next@14.2.21(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(terser@5.37.0)(webpack@5.97.1(esbuild@0.21.5))':
     dependencies:
-      '@vanilla-extract/webpack-plugin': 2.3.16(@types/node@20.17.6)(webpack@5.97.1)
+      '@vanilla-extract/webpack-plugin': 2.3.16(@types/node@20.17.12)(terser@5.37.0)(webpack@5.97.1(esbuild@0.21.5))
       next: 14.2.21(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     transitivePeerDependencies:
       - '@types/node'
@@ -3456,9 +3511,9 @@ snapshots:
       - terser
       - webpack
 
-  '@vanilla-extract/next-plugin@2.4.8(next@14.2.21(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(terser@5.37.0)(webpack@5.97.1(esbuild@0.21.5))':
+  '@vanilla-extract/next-plugin@2.4.8(@types/node@20.17.6)(next@14.2.21(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(terser@5.37.0)(webpack@5.97.1)':
     dependencies:
-      '@vanilla-extract/webpack-plugin': 2.3.16(terser@5.37.0)(webpack@5.97.1(esbuild@0.21.5))
+      '@vanilla-extract/webpack-plugin': 2.3.16(@types/node@20.17.6)(terser@5.37.0)(webpack@5.97.1)
       next: 14.2.21(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     transitivePeerDependencies:
       - '@types/node'
@@ -3483,13 +3538,13 @@ snapshots:
     dependencies:
       '@vanilla-extract/css': 1.17.0
 
-  '@vanilla-extract/webpack-plugin@2.3.16(@types/node@20.17.6)(webpack@5.97.1)':
+  '@vanilla-extract/webpack-plugin@2.3.16(@types/node@20.17.12)(terser@5.37.0)(webpack@5.97.1(esbuild@0.21.5))':
     dependencies:
-      '@vanilla-extract/integration': 7.1.12(@types/node@20.17.6)(terser@5.37.0)
+      '@vanilla-extract/integration': 7.1.12(@types/node@20.17.12)(terser@5.37.0)
       debug: 4.4.0
       loader-utils: 2.0.4
       picocolors: 1.1.1
-      webpack: 5.97.1
+      webpack: 5.97.1(esbuild@0.21.5)
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -3502,13 +3557,13 @@ snapshots:
       - supports-color
       - terser
 
-  '@vanilla-extract/webpack-plugin@2.3.16(terser@5.37.0)(webpack@5.97.1(esbuild@0.21.5))':
+  '@vanilla-extract/webpack-plugin@2.3.16(@types/node@20.17.6)(terser@5.37.0)(webpack@5.97.1)':
     dependencies:
       '@vanilla-extract/integration': 7.1.12(@types/node@20.17.6)(terser@5.37.0)
       debug: 4.4.0
       loader-utils: 2.0.4
       picocolors: 1.1.1
-      webpack: 5.97.1(esbuild@0.21.5)
+      webpack: 5.97.1
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -4118,7 +4173,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.15.0(eslint@9.17.0)(typescript@5.5.4))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0)(eslint@9.17.0):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.15.0(eslint@9.17.0)(typescript@5.5.4))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0(eslint-plugin-import@2.31.0)(eslint@9.17.0))(eslint@9.17.0):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
@@ -4140,7 +4195,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.17.0
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.15.0(eslint@9.17.0)(typescript@5.5.4))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0)(eslint@9.17.0)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.15.0(eslint@9.17.0)(typescript@5.5.4))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0(eslint-plugin-import@2.31.0)(eslint@9.17.0))(eslint@9.17.0)
       hasown: 2.0.2
       is-core-module: 2.15.1
       is-glob: 4.0.3
@@ -4719,6 +4774,14 @@ snapshots:
   loose-envify@1.4.0:
     dependencies:
       js-tokens: 4.0.0
+
+  lottie-react@2.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      lottie-web: 5.12.2
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
+  lottie-web@5.12.2: {}
 
   lower-case@2.0.2:
     dependencies:
@@ -5429,6 +5492,24 @@ snapshots:
 
   v8-compile-cache-lib@3.0.1: {}
 
+  vite-node@1.6.0(@types/node@20.17.12)(terser@5.37.0):
+    dependencies:
+      cac: 6.7.14
+      debug: 4.4.0
+      pathe: 1.1.2
+      picocolors: 1.1.1
+      vite: 5.4.11(@types/node@20.17.12)(terser@5.37.0)
+    transitivePeerDependencies:
+      - '@types/node'
+      - less
+      - lightningcss
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+
   vite-node@1.6.0(@types/node@20.17.6)(terser@5.37.0):
     dependencies:
       cac: 6.7.14
@@ -5446,6 +5527,16 @@ snapshots:
       - sugarss
       - supports-color
       - terser
+
+  vite@5.4.11(@types/node@20.17.12)(terser@5.37.0):
+    dependencies:
+      esbuild: 0.21.5
+      postcss: 8.4.49
+      rollup: 4.29.1
+    optionalDependencies:
+      '@types/node': 20.17.12
+      fsevents: 2.3.3
+      terser: 5.37.0
 
   vite@5.4.11(@types/node@20.17.6)(terser@5.37.0):
     dependencies:

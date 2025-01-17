@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import {
   Icon,
   Toast,
@@ -11,7 +10,15 @@ import {
   Label,
   Breadcrumb,
 } from '@repo/ui';
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { overlay } from 'overlay-kit';
+const LottieAnimation = dynamic(
+  () => import('@repo/ui/LottieAnimation').then((mod) => mod.LottieAnimation),
+  {
+    ssr: false,
+  }
+);
 
 export default function Home() {
   const notify1 = () =>
@@ -108,6 +115,11 @@ export default function Home() {
         <Label variant="required">어떤 글을 생성할까요?</Label>
         <Label variant="optional">어떤 글을 생성할까요?</Label>
       </div>
+      <LottieAnimation
+        animationData="loadingBlack"
+        width="2.4rem"
+        height="2.4rem"
+      />
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <Breadcrumb>
           <Breadcrumb.Item>
