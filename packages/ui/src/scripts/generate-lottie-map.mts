@@ -44,7 +44,7 @@ const fileContent = `${importStatements.join('\n')}
 
 export const lotties = {
 ${lottieMapping.join(',\n')}
-};
+} as const;
 `;
 
 fs.writeFileSync(OUTPUT_PATH, fileContent, 'utf-8');

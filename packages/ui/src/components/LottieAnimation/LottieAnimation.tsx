@@ -34,7 +34,7 @@ export function LottieAnimation({
   autoplay = true,
   width = '100%',
   height = '100%',
-  className,
+  className = '',
   'aria-label': ariaLabel,
   ...rest
 }: LottieAnimationProps) {
@@ -43,7 +43,7 @@ export function LottieAnimation({
       animationData={lotties[animationData]}
       loop={loop}
       autoplay={autoplay}
-      className={`${lottieAnimationStyles} ${className || ''}`}
+      className={`${lottieAnimationStyles} ${className}`}
       style={{
         ...assignInlineVars({
           [widthVar]: width,

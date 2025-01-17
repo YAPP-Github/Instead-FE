@@ -18,7 +18,7 @@
     "lint": "eslint . --max-warnings 0",
     "build:icons": "esbuild src/scripts/generate-icon-map.ts --bundle --platform=node --outdir=dist/scripts",
     "generate:icons": "pnpm run build:icons && node dist/scripts/generate-icon-map.js",
-    "build:lotties": "esbuild src/scripts/generate-lottie-map.ts --bundle --platform=node --outdir=dist/scripts",
+    "build:lotties": "esbuild src/scripts/generate-lottie-map.mts --bundle --platform=node --outdir=dist/scripts",
     "generate:lotties": "pnpm run build:lotties && node dist/scripts/generate-lottie-map.js"
   },
   "dependencies": {
