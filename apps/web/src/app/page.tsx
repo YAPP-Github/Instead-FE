@@ -1,7 +1,17 @@
 'use client';
 
-import { Icon, Toast, Text, Button, Badge, Checkbox, Label } from '@repo/ui';
+import {
+  Icon,
+  Toast,
+  Text,
+  Button,
+  Badge,
+  Checkbox,
+  Label,
+  Breadcrumb,
+} from '@repo/ui';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { overlay } from 'overlay-kit';
 const LottieAnimation = dynamic(
   () => import('@repo/ui/LottieAnimation').then((mod) => mod.LottieAnimation),
@@ -110,6 +120,29 @@ export default function Home() {
         width="2.4rem"
         height="2.4rem"
       />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <Breadcrumb>
+          <Breadcrumb.Item>
+            <Link href="/">
+              <Icon name="stack" size={32} color="grey900" />
+            </Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <Link href="/">경제</Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item active>
+            <Link href="/">기초 경제 지식</Link>
+          </Breadcrumb.Item>
+        </Breadcrumb>
+
+        <Breadcrumb>
+          <Breadcrumb.Item>
+            <Icon name="stack" size={32} color="grey900" />
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>경제</Breadcrumb.Item>
+          <Breadcrumb.Item active>기초 경제 지식</Breadcrumb.Item>
+        </Breadcrumb>
+      </div>
     </div>
   );
 }

@@ -14,3 +14,9 @@ export { Checkbox } from './Checkbox/Checkbox';
 export type { CheckboxProps } from './Checkbox/Checkbox';
 export { Label } from './Label/Label';
 export type { LabelProps, LabelVariant } from './Label/Label';
+export { Breadcrumb } from './Breadcrumb/Breadcrumb';
+export type {
+  BreadcrumbProps,
+  BreadcrumbItemProps,
+  BreadcrumbSeparatorProps,
+} from './Breadcrumb/Breadcrumb';

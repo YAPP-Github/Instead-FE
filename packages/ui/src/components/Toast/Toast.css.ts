@@ -20,5 +20,5 @@ export const content = style({
 export const message = style({
   fontSize: tokens.typography.fontSize[20],
   fontWeight: tokens.typography.fontWeight.semibold,
-  lineHeight: '24px',
+  lineHeight: '2.4rem',
 });
