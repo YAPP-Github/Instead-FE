@@ -8,7 +8,7 @@ import {
   useContext,
 } from 'react';
 import { TextFieldContext } from './context';
-import { textFieldStyle } from './TextField.css';
+import { textFieldContainerStyle, textFieldStyle } from './TextField.css';
 import { TextFieldCounter } from './TextFieldCounter';
 import { isNil, mergeRefs } from '@/utils';
 
@@ -77,16 +77,18 @@ export const TextFieldInput = forwardRef<
 
     return (
       <>
-        <textarea
-          rows={1}
-          id={id}
-          ref={mergeRefs(ref, textareaRef)}
-          className={`${textFieldStyle({ variant })} ${className}`}
-          value={value}
-          onChange={handleChange}
-          data-multiline={isMultiline}
-          {...props}
-        />
+        <div className={textFieldContainerStyle({ variant })}>
+          <textarea
+            rows={1}
+            id={id}
+            ref={mergeRefs(ref, textareaRef)}
+            className={`${textFieldStyle({ variant })} ${className}`}
+            value={value}
+            onChange={handleChange}
+            data-multiline={isMultiline}
+            {...props}
+          />
+        </div>
         {showCounter && (
           <TextFieldCounter current={value.length} max={maxLength} />
         )}

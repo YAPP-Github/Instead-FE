@@ -10,55 +10,85 @@ export const textFieldWrapperStyle = style({
   gap: vars.space[8],
 });
 
-export const textFieldStyle = recipe({
+export const textFieldContainerStyle = recipe({
   base: {
-    width: '100%',
-    minHeight: '59px',
-    padding: '16px',
-    borderRadius: '12px',
-    border: 'none',
-    outline: 'none',
-    resize: 'none',
-    overflow: 'hidden',
-    color: vars.colors.grey700,
-    fontSize: vars.typography.fontSize[18],
-    fontWeight: vars.typography.fontWeight.medium,
-    lineHeight: '150%',
-    fontFamily: 'inherit',
-    transition: 'all 0.2s ease',
+    padding: vars.space[16],
+    backgroundColor: vars.colors.grey50,
+    borderRadius: '1.2rem',
   },
   variants: {
     variant: {
       default: {
         backgroundColor: vars.colors.grey25,
-        color: vars.colors.grey900,
-        paddingRight: '16px',
+        paddingRight: vars.space[16],
+      },
+      button: {
+        backgroundColor: vars.colors.grey50,
+        paddingRight: '4.8rem',
+      },
+    },
+  },
+});
+
+export const textFieldStyle = recipe({
+  base: {
+    width: '100%',
+    border: 'none',
+    outline: 'none',
+    resize: 'none',
+    color: vars.colors.grey700,
+    fontSize: vars.typography.fontSize[18],
+    fontWeight: vars.typography.fontWeight.medium,
+    lineHeight: '150%',
+    fontFamily: 'inherit',
+    paddingRight: vars.space[4],
+    maxHeight: `calc(${vars.typography.fontSize[18]} * 11 * 1.5)`,
+    overflowY: 'auto',
+    '::placeholder': {
+      color: vars.colors.grey400,
+    },
+    selectors: {
+      '&::-webkit-scrollbar': {
+        width: '0.6rem',
+      },
+      '&::-webkit-scrollbar-thumb': {
+        backgroundColor: vars.colors.grey200,
+        borderRadius: '0.4rem',
+        backgroundClip: 'padding-box',
+      },
+      '&::-webkit-scrollbar-track': {
+        backgroundColor: 'transparent',
+      },
+    },
+    scrollbarWidth: 'thin',
+    scrollbarColor: `${vars.colors.grey200} transparent`,
+  },
+  variants: {
+    variant: {
+      default: {
+        backgroundColor: vars.colors.grey25,
         '::placeholder': {
           color: vars.colors.grey400,
         },
       },
       button: {
         backgroundColor: vars.colors.grey50,
-        color: vars.colors.grey900,
-        paddingRight: '48px',
         '::placeholder': {
           color: vars.colors.grey400,
         },
       },
     },
   },
-  defaultVariants: {
-    variant: 'default',
-  },
 });
 
 export const submitButtonStyle = recipe({
   base: {
     position: 'absolute',
-    bottom: '45px',
-    right: vars.space[12],
-    width: '32px',
-    height: '32px',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    right: '1.2rem',
+    width: '3.2rem',
+    height: '3.2rem',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
