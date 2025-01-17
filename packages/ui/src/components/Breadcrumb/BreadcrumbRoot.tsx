@@ -14,7 +14,7 @@ export type BreadcrumbProps = {
 } & ComponentPropsWithoutRef<'nav'>;
 
 export const BreadcrumbRoot = forwardRef<HTMLElement, BreadcrumbProps>(
-  ({ children, className, ...props }, ref) => {
+  ({ children, className = '', ...props }, ref) => {
     const items = Children.toArray(children).filter(isValidElement);
 
     return (

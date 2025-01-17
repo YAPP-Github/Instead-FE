@@ -44,7 +44,7 @@ export const input = recipe({
 export const label = recipe({
   base: {
     color: vars.colors.grey900,
-    fontSize: '1rem',
+    fontSize: vars.typography.fontSize[16],
     fontWeight: vars.typography.fontWeight.medium,
   },
 });
