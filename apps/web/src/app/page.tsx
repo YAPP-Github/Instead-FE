@@ -12,6 +12,7 @@ import {
   Breadcrumb,
   Chip,
   TextField,
+  Chip,
 } from '@repo/ui';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
