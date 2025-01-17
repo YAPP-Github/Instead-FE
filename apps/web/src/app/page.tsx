@@ -10,6 +10,7 @@ import {
   Checkbox,
   Label,
   Breadcrumb,
+  IconButton,
 } from '@repo/ui';
 import { overlay } from 'overlay-kit';
 
@@ -130,6 +131,10 @@ export default function Home() {
           <Breadcrumb.Item>경제</Breadcrumb.Item>
           <Breadcrumb.Item active>기초 경제 지식</Breadcrumb.Item>
         </Breadcrumb>
+      </div>
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <IconButton icon="arrowBottom" />
+        <IconButton icon="plus" />
       </div>
     </div>
   );
