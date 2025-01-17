@@ -9,6 +9,7 @@ import {
   Checkbox,
   Label,
   Breadcrumb,
+  Chip,
 } from '@repo/ui';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -142,6 +143,16 @@ export default function Home() {
           <Breadcrumb.Item>경제</Breadcrumb.Item>
           <Breadcrumb.Item active>기초 경제 지식</Breadcrumb.Item>
         </Breadcrumb>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <Chip variant="green" closable>
+          hihi
+        </Chip>
+        <Chip variant="purple" closable>
+          hihi
+        </Chip>
+        <Chip variant="purple">hihi</Chip>
+        <Chip variant="green">hihi</Chip>
       </div>
     </div>
   );
