@@ -34,7 +34,7 @@ jsonFiles.forEach((file) => {
   const lottieKey: string = toCamelCase(baseName);
 
   importStatements.push(
-    `import ${importName} from '@/assets/lotties/${file}';`
+    `import ${importName} from '../../assets/lotties/${file}';`
   );
 
   lottieMapping.push(`  ${lottieKey}: ${importName}`);
