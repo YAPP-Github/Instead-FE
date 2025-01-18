@@ -8,4 +8,5 @@ export const textStyle = style({
   fontSize: sizeVar,
   fontWeight: weightVar,
   color: colorVar,
+  lineHeight: '150%', // TODO 추후 분리
 });
