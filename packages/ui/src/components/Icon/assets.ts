@@ -9,6 +9,7 @@ import IconChat from '@/assets/icons/IconChat.svg';
 import IconCheck from '@/assets/icons/IconCheck.svg';
 import IconCheckCalendar from '@/assets/icons/IconCheckCalendar.svg';
 import IconCheckbox from '@/assets/icons/IconCheckbox.svg';
+import IconCircle from '@/assets/icons/IconCircle.svg';
 import IconDocument from '@/assets/icons/IconDocument.svg';
 import IconLineThree from '@/assets/icons/IconLineThree.svg';
 import IconNotice from '@/assets/icons/IconNotice.svg';
@@ -25,7 +26,6 @@ import IconTwinkle from '@/assets/icons/IconTwinkle.svg';
 import IconUnSelectedCheckbox from '@/assets/icons/IconUnSelectedCheckbox.svg';
 import IconX from '@/assets/icons/IconX.svg';
 import IconXCircle from '@/assets/icons/IconXCircle.svg';
-import _IconX from '@/assets/icons/_IconX.svg';
 
 export const icons = {
   arrowBottom: IconArrowBottom,
@@ -39,6 +39,7 @@ export const icons = {
   check: IconCheck,
   checkCalendar: IconCheckCalendar,
   checkbox: IconCheckbox,
+  circle: IconCircle,
   document: IconDocument,
   lineThree: IconLineThree,
   notice: IconNotice,
@@ -55,5 +56,4 @@ export const icons = {
   unSelectedCheckbox: IconUnSelectedCheckbox,
   x: IconX,
   xCircle: IconXCircle,
-  iconX: _IconX,
 };
