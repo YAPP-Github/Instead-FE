@@ -6,3 +6,5 @@ export const radius = {
   16: '1.6rem',
   24: '2.4rem',
 } as const;
+
+export type RadiusType = typeof radius;

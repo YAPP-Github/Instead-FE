@@ -1,4 +1,4 @@
-import { tokens } from '../tokens';
+import { tokens } from '../tokens/tokens';
 import type { ThemeContract } from './contract';
 
 export const lightTheme: ThemeContract = {

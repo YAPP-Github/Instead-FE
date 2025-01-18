@@ -1,6 +1,6 @@
 'use client';
 
-import { ThemeProvider } from '@repo/theme';
+import { ThemeProvider } from '@repo/theme/provider';
 import { OverlayProvider } from 'overlay-kit';
 import { ReactNode } from 'react';
 
