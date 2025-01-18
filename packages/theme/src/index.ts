@@ -5,8 +5,6 @@ export type { ThemeContract } from './themes/contract';
 export { sprinkles } from './sprinkles/sprinkles.css';
 export type { Sprinkles } from './sprinkles/sprinkles.css';
 
-export { ThemeProvider } from './components/ThemeProvider';
-
 export { tokens } from './tokens/tokens';
 export type { TokensType } from './tokens/tokens';
 
