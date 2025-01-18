@@ -23,3 +23,11 @@ export type {
   BreadcrumbItemProps,
   BreadcrumbSeparatorProps,
 } from './Breadcrumb/Breadcrumb';
+export { TextField } from './TextField/TextField';
+export type {
+  TextFieldProps,
+  TextFieldLabelProps,
+  TextFieldInputProps,
+  TextFieldSubmitProps,
+  TextFieldCounterProps,
+} from './TextField/TextField';

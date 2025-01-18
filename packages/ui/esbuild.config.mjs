@@ -22,7 +22,7 @@ const buildOptions = {
   loader: { '.css': 'file' },
   allowOverwrite: true,
   outdir,
-  external: ['react'],
+  external: ['react', 'react-dom'],
 };
 
 esbuild

@@ -15,7 +15,7 @@ const LABEL_CLASS = {
 } as const;
 
 export const Label = forwardRef<HTMLLabelElement, LabelProps>(
-  ({ children, variant = 'default', className, ...props }, ref) => {
+  ({ children, variant = 'default', className = '', ...props }, ref) => {
     return (
       <label
         ref={ref}

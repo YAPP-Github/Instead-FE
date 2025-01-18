@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { useForm } from 'react-hook-form';
 import {
   Icon,
   Toast,
@@ -11,10 +11,35 @@ import {
   Label,
   Breadcrumb,
   IconButton,
+  TextField,
 } from '@repo/ui';
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { overlay } from 'overlay-kit';
 
+type FormValues = {
+  topic: string;
+  aiUpgrade: string;
+};
+const LottieAnimation = dynamic(
+  () => import('@repo/ui/LottieAnimation').then((mod) => mod.LottieAnimation),
+  {
+    ssr: false,
+  }
+);
 export default function Home() {
+  const { register, handleSubmit } = useForm<FormValues>({
+    defaultValues: {
+      topic: '',
+      aiUpgrade: '',
+    },
+  });
+
+  const onSubmit = (data: FormValues) => {
+    console.log('Form data:', data);
+    notify1(); // 성공 토스트 표시
+  };
+
   const notify1 = () =>
     overlay.open(({ isOpen, close, unmount }) => (
       <Toast
@@ -109,6 +134,51 @@ export default function Home() {
         <Label variant="required">어떤 글을 생성할까요?</Label>
         <Label variant="optional">어떤 글을 생성할까요?</Label>
       </div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <TextField id="basic-field">
+            <TextField.Label>주제</TextField.Label>
+            <TextField.Input
+              placeholder="주제를 적어주세요"
+              maxLength={5000}
+              {...register('topic', {
+                required: '주제를 입력해주세요',
+                maxLength: {
+                  value: 500,
+                  message: '500자 이내로 입력해주세요',
+                },
+              })}
+            />
+          </TextField>
+
+          <TextField id="ai-field" variant="button">
+            <TextField.Label>AI 업그레이드</TextField.Label>
+            <TextField.Input
+              placeholder="AI에게 요청하여 글 업그레이드하기"
+              maxLength={5000}
+              showCounter
+              {...register('aiUpgrade')}
+            />
+            <TextField.Submit type="submit" />
+          </TextField>
+
+          <TextField id="ai-field" variant="button" isError>
+            <TextField.Label>AI 업그레이드</TextField.Label>
+            <TextField.Input
+              placeholder="AI에게 요청하여 글 업그레이드하기"
+              maxLength={5000}
+              showCounter
+              {...register('aiUpgrade')}
+            />
+            <TextField.Submit type="submit" />
+          </TextField>
+        </div>
+      </form>
+      <LottieAnimation
+        animationData="loadingBlack"
+        width="2.4rem"
+        height="2.4rem"
+      />
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <Breadcrumb>
           <Breadcrumb.Item>
