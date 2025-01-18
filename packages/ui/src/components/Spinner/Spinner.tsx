@@ -9,7 +9,9 @@ import {
 
 type LottieType = keyof typeof lotties;
 
-const SpinnerColor: Record<'black' | 'white', LottieType> = {
+type SpinnerColorType = 'black' | 'white';
+
+const SpinnerColor: Record<SpinnerColorType, LottieType> = {
   black: 'loadingBlack',
   white: 'loadingWhite',
 };
