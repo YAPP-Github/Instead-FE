@@ -1,4 +1,4 @@
-export { vars } from './themes/themes.css';
+export { vars, lightThemeClass, darkThemeClass } from './themes/themes.css';
 export type { VarsType } from './themes/themes.css';
 export type { ThemeContract } from './themes/contract';
 

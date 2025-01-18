@@ -10,6 +10,8 @@
       "import": "./dist/index.js"
     },
     "./LottieAnimation": "./dist/components/LottieAnimation/LottieAnimation.js",
+    "./provider": "./dist/provider/index.js",
+    "./hooks": "./dist/hooks/index.js",
     "./styles": "./dist/index.css"
   },
   "scripts": {

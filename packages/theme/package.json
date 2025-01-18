@@ -10,9 +10,6 @@
     ".": {
       "import": "./dist/index.js"
     },
-    "./provider": {
-      "import": "./dist/components/ThemeProvider.js"
-    },
     "./styles": "./dist/index.css"
   },
   "scripts": {
