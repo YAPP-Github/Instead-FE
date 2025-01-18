@@ -13,7 +13,7 @@ export const BreadcrumbSeparator = forwardRef<
   (
     {
       children = <Icon name="arrowRight" size={24} color="grey300" />,
-      className,
+      className = '',
       ...props
     },
     ref

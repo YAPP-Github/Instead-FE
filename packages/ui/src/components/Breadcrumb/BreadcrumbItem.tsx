@@ -11,13 +11,13 @@ export type BreadcrumbItemProps = {
 } & ComponentPropsWithoutRef<'span'>;
 
 export const BreadcrumbItem = forwardRef<HTMLSpanElement, BreadcrumbItemProps>(
-  ({ children, className, active, asChild, ...props }, ref) => {
+  ({ children, className = '', active, asChild, ...props }, ref) => {
     const Component = asChild ? Slot : 'span';
 
     return (
       <Component
         ref={ref}
-        className={`${breadcrumbItemStyle} ${className ?? ''}`}
+        className={`${breadcrumbItemStyle} ${className}`}
         {...props}
       >
         <Text

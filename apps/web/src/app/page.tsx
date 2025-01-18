@@ -12,14 +12,20 @@ import {
   Breadcrumb,
   TextField,
 } from '@repo/ui';
-import { overlay } from 'overlay-kit';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { overlay } from 'overlay-kit';
 
 type FormValues = {
   topic: string;
   aiUpgrade: string;
 };
-
+const LottieAnimation = dynamic(
+  () => import('@repo/ui/LottieAnimation').then((mod) => mod.LottieAnimation),
+  {
+    ssr: false,
+  }
+);
 export default function Home() {
   const { register, handleSubmit } = useForm<FormValues>({
     defaultValues: {
@@ -167,6 +173,11 @@ export default function Home() {
           </TextField>
         </div>
       </form>
+      <LottieAnimation
+        animationData="loadingBlack"
+        width="2.4rem"
+        height="2.4rem"
+      />
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <Breadcrumb>
           <Breadcrumb.Item>
