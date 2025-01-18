@@ -1,5 +1,5 @@
 import { tokens } from '@repo/theme';
-import { style, styleVariants } from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 import { recipe, RecipeVariants } from '@vanilla-extract/recipes';
 
 export const chipRecipe = recipe({
@@ -24,13 +24,12 @@ export const chipRecipe = recipe({
         color: tokens.colors.grey600,
       },
       purple: {
-        backgroundColor: tokens.colors.violet200,
-        color: tokens.colors.violet800,
+        backgroundColor: tokens.colors.purple200,
+        color: tokens.colors.purple800,
       },
       green: {
         backgroundColor: tokens.colors.green200,
-        // TODO green800으로 수정 예정
-        color: tokens.colors.green400,
+        color: tokens.colors.green800,
       },
     },
   },
@@ -38,19 +37,30 @@ export const chipRecipe = recipe({
 
 export type ChipRecipeVariants = RecipeVariants<typeof chipRecipe>;
 
-export const addonRootStyle = styleVariants({
-  grey: {
-    color: tokens.colors.grey400,
+export const addonRootRecipe = recipe({
+  base: {
+    lineHeight: 0,
   },
-  purple: {
-    color: tokens.colors.violet400,
-  },
-  green: {
-    color: tokens.colors.green400,
+  variants: {
+    color: {
+      grey: {
+        color: tokens.colors.grey400,
+      },
+      purple: {
+        color: tokens.colors.purple400,
+      },
+      green: {
+        color: tokens.colors.green400,
+      },
+    },
   },
 });
 
 export const chipCloseButtonStyle = style({
   border: 'none',
   background: 'inherit',
+  display: 'inline-block',
+  width: 'auto',
+  height: 'auto',
+  lineHeight: 0,
 });

@@ -141,7 +141,7 @@ export default function Home() {
             <TextField.Label>주제</TextField.Label>
             <TextField.Input
               placeholder="주제를 적어주세요"
-              maxLength={5000}
+              maxLength={500}
               {...register('topic', {
                 required: '주제를 입력해주세요',
                 maxLength: {
@@ -156,7 +156,7 @@ export default function Home() {
             <TextField.Label>AI 업그레이드</TextField.Label>
             <TextField.Input
               placeholder="AI에게 요청하여 글 업그레이드하기"
-              maxLength={5000}
+              maxLength={500}
               showCounter
               {...register('aiUpgrade')}
             />
@@ -167,7 +167,7 @@ export default function Home() {
             <TextField.Label>AI 업그레이드</TextField.Label>
             <TextField.Input
               placeholder="AI에게 요청하여 글 업그레이드하기"
-              maxLength={5000}
+              maxLength={500}
               showCounter
               {...register('aiUpgrade')}
             />
@@ -204,14 +204,26 @@ export default function Home() {
         </Breadcrumb>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <Chip variant="green" closable>
-          hihi
+        <Chip variant="green" leftAddon={<Icon name="circle" type="fill" />}>
+          업로드할 글
         </Chip>
-        <Chip variant="purple" closable>
-          hihi
+        <Chip variant="grey" leftAddon={<Icon name="circle" type="fill" />}>
+          생성된 글
         </Chip>
-        <Chip variant="purple">hihi</Chip>
-        <Chip variant="green">hihi</Chip>
+        <Chip variant="purple" leftAddon={<Icon name="circle" type="fill" />}>
+          수정 중인 글
+        </Chip>
+        <Chip
+          variant="purple"
+          rightAddon={
+            <Text color="purple600" fontSize={16} fontWeight="semibold">
+              무작위로 업로드 돼요
+            </Text>
+          }
+          closable
+        >
+          전체선택
+        </Chip>
       </div>
     </div>
   );

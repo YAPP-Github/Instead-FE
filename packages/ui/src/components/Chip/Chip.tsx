@@ -1,6 +1,7 @@
 import { ComponentPropsWithoutRef, forwardRef, ReactElement } from 'react';
-import { addonRootStyle, chipCloseButtonStyle, chipRecipe } from './Chip.css';
+import { addonRootRecipe, chipCloseButtonStyle, chipRecipe } from './Chip.css';
 import { Icon } from '../Icon/Icon';
+import { Text } from '../Text/Text';
 
 export type ButtonVariant = 'grey' | 'purple' | 'green';
 
@@ -24,11 +25,17 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
     return (
       <span className={`${chipRecipe({ variant })} ${className}`} {...rest}>
         {leftAddon && (
-          <span className={addonRootStyle[variant]}>{leftAddon}</span>
+          <span className={addonRootRecipe({ color: variant })}>
+            {leftAddon}
+          </span>
         )}
-        <span>{children}</span>
+        <Text fontSize={16} fontWeight="semibold">
+          {children}
+        </Text>
         {rightAddon && (
-          <span className={addonRootStyle[variant]}>{rightAddon}</span>
+          <span className={addonRootRecipe({ color: variant })}>
+            {rightAddon}
+          </span>
         )}
         {closable && (
           <button
@@ -36,8 +43,13 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
             aria-label="Close"
             className={chipCloseButtonStyle}
           >
-            {/* TODO  color 600으로 수정 예정 */}
-            <Icon name="x" size="1.6rem" type="stroke" color="violet800" />
+            <Icon
+              name="x"
+              size="1.6rem"
+              type="stroke"
+              strokeWidth={'0.244rem'}
+              color="purple600"
+            />
           </button>
         )}
       </span>
