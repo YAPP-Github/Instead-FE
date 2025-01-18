@@ -10,7 +10,6 @@ import {
   Checkbox,
   Label,
   Breadcrumb,
-  Chip,
   TextField,
   Chip,
 } from '@repo/ui';
@@ -141,7 +140,7 @@ export default function Home() {
             <TextField.Label>주제</TextField.Label>
             <TextField.Input
               placeholder="주제를 적어주세요"
-              maxLength={500}
+              maxLength={5000}
               {...register('topic', {
                 required: '주제를 입력해주세요',
                 maxLength: {
@@ -156,7 +155,7 @@ export default function Home() {
             <TextField.Label>AI 업그레이드</TextField.Label>
             <TextField.Input
               placeholder="AI에게 요청하여 글 업그레이드하기"
-              maxLength={500}
+              maxLength={5000}
               showCounter
               {...register('aiUpgrade')}
             />
@@ -167,7 +166,7 @@ export default function Home() {
             <TextField.Label>AI 업그레이드</TextField.Label>
             <TextField.Input
               placeholder="AI에게 요청하여 글 업그레이드하기"
-              maxLength={500}
+              maxLength={5000}
               showCounter
               {...register('aiUpgrade')}
             />
