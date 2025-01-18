@@ -5,7 +5,7 @@ export const darkTheme: ThemeContract = {
   colors: {
     primary: tokens.colors.green200,
     primary400to200: tokens.colors.green200,
-    primaryHover: tokens.colors.green100,
+    primaryHover: tokens.colors.green200, // TODO
 
     warning: tokens.colors.warning300,
 

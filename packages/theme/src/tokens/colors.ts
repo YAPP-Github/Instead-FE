@@ -1,13 +1,8 @@
 export const colors = {
-  green100: '#F1FFB5', // TODO: 삭제 예정
-  green200: '#E6FF79', // TODO: 삭제 예정
-  green300: '#D0F141', // TODO: 삭제 예정
-  green400: '#D2F634', // TODO: 삭제 예정
-
   primary500: '#7081F4',
   primary600: '#5266EC',
   primary700: '#3348D6',
-  primary800: '#2035BC',
+  primary800: '#2035BC', // TODO 삭제 예정
 
   warning300: '#FF724E',
   warning500: '#FF3300',
@@ -16,6 +11,7 @@ export const colors = {
 
   pink200: '#FFD6D6',
   pink400: '#EAAEAE',
+  pink600: '#BF5E5E',
   pink800: '#A63535',
 
   orange200: '#FFEAD9',
@@ -26,11 +22,21 @@ export const colors = {
   blue400: '#7698E2',
   blue800: '#153C66',
 
+  purple200: '#E5CEFF',
+  purple400: '#B68AE7',
+  purple600: '#9365C5',
+  purple800: '#412274',
+
   violet0: '#F2F3FF',
   violet100: '#DFE1FE',
   violet200: '#B7B4FF',
   violet400: '#817ED5',
   violet800: '#4A46A3',
+
+  green200: '#D1F9DF',
+  green400: '#76CE95',
+  green600: '#337B6E',
+  green800: '#224C38',
 
   grey0: '#FFFFFF',
   grey25: '#F7F9FB',
