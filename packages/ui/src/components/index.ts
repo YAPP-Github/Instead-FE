@@ -20,3 +20,11 @@ export type {
   BreadcrumbItemProps,
   BreadcrumbSeparatorProps,
 } from './Breadcrumb/Breadcrumb';
+export { RadioCards } from './RadioCards/RadioCards';
+export type {
+  RadioCardsProps,
+  RadioCardsItemProps,
+  RadioCardsLabelProps,
+  RadioCardsDescriptionProps,
+  RadioCardsBadgeProps,
+} from './RadioCards/RadioCards';
