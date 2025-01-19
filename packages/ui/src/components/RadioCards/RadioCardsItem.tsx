@@ -1,6 +1,12 @@
-import { forwardRef, useCallback, KeyboardEvent, MouseEvent } from 'react';
+import {
+  forwardRef,
+  useCallback,
+  KeyboardEvent,
+  MouseEvent,
+  ReactNode,
+} from 'react';
 import { useRadioCards } from './context';
-import { radioCardsItemStyle } from './RadioCards.css';
+import { radioCardsContentStyle, radioCardsItemStyle } from './RadioCards.css';
 import { RadioCardsItemProvider } from './context';
 import { motion, HTMLMotionProps } from 'motion/react';
 import { usePress } from '@/hooks/usePress';
@@ -8,10 +14,15 @@ import { usePress } from '@/hooks/usePress';
 export type RadioCardsItemProps = {
   value: string;
   disabled?: boolean;
+  leftAddon?: ReactNode;
+  children?: ReactNode;
 } & Omit<HTMLMotionProps<'div'>, 'value'>;
 
 export const RadioCardsItem = forwardRef<HTMLDivElement, RadioCardsItemProps>(
-  ({ children, value, disabled, className = '', onClick, ...props }, ref) => {
+  (
+    { children, value, disabled, className = '', onClick, leftAddon, ...props },
+    ref
+  ) => {
     const { pressed, pressHandlers } = usePress();
     const {
       value: selectedValue,
@@ -74,7 +85,8 @@ export const RadioCardsItem = forwardRef<HTMLDivElement, RadioCardsItemProps>(
           }}
           {...props}
         >
-          {children}
+          {leftAddon}
+          <div className={radioCardsContentStyle}>{children}</div>
         </motion.div>
       </RadioCardsItemProvider>
     );

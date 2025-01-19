@@ -3,7 +3,6 @@ import { RadioCardsItem } from './RadioCardsItem';
 import { RadioCardsLabel } from './RadioCardsLabel';
 import { RadioCardsDescription } from './RadioCardsDescription';
 import { RadioCardsBadge } from './RadioCardsBadge';
-import { RadioCardsHeaderWrapper } from './RadioCardsHeaderWrapper';
 import { RadioCardsIcon } from './RadioCardsIcon';
 
 /**
@@ -65,7 +64,6 @@ import { RadioCardsIcon } from './RadioCardsIcon';
  */
 export const RadioCards = Object.assign(RadioCardsRoot, {
   Item: RadioCardsItem,
-  HeaderWrapper: RadioCardsHeaderWrapper,
   Icon: RadioCardsIcon,
   Label: RadioCardsLabel,
   Description: RadioCardsDescription,
@@ -77,5 +75,4 @@ export type { RadioCardsItemProps } from './RadioCardsItem';
 export type { RadioCardsLabelProps } from './RadioCardsLabel';
 export type { RadioCardsDescriptionProps } from './RadioCardsDescription';
 export type { RadioCardsBadgeProps } from './RadioCardsBadge';
-export type { RadioCardsHeaderWrapperProps } from './RadioCardsHeaderWrapper';
 export type { RadioCardsIconProps } from './RadioCardsIcon';

@@ -20,12 +20,14 @@ export const radioCardsItemStyle = recipe({
   base: {
     position: 'relative',
     display: 'flex',
-    flexDirection: 'column',
+    alignItems: 'center',
+    flexDirection: 'row',
     padding: `${vars.space[24]} ${vars.space[20]}`,
     borderRadius: '1.6rem',
     border: `0.2rem solid ${vars.colors.grey200}`,
     cursor: 'pointer',
     lineHeight: '150%',
+    gap: vars.space[12],
   },
   variants: {
     selected: {
@@ -44,14 +46,13 @@ export const radioCardsItemStyle = recipe({
   },
 });
 
+export const radioCardsContentStyle = style({
+  display: 'flex',
+  flexDirection: 'column',
+});
+
 export const radioCardsBadgeStyle = style({
   width: 'fit-content',
   height: 'auto',
   marginBottom: vars.space[12],
-});
-
-export const headerWrapperStyle = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: vars.space[12],
 });
