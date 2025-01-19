@@ -20,12 +20,12 @@ import { RadioCardsIcon } from './RadioCardsIcon';
  *   </RadioCards.Item>
  * </RadioCards>
  *
- * // 제어 방식 - value와 onChange를 통해 상태를 직접 제어
- * const [selected, setSelected] = useState('1');
+ * // 제어 방식 - value와 onChange를 통해 상태 관리
+ * const [value, setValue] = useState("1");
  *
  * <RadioCards
- *   value={selected}
- *   onChange={setSelected}
+ *   value={value}
+ *   onChange={setValue}
  *   columns={2}
  * >
  *   <RadioCards.Item value="1">
@@ -34,30 +34,45 @@ import { RadioCardsIcon } from './RadioCardsIcon';
  *     <RadioCards.Description>140자</RadioCards.Description>
  *   </RadioCards.Item>
  * </RadioCards>
- * ```
  *
- * @example
- * ```tsx
- * // 다양한 구성 예시
+ * // react-hook-form과 함께 사용
+ * const { register, handleSubmit, watch } = useForm({
+ *   defaultValues: {
+ *     postLength: "1"
+ *   }
+ * });
+ *
+ * // 현재 선택된 값 실시간 확인
+ * const selectedValue = watch("postLength");
+ *
+ * <form onSubmit={handleSubmit((data) => console.log(data))}>
+ *   <RadioCards
+ *     {...register("postLength")}
+ *     defaultValue="1"
+ *     columns={2}
+ *   >
+ *     <RadioCards.Item value="1">
+ *       <RadioCards.Label>짧은 게시물</RadioCards.Label>
+ *     </RadioCards.Item>
+ *   </RadioCards>
+ * </form>
+ *
+ * // Icon이 있는 예시
  * <RadioCards defaultValue="1" columns={2}>
- *   // Badge와 Description이 있는 예시
- *   <RadioCards.Item value="1">
- *     <RadioCards.Badge>X Premium 계정 전용</RadioCards.Badge>
+ *   <RadioCards.Item
+ *     value="1"
+ *     leftAddon={<RadioCards.Icon name="picture" size={24} />}
+ *   >
  *     <RadioCards.Label>짧은 게시물</RadioCards.Label>
  *     <RadioCards.Description>140자</RadioCards.Description>
  *   </RadioCards.Item>
+ * </RadioCards>
  *
- *   // Icon과 Label을 함께 사용하는 예시
- *   <RadioCards.Item value="2">
- *     <RadioCards.HeaderWrapper>
- *       <RadioCards.Icon name="picture" size={24} />
- *       <RadioCards.Label>짧은 게시물</RadioCards.Label>
- *     </RadioCards.HeaderWrapper>
- *   </RadioCards.Item>
- *
- *   // 비활성화된 아이템 예시
- *   <RadioCards.Item value="3" disabled>
+ * // 비활성화된 아이템 예시
+ * <RadioCards defaultValue="1" columns={2}>
+ *   <RadioCards.Item value="1" disabled>
  *     <RadioCards.Label>짧은 게시물</RadioCards.Label>
+ *     <RadioCards.Description>140자</RadioCards.Description>
  *   </RadioCards.Item>
  * </RadioCards>
  * ```
