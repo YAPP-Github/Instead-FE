@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, KeyboardEvent } from 'react';
 
 type RadioCardsContextValue = {
   value?: string;
@@ -6,6 +6,11 @@ type RadioCardsContextValue = {
   disabled?: boolean;
   isSelected?: (value: string) => boolean;
   itemValue?: string;
+  itemsRef: HTMLDivElement[];
+  onKeyDown?: (
+    event: KeyboardEvent<HTMLDivElement>,
+    currentIndex: number
+  ) => void;
 };
 
 const RadioCardsContext = createContext<RadioCardsContextValue | undefined>(

@@ -1,22 +1,27 @@
 import {
   forwardRef,
   useCallback,
-  KeyboardEvent,
   MouseEvent,
+  KeyboardEvent,
   ReactNode,
+  ComponentPropsWithoutRef,
+  useEffect,
+  useRef,
 } from 'react';
 import { useRadioCards } from './context';
 import { radioCardsContentStyle, radioCardsItemStyle } from './RadioCards.css';
 import { RadioCardsItemProvider } from './context';
-import { motion, HTMLMotionProps } from 'motion/react';
+import { HTMLMotionProps, motion } from 'motion/react';
 import { usePress } from '@/hooks/usePress';
+import { mergeRefs } from '@/utils/mergeRefs';
 
 export type RadioCardsItemProps = {
   value: string;
   disabled?: boolean;
   leftAddon?: ReactNode;
   children?: ReactNode;
-} & Omit<HTMLMotionProps<'div'>, 'value'>;
+} & HTMLMotionProps<'div'> &
+  Omit<ComponentPropsWithoutRef<'div'>, 'value'>;
 
 export const RadioCardsItem = forwardRef<HTMLDivElement, RadioCardsItemProps>(
   (
@@ -28,9 +33,12 @@ export const RadioCardsItem = forwardRef<HTMLDivElement, RadioCardsItemProps>(
       value: selectedValue,
       onChange,
       disabled: groupDisabled,
+      itemsRef,
+      onKeyDown,
     } = useRadioCards();
     const isDisabled = disabled || groupDisabled;
     const isSelected = value === selectedValue;
+    const itemRef = useRef<HTMLDivElement>(null);
 
     const handleClick = useCallback(
       (event: MouseEvent<HTMLDivElement>) => {
@@ -42,6 +50,37 @@ export const RadioCardsItem = forwardRef<HTMLDivElement, RadioCardsItemProps>(
       [isDisabled, onClick, onChange, value]
     );
 
+    const handleKeyDown = useCallback(
+      (event: KeyboardEvent<HTMLDivElement>) => {
+        if (isDisabled) return;
+
+        if (event.key === ' ' || event.key === 'Enter') {
+          event.preventDefault();
+          onChange?.(value);
+          return;
+        }
+
+        if (/^Arrow/.test(event.key)) {
+          const currentIndex = itemsRef.findIndex(
+            (item) => item === itemRef.current
+          );
+          onKeyDown?.(event, currentIndex);
+        }
+      },
+      [isDisabled, onChange, value, itemsRef, onKeyDown]
+    );
+
+    const refs = itemsRef;
+    useEffect(() => {
+      if (itemRef.current && !isDisabled) {
+        refs.push(itemRef.current);
+        return () => {
+          const index = refs.indexOf(itemRef.current!);
+          if (index > -1) refs.splice(index, 1);
+        };
+      }
+    }, [itemsRef, isDisabled]);
+
     return (
       <RadioCardsItemProvider
         value={{
@@ -51,21 +90,15 @@ export const RadioCardsItem = forwardRef<HTMLDivElement, RadioCardsItemProps>(
         }}
       >
         <motion.div
-          ref={ref}
+          ref={mergeRefs(ref, itemRef)}
           role="radio"
+          data-value={value}
           aria-checked={isSelected}
           aria-disabled={isDisabled}
           tabIndex={isDisabled ? -1 : 0}
           className={`${radioCardsItemStyle({ selected: isSelected, disabled: isDisabled })} ${className}`}
           onClick={handleClick}
-          onKeyDown={(e: KeyboardEvent<HTMLDivElement>) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              if (!isDisabled) {
-                onChange?.(value);
-              }
-            }
-          }}
+          onKeyDown={handleKeyDown}
           {...(!isDisabled && pressHandlers)}
           initial={false}
           animate={{
