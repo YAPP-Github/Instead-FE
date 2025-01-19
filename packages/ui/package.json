@@ -10,6 +10,8 @@
       "import": "./dist/index.js"
     },
     "./LottieAnimation": "./dist/components/LottieAnimation/LottieAnimation.js",
+    "./provider": "./dist/provider/index.js",
+    "./hooks": "./dist/hooks/index.js",
     "./Spinner": "./dist/components/Spinner/Spinner.js",
     "./styles": "./dist/index.css"
   },
@@ -26,10 +28,10 @@
     "@radix-ui/react-slot": "^1.1.1",
     "@repo/theme": "workspace:^",
     "@types/react-dom": "18.3.1",
-    "@vanilla-extract/css": "^1.17.0",
-    "@vanilla-extract/recipes": "^0.5.5",
     "motion": "^11.17.0",
-    "react": "^18"
+    "react": "^18",
+    "@vanilla-extract/css": "^1.17.0",
+    "@vanilla-extract/recipes": "^0.5.5"
   },
   "devDependencies": {
     "@repo/theme": "workspace:*",

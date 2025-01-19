@@ -14,3 +14,5 @@ export const typography = {
     bold: '700',
   },
 } as const;
+
+export type TypographyType = typeof typography;
