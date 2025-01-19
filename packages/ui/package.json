@@ -10,6 +10,7 @@
       "import": "./dist/index.js"
     },
     "./LottieAnimation": "./dist/components/LottieAnimation/LottieAnimation.js",
+    "./Spinner": "./dist/components/Spinner/Spinner.js",
     "./styles": "./dist/index.css"
   },
   "scripts": {
