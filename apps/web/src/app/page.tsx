@@ -27,6 +27,14 @@ const LottieAnimation = dynamic(
     ssr: false,
   }
 );
+
+const Spinner = dynamic(
+  () => import('@repo/ui/Spinner').then((mod) => mod.Spinner),
+  {
+    ssr: false,
+  }
+);
+
 export default function Home() {
   const { register, handleSubmit } = useForm<FormValues>({
     defaultValues: {
@@ -202,9 +210,15 @@ export default function Home() {
           <Breadcrumb.Item active>기초 경제 지식</Breadcrumb.Item>
         </Breadcrumb>
       </div>
-      <div style={{ display: 'flex', gap: '8px' }}>
-        <IconButton icon="arrowBottom" />
-        <IconButton icon="plus" />
+      <div
+        style={{
+          display: 'flex',
+          gap: '8px',
+          backgroundColor: 'grey',
+        }}
+      >
+        <Spinner color="black" />
+        <Spinner color="white" />
       </div>
     </div>
   );

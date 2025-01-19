@@ -12,6 +12,7 @@
     "./LottieAnimation": "./dist/components/LottieAnimation/LottieAnimation.js",
     "./provider": "./dist/provider/index.js",
     "./hooks": "./dist/hooks/index.js",
+    "./Spinner": "./dist/components/Spinner/Spinner.js",
     "./styles": "./dist/index.css"
   },
   "scripts": {
