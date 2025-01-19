@@ -11,3 +11,5 @@ export const spacing = {
   64: '6.4rem',
   128: '12.8rem',
 } as const;
+
+export type SpacingType = typeof spacing;

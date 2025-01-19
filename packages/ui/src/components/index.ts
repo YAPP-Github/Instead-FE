@@ -1,5 +1,8 @@
+export { IconButton } from './IconButton/IconButton';
+export type { IconButtonProps } from './IconButton/IconButton';
 export { Spacing } from './Spacing/Spacing';
 export type { SpacingDirection, SpacingProps } from './Spacing/Spacing';
+export { icons } from './Icon/assets';
 export { Icon } from './Icon/Icon';
 export type { IconName, IconProps } from './Icon/Icon';
 export { Toast } from './Toast';

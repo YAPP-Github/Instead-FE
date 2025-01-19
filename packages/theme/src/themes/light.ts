@@ -1,11 +1,11 @@
-import { tokens } from '../tokens';
+import { tokens } from '../tokens/tokens';
 import type { ThemeContract } from './contract';
 
 export const lightTheme: ThemeContract = {
   colors: {
     primary: tokens.colors.green200, // TODO: 삭제 예정
     primary400to200: tokens.colors.green400, // TODO: 삭제 예정
-    primaryHover: tokens.colors.green300, // TODO: 삭제 예정
+    primaryHover: tokens.colors.green200, // TODO: 삭제 예정
 
     warning: tokens.colors.warning500,
 
