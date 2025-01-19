@@ -234,14 +234,27 @@ export default function Home() {
             <RadioCards.Description>140자</RadioCards.Description>
           </RadioCards.Item>
 
-          <RadioCards.Item value="3">
-            <RadioCards.HeaderWrapper>
-              <RadioCards.Icon name="picture" size={24} />
-              <RadioCards.Label>짧은 게시물</RadioCards.Label>
-            </RadioCards.HeaderWrapper>
+          <RadioCards.Item
+            value="3"
+            leftAddon={<RadioCards.Icon name="picture" size={24} />}
+          >
+            <RadioCards.Label>짧은 게시물</RadioCards.Label>
+            <RadioCards.Description>140자</RadioCards.Description>
           </RadioCards.Item>
 
           <RadioCards.Item value="4" disabled>
+            <RadioCards.Label>짧은 게시물</RadioCards.Label>
+            <RadioCards.Description>140자</RadioCards.Description>
+          </RadioCards.Item>
+
+          <RadioCards.Item
+            value="5"
+            leftAddon={<RadioCards.Icon name="picture" size={24} />}
+          >
+            <RadioCards.Label>짧은 게시물</RadioCards.Label>
+          </RadioCards.Item>
+
+          <RadioCards.Item value="6" disabled>
             <RadioCards.Label>짧은 게시물</RadioCards.Label>
           </RadioCards.Item>
         </RadioCards>
