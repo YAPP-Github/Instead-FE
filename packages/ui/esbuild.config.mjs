@@ -4,7 +4,6 @@ import svgr from 'esbuild-plugin-svgr';
 import { preserveDirectivesPlugin } from 'esbuild-plugin-preserve-directives';
 import path from 'path';
 import copy from 'esbuild-plugin-copy';
-import alias from 'esbuild-plugin-alias';
 
 const outdir = path.join(process.cwd(), 'dist');
 
@@ -26,14 +25,6 @@ const buildOptions = {
         from: ['./src/assets/**/*'],
         to: ['./dist/assets'],
       },
-    }),
-    alias({
-      '@/components': path.resolve(process.cwd(), './dist/components/index.js'),
-      '@/assets': path.resolve(process.cwd(), './dist/assets'),
-      '@/hooks': path.resolve(process.cwd(), './dist/hooks'),
-      '@/provider': path.resolve(process.cwd(), './dist/provider'),
-      '@/scripts': path.resolve(process.cwd(), './dist/scripts'),
-      '@/utils': path.resolve(process.cwd(), './dist/utils/index.js'),
     }),
   ],
   loader: { '.css': 'file' },
