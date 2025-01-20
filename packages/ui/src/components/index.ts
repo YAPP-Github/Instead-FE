@@ -31,3 +31,11 @@ export type {
   TextFieldSubmitProps,
   TextFieldCounterProps,
 } from './TextField/TextField';
+export { RadioCards } from './RadioCards/RadioCards';
+export type {
+  RadioCardsProps,
+  RadioCardsItemProps,
+  RadioCardsLabelProps,
+  RadioCardsDescriptionProps,
+  RadioCardsBadgeProps,
+} from './RadioCards/RadioCards';
