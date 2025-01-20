@@ -8,7 +8,8 @@ import copy from 'esbuild-plugin-copy';
 const outdir = path.join(process.cwd(), 'dist');
 
 const buildOptions = {
-  entryPoints: ['src/index.ts'],
+  absWorkingDir: path.resolve(process.cwd(), 'src'),
+  entryPoints: ['./index.ts'],
   bundle: true,
   platform: 'node',
   plugins: [
@@ -22,8 +23,8 @@ const buildOptions = {
     copy({
       resolveFrom: 'cwd',
       assets: {
-        from: ['./src/assets/**/*'],
-        to: ['./dist/assets'],
+        from: ['./assets/**/*'],
+        to: ['../dist/assets'],
       },
     }),
   ],
