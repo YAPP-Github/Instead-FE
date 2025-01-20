@@ -11,6 +11,8 @@ import { Label } from '@repo/ui/Label';
 import { Breadcrumb } from '@repo/ui/Breadcrumb';
 import { IconButton } from '@repo/ui/IconButton';
 import { TextField } from '@repo/ui/TextField';
+import { RadioCards } from '@repo/ui/RadioCards';
+
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { overlay } from 'overlay-kit';
@@ -217,6 +219,45 @@ export default function Home() {
       >
         <Spinner color="black" />
         <Spinner color="white" />
+      </div>
+      <div style={{ margin: '2rem' }}>
+        <RadioCards defaultValue="1" columns={2}>
+          <RadioCards.Item value="1">
+            <RadioCards.Badge>X Premium 계정 전용</RadioCards.Badge>
+            <RadioCards.Label>짧은 게시물</RadioCards.Label>
+            <RadioCards.Description>140자</RadioCards.Description>
+          </RadioCards.Item>
+
+          <RadioCards.Item value="2">
+            <RadioCards.Badge>X Premium 계정 전용</RadioCards.Badge>
+            <RadioCards.Label>짧은 게시물</RadioCards.Label>
+            <RadioCards.Description>140자</RadioCards.Description>
+          </RadioCards.Item>
+
+          <RadioCards.Item
+            value="3"
+            leftAddon={<RadioCards.Icon name="picture" size={24} />}
+          >
+            <RadioCards.Label>짧은 게시물</RadioCards.Label>
+            <RadioCards.Description>140자</RadioCards.Description>
+          </RadioCards.Item>
+
+          <RadioCards.Item value="4" disabled>
+            <RadioCards.Label>짧은 게시물</RadioCards.Label>
+            <RadioCards.Description>140자</RadioCards.Description>
+          </RadioCards.Item>
+
+          <RadioCards.Item
+            value="5"
+            leftAddon={<RadioCards.Icon name="picture" size={24} />}
+          >
+            <RadioCards.Label>짧은 게시물</RadioCards.Label>
+          </RadioCards.Item>
+
+          <RadioCards.Item value="6" disabled>
+            <RadioCards.Label>짧은 게시물</RadioCards.Label>
+          </RadioCards.Item>
+        </RadioCards>
       </div>
     </div>
   );
