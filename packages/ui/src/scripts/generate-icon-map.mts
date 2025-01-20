@@ -62,7 +62,9 @@ svgFiles.forEach((file) => {
   const iconKey: string = toCamelCase(baseName);
 
   // import 구문 생성
-  importStatements.push(`import ${importName} from '@/assets/icons/${file}';`);
+  importStatements.push(
+    `import ${importName} from '../../assets/icons/${file}';`
+  );
 
   // iconKey: importName 형태로 매핑
   iconMapping.push(`  ${iconKey}: ${importName}`);
