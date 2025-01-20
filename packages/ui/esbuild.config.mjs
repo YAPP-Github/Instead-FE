@@ -27,7 +27,7 @@ const buildOptions = {
       },
     }),
   ],
-  loader: { '.css': 'file' },
+  loader: { '.css': 'file', '.svg': 'file' },
   allowOverwrite: true,
   outdir,
   external: ['react', 'react-dom'],
