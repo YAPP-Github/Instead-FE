@@ -1,5 +1,5 @@
 import { forwardRef, ComponentPropsWithoutRef, useContext } from 'react';
-import { Icon } from '@/components';
+import { Icon } from '../Icon/Icon';
 import { TextFieldContext } from './context';
 import { submitButtonStyle } from './TextField.css';
 

@@ -1,4 +1,4 @@
-import { Badge, BadgeProps } from '@/components';
+import { Badge, BadgeProps } from '../Badge/Badge';
 import { radioCardsBadgeStyle } from './RadioCards.css';
 import { useRadioCardsItem } from './context';
 

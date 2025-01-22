@@ -10,7 +10,7 @@ import {
 import { ToastIcon } from './compounds/Icon/Icon';
 import * as styles from './Toast.css';
 import { useTimer } from './hooks/useTimer';
-import { mergeRefs } from '@/utils';
+import { mergeRefs } from '../../utils';
 
 export type ToastType = 'default' | 'success' | 'error';
 
