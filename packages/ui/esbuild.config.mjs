@@ -2,14 +2,10 @@ import esbuild from 'esbuild';
 import { vanillaExtractPlugin } from '@vanilla-extract/esbuild-plugin';
 import svgr from 'esbuild-plugin-svgr';
 import { preserveDirectivesPlugin } from 'esbuild-plugin-preserve-directives';
-import path from 'path';
 import copy from 'esbuild-plugin-copy';
 
-const outdir = path.join(process.cwd(), 'dist');
-
 const buildOptions = {
-  absWorkingDir: path.resolve(process.cwd(), 'src'),
-  entryPoints: ['./index.ts'],
+  entryPoints: ['./src/index.ts'],
   bundle: true,
   platform: 'node',
   plugins: [
@@ -21,19 +17,19 @@ const buildOptions = {
       exclude: /node_modules/,
     }),
     copy({
-      resolveFrom: 'cwd',
       assets: {
-        from: ['./assets/**/*'],
-        to: ['../dist/assets'],
+        resolveFrom: 'cwd',
+        from: ['./src/assets/**/*'],
+        to: ['./assets'],
       },
     }),
   ],
-  loader: { '.css': 'file', '.svg': 'file' },
+  loader: { '.css': 'file' },
   allowOverwrite: true,
-  outdir,
   external: ['react', 'react-dom'],
   minify: true,
   treeShaking: true,
+  outdir: 'dist',
 };
 
 esbuild
