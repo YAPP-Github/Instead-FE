@@ -1,4 +1,4 @@
-import { Icon, IconProps } from '@/components';
+import { Icon, IconProps } from '../../components';
 import { useRadioCardsItem } from './context';
 
 export type RadioCardsIconProps = Omit<IconProps, 'color'>;

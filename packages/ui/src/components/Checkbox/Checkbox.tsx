@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
-import { Text, Icon } from '@/components';
+import { Text } from '../../components';
+import { Icon } from '../Icon/Icon';
 import * as styles from './Checkbox.css';
 import {
   ChangeEvent,
@@ -8,7 +9,7 @@ import {
   useState,
   KeyboardEvent,
 } from 'react';
-import { usePress } from '@/hooks/usePress';
+import { usePress } from '../../hooks/usePress';
 
 export type CheckboxProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,

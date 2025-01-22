@@ -12,8 +12,9 @@ import {
   Breadcrumb,
   TextField,
   RadioCards,
+  LottieAnimation,
+  Spinner,
 } from '@repo/ui';
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { overlay } from 'overlay-kit';
 
@@ -21,19 +22,6 @@ type FormValues = {
   topic: string;
   aiUpgrade: string;
 };
-const LottieAnimation = dynamic(
-  () => import('@repo/ui/LottieAnimation').then((mod) => mod.LottieAnimation),
-  {
-    ssr: false,
-  }
-);
-
-const Spinner = dynamic(
-  () => import('@repo/ui/Spinner').then((mod) => mod.Spinner),
-  {
-    ssr: false,
-  }
-);
 
 export default function Home() {
   const { register, handleSubmit } = useForm<FormValues>({

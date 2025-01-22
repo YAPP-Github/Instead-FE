@@ -1,5 +1,3 @@
-'use client';
-
 import Lottie, { LottieComponentProps } from 'lottie-react';
 import { lotties } from './assets';
 import { assignInlineVars } from '@vanilla-extract/dynamic';

@@ -1,5 +1,3 @@
-'use client';
-
 import { forwardRef } from 'react';
 import { lotties } from '../LottieAnimation/assets';
 import {
