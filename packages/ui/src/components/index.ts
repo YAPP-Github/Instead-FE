@@ -1,3 +1,5 @@
+'use client';
+
 export { IconButton } from './IconButton/IconButton';
 export type { IconButtonProps } from './IconButton/IconButton';
 export { Spacing } from './Spacing/Spacing';
@@ -39,3 +41,7 @@ export type {
   RadioCardsDescriptionProps,
   RadioCardsBadgeProps,
 } from './RadioCards/RadioCards';
+export { LottieAnimation } from './LottieAnimation/LottieAnimation';
+export type { LottieAnimationProps } from './LottieAnimation/LottieAnimation';
+export { Spinner } from './Spinner/Spinner';
+export type { SpinnerProps } from './Spinner/Spinner';
