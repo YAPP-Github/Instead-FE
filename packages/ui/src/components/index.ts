@@ -39,3 +39,11 @@ export type {
   RadioCardsDescriptionProps,
   RadioCardsBadgeProps,
 } from './RadioCards/RadioCards';
+export { Modal } from './Modal/Modal';
+export type {
+  ModalProps,
+  ModalTitleProps,
+  ModalDescriptionProps,
+  ModalIconProps,
+  ModalDoubleCTAProps,
+} from './Modal/Modal';
