@@ -5,7 +5,6 @@ import { ReactNode, forwardRef, useCallback, useEffect } from 'react';
 import { FocusTrap } from './FocusTrap';
 import { Dimmer } from './Dimmer';
 import * as styles from './Modal.css';
-import { PortalConsumer } from '@/provider';
 
 export type ModalProps = {
   /**
@@ -101,33 +100,31 @@ export const ModalRoot = forwardRef<HTMLDivElement, ModalProps>(
     }, [open, onOpen, handleEscape]);
 
     return (
-      <PortalConsumer>
-        <AnimatePresence onExitComplete={onExited}>
-          {open && (
-            <>
-              {showDimmer && <Dimmer onClick={handleDimmerClick} />}
-              <FocusTrap>
-                <motion.div
-                  ref={ref}
-                  className={styles.container}
-                  initial={{ opacity: 0, scale: 0.9, x: '-50%', y: '-50%' }}
-                  animate={{ opacity: 1, scale: 1, x: '-50%', y: '-50%' }}
-                  exit={{ opacity: 0, scale: 0.9, x: '-50%', y: '-50%' }}
-                  transition={{ duration: 0.15 }}
-                  role="dialog"
-                  aria-modal="true"
-                  tabIndex={-1}
-                >
-                  {icon}
-                  <div className={styles.content}>{children}</div>
-                  {cta}
-                  {doubleCTA}
-                </motion.div>
-              </FocusTrap>
-            </>
-          )}
-        </AnimatePresence>
-      </PortalConsumer>
+      <AnimatePresence onExitComplete={onExited}>
+        {open && (
+          <>
+            {showDimmer && <Dimmer onClick={handleDimmerClick} />}
+            <FocusTrap>
+              <motion.div
+                ref={ref}
+                className={styles.container}
+                initial={{ opacity: 0, scale: 0.9, x: '-50%', y: '-50%' }}
+                animate={{ opacity: 1, scale: 1, x: '-50%', y: '-50%' }}
+                exit={{ opacity: 0, scale: 0.9, x: '-50%', y: '-50%' }}
+                transition={{ duration: 0.15 }}
+                role="dialog"
+                aria-modal="true"
+                tabIndex={-1}
+              >
+                {icon}
+                <div className={styles.content}>{children}</div>
+                {cta}
+                {doubleCTA}
+              </motion.div>
+            </FocusTrap>
+          </>
+        )}
+      </AnimatePresence>
     );
   }
 );
