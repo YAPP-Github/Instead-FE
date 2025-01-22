@@ -1,3 +1,5 @@
+'use client';
+
 export { IconButton } from './IconButton/IconButton';
 export type { IconButtonProps } from './IconButton/IconButton';
 export { Spacing } from './Spacing/Spacing';
