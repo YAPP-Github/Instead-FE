@@ -1,5 +1,4 @@
 import { tokens } from '@repo/theme';
-import { style } from '@vanilla-extract/css';
 import { recipe, RecipeVariants } from '@vanilla-extract/recipes';
 
 export const chipRecipe = recipe({
@@ -14,7 +13,6 @@ export const chipRecipe = recipe({
     width: 'fit-content',
     border: 'none',
     borderRadius: '2.4rem',
-    cursor: 'pointer',
   },
 
   variants: {
@@ -56,11 +54,21 @@ export const addonRootRecipe = recipe({
   },
 });
 
-export const chipCloseButtonStyle = style({
-  border: 'none',
-  background: 'inherit',
-  display: 'inline-block',
-  width: 'auto',
-  height: 'auto',
-  lineHeight: 0,
+export const chipCloseButtonRecipe = recipe({
+  base: {
+    border: 'none',
+    background: 'inherit',
+    display: 'inline-block',
+    width: 'auto',
+    height: 'auto',
+    lineHeight: 0,
+  },
+  variants: {
+    clickable: {
+      true: {
+        cursor: 'pointer',
+      },
+      false: {},
+    },
+  },
 });

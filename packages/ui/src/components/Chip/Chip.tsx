@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef, forwardRef, ReactElement } from 'react';
-import { addonRootRecipe, chipCloseButtonStyle, chipRecipe } from './Chip.css';
+import { addonRootRecipe, chipCloseButtonRecipe, chipRecipe } from './Chip.css';
 import { Icon } from '../Icon/Icon';
 import { Text } from '../Text/Text';
 
@@ -43,7 +43,8 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
           <button
             type="button"
             aria-label="Close"
-            className={chipCloseButtonStyle}
+            className={chipCloseButtonRecipe({ clickable: closable })}
+            onClick={onClose}
           >
             <Icon
               name="x"
@@ -51,7 +52,6 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
               type="stroke"
               strokeWidth={'0.244rem'}
               color={`${variant}400`}
-              onClick={onClose}
             />
           </button>
         )}
