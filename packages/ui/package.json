@@ -77,7 +77,8 @@
     "./Skeleton": {
       "types": "./dist/components/Skeleton/index.d.ts",
       "import": "./dist/components/Skeleton/index.js"
-    }
+    },
+    "./utils": "./dist/utils/index.js"
   },
   "scripts": {
     "build": "tsc && node esbuild.config.mjs",
