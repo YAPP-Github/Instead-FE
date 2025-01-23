@@ -1,2 +1,3 @@
 export { mergeRefs } from './mergeRefs';
-export { isNil } from './isNill';
+export { isNil } from './isNil';
+export { isNotNil } from './isNotNil';
