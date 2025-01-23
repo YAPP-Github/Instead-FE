@@ -2,7 +2,6 @@ import esbuild from 'esbuild';
 import { vanillaExtractPlugin } from '@vanilla-extract/esbuild-plugin';
 import svgr from 'esbuild-plugin-svgr';
 import { preserveDirectivesPlugin } from 'esbuild-plugin-preserve-directives';
-import copy from 'esbuild-plugin-copy';
 
 const buildOptions = {
   entryPoints: ['./src/index.ts'],
@@ -15,13 +14,6 @@ const buildOptions = {
       directives: ['use client', 'use strict'],
       include: /\.(js|ts|jsx|tsx)$/,
       exclude: /node_modules/,
-    }),
-    copy({
-      assets: {
-        resolveFrom: 'cwd',
-        from: ['./src/assets/**/*'],
-        to: ['./assets'],
-      },
     }),
   ],
   loader: { '.css': 'file' },

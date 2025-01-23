@@ -75,7 +75,8 @@
     "build:icons": "esbuild src/scripts/generate-icon-map.mts --bundle --platform=node --outdir=dist/scripts",
     "generate:icons": "pnpm run build:icons && node dist/scripts/generate-icon-map.js",
     "build:lotties": "esbuild src/scripts/generate-lottie-map.mts --bundle --platform=node --outdir=dist/scripts",
-    "generate:lotties": "pnpm run build:lotties && node dist/scripts/generate-lottie-map.js"
+    "generate:lotties": "pnpm run build:lotties && node dist/scripts/generate-lottie-map.js",
+    "generate:icon": "tsx src/scripts/convert-svg-to-react.mts"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.1",
@@ -95,7 +96,7 @@
     "esbuild-plugin-copy": "^2.1.1",
     "esbuild-plugin-preserve-directives": "^0.0.11",
     "esbuild-plugin-svgr": "^3.1.0",
-    "ts-node": "^10.9.2"
+    "tsx": "^4.19.2"
   },
   "peerDependencies": {
     "react": "^18",
