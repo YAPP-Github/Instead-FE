@@ -17,6 +17,7 @@ import {
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { overlay } from 'overlay-kit';
+import { useToast } from '@repo/ui/hooks';
 
 type FormValues = {
   topic: string;
@@ -37,6 +38,8 @@ const Spinner = dynamic(
 );
 
 export default function Home() {
+  const toast = useToast();
+
   const { register, handleSubmit } = useForm<FormValues>({
     defaultValues: {
       topic: '',
@@ -47,6 +50,47 @@ export default function Home() {
   const onSubmit = (data: FormValues) => {
     console.log('Form data:', data);
     notify1(); // 성공 토스트 표시
+  };
+
+  const toastNotify1 = () => {
+    toast.success('생성된 본문이 업데이트 됐어요!', 3000);
+  };
+
+  const toastNotify2 = () => {
+    toast.error('생성된 본문이 업데이트 됐어요!', 3000);
+  };
+
+  const toastNotify3 = () => {
+    toast.default('생성된 본문이 업데이트 됐어요!', 3000);
+  };
+
+  const toastNotify4 = () => {
+    toast.custom('메시지', {
+      duration: 5000,
+      leftAddon: {
+        type: 'lottie',
+        props: {
+          animationData: 'loadingBlack',
+          width: '24px',
+          height: '24px',
+        },
+      },
+    });
+  };
+
+  const toastNotify5 = () => {
+    toast.custom('메시지', {
+      duration: 5000,
+      leftAddon: {
+        type: 'icon',
+        props: {
+          name: 'twinkle',
+          size: 24,
+          color: 'primary600',
+          type: 'fill',
+        },
+      },
+    });
   };
 
   const notify1 = () =>
@@ -67,6 +111,20 @@ export default function Home() {
         open={isOpen}
         onClose={close}
         leftAddon={<Toast.Icon toastType="error" />}
+        onExited={unmount}
+      >
+        1개 이상의 게시물을 선택해주세요
+      </Toast>
+    ));
+
+  const notify3 = () =>
+    overlay.open(({ isOpen, close, unmount }) => (
+      <Toast
+        open={isOpen}
+        onClose={close}
+        leftAddon={
+          <Icon name="stack" color="primary600" type="fill" size={24} />
+        }
         onExited={unmount}
       >
         1개 이상의 게시물을 선택해주세요
@@ -113,7 +171,15 @@ export default function Home() {
       <div style={{ display: 'flex', gap: '8px' }}>
         <button onClick={notify1}>success 토스트 열기</button>
         <button onClick={notify2}>warning 토스트 열기</button>
+        <button onClick={notify3}>아이콘 개발자 지정 토스트 열기</button>
         <button onClick={openModal}>모달 열기</button>
+        <button onClick={toastNotify1}>useToast success 토스트 열기</button>
+        <button onClick={toastNotify2}>useToast warning 토스트 열기</button>
+        <button onClick={toastNotify3}>useToast default 토스트 열기</button>
+        <button onClick={toastNotify4}>
+          useToast custom lottie 토스트 열기
+        </button>
+        <button onClick={toastNotify5}>useToast custom icon 토스트 열기</button>
       </div>
       <Text.H1 color="grey950" fontSize={28} fontWeight="semibold">
         Text 컴포넌트
