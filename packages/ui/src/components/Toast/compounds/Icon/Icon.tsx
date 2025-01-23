@@ -1,52 +1,41 @@
 import { Icon } from '@repo/ui';
 import type { IconProps } from '@repo/ui';
 import { ToastType } from '../../Toast';
+import { isNil } from '../../../../utils';
 
-export type ToastIconProps = Omit<IconProps, 'name'> & {
-  toastType?: ToastType;
-};
+export type ToastIconProps = {
+  toastType: ToastType;
+} & Omit<IconProps, 'name' | 'color' | 'type'>;
 
-export function ToastIcon({
-  toastType = 'default',
-  ...restProps
-}: ToastIconProps) {
-  const iconName = (() => {
-    switch (toastType) {
-      case 'success':
-        return 'check';
-      case 'error':
-        return 'notice';
-      case 'default':
-        return undefined;
-    }
+function getToastIconProps(
+  toastType?: ToastType
+): Pick<IconProps, 'name' | 'color' | 'type'> | undefined {
+  switch (toastType) {
+    case 'success':
+      return {
+        name: 'check',
+        color: 'violet200',
+        type: 'fill',
+      };
+    case 'error':
+      return {
+        name: 'notice',
+        color: 'warning300',
+        type: 'fill',
+      };
+    case 'default':
+      return undefined;
+    case undefined:
+      return undefined;
+  }
+  toastType satisfies never;
+}
 
-    toastType satisfies never;
-  })();
-
-  if (!iconName) {
+export function ToastIcon({ toastType, size = 24, ...props }: ToastIconProps) {
+  const iconProps = getToastIconProps(toastType);
+  if (isNil(iconProps)) {
     return null;
   }
 
-  const iconColor = (() => {
-    switch (toastType) {
-      case 'success':
-        return 'violet200';
-      case 'error':
-        return 'warning300';
-      case 'default':
-        return undefined;
-    }
-
-    toastType satisfies never;
-  })();
-
-  return (
-    <Icon
-      type="fill"
-      size={24}
-      name={iconName}
-      color={iconColor}
-      {...restProps}
-    />
-  );
+  return <Icon size={size} {...iconProps} {...props} />;
 }
