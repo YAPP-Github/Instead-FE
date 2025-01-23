@@ -16,9 +16,11 @@ export function ToastIcon({
         return 'check';
       case 'error':
         return 'notice';
-      default:
-        return null;
+      case 'default':
+        return undefined;
     }
+
+    toastType satisfies never;
   })();
 
   if (!iconName) {
@@ -31,8 +33,20 @@ export function ToastIcon({
         return 'violet200';
       case 'error':
         return 'warning300';
+      case 'default':
+        return undefined;
     }
+
+    toastType satisfies never;
   })();
 
-  return <Icon type="fill" name={iconName} color={iconColor} {...restProps} />;
+  return (
+    <Icon
+      type="fill"
+      size={24}
+      name={iconName}
+      color={iconColor}
+      {...restProps}
+    />
+  );
 }
