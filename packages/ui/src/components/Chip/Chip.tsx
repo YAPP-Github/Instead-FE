@@ -10,6 +10,7 @@ export type ChipProps = ComponentPropsWithoutRef<'span'> & {
   leftAddon?: ReactElement;
   rightAddon?: ReactElement;
   closable?: boolean;
+  onClose?: () => void;
 };
 
 export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
@@ -20,6 +21,7 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
     rightAddon,
     closable = false,
     children,
+    onClose,
     ...rest
   }) => {
     return (
@@ -49,6 +51,7 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
               type="stroke"
               strokeWidth={'0.244rem'}
               color={`${variant}400`}
+              onClick={onClose}
             />
           </button>
         )}
