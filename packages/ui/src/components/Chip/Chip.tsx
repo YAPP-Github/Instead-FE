@@ -48,7 +48,7 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
               size="1.6rem"
               type="stroke"
               strokeWidth={'0.244rem'}
-              color="purple600"
+              color={`${variant}400`}
             />
           </button>
         )}
