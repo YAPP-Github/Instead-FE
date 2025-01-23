@@ -72,11 +72,9 @@
     "build": "tsc && node esbuild.config.mjs",
     "dev": "esbuild src/index.ts --bundle --platform=node --format=esm --outfile=dist/index.mjs --watch",
     "lint": "eslint . --max-warnings 0",
-    "build:icons": "esbuild src/scripts/generate-icon-map.mts --bundle --platform=node --outdir=dist/scripts",
-    "generate:icons": "pnpm run build:icons && node dist/scripts/generate-icon-map.js",
+    "generate:icons": "tsx src/scripts/convert-svg-to-react.mts && tsx src/scripts/generate-icon-map.mts && prettier --write ./src/components/Icon/*",
     "build:lotties": "esbuild src/scripts/generate-lottie-map.mts --bundle --platform=node --outdir=dist/scripts",
-    "generate:lotties": "pnpm run build:lotties && node dist/scripts/generate-lottie-map.js",
-    "generate:icon": "tsx src/scripts/convert-svg-to-react.mts"
+    "generate:lotties": "pnpm run build:lotties && node dist/scripts/generate-lottie-map.js"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.1",
