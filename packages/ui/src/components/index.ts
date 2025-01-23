@@ -1,5 +1,8 @@
+export { IconButton } from './IconButton/IconButton';
+export type { IconButtonProps } from './IconButton/IconButton';
 export { Spacing } from './Spacing/Spacing';
 export type { SpacingDirection, SpacingProps } from './Spacing/Spacing';
+export { icons } from './Icon/assets';
 export { Icon } from './Icon/Icon';
 export type { IconName, IconProps } from './Icon/Icon';
 export { Toast } from './Toast';
@@ -30,3 +33,11 @@ export type {
 } from './TextField/TextField';
 export { Chip } from './Chip/Chip';
 export type { ChipProps } from './Chip/Chip';
+export { RadioCards } from './RadioCards/RadioCards';
+export type {
+  RadioCardsProps,
+  RadioCardsItemProps,
+  RadioCardsLabelProps,
+  RadioCardsDescriptionProps,
+  RadioCardsBadgeProps,
+} from './RadioCards/RadioCards';

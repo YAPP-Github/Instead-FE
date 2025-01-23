@@ -12,6 +12,7 @@ import {
   Breadcrumb,
   TextField,
   Chip,
+  RadioCards,
 } from '@repo/ui';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -27,6 +28,14 @@ const LottieAnimation = dynamic(
     ssr: false,
   }
 );
+
+const Spinner = dynamic(
+  () => import('@repo/ui/Spinner').then((mod) => mod.Spinner),
+  {
+    ssr: false,
+  }
+);
+
 export default function Home() {
   const { register, handleSubmit } = useForm<FormValues>({
     defaultValues: {
@@ -223,6 +232,55 @@ export default function Home() {
         >
           전체선택
         </Chip>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          gap: '8px',
+          backgroundColor: 'grey',
+        }}
+      >
+        <Spinner color="black" />
+        <Spinner color="white" />
+      </div>
+      <div style={{ margin: '2rem' }}>
+        <RadioCards defaultValue="1" columns={2}>
+          <RadioCards.Item value="1">
+            <RadioCards.Badge>X Premium 계정 전용</RadioCards.Badge>
+            <RadioCards.Label>짧은 게시물</RadioCards.Label>
+            <RadioCards.Description>140자</RadioCards.Description>
+          </RadioCards.Item>
+
+          <RadioCards.Item value="2">
+            <RadioCards.Badge>X Premium 계정 전용</RadioCards.Badge>
+            <RadioCards.Label>짧은 게시물</RadioCards.Label>
+            <RadioCards.Description>140자</RadioCards.Description>
+          </RadioCards.Item>
+
+          <RadioCards.Item
+            value="3"
+            leftAddon={<RadioCards.Icon name="picture" size={24} />}
+          >
+            <RadioCards.Label>짧은 게시물</RadioCards.Label>
+            <RadioCards.Description>140자</RadioCards.Description>
+          </RadioCards.Item>
+
+          <RadioCards.Item value="4" disabled>
+            <RadioCards.Label>짧은 게시물</RadioCards.Label>
+            <RadioCards.Description>140자</RadioCards.Description>
+          </RadioCards.Item>
+
+          <RadioCards.Item
+            value="5"
+            leftAddon={<RadioCards.Icon name="picture" size={24} />}
+          >
+            <RadioCards.Label>짧은 게시물</RadioCards.Label>
+          </RadioCards.Item>
+
+          <RadioCards.Item value="6" disabled>
+            <RadioCards.Label>짧은 게시물</RadioCards.Label>
+          </RadioCards.Item>
+        </RadioCards>
       </div>
     </div>
   );

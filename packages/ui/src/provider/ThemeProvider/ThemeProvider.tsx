@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { lightThemeClass, darkThemeClass } from '../themes/themes.css';
+import { lightThemeClass, darkThemeClass } from '@repo/theme';
 
 type ThemeProviderProps = {
   children: ReactNode;
