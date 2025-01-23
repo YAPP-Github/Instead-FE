@@ -17,6 +17,7 @@ import {
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { overlay } from 'overlay-kit';
+import { useModal } from '@repo/ui/hooks';
 
 type FormValues = {
   topic: string;
@@ -43,6 +44,8 @@ export default function Home() {
       aiUpgrade: '',
     },
   });
+
+  const modal = useModal();
 
   const onSubmit = (data: FormValues) => {
     console.log('Form data:', data);
@@ -84,10 +87,14 @@ export default function Home() {
           <Modal.DoubleCTA
             cancelProps={{
               children: '취소',
+              size: 'large',
+              variant: 'terminal',
               onClick: close,
             }}
             confirmProps={{
               children: '나가기',
+              size: 'large',
+              variant: 'neutral',
               onClick: () => {
                 close();
               },
@@ -102,6 +109,84 @@ export default function Home() {
       </Modal>
     ));
 
+  const handleAlertModal = () => {
+    modal.alert({
+      title: '알림',
+      description: '작업이 완료되었습니다.',
+      icon: <Modal.Icon name="notice" color="success500" />,
+      alertButton: '확인',
+    });
+  };
+
+  const handleAsyncAlertModal = () => {
+    modal.asyncAlert({
+      title: '비동기 작업 중',
+      description: '잠시만 기다려주세요...',
+      icon: <Modal.Icon name="notice" color="grey500" />,
+      alertButton: '확인',
+      onAlertClick: async () => {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        notify1();
+      },
+    });
+  };
+
+  const handleConfirmModal = () => {
+    modal.confirm({
+      title: '정말 나가시겠어요?',
+      description: '이 페이지를 나가면\n작성한 내용은 저장되지 않아요',
+      icon: <Modal.Icon name="notice" color="warning500" />,
+      confirmButton: '나가기',
+      cancelButton: '취소',
+    });
+  };
+
+  const handleAsyncConfirmModal = () => {
+    modal.asyncConfirm({
+      title: '변경사항을 저장하시겠습니까?',
+      description: '저장하지 않은 변경사항은 모두 사라집니다.',
+      icon: <Modal.Icon name="notice" color="warning500" />,
+      confirmButton: '저장',
+      cancelButton: '취소',
+      onConfirmClick: async () => {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      },
+      onCancelClick: async () => {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      },
+    });
+  };
+
+  const CustomModalContent = ({ close }: { close: () => void }) => (
+    <>
+      <Modal.Icon name="stack" color="grey900" />
+      <Modal.Title>커스텀 모달</Modal.Title>
+      <Modal.Description>
+        원하는 대로 모달 내용을 구성할 수 있습니다.
+      </Modal.Description>
+      <Modal.DoubleCTA
+        confirmProps={{
+          children: '확인',
+          variant: 'primary',
+          size: 'large',
+          onClick: close,
+        }}
+        cancelProps={{
+          children: '취소',
+          variant: 'terminal',
+          size: 'large',
+          onClick: close,
+        }}
+      />
+    </>
+  );
+
+  const handleCustomModal = () => {
+    modal.custom(CustomModalContent, {
+      isCloseOnDimmerClick: true,
+    });
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
       웹 1팀 파이팅!
@@ -114,6 +199,11 @@ export default function Home() {
         <button onClick={notify1}>success 토스트 열기</button>
         <button onClick={notify2}>warning 토스트 열기</button>
         <button onClick={openModal}>모달 열기</button>
+        <button onClick={handleAlertModal}>Alert 모달</button>
+        <button onClick={handleAsyncAlertModal}>비동기 Alert 모달</button>
+        <button onClick={handleConfirmModal}>Confirm 모달</button>
+        <button onClick={handleAsyncConfirmModal}>비동기 Confirm 모달</button>
+        <button onClick={handleCustomModal}>커스텀 모달</button>
       </div>
       <Text.H1 color="grey950" fontSize={28} fontWeight="semibold">
         Text 컴포넌트
