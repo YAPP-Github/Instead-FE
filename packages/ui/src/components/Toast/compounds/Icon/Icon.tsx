@@ -1,5 +1,5 @@
-import { Icon } from '@repo/ui';
-import type { IconProps } from '@repo/ui';
+import { Icon } from '../../../Icon/Icon';
+import type { IconProps } from '../../../Icon/Icon';
 import { ToastType } from '../../Toast';
 import { isNil } from '../../../../utils';
 
