@@ -32,7 +32,7 @@ export const ChipItem = forwardRef<HTMLSpanElement, ChipProps>(
           {children}
         </Text>
         {rightAddon}
-        {isNil(closable) && (
+        {!isNil(closable) && (
           <button
             type="button"
             aria-label="Close"
