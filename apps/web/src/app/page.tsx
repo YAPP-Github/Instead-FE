@@ -1,19 +1,18 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import {
-  Icon,
-  Toast,
-  Text,
-  Button,
-  Badge,
-  Checkbox,
-  Label,
-  Breadcrumb,
-  TextField,
-  Chip,
-  RadioCards,
-} from '@repo/ui';
+import { Icon } from '@repo/ui/Icon';
+import { Toast } from '@repo/ui/Toast';
+import { Text } from '@repo/ui/Text';
+import { Button } from '@repo/ui/Button';
+import { Badge } from '@repo/ui/Badge';
+import { Checkbox } from '@repo/ui/Checkbox';
+import { Label } from '@repo/ui/Label';
+import { Breadcrumb } from '@repo/ui/Breadcrumb';
+import { TextField } from '@repo/ui/TextField';
+import { RadioCards } from '@repo/ui/RadioCards';
+import { Skeleton } from '@repo/ui/Skeleton';
+import { Modal } from '@repo/ui/Modal';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { overlay } from 'overlay-kit';
@@ -73,6 +72,35 @@ export default function Home() {
       </Toast>
     ));
 
+  const openModal = () =>
+    overlay.open(({ isOpen, close, unmount }) => (
+      <Modal
+        open={isOpen}
+        onClose={close}
+        onExited={unmount}
+        icon={<Modal.Icon name="notice" color="warning500" />}
+        doubleCTA={
+          <Modal.DoubleCTA
+            cancelProps={{
+              children: '취소',
+              onClick: close,
+            }}
+            confirmProps={{
+              children: '나가기',
+              onClick: () => {
+                close();
+              },
+            }}
+          />
+        }
+      >
+        <Modal.Title>정말 나가시겠어요?</Modal.Title>
+        <Modal.Description>
+          {`이 페이지를 나가면 \n 작성한 내용은 저장되지 않아요`}
+        </Modal.Description>
+      </Modal>
+    ));
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
       웹 1팀 파이팅!
@@ -84,6 +112,7 @@ export default function Home() {
       <div style={{ display: 'flex', gap: '8px' }}>
         <button onClick={notify1}>success 토스트 열기</button>
         <button onClick={notify2}>warning 토스트 열기</button>
+        <button onClick={openModal}>모달 열기</button>
       </div>
       <Text.H1 color="grey950" fontSize={28} fontWeight="semibold">
         Text 컴포넌트
@@ -211,7 +240,7 @@ export default function Home() {
           <Breadcrumb.Item active>기초 경제 지식</Breadcrumb.Item>
         </Breadcrumb>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      {/* <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <Chip variant="green" leftAddon={<Chip.Icon variant="green" />}>
           업로드할 글
         </Chip>
@@ -232,7 +261,7 @@ export default function Home() {
         >
           전체선택
         </Chip>
-      </div>
+      </div> */}
       <div
         style={{
           display: 'flex',
@@ -281,6 +310,19 @@ export default function Home() {
             <RadioCards.Label>짧은 게시물</RadioCards.Label>
           </RadioCards.Item>
         </RadioCards>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '0.8rem',
+          margin: '2rem',
+          minWidth: '700px',
+        }}
+      >
+        <Skeleton width="30rem" height="2rem" radius={16} />
+        <Skeleton width="15rem" height="15rem" radius={4} />
+        <Skeleton width="15rem" height="15rem" />
       </div>
     </div>
   );
