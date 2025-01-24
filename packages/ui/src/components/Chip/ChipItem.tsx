@@ -27,12 +27,12 @@ export const ChipItem = forwardRef<HTMLSpanElement, ChipProps>(
   }) => {
     return (
       <span className={`${chipRecipe({ variant })} ${className}`} {...rest}>
-        {leftAddon}
+        {!isNil(leftAddon) && leftAddon}
         <Text fontSize={16} fontWeight="semibold">
           {children}
         </Text>
-        {rightAddon}
-        {!isNil(closable) && (
+        {!isNil(rightAddon) && rightAddon}
+        {closable && (
           <button
             type="button"
             aria-label="Close"
