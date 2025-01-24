@@ -12,8 +12,8 @@ import { useRadioCards } from './context';
 import { radioCardsContentStyle, radioCardsItemStyle } from './RadioCards.css';
 import { RadioCardsItemProvider } from './context';
 import { HTMLMotionProps, motion } from 'motion/react';
-import { usePress } from '@/hooks/usePress';
-import { mergeRefs } from '@/utils/mergeRefs';
+import { usePress } from '../../hooks/usePress';
+import { mergeRefs } from '../../utils/mergeRefs';
 
 export type RadioCardsItemProps = {
   value: string;

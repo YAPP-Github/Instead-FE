@@ -1,5 +1,5 @@
-import { Text } from '@/components';
-import type { TextProps } from '@/components';
+import { Text } from '../../components';
+import type { TextProps } from '../../components';
 import { useRadioCardsItem } from './context';
 
 export type RadioCardsLabelProps = TextProps<'span'>;

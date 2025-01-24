@@ -1,20 +1,18 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import {
-  Icon,
-  Toast,
-  Text,
-  Button,
-  Badge,
-  Checkbox,
-  Label,
-  Breadcrumb,
-  TextField,
-  RadioCards,
-  Skeleton,
-  Modal,
-} from '@repo/ui';
+import { Icon } from '@repo/ui/Icon';
+import { Toast } from '@repo/ui/Toast';
+import { Text } from '@repo/ui/Text';
+import { Button } from '@repo/ui/Button';
+import { Badge } from '@repo/ui/Badge';
+import { Checkbox } from '@repo/ui/Checkbox';
+import { Label } from '@repo/ui/Label';
+import { Breadcrumb } from '@repo/ui/Breadcrumb';
+import { TextField } from '@repo/ui/TextField';
+import { RadioCards } from '@repo/ui/RadioCards';
+import { Skeleton } from '@repo/ui/Skeleton';
+import { Modal } from '@repo/ui/Modal';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { overlay } from 'overlay-kit';

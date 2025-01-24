@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { Button, ButtonProps } from '@/components';
+import { Button, ButtonProps } from '../../../Button';
 import * as styles from './CTA.css';
 
 export type ModalCTAProps = ButtonProps;

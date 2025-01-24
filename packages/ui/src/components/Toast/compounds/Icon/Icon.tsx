@@ -1,5 +1,5 @@
-import { Icon } from '@repo/ui';
-import type { IconProps } from '@repo/ui';
+import { Icon } from '@repo/ui/Icon';
+import type { IconProps } from '@repo/ui/Icon';
 import { ToastType } from '../../Toast';
 
 export type ToastIconProps = Omit<IconProps, 'name'> & {

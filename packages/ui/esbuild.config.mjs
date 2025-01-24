@@ -2,12 +2,9 @@ import esbuild from 'esbuild';
 import { vanillaExtractPlugin } from '@vanilla-extract/esbuild-plugin';
 import svgr from 'esbuild-plugin-svgr';
 import { preserveDirectivesPlugin } from 'esbuild-plugin-preserve-directives';
-import path from 'path';
-
-const outdir = path.join(process.cwd(), 'dist');
 
 const buildOptions = {
-  entryPoints: ['src/index.ts'],
+  entryPoints: ['./src/index.ts'],
   bundle: true,
   platform: 'node',
   plugins: [
@@ -21,8 +18,10 @@ const buildOptions = {
   ],
   loader: { '.css': 'file' },
   allowOverwrite: true,
-  outdir,
   external: ['react', 'react-dom'],
+  minify: true,
+  treeShaking: true,
+  outdir: 'dist',
 };
 
 esbuild
