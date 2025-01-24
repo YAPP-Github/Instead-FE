@@ -11,3 +11,4 @@ export * from './Breadcrumb';
 export * from './TextField';
 export * from './RadioCards';
 export * from './Modal';
+export * from './Skeleton';

@@ -11,6 +11,7 @@ import { Label } from '@repo/ui/Label';
 import { Breadcrumb } from '@repo/ui/Breadcrumb';
 import { TextField } from '@repo/ui/TextField';
 import { RadioCards } from '@repo/ui/RadioCards';
+import { Skeleton } from '@repo/ui/Skeleton';
 import { Modal } from '@repo/ui/Modal';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -287,6 +288,19 @@ export default function Home() {
             <RadioCards.Label>짧은 게시물</RadioCards.Label>
           </RadioCards.Item>
         </RadioCards>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '0.8rem',
+          margin: '2rem',
+          minWidth: '700px',
+        }}
+      >
+        <Skeleton width="30rem" height="2rem" radius={16} />
+        <Skeleton width="15rem" height="15rem" radius={4} />
+        <Skeleton width="15rem" height="15rem" />
       </div>
     </div>
   );

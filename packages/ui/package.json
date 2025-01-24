@@ -73,6 +73,10 @@
     "./Modal": {
       "types": "./dist/components/Modal/index.d.ts",
       "import": "./dist/components/Modal/index.js"
+    },
+    "./Skeleton": {
+      "types": "./dist/components/Skeleton/index.d.ts",
+      "import": "./dist/components/Skeleton/index.js"
     }
   },
   "scripts": {
