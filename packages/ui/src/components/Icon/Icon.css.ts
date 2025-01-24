@@ -5,7 +5,7 @@ export const fillColor = createVar();
 
 export const parent = style({});
 
-globalStyle(`.${parent} path`, {
+globalStyle(`.${parent} *`, {
   stroke: strokeColor,
   fill: fillColor,
 });

@@ -9,6 +9,7 @@ import IconChat from './assets/IconChat';
 import IconCheck from './assets/IconCheck';
 import IconCheckCalendar from './assets/IconCheckCalendar';
 import IconCheckbox from './assets/IconCheckbox';
+import IconCircle from './assets/IconCircle';
 import IconDocument from './assets/IconDocument';
 import IconLineThree from './assets/IconLineThree';
 import IconNotice from './assets/IconNotice';
@@ -38,6 +39,7 @@ export const icons = {
   check: IconCheck,
   checkCalendar: IconCheckCalendar,
   checkbox: IconCheckbox,
+  circle: IconCircle,
   document: IconDocument,
   lineThree: IconLineThree,
   notice: IconNotice,

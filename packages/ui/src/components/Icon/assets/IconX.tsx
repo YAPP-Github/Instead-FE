@@ -12,15 +12,15 @@ const IconX = (props: SVGProps<SVGSVGElement>) => (
     {...props}
   >
     <path
-      d="M6 6L27 27"
+      d="M8.5 8.5L24.5 24.5"
       stroke="#A3ADBD"
-      stroke-width="2"
+      stroke-width="3.04762"
       stroke-linecap="round"
     />
     <path
-      d="M27 6L6 26"
+      d="M24.5 8.5L8.5 23.7381"
       stroke="#A3ADBD"
-      stroke-width="2"
+      stroke-width="3.04762"
       stroke-linecap="round"
     />
   </svg>
