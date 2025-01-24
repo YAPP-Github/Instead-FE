@@ -13,6 +13,7 @@ import {
   TextField,
   RadioCards,
   Skeleton,
+  Modal,
 } from '@repo/ui';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -73,6 +74,35 @@ export default function Home() {
       </Toast>
     ));
 
+  const openModal = () =>
+    overlay.open(({ isOpen, close, unmount }) => (
+      <Modal
+        open={isOpen}
+        onClose={close}
+        onExited={unmount}
+        icon={<Modal.Icon name="notice" color="warning500" />}
+        doubleCTA={
+          <Modal.DoubleCTA
+            cancelProps={{
+              children: '취소',
+              onClick: close,
+            }}
+            confirmProps={{
+              children: '나가기',
+              onClick: () => {
+                close();
+              },
+            }}
+          />
+        }
+      >
+        <Modal.Title>정말 나가시겠어요?</Modal.Title>
+        <Modal.Description>
+          {`이 페이지를 나가면 \n 작성한 내용은 저장되지 않아요`}
+        </Modal.Description>
+      </Modal>
+    ));
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
       웹 1팀 파이팅!
@@ -84,6 +114,7 @@ export default function Home() {
       <div style={{ display: 'flex', gap: '8px' }}>
         <button onClick={notify1}>success 토스트 열기</button>
         <button onClick={notify2}>warning 토스트 열기</button>
+        <button onClick={openModal}>모달 열기</button>
       </div>
       <Text.H1 color="grey950" fontSize={28} fontWeight="semibold">
         Text 컴포넌트
