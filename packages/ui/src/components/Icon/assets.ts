@@ -11,6 +11,7 @@ import IconCheckCalendar from '@/assets/icons/IconCheckCalendar.svg';
 import IconCheckbox from '@/assets/icons/IconCheckbox.svg';
 import IconDocument from '@/assets/icons/IconDocument.svg';
 import IconLineThree from '@/assets/icons/IconLineThree.svg';
+import IconNote from '@/assets/icons/IconNote.svg';
 import IconNotice from '@/assets/icons/IconNotice.svg';
 import IconPencil from '@/assets/icons/IconPencil.svg';
 import IconPicture from '@/assets/icons/IconPicture.svg';
@@ -41,6 +42,7 @@ export const icons = {
   checkbox: IconCheckbox,
   document: IconDocument,
   lineThree: IconLineThree,
+  note: IconNote,
   notice: IconNotice,
   pencil: IconPencil,
   picture: IconPicture,
