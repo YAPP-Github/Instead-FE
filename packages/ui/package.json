@@ -6,6 +6,9 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
     "./LottieAnimation": "./dist/components/LottieAnimation/LottieAnimation.js",
     "./Spinner": "./dist/components/Spinner/Spinner.js",
     "./provider": {
