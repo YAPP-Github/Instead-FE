@@ -69,6 +69,10 @@
     "./RadioCards": {
       "types": "./dist/components/RadioCards/index.d.ts",
       "import": "./dist/components/RadioCards/index.js"
+    },
+    "./Modal": {
+      "types": "./dist/components/Modal/index.d.ts",
+      "import": "./dist/components/Modal/index.js"
     }
   },
   "scripts": {
