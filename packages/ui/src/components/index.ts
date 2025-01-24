@@ -39,6 +39,8 @@ export type {
   RadioCardsDescriptionProps,
   RadioCardsBadgeProps,
 } from './RadioCards/RadioCards';
+export { Skeleton } from './Skeleton/Skeleton';
+export type { SkeletonProps } from './Skeleton/Skeleton';
 export { Modal } from './Modal/Modal';
 export type {
   ModalProps,
