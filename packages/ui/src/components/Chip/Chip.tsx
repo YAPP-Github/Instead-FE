@@ -1,61 +1,9 @@
-import { ComponentPropsWithoutRef, forwardRef, ReactElement } from 'react';
-import { addonRootRecipe, chipCloseButtonRecipe, chipRecipe } from './Chip.css';
-import { Icon } from '../Icon/Icon';
-import { Text } from '../Text/Text';
+import { ChipIcon } from './ChipIcon';
+import { ChipItem } from './ChipItem';
 
-export type ButtonVariant = 'grey' | 'purple' | 'green';
+export const Chip = Object.assign(ChipItem, {
+  Icon: ChipIcon,
+});
 
-export type ChipProps = ComponentPropsWithoutRef<'span'> & {
-  variant: ButtonVariant;
-  leftAddon?: ReactElement;
-  rightAddon?: ReactElement;
-  closable?: boolean;
-  onClose?: () => void;
-};
-
-export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
-  ({
-    className = '',
-    variant,
-    leftAddon,
-    rightAddon,
-    closable = false,
-    children,
-    onClose,
-    ...rest
-  }) => {
-    return (
-      <span className={`${chipRecipe({ variant })} ${className}`} {...rest}>
-        {leftAddon && (
-          <span className={addonRootRecipe({ color: variant })}>
-            {leftAddon}
-          </span>
-        )}
-        <Text fontSize={16} fontWeight="semibold">
-          {children}
-        </Text>
-        {rightAddon && (
-          <span className={addonRootRecipe({ color: variant })}>
-            {rightAddon}
-          </span>
-        )}
-        {closable && (
-          <button
-            type="button"
-            aria-label="Close"
-            className={chipCloseButtonRecipe({ clickable: closable })}
-            onClick={onClose}
-          >
-            <Icon
-              name="x"
-              size="1.6rem"
-              type="stroke"
-              strokeWidth={'0.244rem'}
-              color={`${variant}400`}
-            />
-          </button>
-        )}
-      </span>
-    );
-  }
-);
+export type { ChipProps } from './ChipItem';
+export type { ChipIconProps } from './ChipIcon';

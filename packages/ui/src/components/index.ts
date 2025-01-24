@@ -1,3 +1,4 @@
+import { ChipIcon } from './Chip/ChipIcon';
 export { IconButton } from './IconButton/IconButton';
 export type { IconButtonProps } from './IconButton/IconButton';
 export { Spacing } from './Spacing/Spacing';
@@ -32,7 +33,7 @@ export type {
   TextFieldCounterProps,
 } from './TextField/TextField';
 export { Chip } from './Chip/Chip';
-export type { ChipProps } from './Chip/Chip';
+export type { ChipProps, ChipIconProps } from './Chip/Chip';
 export { RadioCards } from './RadioCards/RadioCards';
 export type {
   RadioCardsProps,

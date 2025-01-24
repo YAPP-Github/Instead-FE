@@ -212,7 +212,7 @@ export default function Home() {
         </Breadcrumb>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <Chip variant="green" leftAddon={<Icon name="circle" type="fill" />}>
+        <Chip variant="green" leftAddon={<Chip.Icon variant="green" />}>
           업로드할 글
         </Chip>
         <Chip variant="grey" leftAddon={<Icon name="circle" type="fill" />}>
