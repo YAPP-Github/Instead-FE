@@ -118,184 +118,171 @@ type AsyncConfirmOptions = ConfirmOptions & {
  *
  */
 export function useModal() {
-  const alert = useCallback((options: AlertOptions) => {
-    const {
-      title,
-      description,
-      alertButton = '확인',
-      alertButtonProps,
-      ...otherOptions
-    } = options;
-
-    return overlay.open(({ isOpen, close, unmount }) => (
-      <Modal
-        open={isOpen}
-        onClose={close}
-        onExited={unmount}
-        cta={
-          <Modal.CTA onClick={close} {...alertButtonProps}>
-            {alertButton}
-          </Modal.CTA>
-        }
-        {...otherOptions}
-      >
-        <Modal.Title>{title}</Modal.Title>
-        {description && <Modal.Description>{description}</Modal.Description>}
-      </Modal>
-    ));
-  }, []);
-
-  const asyncAlert = useCallback((options: AsyncAlertOptions) => {
-    const {
-      title,
-      description,
-      alertButton = '확인',
-      alertButtonProps,
-      onAlertClick,
-      ...otherOptions
-    } = options;
-
-    return overlay.open(({ isOpen, close, unmount }) => {
-      const [isAlertLoading, setIsAlertLoading] = useState(false);
-
-      return (
+  const alert = useCallback(
+    ({ alertButton = '확인', ...options }: AlertOptions) => {
+      return overlay.open(({ isOpen, close, unmount }) => (
         <Modal
           open={isOpen}
           onClose={close}
           onExited={unmount}
           cta={
-            <Modal.CTA
-              onClick={async () => {
-                if (onAlertClick) {
-                  setIsAlertLoading(true);
-                  await onAlertClick();
-                  setIsAlertLoading(false);
-                }
-                close();
-              }}
-              isLoading={isAlertLoading}
-              {...alertButtonProps}
-            >
+            <Modal.CTA onClick={close} {...options.alertButtonProps}>
               {alertButton}
             </Modal.CTA>
           }
-          {...otherOptions}
+          {...options}
         >
-          <Modal.Title>{title}</Modal.Title>
-          {description && <Modal.Description>{description}</Modal.Description>}
+          <Modal.Title>{options.title}</Modal.Title>
+          {options.description && (
+            <Modal.Description>{options.description}</Modal.Description>
+          )}
         </Modal>
-      );
-    });
-  }, []);
+      ));
+    },
+    []
+  );
 
-  const confirm = useCallback((options: ConfirmOptions) => {
-    const {
-      title,
-      description,
+  const asyncAlert = useCallback(
+    ({ alertButton = '확인', ...options }: AsyncAlertOptions) => {
+      return overlay.open(({ isOpen, close, unmount }) => {
+        const [isAlertLoading, setIsAlertLoading] = useState(false);
+
+        return (
+          <Modal
+            open={isOpen}
+            onClose={close}
+            onExited={unmount}
+            cta={
+              <Modal.CTA
+                onClick={async () => {
+                  if (options.onAlertClick) {
+                    setIsAlertLoading(true);
+                    await options.onAlertClick();
+                    setIsAlertLoading(false);
+                  }
+                  close();
+                }}
+                isLoading={isAlertLoading}
+                {...options.alertButtonProps}
+              >
+                {alertButton}
+              </Modal.CTA>
+            }
+            {...options}
+          >
+            <Modal.Title>{options.title}</Modal.Title>
+            {options.description && (
+              <Modal.Description>{options.description}</Modal.Description>
+            )}
+          </Modal>
+        );
+      });
+    },
+    []
+  );
+
+  const confirm = useCallback(
+    ({
       confirmButton = '확인',
       cancelButton = '취소',
-      confirmButtonProps,
-      cancelButtonProps,
-      closeOnDimmerClick = false,
-      ...otherOptions
-    } = options;
-
-    return overlay.open(({ isOpen, close, unmount }) => (
-      <Modal
-        open={isOpen}
-        onClose={close}
-        onExited={unmount}
-        isCloseOnDimmerClick={closeOnDimmerClick}
-        doubleCTA={
-          <Modal.DoubleCTA
-            confirmProps={{
-              children: confirmButton,
-              onClick: close,
-              ...confirmButtonProps,
-            }}
-            cancelProps={{
-              children: cancelButton,
-              onClick: close,
-              ...cancelButtonProps,
-            }}
-          />
-        }
-        {...otherOptions}
-      >
-        <Modal.Title>{title}</Modal.Title>
-        {description && <Modal.Description>{description}</Modal.Description>}
-      </Modal>
-    ));
-  }, []);
-
-  const asyncConfirm = useCallback((options: AsyncConfirmOptions) => {
-    const {
-      title,
-      description,
-      confirmButton = '확인',
-      cancelButton = '취소',
-      confirmButtonProps,
-      cancelButtonProps,
-      onConfirmClick,
-      onCancelClick,
-      closeOnDimmerClick,
-      ...otherOptions
-    } = options;
-
-    return overlay.open(({ isOpen, close, unmount }) => {
-      const [isConfirmLoading, setIsConfirmLoading] = useState(false);
-      const [isCancelLoading, setIsCancelLoading] = useState(false);
-
-      return (
+      ...options
+    }: ConfirmOptions) => {
+      return overlay.open(({ isOpen, close, unmount }) => (
         <Modal
           open={isOpen}
           onClose={close}
           onExited={unmount}
-          isCloseOnDimmerClick={closeOnDimmerClick}
+          isCloseOnDimmerClick={options.closeOnDimmerClick}
           doubleCTA={
             <Modal.DoubleCTA
               confirmProps={{
                 children: confirmButton,
-                onClick: async () => {
-                  if (!onConfirmClick || isConfirmLoading) {
-                    close();
-                    return;
-                  }
-
-                  setIsConfirmLoading(true);
-                  await onConfirmClick();
-                  setIsConfirmLoading(false);
-                  close();
-                },
-                isLoading: isConfirmLoading,
-                ...confirmButtonProps,
+                onClick: close,
+                ...options.confirmButtonProps,
               }}
               cancelProps={{
                 children: cancelButton,
-                onClick: async () => {
-                  if (!onCancelClick || isCancelLoading) {
-                    close();
-                    return;
-                  }
-
-                  setIsCancelLoading(true);
-                  await onCancelClick();
-                  setIsCancelLoading(false);
-                  close();
-                },
-                isLoading: isCancelLoading,
-                ...cancelButtonProps,
+                onClick: close,
+                ...options.cancelButtonProps,
               }}
             />
           }
-          {...otherOptions}
+          {...options}
         >
-          <Modal.Title>{title}</Modal.Title>
-          {description && <Modal.Description>{description}</Modal.Description>}
+          <Modal.Title>{options.title}</Modal.Title>
+          {options.description && (
+            <Modal.Description>{options.description}</Modal.Description>
+          )}
         </Modal>
-      );
-    });
-  }, []);
+      ));
+    },
+    []
+  );
+
+  const asyncConfirm = useCallback(
+    ({
+      confirmButton = '확인',
+      cancelButton = '취소',
+      ...options
+    }: AsyncConfirmOptions) => {
+      return overlay.open(({ isOpen, close, unmount }) => {
+        const [isConfirmLoading, setIsConfirmLoading] = useState(false);
+        const [isCancelLoading, setIsCancelLoading] = useState(false);
+
+        return (
+          <Modal
+            open={isOpen}
+            onClose={close}
+            onExited={unmount}
+            isCloseOnDimmerClick={options.closeOnDimmerClick}
+            doubleCTA={
+              <Modal.DoubleCTA
+                confirmProps={{
+                  children: confirmButton,
+                  onClick: async () => {
+                    if (!options.onConfirmClick || isConfirmLoading) {
+                      close();
+                      return;
+                    }
+
+                    setIsConfirmLoading(true);
+                    await options.onConfirmClick();
+                    setIsConfirmLoading(false);
+                    close();
+                  },
+                  isLoading: isConfirmLoading,
+                  ...options.confirmButtonProps,
+                }}
+                cancelProps={{
+                  children: cancelButton,
+                  onClick: async () => {
+                    if (!options.onCancelClick || isCancelLoading) {
+                      close();
+                      return;
+                    }
+
+                    setIsCancelLoading(true);
+                    await options.onCancelClick();
+                    setIsCancelLoading(false);
+                    close();
+                  },
+                  isLoading: isCancelLoading,
+                  ...options.cancelButtonProps,
+                }}
+              />
+            }
+            {...options}
+          >
+            <Modal.Title>{options.title}</Modal.Title>
+            {options.description && (
+              <Modal.Description>{options.description}</Modal.Description>
+            )}
+          </Modal>
+        );
+      });
+    },
+    []
+  );
 
   const custom = useCallback(
     (
