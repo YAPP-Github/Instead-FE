@@ -86,14 +86,10 @@ export default function Home() {
           <Modal.DoubleCTA
             cancelProps={{
               children: '취소',
-              size: 'large',
-              variant: 'terminal',
               onClick: close,
             }}
             confirmProps={{
               children: '나가기',
-              size: 'large',
-              variant: 'neutral',
               onClick: () => {
                 close();
               },
