@@ -3,11 +3,11 @@
 import { useCallback } from 'react';
 import { overlay } from 'overlay-kit';
 import { Toast, Icon } from '../components';
-import { LottieAnimation } from '../components/LottieAnimation/LottieAnimation';
 import type { ToastType } from '../components/Toast/Toast';
 import type { LottieAnimationProps } from '../components/LottieAnimation/LottieAnimation';
 import type { IconProps } from '../components/Icon/Icon';
 import { isNil, isNotNil } from '../utils';
+import { DynamicLottie } from '../components/LottieAnimation/DynamicLottie';
 
 type LottieAddon = {
   type: 'lottie';
@@ -59,7 +59,7 @@ export function useToast() {
 
         switch (leftAddonType) {
           case 'lottie':
-            return <LottieAnimation {...options.leftAddon.props} />;
+            return <DynamicLottie {...options.leftAddon.props} />;
           case 'icon':
             return <Icon {...options.leftAddon.props} />;
           case undefined:
