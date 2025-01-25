@@ -12,7 +12,6 @@ export const ctaButtonStyle = style({
   width: '100%',
   borderRadius: '1.2rem',
   color: vars.colors.grey,
-  backgroundColor: vars.colors.grey950,
   fontSize: vars.typography.fontSize[20],
   fontWeight: vars.typography.fontWeight.semibold,
   height: '7.2rem',
