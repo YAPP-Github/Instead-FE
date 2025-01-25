@@ -2,9 +2,10 @@
 
 import {
   ComponentProps,
-  ComponentType,
   ReactElement,
+  ReactNode,
   useCallback,
+  useState,
 } from 'react';
 import { overlay } from 'overlay-kit';
 import { Modal } from '../components/Modal/Modal';
@@ -58,12 +59,7 @@ export function useModal() {
         onClose={close}
         onExited={unmount}
         cta={
-          <Modal.CTA
-            onClick={close}
-            variant="neutral"
-            size="large"
-            {...alertButtonProps}
-          >
+          <Modal.CTA onClick={close} {...alertButtonProps}>
             {alertButton}
           </Modal.CTA>
         }
@@ -85,32 +81,37 @@ export function useModal() {
       ...otherOptions
     } = options;
 
-    return overlay.open(({ isOpen, close, unmount }) => (
-      <Modal
-        open={isOpen}
-        onClose={close}
-        onExited={unmount}
-        cta={
-          <Modal.CTA
-            onClick={async () => {
-              if (onAlertClick) {
-                await onAlertClick();
-              }
-              close();
-            }}
-            variant="neutral"
-            size="large"
-            {...alertButtonProps}
-          >
-            {alertButton}
-          </Modal.CTA>
-        }
-        {...otherOptions}
-      >
-        <Modal.Title>{title}</Modal.Title>
-        {description && <Modal.Description>{description}</Modal.Description>}
-      </Modal>
-    ));
+    return overlay.open(({ isOpen, close, unmount }) => {
+      const [isAlertLoading, setIsAlertLoading] = useState(false);
+
+      return (
+        <Modal
+          open={isOpen}
+          onClose={close}
+          onExited={unmount}
+          cta={
+            <Modal.CTA
+              onClick={async () => {
+                if (onAlertClick) {
+                  setIsAlertLoading(true);
+                  await onAlertClick();
+                  setIsAlertLoading(false);
+                }
+                close();
+              }}
+              isLoading={isAlertLoading}
+              {...alertButtonProps}
+            >
+              {alertButton}
+            </Modal.CTA>
+          }
+          {...otherOptions}
+        >
+          <Modal.Title>{title}</Modal.Title>
+          {description && <Modal.Description>{description}</Modal.Description>}
+        </Modal>
+      );
+    });
   }, []);
 
   const confirm = useCallback((options: ConfirmOptions) => {
@@ -135,15 +136,11 @@ export function useModal() {
           <Modal.DoubleCTA
             confirmProps={{
               children: confirmButton,
-              variant: 'neutral',
-              size: 'large',
               onClick: close,
               ...confirmButtonProps,
             }}
             cancelProps={{
               children: cancelButton,
-              variant: 'terminal',
-              size: 'large',
               onClick: close,
               ...cancelButtonProps,
             }}
@@ -167,55 +164,68 @@ export function useModal() {
       cancelButtonProps,
       onConfirmClick,
       onCancelClick,
-      closeOnDimmerClick = false,
+      closeOnDimmerClick,
       ...otherOptions
     } = options;
 
-    return overlay.open(({ isOpen, close, unmount }) => (
-      <Modal
-        open={isOpen}
-        onClose={close}
-        onExited={unmount}
-        isCloseOnDimmerClick={closeOnDimmerClick}
-        doubleCTA={
-          <Modal.DoubleCTA
-            confirmProps={{
-              children: confirmButton,
-              variant: 'neutral',
-              size: 'large',
-              onClick: async () => {
-                if (onConfirmClick) {
+    return overlay.open(({ isOpen, close, unmount }) => {
+      const [isConfirmLoading, setIsConfirmLoading] = useState(false);
+      const [isCancelLoading, setIsCancelLoading] = useState(false);
+
+      return (
+        <Modal
+          open={isOpen}
+          onClose={close}
+          onExited={unmount}
+          isCloseOnDimmerClick={closeOnDimmerClick}
+          doubleCTA={
+            <Modal.DoubleCTA
+              confirmProps={{
+                children: confirmButton,
+                onClick: async () => {
+                  if (!onConfirmClick || isConfirmLoading) {
+                    close();
+                    return;
+                  }
+
+                  setIsConfirmLoading(true);
                   await onConfirmClick();
-                }
-                close();
-              },
-              ...confirmButtonProps,
-            }}
-            cancelProps={{
-              children: cancelButton,
-              variant: 'terminal',
-              size: 'large',
-              onClick: async () => {
-                if (onCancelClick) {
+                  setIsConfirmLoading(false);
+                  close();
+                },
+                isLoading: isConfirmLoading,
+                ...confirmButtonProps,
+              }}
+              cancelProps={{
+                children: cancelButton,
+                onClick: async () => {
+                  if (!onCancelClick || isCancelLoading) {
+                    close();
+                    return;
+                  }
+
+                  setIsCancelLoading(true);
                   await onCancelClick();
-                }
-                close();
-              },
-              ...cancelButtonProps,
-            }}
-          />
-        }
-        {...otherOptions}
-      >
-        <Modal.Title>{title}</Modal.Title>
-        {description && <Modal.Description>{description}</Modal.Description>}
-      </Modal>
-    ));
+                  setIsCancelLoading(false);
+                  close();
+                },
+                isLoading: isCancelLoading,
+                ...cancelButtonProps,
+              }}
+            />
+          }
+          {...otherOptions}
+        >
+          <Modal.Title>{title}</Modal.Title>
+          {description && <Modal.Description>{description}</Modal.Description>}
+        </Modal>
+      );
+    });
   }, []);
 
   const custom = useCallback(
     (
-      Content: ComponentType<{ close: () => void }>,
+      content: ReactNode,
       options: Omit<
         ModalProps,
         'open' | 'onClose' | 'onExited' | 'children'
@@ -223,7 +233,7 @@ export function useModal() {
     ) => {
       return overlay.open(({ isOpen, close, unmount }) => (
         <Modal open={isOpen} onClose={close} onExited={unmount} {...options}>
-          <Content close={close} />
+          {content}
         </Modal>
       ));
     },
