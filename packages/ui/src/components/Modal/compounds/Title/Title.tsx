@@ -1,4 +1,4 @@
-import { Text, TextProps } from '@/components';
+import { Text, TextProps } from '../../../Text';
 import * as styles from './Title.css';
 
 export type ModalTitleProps = TextProps<'h2'>;

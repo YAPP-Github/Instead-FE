@@ -1,5 +1,5 @@
 import { forwardRef, ComponentPropsWithoutRef, useContext } from 'react';
-import { Label } from '@/components';
+import { Label } from '../Label';
 import { TextFieldContext } from './context';
 import { labelStyle } from './TextField.css';
 

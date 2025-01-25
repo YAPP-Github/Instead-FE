@@ -1,4 +1,4 @@
-import { Icon as BaseIcon, IconProps } from '@/components';
+import { Icon as BaseIcon, IconProps } from '../../../Icon';
 import * as styles from './Icon.css';
 
 export type ModalIconProps = IconProps;

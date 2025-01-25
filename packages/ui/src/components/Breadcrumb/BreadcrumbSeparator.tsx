@@ -1,5 +1,5 @@
 import { forwardRef, ComponentPropsWithoutRef, ReactNode } from 'react';
-import { Icon } from '@/components';
+import { Icon } from '../Icon';
 import { breadcrumbSeparatorStyle } from './Breadcrumb.css';
 
 export type BreadcrumbSeparatorProps = {

@@ -1,19 +1,18 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import {
-  Icon,
-  Toast,
-  Text,
-  Button,
-  Badge,
-  Checkbox,
-  Label,
-  Breadcrumb,
-  TextField,
-  RadioCards,
-  Modal,
-} from '@repo/ui';
+import { Icon } from '@repo/ui/Icon';
+import { Toast } from '@repo/ui/Toast';
+import { Text } from '@repo/ui/Text';
+import { Button } from '@repo/ui/Button';
+import { Badge } from '@repo/ui/Badge';
+import { Checkbox } from '@repo/ui/Checkbox';
+import { Label } from '@repo/ui/Label';
+import { Breadcrumb } from '@repo/ui/Breadcrumb';
+import { TextField } from '@repo/ui/TextField';
+import { RadioCards } from '@repo/ui/RadioCards';
+import { Skeleton } from '@repo/ui/Skeleton';
+import { Modal } from '@repo/ui/Modal';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { overlay } from 'overlay-kit';
@@ -307,6 +306,28 @@ export default function Home() {
           <Breadcrumb.Item active>기초 경제 지식</Breadcrumb.Item>
         </Breadcrumb>
       </div>
+      {/* <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <Chip variant="green" leftAddon={<Chip.Icon variant="green" />}>
+          업로드할 글
+        </Chip>
+        <Chip variant="grey" leftAddon={<Icon name="circle" type="fill" />}>
+          생성된 글
+        </Chip>
+        <Chip variant="purple" leftAddon={<Icon name="circle" type="fill" />}>
+          수정 중인 글
+        </Chip>
+        <Chip
+          variant="purple"
+          rightAddon={
+            <Text color="purple600" fontSize={16} fontWeight="semibold">
+              무작위로 업로드 돼요
+            </Text>
+          }
+          closable
+        >
+          전체선택
+        </Chip>
+      </div> */}
       <div
         style={{
           display: 'flex',
@@ -355,6 +376,19 @@ export default function Home() {
             <RadioCards.Label>짧은 게시물</RadioCards.Label>
           </RadioCards.Item>
         </RadioCards>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '0.8rem',
+          margin: '2rem',
+          minWidth: '700px',
+        }}
+      >
+        <Skeleton width="30rem" height="2rem" radius={16} />
+        <Skeleton width="15rem" height="15rem" radius={4} />
+        <Skeleton width="15rem" height="15rem" />
       </div>
     </div>
   );

@@ -15,18 +15,15 @@ function toCamelCase(str: string): string {
 }
 
 // 아이콘 폴더 경로
-const ICONS_DIR: string = path.resolve(__dirname, '../../src/assets/icons');
+const ICONS_DIR: string = 'src/components/Icon/assets';
 
 // 결과물을 저장할 파일 경로
-const OUTPUT_PATH: string = path.resolve(
-  __dirname,
-  '../../src/components/Icon/assets.ts'
-);
+const OUTPUT_PATH: string = 'src/components/Icon/assets.ts';
 
 // .svg 파일 목록 가져오기
 const svgFiles: string[] = fs
   .readdirSync(ICONS_DIR)
-  .filter((file) => file.endsWith('.svg'));
+  .filter((file) => file.endsWith('.tsx'));
 
 if (svgFiles.length === 0) {
   console.log('No SVG files found in:', ICONS_DIR);
@@ -51,7 +48,7 @@ const iconMapping: string[] = [];
 
 svgFiles.forEach((file) => {
   // 확장자(.svg) 없이 basename만 추출
-  const baseName = path.basename(file, '.svg'); // 예: "IconArrowBottom"
+  const baseName = path.basename(file, '.tsx'); // 예: "IconArrowBottom"
 
   // import할 때 사용할 변수명 (원하면 toCamelCase/baseName 등 조합 가능)
   // 여기서는 원본 그대로 쓰지만, 필요하면 아래처럼 수정:
@@ -62,7 +59,7 @@ svgFiles.forEach((file) => {
   const iconKey: string = toCamelCase(baseName);
 
   // import 구문 생성
-  importStatements.push(`import ${importName} from '@/assets/icons/${file}';`);
+  importStatements.push(`import ${importName} from './assets/${baseName}';`);
 
   // iconKey: importName 형태로 매핑
   iconMapping.push(`  ${iconKey}: ${importName}`);
