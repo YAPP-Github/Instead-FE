@@ -23,7 +23,7 @@ export type TextProps<T extends AllowedTags> = {
 
 export function Text<T extends AllowedTags = 'span'>({
   as,
-  color = 'grey950',
+  color,
   fontSize = 14,
   fontWeight = 'medium',
   ...rest
@@ -35,7 +35,7 @@ export function Text<T extends AllowedTags = 'span'>({
       className={textStyle}
       style={{
         ...assignInlineVars({
-          [colorVar]: tokens.colors[color],
+          [colorVar]: color ? tokens.colors[color] : 'inherit',
           [sizeVar]: tokens.typography.fontSize[fontSize],
           [weightVar]: tokens.typography.fontWeight[fontWeight],
         }),

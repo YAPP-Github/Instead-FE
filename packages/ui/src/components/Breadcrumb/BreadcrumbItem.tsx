@@ -1,6 +1,6 @@
 import { Slot } from '@radix-ui/react-slot';
 import { forwardRef, ReactNode, ComponentPropsWithoutRef } from 'react';
-import { Text } from '@/components';
+import { Text } from '../Text';
 import { breadcrumbItemStyle } from './Breadcrumb.css';
 
 export type BreadcrumbItemProps = {

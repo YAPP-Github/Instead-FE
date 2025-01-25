@@ -2,9 +2,14 @@ import { forwardRef } from 'react';
 import { Button, ButtonProps } from '../../../Button/Button';
 import * as styles from './DoubleCTA.css';
 
+type OptionalButtonProps = Omit<ButtonProps, 'size' | 'variant'> & {
+  size?: ButtonProps['size'];
+  variant?: ButtonProps['variant'];
+};
+
 export type ModalDoubleCTAProps = {
-  cancelProps?: ButtonProps;
-  confirmProps?: ButtonProps;
+  cancelProps?: OptionalButtonProps;
+  confirmProps?: OptionalButtonProps;
 };
 
 export const DoubleCTA = forwardRef<HTMLDivElement, ModalDoubleCTAProps>(
