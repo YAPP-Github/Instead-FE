@@ -26,6 +26,56 @@ type ToastOptions = {
 
 const DEFAULT_DURATION = 3000;
 
+/**
+ * 토스트 메시지를 표시하기 위한 커스텀 훅
+ *
+ * @example
+ * // 기본 성공 토스트
+ * const toast = useToast();
+ * toast.success('생성된 본문이 업데이트 됐어요!', 3000);
+ *
+ * @example
+ * // 기본 에러 토스트
+ * const toast = useToast();
+ * toast.error('생성된 본문이 업데이트 됐어요!', 3000);
+ *
+ * @example
+ * // 기본 default 토스트
+ * const toast = useToast();
+ * toast.default('생성된 본문이 업데이트 됐어요!', 3000);
+ *
+ * @example
+ * // Lottie 애니메이션이 있는 커스텀 토스트
+ * const toast = useToast();
+ * toast.custom('메시지', {
+ *   duration: 5000,
+ *   leftAddon: {
+ *     type: 'lottie',
+ *     props: {
+ *       animationData: 'loadingBlack',
+ *       width: '2.4rem',
+ *       height: '2.4rem',
+ *     },
+ *   },
+ * });
+ *
+ * @example
+ * // 아이콘이 있는 커스텀 토스트
+ * const toast = useToast();
+ * toast.custom('메시지', {
+ *   duration: 5000,
+ *   leftAddon: {
+ *     type: 'icon',
+ *     props: {
+ *       name: 'twinkle',
+ *       size: 24,
+ *       color: 'primary600',
+ *       type: 'fill',
+ *     },
+ *   },
+ * });
+ *
+ */
 export function useToast() {
   const show = useCallback(
     (
@@ -92,5 +142,5 @@ export function useToast() {
     default: (text: string, duration?: number) =>
       show(text, 'default', duration),
     custom,
-  };
+  } as const;
 }
