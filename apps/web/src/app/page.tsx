@@ -156,32 +156,36 @@ export default function Home() {
     });
   };
 
-  const CustomModalContent = ({ close }: { close: () => void }) => (
-    <>
-      <Modal.Icon name="stack" color="grey900" />
-      <Modal.Title>커스텀 모달</Modal.Title>
-      <Modal.Description>
-        원하는 대로 모달 내용을 구성할 수 있습니다.
-      </Modal.Description>
-      <Modal.DoubleCTA
-        confirmProps={{
-          children: '확인',
-          variant: 'primary',
-          size: 'large',
-          onClick: close,
-        }}
-        cancelProps={{
-          children: '취소',
-          variant: 'terminal',
-          size: 'large',
-          onClick: close,
-        }}
-      />
-    </>
-  );
+  const CustomModalContent = () => {
+    return (
+      <>
+        <Modal.Icon name="stack" color="grey900" />
+        <Modal.Title>커스텀 모달</Modal.Title>
+        <Modal.Description>
+          원하는 대로 모달 내용을 구성할 수 있습니다.
+        </Modal.Description>
+        <Modal.DoubleCTA
+          confirmProps={{
+            children: '확인',
+            variant: 'primary',
+            size: 'large',
+          }}
+          cancelProps={{
+            children: '취소',
+          }}
+        />
+      </>
+    );
+  };
 
   const handleCustomModal = () => {
-    modal.custom(CustomModalContent, {
+    modal.custom(<CustomModalContent />, {
+      isCloseOnDimmerClick: true,
+    });
+  };
+
+  const handleCustomBlankModal = () => {
+    modal.custom(<></>, {
       isCloseOnDimmerClick: true,
     });
   };
@@ -203,6 +207,7 @@ export default function Home() {
         <button onClick={handleConfirmModal}>Confirm 모달</button>
         <button onClick={handleAsyncConfirmModal}>비동기 Confirm 모달</button>
         <button onClick={handleCustomModal}>커스텀 모달</button>
+        <button onClick={handleCustomBlankModal}>커스텀 빈 모달</button>
       </div>
       <Text.H1 color="grey950" fontSize={28} fontWeight="semibold">
         Text 컴포넌트
