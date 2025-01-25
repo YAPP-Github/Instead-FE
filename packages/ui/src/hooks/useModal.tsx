@@ -10,6 +10,7 @@ import {
 import { overlay } from 'overlay-kit';
 import { Modal } from '../components/Modal/Modal';
 import type { ModalProps } from '../components/Modal/Modal';
+import { isNotNil } from '../utils';
 
 type AlertOptions = Omit<
   ModalProps,
@@ -143,7 +144,7 @@ export function useModal() {
           {...options}
         >
           <Modal.Title>{options.title}</Modal.Title>
-          {options.description && (
+          {isNotNil(options.description) && (
             <Modal.Description>{options.description}</Modal.Description>
           )}
         </Modal>
@@ -169,7 +170,7 @@ export function useModal() {
                 <Modal.CTA
                   onClick={async () => {
                     setIsAlertLoading(true);
-                    if (options.onAlertClick) {
+                    if (isNotNil(options.onAlertClick)) {
                       await options.onAlertClick();
                     }
                     setIsAlertLoading(false);
@@ -185,7 +186,7 @@ export function useModal() {
               {...options}
             >
               <Modal.Title>{options.title}</Modal.Title>
-              {options.description && (
+              {isNotNil(options.description) && (
                 <Modal.Description>{options.description}</Modal.Description>
               )}
             </Modal>
@@ -225,7 +226,7 @@ export function useModal() {
           {...options}
         >
           <Modal.Title>{options.title}</Modal.Title>
-          {options.description && (
+          {isNotNil(options.description) && (
             <Modal.Description>{options.description}</Modal.Description>
           )}
         </Modal>
@@ -259,7 +260,7 @@ export function useModal() {
                     children: confirmButton,
                     onClick: async () => {
                       setIsConfirmLoading(true);
-                      if (options.onConfirmClick) {
+                      if (isNotNil(options.onConfirmClick)) {
                         await options.onConfirmClick();
                       }
                       setIsConfirmLoading(false);
@@ -273,7 +274,7 @@ export function useModal() {
                     children: cancelButton,
                     onClick: async () => {
                       setIsCancelLoading(true);
-                      if (options.onCancelClick) {
+                      if (isNotNil(options.onCancelClick)) {
                         await options.onCancelClick();
                       }
                       setIsCancelLoading(false);
@@ -288,7 +289,7 @@ export function useModal() {
               {...options}
             >
               <Modal.Title>{options.title}</Modal.Title>
-              {options.description && (
+              {isNotNil(options.description) && (
                 <Modal.Description>{options.description}</Modal.Description>
               )}
             </Modal>
