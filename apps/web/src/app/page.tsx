@@ -117,17 +117,20 @@ export default function Home() {
     });
   };
 
-  const handleAsyncAlertModal = () => {
-    modal.asyncAlert({
+  const handleAsyncAlertModal = async () => {
+    const result = modal.asyncAlert({
       title: '비동기 작업 중',
       description: '잠시만 기다려주세요...',
       icon: <Modal.Icon name="notice" color="grey500" />,
       alertButton: '확인',
       onAlertClick: async () => {
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        notify1();
       },
     });
+
+    if (await result) {
+      notify1();
+    }
   };
 
   const handleConfirmModal = () => {
@@ -140,8 +143,8 @@ export default function Home() {
     });
   };
 
-  const handleAsyncConfirmModal = () => {
-    modal.asyncConfirm({
+  const handleAsyncConfirmModal = async () => {
+    const result = modal.asyncConfirm({
       title: '변경사항을 저장하시겠습니까?',
       description: '저장하지 않은 변경사항은 모두 사라집니다.',
       icon: <Modal.Icon name="notice" color="warning500" />,
@@ -154,6 +157,10 @@ export default function Home() {
         await new Promise((resolve) => setTimeout(resolve, 500));
       },
     });
+
+    if (await result) {
+      notify1();
+    }
   };
 
   const CustomModalContent = () => {
