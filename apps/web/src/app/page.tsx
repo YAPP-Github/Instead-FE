@@ -13,23 +13,18 @@ import { TextField } from '@repo/ui/TextField';
 import { RadioCards } from '@repo/ui/RadioCards';
 import { Skeleton } from '@repo/ui/Skeleton';
 import { Modal } from '@repo/ui/Modal';
-import dynamic from 'next/dynamic';
+import nextDynamic from 'next/dynamic';
 import Link from 'next/link';
 import { overlay } from 'overlay-kit';
 import { useToast } from '@repo/ui/hooks';
+import { DynamicLottie } from '@repo/ui/LottieAnimation';
 
 type FormValues = {
   topic: string;
   aiUpgrade: string;
 };
-const LottieAnimation = dynamic(
-  () => import('@repo/ui/LottieAnimation').then((mod) => mod.LottieAnimation),
-  {
-    ssr: false,
-  }
-);
 
-const Spinner = dynamic(
+const Spinner = nextDynamic(
   () => import('@repo/ui/Spinner').then((mod) => mod.Spinner),
   {
     ssr: false,
@@ -278,7 +273,7 @@ export default function Home() {
           </TextField>
         </div>
       </form>
-      <LottieAnimation
+      <DynamicLottie
         animationData="loadingBlack"
         width="2.4rem"
         height="2.4rem"
