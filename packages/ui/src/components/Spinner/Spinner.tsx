@@ -1,41 +1,33 @@
-'use client';
-
 import { forwardRef } from 'react';
-import { lotties } from '../LottieAnimation/assets';
-import {
-  LottieAnimation,
-  LottieAnimationProps,
-} from '../LottieAnimation/LottieAnimation';
-
-type LottieType = keyof typeof lotties;
-
-type SpinnerColorType = 'black' | 'white';
-
-const SpinnerColor: Record<SpinnerColorType, LottieType> = {
-  black: 'loadingBlack',
-  white: 'loadingWhite',
-};
+import * as styles from './Spinner.css';
 
 export type SpinnerProps = {
-  color?: keyof typeof SpinnerColor;
-} & Omit<LottieAnimationProps, 'animationData'>;
+  color?: 'black' | 'white';
+  size?: 'md' | 'lg';
+};
 
 /**
  * @param {SpinnerProps} props - 스피너 속성
- * @property {SpinnerColor} [color='white'] - 스피너 색상 선택
- * @property {LottieAnimationProps} [otherProps] - LottieAnimation의 props
+ * @property {color} [color='white'] - 'black' | 'white' 스피너 색상
+ * @property {size} [size='md'] - 'md' | 'lg' 스피너 크기
  */
-export const Spinner = forwardRef<HTMLSpanElement, SpinnerProps>(
-  ({ color = 'white', width = '4rem', height = '4rem', ...rest }) => {
+export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
+  ({ color = 'white', size = 'md' }, ref) => {
     return (
-      <span>
-        <LottieAnimation
-          animationData={SpinnerColor[color]}
-          width={width}
-          height={height}
-          {...rest}
-        />
-      </span>
+      <div ref={ref} className={styles.spinnerRecipe({ size })}>
+        <svg
+          className={styles.svg}
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            className={styles.circleRecipe({ color })}
+            cx="12"
+            cy="12"
+            r="10"
+          />
+        </svg>
+      </div>
     );
   }
 );

@@ -13,6 +13,7 @@ import { TextField } from '@repo/ui/TextField';
 import { RadioCards } from '@repo/ui/RadioCards';
 import { Skeleton } from '@repo/ui/Skeleton';
 import { Modal } from '@repo/ui/Modal';
+import { Spinner } from '@repo/ui/Spinner';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { overlay } from 'overlay-kit';
@@ -28,12 +29,12 @@ const LottieAnimation = dynamic(
   }
 );
 
-const Spinner = dynamic(
-  () => import('@repo/ui/Spinner').then((mod) => mod.Spinner),
-  {
-    ssr: false,
-  }
-);
+// const Spinner = dynamic(
+//   () => import('@repo/ui/Spinner').then((mod) => mod.Spinner),
+//   {
+//     ssr: false,
+//   }
+// );
 
 export default function Home() {
   const { register, handleSubmit } = useForm<FormValues>({
@@ -213,7 +214,7 @@ export default function Home() {
         </div>
       </form>
       <LottieAnimation
-        animationData="loadingBlack"
+        animationData="checkBlack"
         width="2.4rem"
         height="2.4rem"
       />
@@ -269,8 +270,10 @@ export default function Home() {
           backgroundColor: 'grey',
         }}
       >
-        <Spinner color="black" />
-        <Spinner color="white" />
+        <Spinner color="black" size="md" />
+        <Spinner color="black" size="lg" />
+        <Spinner color="white" size="md" />
+        <Spinner color="white" size="lg" />
       </div>
       <div style={{ margin: '2rem' }}>
         <RadioCards defaultValue="1" columns={2}>
