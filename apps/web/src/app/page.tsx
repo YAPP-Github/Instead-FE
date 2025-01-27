@@ -134,16 +134,30 @@ export default function Home() {
         >
           생성하기
         </Button>
+        <Button
+          size="large"
+          variant="primary"
+          leftAddon={<Icon name="twinkle" />}
+          isLoading
+        >
+          생성하기
+        </Button>
         <Button size="small" variant="neutral">
           다음
         </Button>
         <Button size="small" variant="neutral" disabled>
           다음
         </Button>
-        <Button size="large" variant="terminal">
+        <Button size="small" variant="neutral" isLoading>
+          다음
+        </Button>
+        <Button size="large" variant="text">
           이전
         </Button>
-        <Button size="small" variant="terminal">
+        <Button size="small" variant="text">
+          이전
+        </Button>
+        <Button size="small" variant="text" isLoading>
           이전
         </Button>
       </div>
@@ -270,10 +284,10 @@ export default function Home() {
           backgroundColor: 'grey',
         }}
       >
-        <Spinner color="black" size="md" />
-        <Spinner color="black" size="lg" />
-        <Spinner color="white" size="md" />
-        <Spinner color="white" size="lg" />
+        <Spinner color="black" size="small" />
+        <Spinner color="black" size="large" />
+        <Spinner color="white" size="small" />
+        <Spinner color="white" size="large" />
       </div>
       <div style={{ margin: '2rem' }}>
         <RadioCards defaultValue="1" columns={2}>

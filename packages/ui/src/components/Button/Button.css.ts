@@ -9,6 +9,8 @@ export const buttonRecipe = recipe({
     justifyContent: 'center',
     whiteSpace: 'nowrap',
     height: 'fit-content',
+    lineHeight: '150%',
+    textAlign: 'center',
     border: 'none',
     cursor: 'pointer',
     transition: 'background-color 0.2s ease, color 0.2s ease',
@@ -24,14 +26,14 @@ export const buttonRecipe = recipe({
     size: {
       large: {
         gap: '0.8rem',
-        padding: '1.6rem 2rem',
+        padding: '1.2rem 1.8rem',
         borderRadius: tokens.radius[12],
-        fontSize: tokens.typography.fontSize[22],
+        fontSize: tokens.typography.fontSize[20],
         fontWeight: tokens.typography.fontWeight.semibold,
       },
       small: {
         gap: '0.4rem',
-        padding: '1rem 2rem',
+        padding: '0.8rem 2rem',
         borderRadius: tokens.radius[8],
         fontSize: tokens.typography.fontSize[18],
         fontWeight: tokens.typography.fontWeight.semibold,
@@ -67,7 +69,7 @@ export const buttonRecipe = recipe({
           },
         },
       },
-      terminal: {
+      text: {
         backgroundColor: 'transparent',
         color: tokens.colors.grey1000,
         selectors: {
@@ -83,15 +85,38 @@ export const buttonRecipe = recipe({
         },
       },
     },
+
+    isLoading: {
+      true: {
+        cursor: 'not-allowed',
+        pointerEvents: 'none',
+      },
+      false: {},
+    },
   },
+
+  compoundVariants: [
+    {
+      variants: { size: 'large', isLoading: true },
+      style: {
+        padding: '0.7rem 5.45rem',
+      },
+    },
+    {
+      variants: { size: 'small', isLoading: true },
+      style: {
+        padding: '0.55rem 2rem',
+      },
+    },
+  ],
 });
 
 export type ButtonRecipeVariants = RecipeVariants<typeof buttonRecipe>;
 
 export const addonRootStyle = styleVariants({
   large: {
-    width: '2.4rem',
-    height: '2.4rem',
+    width: '2.0rem',
+    height: '2.0rem',
   },
   small: {
     width: '1.6rem',

@@ -36,12 +36,12 @@ export const spinnerRecipe = recipe({
   },
   variants: {
     size: {
-      md: {
+      small: {
         width: '3.2rem',
         height: '3.2rem',
         padding: '0.4rem',
       },
-      lg: {
+      large: {
         width: '4.0rem',
         height: '4.0rem',
         padding: '0.5rem',

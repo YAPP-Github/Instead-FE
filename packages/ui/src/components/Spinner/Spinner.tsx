@@ -3,16 +3,16 @@ import * as styles from './Spinner.css';
 
 export type SpinnerProps = {
   color?: 'black' | 'white';
-  size?: 'md' | 'lg';
+  size?: 'small' | 'large';
 };
 
 /**
  * @param {SpinnerProps} props - 스피너 속성
  * @property {color} [color='white'] - 'black' | 'white' 스피너 색상
- * @property {size} [size='md'] - 'md' | 'lg' 스피너 크기
+ * @property {size} [size='small'] - 'small' | 'large' 스피너 크기
  */
 export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
-  ({ color = 'white', size = 'md' }, ref) => {
+  ({ color = 'white', size = 'small' }, ref) => {
     return (
       <div ref={ref} className={styles.spinnerRecipe({ size })}>
         <svg
