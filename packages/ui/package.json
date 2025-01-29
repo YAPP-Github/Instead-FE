@@ -9,7 +9,7 @@
     ".": {
       "import": "./dist/index.js"
     },
-    "./LottieAnimation": "./dist/components/LottieAnimation/LottieAnimation.js",
+    "./LottieAnimation": "./dist/components/LottieAnimation/index.js",
     "./provider": {
       "types": "./dist/provider/index.d.ts",
       "import": "./dist/provider/index.js"
@@ -97,6 +97,7 @@
     "@vanilla-extract/css": "^1.17.0",
     "@vanilla-extract/recipes": "^0.5.5",
     "motion": "^11.17.0",
+    "overlay-kit": "^1.4.1",
     "react": "^18"
   },
   "devDependencies": {
