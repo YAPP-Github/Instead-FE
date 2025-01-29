@@ -2,7 +2,7 @@ import { ComponentPropsWithoutRef, forwardRef, ReactElement } from 'react';
 import { chipCloseButtonRecipe, chipRecipe } from './Chip.css';
 import { Icon } from '../Icon/Icon';
 import { Text } from '../Text/Text';
-import { isNil } from '../../utils';
+import { isNotNil } from '../../utils';
 
 export type ButtonVariant = 'grey' | 'purple' | 'green';
 
@@ -27,11 +27,11 @@ export const ChipItem = forwardRef<HTMLSpanElement, ChipProps>(
   }) => {
     return (
       <span className={`${chipRecipe({ variant })} ${className}`} {...rest}>
-        {!isNil(leftAddon) && leftAddon}
+        {isNotNil(leftAddon) && leftAddon}
         <Text fontSize={16} fontWeight="semibold">
           {children}
         </Text>
-        {!isNil(rightAddon) && rightAddon}
+        {isNotNil(rightAddon) && rightAddon}
         {closable && (
           <button
             type="button"

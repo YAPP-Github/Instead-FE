@@ -13,30 +13,20 @@ import { TextField } from '@repo/ui/TextField';
 import { RadioCards } from '@repo/ui/RadioCards';
 import { Skeleton } from '@repo/ui/Skeleton';
 import { Modal } from '@repo/ui/Modal';
-import dynamic from 'next/dynamic';
+import { Spinner } from '@repo/ui/Spinner';
 import Link from 'next/link';
 import { overlay } from 'overlay-kit';
 import { useModal } from '@repo/ui/hooks';
+import { useToast } from '@repo/ui/hooks';
 
 type FormValues = {
   topic: string;
   aiUpgrade: string;
 };
-const LottieAnimation = dynamic(
-  () => import('@repo/ui/LottieAnimation').then((mod) => mod.LottieAnimation),
-  {
-    ssr: false,
-  }
-);
-
-const Spinner = dynamic(
-  () => import('@repo/ui/Spinner').then((mod) => mod.Spinner),
-  {
-    ssr: false,
-  }
-);
 
 export default function Home() {
+  const toast = useToast();
+
   const { register, handleSubmit } = useForm<FormValues>({
     defaultValues: {
       topic: '',
@@ -49,6 +39,47 @@ export default function Home() {
   const onSubmit = (data: FormValues) => {
     console.log('Form data:', data);
     notify1(); // 성공 토스트 표시
+  };
+
+  const toastNotify1 = () => {
+    toast.success('생성된 본문이 업데이트 됐어요!', 3000);
+  };
+
+  const toastNotify2 = () => {
+    toast.error('생성된 본문이 업데이트 됐어요!', 3000);
+  };
+
+  const toastNotify3 = () => {
+    toast.default('생성된 본문이 업데이트 됐어요!', 3000);
+  };
+
+  const toastNotify4 = () => {
+    toast.custom('메시지', {
+      duration: 5000,
+      leftAddon: {
+        type: 'lottie',
+        props: {
+          animationData: 'loadingBlack',
+          width: '24px',
+          height: '24px',
+        },
+      },
+    });
+  };
+
+  const toastNotify5 = () => {
+    toast.custom('메시지', {
+      duration: 5000,
+      leftAddon: {
+        type: 'icon',
+        props: {
+          name: 'twinkle',
+          size: 24,
+          color: 'primary600',
+          type: 'fill',
+        },
+      },
+    });
   };
 
   const notify1 = () =>
@@ -69,6 +100,20 @@ export default function Home() {
         open={isOpen}
         onClose={close}
         leftAddon={<Toast.Icon toastType="error" />}
+        onExited={unmount}
+      >
+        1개 이상의 게시물을 선택해주세요
+      </Toast>
+    ));
+
+  const notify3 = () =>
+    overlay.open(({ isOpen, close, unmount }) => (
+      <Toast
+        open={isOpen}
+        onClose={close}
+        leftAddon={
+          <Icon name="stack" color="primary600" type="fill" size={24} />
+        }
         onExited={unmount}
       >
         1개 이상의 게시물을 선택해주세요
@@ -204,6 +249,7 @@ export default function Home() {
       <div style={{ display: 'flex', gap: '8px' }}>
         <button onClick={notify1}>success 토스트 열기</button>
         <button onClick={notify2}>warning 토스트 열기</button>
+        <button onClick={notify3}>아이콘 개발자 지정 토스트 열기</button>
         <button onClick={openModal}>모달 열기</button>
         <button onClick={handleAlertModal}>Alert 모달</button>
         <button onClick={handleAsyncAlertModal}>비동기 Alert 모달</button>
@@ -211,6 +257,13 @@ export default function Home() {
         <button onClick={handleAsyncConfirmModal}>비동기 Confirm 모달</button>
         <button onClick={handleCustomModal}>커스텀 모달</button>
         <button onClick={handleCustomBlankModal}>커스텀 빈 모달</button>
+        <button onClick={toastNotify1}>useToast success 토스트 열기</button>
+        <button onClick={toastNotify2}>useToast warning 토스트 열기</button>
+        <button onClick={toastNotify3}>useToast default 토스트 열기</button>
+        <button onClick={toastNotify4}>
+          useToast custom lottie 토스트 열기
+        </button>
+        <button onClick={toastNotify5}>useToast custom icon 토스트 열기</button>
       </div>
       <Text.H1 color="grey950" fontSize={28} fontWeight="semibold">
         Text 컴포넌트
@@ -231,16 +284,30 @@ export default function Home() {
         >
           생성하기
         </Button>
+        <Button
+          size="large"
+          variant="primary"
+          leftAddon={<Icon name="twinkle" />}
+          isLoading
+        >
+          생성하기
+        </Button>
         <Button size="small" variant="neutral">
           다음
         </Button>
         <Button size="small" variant="neutral" disabled>
           다음
         </Button>
-        <Button size="large" variant="terminal">
+        <Button size="small" variant="neutral" isLoading>
+          다음
+        </Button>
+        <Button size="large" variant="text">
           이전
         </Button>
-        <Button size="small" variant="terminal">
+        <Button size="small" variant="text">
+          이전
+        </Button>
+        <Button size="small" variant="text" isLoading>
           이전
         </Button>
       </div>
@@ -310,11 +377,6 @@ export default function Home() {
           </TextField>
         </div>
       </form>
-      <LottieAnimation
-        animationData="loadingBlack"
-        width="2.4rem"
-        height="2.4rem"
-      />
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <Breadcrumb>
           <Breadcrumb.Item>
@@ -367,8 +429,10 @@ export default function Home() {
           backgroundColor: 'grey',
         }}
       >
-        <Spinner color="black" />
-        <Spinner color="white" />
+        <Spinner color="black" size="small" />
+        <Spinner color="black" size="large" />
+        <Spinner color="white" size="small" />
+        <Spinner color="white" size="large" />
       </div>
       <div style={{ margin: '2rem' }}>
         <RadioCards defaultValue="1" columns={2}>
