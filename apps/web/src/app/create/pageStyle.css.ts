@@ -9,6 +9,18 @@ export const mainStyle = style({
   overflow: 'auto',
 });
 
+export const headerStyle = style({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  padding: `${vars.space[12]} ${vars.space[24]}`,
+  zIndex: 1000,
+});
+
 export const contentStyle = style({
   display: 'flex',
   flexDirection: 'column',
