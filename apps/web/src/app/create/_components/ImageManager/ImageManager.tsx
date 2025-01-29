@@ -37,14 +37,14 @@ export const ImageManager = ({
       );
 
       if (oversizedFiles.length > 0) {
-        toast.error(`파일 크기는 ${maxFileSize}MB 이하여야 합니다.`, 3000);
+        toast.error(`파일 크기는 ${maxFileSize}MB 이하여야 해요.`, 3000);
         return;
       }
 
       // 최대 파일 개수 체크
       if (images.length + files.length > maxFiles) {
         toast.error(
-          `이미지는 최대 ${maxFiles}장까지 업로드할 수 있습니다.`,
+          `이미지는 최대 ${maxFiles}장까지 업로드할 수 있어요.`,
           3000
         );
         return;
@@ -56,7 +56,7 @@ export const ImageManager = ({
       );
 
       if (invalidFiles.length > 0) {
-        toast.error('이미지 파일만 업로드할 수 있습니다.', 3000);
+        toast.error('이미지 파일만 업로드할 수 있어요.', 3000);
         return;
       }
 
