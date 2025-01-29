@@ -16,8 +16,8 @@ import { Modal } from '@repo/ui/Modal';
 import { Spinner } from '@repo/ui/Spinner';
 import Link from 'next/link';
 import { overlay } from 'overlay-kit';
+import { useModal } from '@repo/ui/hooks';
 import { useToast } from '@repo/ui/hooks';
-import { DynamicLottie } from '@repo/ui/LottieAnimation';
 
 type FormValues = {
   topic: string;
@@ -33,6 +33,8 @@ export default function Home() {
       aiUpgrade: '',
     },
   });
+
+  const modal = useModal();
 
   const onSubmit = (data: FormValues) => {
     console.log('Form data:', data);
@@ -147,6 +149,95 @@ export default function Home() {
       </Modal>
     ));
 
+  const handleAlertModal = () => {
+    modal.alert({
+      title: '알림',
+      description: '작업이 완료되었습니다.',
+      icon: <Modal.Icon name="notice" color="primary500" />,
+      alertButton: '확인',
+    });
+  };
+
+  const handleAsyncAlertModal = async () => {
+    const result = modal.asyncAlert({
+      title: '비동기 작업 중',
+      description: '잠시만 기다려주세요...',
+      icon: <Modal.Icon name="notice" color="grey500" />,
+      alertButton: '확인',
+      onAlertClick: async () => {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      },
+    });
+
+    if (await result) {
+      notify1();
+    }
+  };
+
+  const handleConfirmModal = () => {
+    modal.confirm({
+      title: '정말 나가시겠어요?',
+      description: '이 페이지를 나가면\n작성한 내용은 저장되지 않아요',
+      icon: <Modal.Icon name="notice" color="warning500" />,
+      confirmButton: '나가기',
+      cancelButton: '취소',
+    });
+  };
+
+  const handleAsyncConfirmModal = async () => {
+    const result = modal.asyncConfirm({
+      title: '변경사항을 저장하시겠습니까?',
+      description: '저장하지 않은 변경사항은 모두 사라집니다.',
+      icon: <Modal.Icon name="notice" color="warning500" />,
+      confirmButton: '저장',
+      cancelButton: '취소',
+      onConfirmClick: async () => {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      },
+      onCancelClick: async () => {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      },
+    });
+
+    if (await result) {
+      notify1();
+    }
+  };
+
+  const CustomModalContent = () => {
+    return (
+      <>
+        <Modal.Icon name="stack" color="grey900" />
+        <Modal.Title>커스텀 모달</Modal.Title>
+        <Modal.Description>
+          원하는 대로 모달 내용을 구성할 수 있습니다.
+        </Modal.Description>
+        <Modal.DoubleCTA
+          confirmProps={{
+            children: '확인',
+            variant: 'primary',
+            size: 'large',
+          }}
+          cancelProps={{
+            children: '취소',
+          }}
+        />
+      </>
+    );
+  };
+
+  const handleCustomModal = () => {
+    modal.custom(<CustomModalContent />, {
+      isCloseOnDimmerClick: true,
+    });
+  };
+
+  const handleCustomBlankModal = () => {
+    modal.custom(<></>, {
+      isCloseOnDimmerClick: true,
+    });
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
       웹 1팀 파이팅!
@@ -160,6 +251,12 @@ export default function Home() {
         <button onClick={notify2}>warning 토스트 열기</button>
         <button onClick={notify3}>아이콘 개발자 지정 토스트 열기</button>
         <button onClick={openModal}>모달 열기</button>
+        <button onClick={handleAlertModal}>Alert 모달</button>
+        <button onClick={handleAsyncAlertModal}>비동기 Alert 모달</button>
+        <button onClick={handleConfirmModal}>Confirm 모달</button>
+        <button onClick={handleAsyncConfirmModal}>비동기 Confirm 모달</button>
+        <button onClick={handleCustomModal}>커스텀 모달</button>
+        <button onClick={handleCustomBlankModal}>커스텀 빈 모달</button>
         <button onClick={toastNotify1}>useToast success 토스트 열기</button>
         <button onClick={toastNotify2}>useToast warning 토스트 열기</button>
         <button onClick={toastNotify3}>useToast default 토스트 열기</button>
@@ -280,11 +377,6 @@ export default function Home() {
           </TextField>
         </div>
       </form>
-      <DynamicLottie
-        animationData="loadingBlack"
-        width="2.4rem"
-        height="2.4rem"
-      />
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <Breadcrumb>
           <Breadcrumb.Item>

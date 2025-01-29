@@ -5,13 +5,13 @@ import { Spinner, SpinnerProps } from '../Spinner';
 export type ButtonSize = 'small' | 'large';
 export type ButtonVariant = 'primary' | 'neutral' | 'text';
 
-export type ButtonProps = ComponentPropsWithoutRef<'button'> & {
+export type ButtonProps = {
   size: ButtonSize;
   variant: ButtonVariant;
   isLoading?: boolean;
   leftAddon?: ReactElement;
   rightAddon?: ReactElement;
-};
+} & ComponentPropsWithoutRef<'button'>;
 
 const SpinnerColor: Record<ButtonVariant, SpinnerProps['color']> = {
   primary: 'white',
@@ -23,7 +23,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       size,
-      variant,
+      variant = 'primary',
       isLoading = false,
       leftAddon,
       rightAddon,
