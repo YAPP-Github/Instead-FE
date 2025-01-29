@@ -1,8 +1,9 @@
 export const colors = {
+  primary200: '#D8DDFF',
   primary500: '#7081F4',
   primary600: '#5266EC',
   primary700: '#3348D6',
-  primary800: '#2035BC', // TODO 삭제 예정
+  primary800: '#2739B2',
 
   warning300: '#FF724E',
   warning500: '#FF3300',
