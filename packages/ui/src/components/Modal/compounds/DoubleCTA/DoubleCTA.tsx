@@ -17,7 +17,7 @@ export const DoubleCTA = forwardRef<HTMLDivElement, ModalDoubleCTAProps>(
     <div ref={ref} className={styles.doubleCta}>
       <Button
         size={cancelProps?.size ?? 'large'}
-        variant={cancelProps?.variant ?? 'terminal'}
+        variant={cancelProps?.variant ?? 'text'}
         className={styles.secondaryButtonStyle}
         {...cancelProps}
       />
