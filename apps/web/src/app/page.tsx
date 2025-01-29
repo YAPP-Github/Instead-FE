@@ -1,42 +1,32 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import {
-  Icon,
-  Toast,
-  Text,
-  Button,
-  Badge,
-  Checkbox,
-  Label,
-  Breadcrumb,
-  TextField,
-  RadioCards,
-  Modal,
-} from '@repo/ui';
-import dynamic from 'next/dynamic';
+import { Icon } from '@repo/ui/Icon';
+import { Toast } from '@repo/ui/Toast';
+import { Text } from '@repo/ui/Text';
+import { Button } from '@repo/ui/Button';
+import { Badge } from '@repo/ui/Badge';
+import { Checkbox } from '@repo/ui/Checkbox';
+import { Label } from '@repo/ui/Label';
+import { Breadcrumb } from '@repo/ui/Breadcrumb';
+import { TextField } from '@repo/ui/TextField';
+import { RadioCards } from '@repo/ui/RadioCards';
+import { Skeleton } from '@repo/ui/Skeleton';
+import { Modal } from '@repo/ui/Modal';
+import { Spinner } from '@repo/ui/Spinner';
 import Link from 'next/link';
 import { overlay } from 'overlay-kit';
+import { useModal } from '@repo/ui/hooks';
+import { useToast } from '@repo/ui/hooks';
 
 type FormValues = {
   topic: string;
   aiUpgrade: string;
 };
-const LottieAnimation = dynamic(
-  () => import('@repo/ui/LottieAnimation').then((mod) => mod.LottieAnimation),
-  {
-    ssr: false,
-  }
-);
-
-const Spinner = dynamic(
-  () => import('@repo/ui/Spinner').then((mod) => mod.Spinner),
-  {
-    ssr: false,
-  }
-);
 
 export default function Home() {
+  const toast = useToast();
+
   const { register, handleSubmit } = useForm<FormValues>({
     defaultValues: {
       topic: '',
@@ -44,9 +34,52 @@ export default function Home() {
     },
   });
 
+  const modal = useModal();
+
   const onSubmit = (data: FormValues) => {
     console.log('Form data:', data);
     notify1(); // 성공 토스트 표시
+  };
+
+  const toastNotify1 = () => {
+    toast.success('생성된 본문이 업데이트 됐어요!', 3000);
+  };
+
+  const toastNotify2 = () => {
+    toast.error('생성된 본문이 업데이트 됐어요!', 3000);
+  };
+
+  const toastNotify3 = () => {
+    toast.default('생성된 본문이 업데이트 됐어요!', 3000);
+  };
+
+  const toastNotify4 = () => {
+    toast.custom('메시지', {
+      duration: 5000,
+      leftAddon: {
+        type: 'lottie',
+        props: {
+          animationData: 'loadingBlack',
+          width: '24px',
+          height: '24px',
+        },
+      },
+    });
+  };
+
+  const toastNotify5 = () => {
+    toast.custom('메시지', {
+      duration: 5000,
+      leftAddon: {
+        type: 'icon',
+        props: {
+          name: 'twinkle',
+          size: 24,
+          color: 'primary600',
+          type: 'fill',
+        },
+      },
+    });
   };
 
   const notify1 = () =>
@@ -67,6 +100,20 @@ export default function Home() {
         open={isOpen}
         onClose={close}
         leftAddon={<Toast.Icon toastType="error" />}
+        onExited={unmount}
+      >
+        1개 이상의 게시물을 선택해주세요
+      </Toast>
+    ));
+
+  const notify3 = () =>
+    overlay.open(({ isOpen, close, unmount }) => (
+      <Toast
+        open={isOpen}
+        onClose={close}
+        leftAddon={
+          <Icon name="stack" color="primary600" type="fill" size={24} />
+        }
         onExited={unmount}
       >
         1개 이상의 게시물을 선택해주세요
@@ -102,6 +149,95 @@ export default function Home() {
       </Modal>
     ));
 
+  const handleAlertModal = () => {
+    modal.alert({
+      title: '알림',
+      description: '작업이 완료되었습니다.',
+      icon: <Modal.Icon name="notice" color="primary500" />,
+      alertButton: '확인',
+    });
+  };
+
+  const handleAsyncAlertModal = async () => {
+    const result = modal.asyncAlert({
+      title: '비동기 작업 중',
+      description: '잠시만 기다려주세요...',
+      icon: <Modal.Icon name="notice" color="grey500" />,
+      alertButton: '확인',
+      onAlertClick: async () => {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      },
+    });
+
+    if (await result) {
+      notify1();
+    }
+  };
+
+  const handleConfirmModal = () => {
+    modal.confirm({
+      title: '정말 나가시겠어요?',
+      description: '이 페이지를 나가면\n작성한 내용은 저장되지 않아요',
+      icon: <Modal.Icon name="notice" color="warning500" />,
+      confirmButton: '나가기',
+      cancelButton: '취소',
+    });
+  };
+
+  const handleAsyncConfirmModal = async () => {
+    const result = modal.asyncConfirm({
+      title: '변경사항을 저장하시겠습니까?',
+      description: '저장하지 않은 변경사항은 모두 사라집니다.',
+      icon: <Modal.Icon name="notice" color="warning500" />,
+      confirmButton: '저장',
+      cancelButton: '취소',
+      onConfirmClick: async () => {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      },
+      onCancelClick: async () => {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      },
+    });
+
+    if (await result) {
+      notify1();
+    }
+  };
+
+  const CustomModalContent = () => {
+    return (
+      <>
+        <Modal.Icon name="stack" color="grey900" />
+        <Modal.Title>커스텀 모달</Modal.Title>
+        <Modal.Description>
+          원하는 대로 모달 내용을 구성할 수 있습니다.
+        </Modal.Description>
+        <Modal.DoubleCTA
+          confirmProps={{
+            children: '확인',
+            variant: 'primary',
+            size: 'large',
+          }}
+          cancelProps={{
+            children: '취소',
+          }}
+        />
+      </>
+    );
+  };
+
+  const handleCustomModal = () => {
+    modal.custom(<CustomModalContent />, {
+      isCloseOnDimmerClick: true,
+    });
+  };
+
+  const handleCustomBlankModal = () => {
+    modal.custom(<></>, {
+      isCloseOnDimmerClick: true,
+    });
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
       웹 1팀 파이팅!
@@ -113,7 +249,21 @@ export default function Home() {
       <div style={{ display: 'flex', gap: '8px' }}>
         <button onClick={notify1}>success 토스트 열기</button>
         <button onClick={notify2}>warning 토스트 열기</button>
+        <button onClick={notify3}>아이콘 개발자 지정 토스트 열기</button>
         <button onClick={openModal}>모달 열기</button>
+        <button onClick={handleAlertModal}>Alert 모달</button>
+        <button onClick={handleAsyncAlertModal}>비동기 Alert 모달</button>
+        <button onClick={handleConfirmModal}>Confirm 모달</button>
+        <button onClick={handleAsyncConfirmModal}>비동기 Confirm 모달</button>
+        <button onClick={handleCustomModal}>커스텀 모달</button>
+        <button onClick={handleCustomBlankModal}>커스텀 빈 모달</button>
+        <button onClick={toastNotify1}>useToast success 토스트 열기</button>
+        <button onClick={toastNotify2}>useToast warning 토스트 열기</button>
+        <button onClick={toastNotify3}>useToast default 토스트 열기</button>
+        <button onClick={toastNotify4}>
+          useToast custom lottie 토스트 열기
+        </button>
+        <button onClick={toastNotify5}>useToast custom icon 토스트 열기</button>
       </div>
       <Text.H1 color="grey950" fontSize={28} fontWeight="semibold">
         Text 컴포넌트
@@ -134,16 +284,30 @@ export default function Home() {
         >
           생성하기
         </Button>
+        <Button
+          size="large"
+          variant="primary"
+          leftAddon={<Icon name="twinkle" />}
+          isLoading
+        >
+          생성하기
+        </Button>
         <Button size="small" variant="neutral">
           다음
         </Button>
         <Button size="small" variant="neutral" disabled>
           다음
         </Button>
-        <Button size="large" variant="terminal">
+        <Button size="small" variant="neutral" isLoading>
+          다음
+        </Button>
+        <Button size="large" variant="text">
           이전
         </Button>
-        <Button size="small" variant="terminal">
+        <Button size="small" variant="text">
+          이전
+        </Button>
+        <Button size="small" variant="text" isLoading>
           이전
         </Button>
       </div>
@@ -213,11 +377,6 @@ export default function Home() {
           </TextField>
         </div>
       </form>
-      <LottieAnimation
-        animationData="loadingBlack"
-        width="2.4rem"
-        height="2.4rem"
-      />
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <Breadcrumb>
           <Breadcrumb.Item>
@@ -241,6 +400,28 @@ export default function Home() {
           <Breadcrumb.Item active>기초 경제 지식</Breadcrumb.Item>
         </Breadcrumb>
       </div>
+      {/* <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <Chip variant="green" leftAddon={<Chip.Icon variant="green" />}>
+          업로드할 글
+        </Chip>
+        <Chip variant="grey" leftAddon={<Icon name="circle" type="fill" />}>
+          생성된 글
+        </Chip>
+        <Chip variant="purple" leftAddon={<Icon name="circle" type="fill" />}>
+          수정 중인 글
+        </Chip>
+        <Chip
+          variant="purple"
+          rightAddon={
+            <Text color="purple600" fontSize={16} fontWeight="semibold">
+              무작위로 업로드 돼요
+            </Text>
+          }
+          closable
+        >
+          전체선택
+        </Chip>
+      </div> */}
       <div
         style={{
           display: 'flex',
@@ -248,8 +429,10 @@ export default function Home() {
           backgroundColor: 'grey',
         }}
       >
-        <Spinner color="black" />
-        <Spinner color="white" />
+        <Spinner color="black" size="small" />
+        <Spinner color="black" size="large" />
+        <Spinner color="white" size="small" />
+        <Spinner color="white" size="large" />
       </div>
       <div style={{ margin: '2rem' }}>
         <RadioCards defaultValue="1" columns={2}>
@@ -289,6 +472,19 @@ export default function Home() {
             <RadioCards.Label>짧은 게시물</RadioCards.Label>
           </RadioCards.Item>
         </RadioCards>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '0.8rem',
+          margin: '2rem',
+          minWidth: '700px',
+        }}
+      >
+        <Skeleton width="30rem" height="2rem" radius={16} />
+        <Skeleton width="15rem" height="15rem" radius={4} />
+        <Skeleton width="15rem" height="15rem" />
       </div>
     </div>
   );

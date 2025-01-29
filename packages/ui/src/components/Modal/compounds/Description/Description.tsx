@@ -1,4 +1,5 @@
-import { Text, TextProps } from '@/components';
+import { Text } from '../../../Text/Text.subComponents';
+import type { TextProps } from '../../../Text';
 import * as styles from './Description.css';
 
 export type ModalDescriptionProps = TextProps<'p'>;

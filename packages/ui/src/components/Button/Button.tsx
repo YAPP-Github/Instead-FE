@@ -1,22 +1,29 @@
 import { ComponentPropsWithoutRef, forwardRef, ReactElement } from 'react';
 import { addonRootStyle, buttonRecipe } from './Button.css';
+import { Spinner, SpinnerProps } from '../Spinner';
 
 export type ButtonSize = 'small' | 'large';
-export type ButtonVariant = 'primary' | 'neutral' | 'terminal';
+export type ButtonVariant = 'primary' | 'neutral' | 'text';
 
-export type ButtonProps = ComponentPropsWithoutRef<'button'> & {
+export type ButtonProps = {
   size: ButtonSize;
   variant: ButtonVariant;
   isLoading?: boolean;
   leftAddon?: ReactElement;
   rightAddon?: ReactElement;
+} & ComponentPropsWithoutRef<'button'>;
+
+const SpinnerColor: Record<ButtonVariant, SpinnerProps['color']> = {
+  primary: 'white',
+  neutral: 'white',
+  text: 'black',
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       size,
-      variant,
+      variant = 'primary',
       isLoading = false,
       leftAddon,
       rightAddon,
@@ -28,13 +35,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ) => (
     <button
       ref={ref}
-      className={`${buttonRecipe({ size, variant })} ${className}`}
+      className={`${buttonRecipe({ size, variant, isLoading })} ${className}`}
       {...rest}
     >
       {isLoading ? (
         <>
-          // TODO Spinner 컴포넌트 넣을 예정
-          <span>로딩</span>
+          <Spinner color={SpinnerColor[variant]} size={size} />
         </>
       ) : (
         <>

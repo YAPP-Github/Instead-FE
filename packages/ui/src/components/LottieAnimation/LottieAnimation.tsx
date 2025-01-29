@@ -8,13 +8,17 @@ import {
   lottieAnimationStyles,
   widthVar,
 } from './LottieAnimation.css';
+import { CSSProperties } from 'react';
 
-export type LottieAnimationProps = LottieComponentProps & {
+export type LottieAnimationProps = Omit<
+  LottieComponentProps,
+  'animationData'
+> & {
   animationData: keyof typeof lotties;
   loop?: boolean;
   autoplay?: boolean;
-  width?: string;
-  height?: string;
+  width?: CSSProperties['width'];
+  height?: CSSProperties['height'];
   className?: string;
   'aria-label'?: string;
 };
@@ -46,8 +50,8 @@ export function LottieAnimation({
       className={`${lottieAnimationStyles} ${className}`}
       style={{
         ...assignInlineVars({
-          [widthVar]: width,
-          [heightVar]: height,
+          [widthVar]: String(width),
+          [heightVar]: String(height),
         }),
       }}
       role="img"

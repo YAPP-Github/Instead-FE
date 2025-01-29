@@ -9,18 +9,85 @@
     ".": {
       "import": "./dist/index.js"
     },
-    "./LottieAnimation": "./dist/components/LottieAnimation/LottieAnimation.js",
-    "./provider": "./dist/provider/index.js",
-    "./hooks": "./dist/hooks/index.js",
-    "./Spinner": "./dist/components/Spinner/Spinner.js",
-    "./styles": "./dist/index.css"
+    "./LottieAnimation": "./dist/components/LottieAnimation/index.js",
+    "./provider": {
+      "types": "./dist/provider/index.d.ts",
+      "import": "./dist/provider/index.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.js"
+    },
+    "./styles": {
+      "import": "./dist/index.css"
+    },
+    "./IconButton": {
+      "types": "./dist/components/IconButton/index.d.ts",
+      "import": "./dist/components/IconButton/index.js"
+    },
+    "./Spinner": {
+      "types": "./dist/components/Spinner/index.d.ts",
+      "import": "./dist/components/Spinner/index.js"
+    },
+    "./Spacing": {
+      "types": "./dist/components/Spacing/index.d.ts",
+      "import": "./dist/components/Spacing/index.js"
+    },
+    "./Icon": {
+      "types": "./dist/components/Icon/index.d.ts",
+      "import": "./dist/components/Icon/index.js"
+    },
+    "./Toast": {
+      "types": "./dist/components/Toast/index.d.ts",
+      "import": "./dist/components/Toast/index.js"
+    },
+    "./Text": {
+      "types": "./dist/components/Text/index.d.ts",
+      "import": "./dist/components/Text/index.js"
+    },
+    "./Button": {
+      "types": "./dist/components/Button/index.d.ts",
+      "import": "./dist/components/Button/index.js"
+    },
+    "./Badge": {
+      "types": "./dist/components/Badge/index.d.ts",
+      "import": "./dist/components/Badge/index.js"
+    },
+    "./Checkbox": {
+      "types": "./dist/components/Checkbox/index.d.ts",
+      "import": "./dist/components/Checkbox/index.js"
+    },
+    "./Label": {
+      "types": "./dist/components/Label/index.d.ts",
+      "import": "./dist/components/Label/index.js"
+    },
+    "./Breadcrumb": {
+      "types": "./dist/components/Breadcrumb/index.d.ts",
+      "import": "./dist/components/Breadcrumb/index.js"
+    },
+    "./TextField": {
+      "types": "./dist/components/TextField/index.d.ts",
+      "import": "./dist/components/TextField/index.js"
+    },
+    "./RadioCards": {
+      "types": "./dist/components/RadioCards/index.d.ts",
+      "import": "./dist/components/RadioCards/index.js"
+    },
+    "./Modal": {
+      "types": "./dist/components/Modal/index.d.ts",
+      "import": "./dist/components/Modal/index.js"
+    },
+    "./Skeleton": {
+      "types": "./dist/components/Skeleton/index.d.ts",
+      "import": "./dist/components/Skeleton/index.js"
+    },
+    "./utils": "./dist/utils/index.js"
   },
   "scripts": {
     "build": "tsc && node esbuild.config.mjs",
     "dev": "esbuild src/index.ts --bundle --platform=node --format=esm --outfile=dist/index.mjs --watch",
     "lint": "eslint . --max-warnings 0",
-    "build:icons": "esbuild src/scripts/generate-icon-map.ts --bundle --platform=node --outdir=dist/scripts",
-    "generate:icons": "pnpm run build:icons && node dist/scripts/generate-icon-map.js",
+    "generate:icons": "tsx src/scripts/convert-svg-to-react.mts && tsx src/scripts/generate-icon-map.mts && prettier --write ./src/components/Icon/*",
     "build:lotties": "esbuild src/scripts/generate-lottie-map.mts --bundle --platform=node --outdir=dist/scripts",
     "generate:lotties": "pnpm run build:lotties && node dist/scripts/generate-lottie-map.js"
   },
@@ -28,10 +95,11 @@
     "@radix-ui/react-slot": "^1.1.1",
     "@repo/theme": "workspace:^",
     "@types/react-dom": "18.3.1",
-    "motion": "^11.17.0",
-    "react": "^18",
     "@vanilla-extract/css": "^1.17.0",
-    "@vanilla-extract/recipes": "^0.5.5"
+    "@vanilla-extract/recipes": "^0.5.5",
+    "motion": "^11.17.0",
+    "overlay-kit": "^1.4.1",
+    "react": "^18"
   },
   "devDependencies": {
     "@repo/theme": "workspace:*",
@@ -39,9 +107,10 @@
     "@types/react": "^18.2.0",
     "@vanilla-extract/esbuild-plugin": "^2.3.5",
     "esbuild": "^0.21.0",
+    "esbuild-plugin-copy": "^2.1.1",
     "esbuild-plugin-preserve-directives": "^0.0.11",
     "esbuild-plugin-svgr": "^3.1.0",
-    "ts-node": "^10.9.2"
+    "tsx": "^4.19.2"
   },
   "peerDependencies": {
     "react": "^18",
