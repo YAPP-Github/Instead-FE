@@ -9,6 +9,7 @@ export const spacing = {
   32: '3.2rem',
   40: '4.0rem',
   64: '6.4rem',
+  80: '8.0rem',
   128: '12.8rem',
 } as const;
 
