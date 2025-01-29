@@ -9,6 +9,12 @@ export const mainStyle = style({
   overflow: 'auto',
 });
 
+export const contentStyle = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '4.8rem',
+});
+
 export const sectionStyle = style({
   display: 'flex',
   flexDirection: 'column',
