@@ -11,7 +11,6 @@ import {
 } from '@repo/ui';
 import * as styles from './pageStyle.css';
 import { KeywordChipGroup } from './_components/KeywordChip/KeywordChipGroup';
-import { ImageManager } from './_components/ImageManager/ImageManager';
 import { AnimatedTitle } from './_components/AnimatedTitle/AnimatedTitle';
 import { AnimatedContainer } from './_components/AnimatedContainer/AnimatedContainer';
 import { useForm, Controller } from 'react-hook-form';
@@ -191,9 +190,7 @@ export default function Create() {
             </section>
           )}
 
-          {reference === 'IMAGE' && (
-            <ImageManager maxFileSize={10} maxFiles={5} />
-          )}
+          {reference === 'IMAGE' && <>ImageManager</>}
 
           {/* 본문 길이 */}
           <section className={styles.sectionStyle}>
