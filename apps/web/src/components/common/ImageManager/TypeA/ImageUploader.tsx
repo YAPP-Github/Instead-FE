@@ -6,6 +6,11 @@ import * as styles from './ImageUploader.css';
 import { validateFiles } from '@web/utils';
 import { useToast } from '@repo/ui/hooks';
 
+const KEY = {
+  ENTER: 'Enter',
+  SPACE: ' ',
+} as const;
+
 type ImageUploaderProps = {
   children: ReactNode;
 };
@@ -62,7 +67,7 @@ export const ImageUploader = ({ children }: ImageUploaderProps) => {
       tabIndex={0}
       aria-label="이미지 업로드"
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
+        if (e.key === KEY.ENTER || e.key === KEY.SPACE) {
           e.preventDefault();
           e.currentTarget.click();
         }
