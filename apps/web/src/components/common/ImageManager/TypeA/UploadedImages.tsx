@@ -23,7 +23,7 @@ export const UploadedImages = ({ images, onRemove }: UploadedImagesProps) => {
         >
           <Image
             src={image.preview}
-            alt=""
+            alt={`업로드된 이미지 ${image.id}`}
             width={IMAGE_SIZE}
             height={IMAGE_SIZE}
             className={styles.image}

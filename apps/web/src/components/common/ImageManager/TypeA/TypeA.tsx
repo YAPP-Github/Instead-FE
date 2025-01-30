@@ -27,6 +27,9 @@ export const TypeA = ({
   maxFileSize = 10,
   maxFiles = 5,
 }: ImageManagerTypeAProps) => {
+  if (maxFileSize <= 0) throw new Error('maxFileSize는 0보다 커야합니다.');
+  if (maxFiles <= 0) throw new Error('maxFiles는 0보다 커야합니다.');
+
   const [images, setImages] = useState<ImageFile[]>([]);
   const isImageUploaded = images.length > 0;
   const toast = useToast();
@@ -67,7 +70,10 @@ export const TypeA = ({
         preview: URL.createObjectURL(file),
       }));
 
-      setImages((prev) => [...prev, ...newFiles]);
+      setImages((prev) => {
+        prev.forEach((image) => URL.revokeObjectURL(image.preview));
+        return [...prev, ...newFiles];
+      });
     },
     [images.length, maxFiles, maxFileSize, toast]
   );
