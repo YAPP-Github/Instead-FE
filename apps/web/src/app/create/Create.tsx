@@ -11,7 +11,7 @@ import {
 } from '@repo/ui';
 import * as styles from './pageStyle.css';
 import { KeywordChipGroup } from './_components/KeywordChip/KeywordChipGroup';
-import { AnimatedTitle } from './_components/AnimatedTitle/AnimatedTitle';
+import { GradientAnimatedTitle } from './_components/GradientAnimatedTitle/GradientAnimatedTitle';
 import { AnimatedContainer } from './_components/AnimatedContainer/AnimatedContainer';
 import { useForm, Controller } from 'react-hook-form';
 import Link from 'next/link';
@@ -77,7 +77,7 @@ export default function Create() {
         </Button>
       </div>
       <Spacing size={80} />
-      <AnimatedTitle />
+      <GradientAnimatedTitle>어떤 글을 생성할까요?</GradientAnimatedTitle>
       <AnimatedContainer>
         <form className={styles.contentStyle}>
           {/* 주제 */}
@@ -155,7 +155,6 @@ export default function Create() {
                       주제에 맞는 글을 간단히 생성
                     </RadioCards.Description>
                   </RadioCards.Item>
-
                   <RadioCards.Item
                     value="NEWS"
                     leftAddon={<RadioCards.Icon name="stack" size={24} />}
@@ -165,7 +164,6 @@ export default function Create() {
                       최근 소식/뉴스 기반
                     </RadioCards.Description>
                   </RadioCards.Item>
-
                   <RadioCards.Item
                     value="IMAGE"
                     leftAddon={<RadioCards.Icon name="picture" size={24} />}
