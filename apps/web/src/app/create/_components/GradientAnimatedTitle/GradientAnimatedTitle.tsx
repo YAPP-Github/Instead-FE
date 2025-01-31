@@ -1,7 +1,14 @@
 import { motion } from 'motion/react';
-import * as styles from './AnimatedTitle.css';
+import * as styles from './GradientAnimatedTitle.css';
+import { ReactNode } from 'react';
 
-export function AnimatedTitle() {
+type GradientAnimatedTitleProps = {
+  children: ReactNode;
+};
+
+export function GradientAnimatedTitle({
+  children,
+}: GradientAnimatedTitleProps) {
   return (
     <motion.h1
       className={styles.gradientTitleStyle}
@@ -25,7 +32,7 @@ export function AnimatedTitle() {
         bounce: 0.22,
       }}
     >
-      어떤 글을 생성할까요?
+      {children}
     </motion.h1>
   );
 }
