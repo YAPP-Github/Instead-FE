@@ -30,7 +30,7 @@ export default function Create() {
       topic: '',
       purpose: 'INFORMATION',
       reference: 'NONE',
-      newsCategory: undefined, // TODO: 백엔드로부터 받는 데이터 타입으로 수정
+      newsCategory: '투자', // TODO: 백엔드로부터 받는 데이터 타입으로 수정
       imageUrls: [], // TODO: presigned url 받아서 첨부
       length: 'SHORT',
       content: '',
