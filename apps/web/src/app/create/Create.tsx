@@ -221,7 +221,7 @@ export default function Create() {
                 render={({ field }) => (
                   <TextField.Input
                     {...field}
-                    placeholder="주제를 적어주세요"
+                    placeholder="본문에 꼭 포함되어야 하는 문구나 요구 사항을 적어주세요"
                     maxLength={5000}
                   />
                 )}
