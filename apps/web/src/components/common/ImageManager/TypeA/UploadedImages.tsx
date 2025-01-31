@@ -1,6 +1,6 @@
 'use client';
 
-import { Icon } from '../../../../../../../packages/ui/src/components/Icon';
+import { Icon } from '@repo/ui';
 import * as styles from './UploadedImages.css';
 import Image from 'next/image';
 import type { ImageFile } from './types';

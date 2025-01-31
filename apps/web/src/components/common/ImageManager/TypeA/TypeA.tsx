@@ -1,7 +1,6 @@
 'use client';
 
-import { Icon } from '../../../../../../../packages/ui/src/components/Icon';
-import { Text } from '../../../../../../../packages/ui/src/components/Text';
+import { Icon, Text } from '@repo/ui';
 import { ImageManagerProvider } from './context';
 import { ImageUploader } from './ImageUploader';
 import { UploadedImages } from './UploadedImages';
