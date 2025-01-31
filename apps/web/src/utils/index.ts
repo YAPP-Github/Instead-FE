@@ -1,0 +1,1 @@
+export { validateFiles } from './validateFiles';
