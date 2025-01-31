@@ -31,9 +31,7 @@ export const ImageUploader = ({ children }: ImageUploaderProps) => {
         return;
       }
 
-      if (validateFiles(files)) {
-        onUpload(e.dataTransfer.files);
-      }
+      onUpload(e.dataTransfer.files);
     },
     [onUpload, toast]
   );
