@@ -9,23 +9,20 @@ import {
   Icon,
   Button,
 } from '@repo/ui';
-import * as styles from './pageStyle.css';
+import { ImageManager, MainBreadcrumbItem } from '@web/components/common';
 import { KeywordChipGroup } from './_components/KeywordChip/KeywordChipGroup';
 import { GradientAnimatedTitle } from './_components/GradientAnimatedTitle/GradientAnimatedTitle';
 import { AnimatedContainer } from './_components/AnimatedContainer/AnimatedContainer';
 import { useForm, Controller } from 'react-hook-form';
-import Link from 'next/link';
-import { isNil } from '@repo/ui/utils';
-
-interface CreateFormValues {
-  topic: string;
-  purpose: 'INFORMATION' | 'OPINION' | 'HUMOR' | 'MARKETING';
-  reference: 'NONE' | 'NEWS' | 'IMAGE';
-  newsCategory?: string;
-  imageUrls?: string[];
-  length: 'SHORT' | 'MEDIUM' | 'LONG';
-  content: string;
-}
+import { isEmptyStringOrNil } from '@web/utils';
+import { CreateFormValues } from './types';
+import {
+  REFERENCE_TYPE,
+  PURPOSE_OPTIONS,
+  REFERENCE_OPTIONS,
+  LENGTH_OPTIONS,
+} from './constants';
+import * as styles from './pageStyle.css';
 
 export default function Create() {
   const { watch, control, handleSubmit } = useForm<CreateFormValues>({
@@ -45,10 +42,26 @@ export default function Create() {
   const reference = watch('reference');
 
   const onSubmit = (data: CreateFormValues) => {
+    //TODO: 임시 로직. 이런 식으로 요청해야 함
+    // // 1. presigned URL 요청
+    // const presignedUrls = await fetchPresignedUrls(data.imageUrls); // 🔹 presigned URL 요청
+
+    // // 2. 파일을 presigned URL로 업로드
+    // await Promise.all(
+    //   data.imageUrls.map((file, index) =>
+    //     uploadFileToPresignedUrl(presignedUrls[index], file)
+    //   )
+    // );
+
+    const presignedUrls = [
+      'https://example.com/image1.jpg',
+      'https://example.com/image2.jpg',
+    ];
+
     const requestData = {
       ...data,
       newsCategory: data.reference === 'NEWS' ? data.newsCategory : null,
-      imageUrls: data.reference === 'IMAGE' ? data.imageUrls : null,
+      imageUrls: data.reference === 'IMAGE' ? presignedUrls : null,
     };
 
     console.log('폼 데이터:', requestData);
@@ -61,12 +74,11 @@ export default function Create() {
       <div className={styles.headerStyle}>
         <Breadcrumb>
           <Breadcrumb.Item>
-            <Link href="/create">
-              <Icon name="stack" size={32} color="grey900" />
-            </Link>
+            <MainBreadcrumbItem href="/create" />
           </Breadcrumb.Item>
         </Breadcrumb>
         <Button
+          type="submit"
           size="large"
           variant="primary"
           leftAddon={<Icon name="twinkle" />}
@@ -76,8 +88,11 @@ export default function Create() {
           생성하기
         </Button>
       </div>
+
       <Spacing size={80} />
+
       <GradientAnimatedTitle>어떤 글을 생성할까요?</GradientAnimatedTitle>
+
       <AnimatedContainer>
         <form className={styles.contentStyle}>
           {/* 주제 */}
@@ -106,33 +121,15 @@ export default function Create() {
               control={control}
               render={({ field: { onChange, value } }) => (
                 <RadioCards value={value} onChange={onChange} columns={4}>
-                  <RadioCards.Item
-                    value="INFORMATION"
-                    leftAddon={<RadioCards.Icon name="document" size={24} />}
-                  >
-                    <RadioCards.Label>정보 제공</RadioCards.Label>
-                  </RadioCards.Item>
-
-                  <RadioCards.Item
-                    value="OPINION"
-                    leftAddon={<RadioCards.Icon name="chat" size={24} />}
-                  >
-                    <RadioCards.Label>의견 표출</RadioCards.Label>
-                  </RadioCards.Item>
-
-                  <RadioCards.Item
-                    value="HUMOR"
-                    leftAddon={<RadioCards.Icon name="smile" size={24} />}
-                  >
-                    <RadioCards.Label>공감/유머</RadioCards.Label>
-                  </RadioCards.Item>
-
-                  <RadioCards.Item
-                    value="MARKETING"
-                    leftAddon={<RadioCards.Icon name="shopping" size={24} />}
-                  >
-                    <RadioCards.Label>홍보/마케팅</RadioCards.Label>
-                  </RadioCards.Item>
+                  {PURPOSE_OPTIONS.map(({ value, icon, label }) => (
+                    <RadioCards.Item
+                      key={value}
+                      value={value}
+                      leftAddon={<RadioCards.Icon name={icon} size={24} />}
+                    >
+                      <RadioCards.Label>{label}</RadioCards.Label>
+                    </RadioCards.Item>
+                  ))}
                 </RadioCards>
               )}
             />
@@ -146,49 +143,49 @@ export default function Create() {
               control={control}
               render={({ field: { onChange, value } }) => (
                 <RadioCards value={value} onChange={onChange} columns={3}>
-                  <RadioCards.Item
-                    value="NONE"
-                    leftAddon={<RadioCards.Icon name="pencil" size={24} />}
-                  >
-                    <RadioCards.Label>입력된 주제로만 생성</RadioCards.Label>
-                    <RadioCards.Description>
-                      주제에 맞는 글을 간단히 생성
-                    </RadioCards.Description>
-                  </RadioCards.Item>
-                  <RadioCards.Item
-                    value="NEWS"
-                    leftAddon={<RadioCards.Icon name="stack" size={24} />}
-                  >
-                    <RadioCards.Label>최근 뉴스로 글 생성</RadioCards.Label>
-                    <RadioCards.Description>
-                      최근 소식/뉴스 기반
-                    </RadioCards.Description>
-                  </RadioCards.Item>
-                  <RadioCards.Item
-                    value="IMAGE"
-                    leftAddon={<RadioCards.Icon name="picture" size={24} />}
-                  >
-                    <RadioCards.Label>이미지를 참고해 글 생성</RadioCards.Label>
-                    <RadioCards.Description>
-                      첨부한 이미지 기반
-                    </RadioCards.Description>
-                  </RadioCards.Item>
+                  {REFERENCE_OPTIONS.map(
+                    ({ value, icon, label, description }) => (
+                      <RadioCards.Item
+                        key={value}
+                        value={value}
+                        leftAddon={<RadioCards.Icon name={icon} size={24} />}
+                      >
+                        <RadioCards.Label>{label}</RadioCards.Label>
+                        <RadioCards.Description>
+                          {description}
+                        </RadioCards.Description>
+                      </RadioCards.Item>
+                    )
+                  )}
                 </RadioCards>
               )}
             />
+            {reference === REFERENCE_TYPE.IMAGE && (
+              <Controller
+                name="imageUrls"
+                control={control}
+                render={({ field: { value, onChange } }) => (
+                  <ImageManager.TypeA value={value || []} onChange={onChange} />
+                )}
+              />
+            )}
           </section>
 
           {/* 조건부 렌더링 섹션들 */}
-          {reference === 'NEWS' && (
+          {reference === REFERENCE_TYPE.NEWS && (
             <section className={styles.sectionStyle}>
               <Label variant="required">뉴스 카테고리</Label>
-              <KeywordChipGroup defaultValue="투자">
-                {['투자', '패션', '피트니스', '헬스케어']}
-              </KeywordChipGroup>
+              <Controller
+                name="newsCategory"
+                control={control}
+                render={({ field: { value, onChange } }) => (
+                  <KeywordChipGroup onChange={onChange} defaultValue={value}>
+                    {['투자', '패션', '피트니스', '헬스케어']}
+                  </KeywordChipGroup>
+                )}
+              />
             </section>
           )}
-
-          {reference === 'IMAGE' && <>ImageManager</>}
 
           {/* 본문 길이 */}
           <section className={styles.sectionStyle}>
@@ -198,27 +195,17 @@ export default function Create() {
               control={control}
               render={({ field: { onChange, value } }) => (
                 <RadioCards value={value} onChange={onChange} columns={3}>
-                  <RadioCards.Item value="SHORT">
-                    <RadioCards.Badge>누구나 이용 가능</RadioCards.Badge>
-                    <RadioCards.Label>짧은 게시물</RadioCards.Label>
-                    <RadioCards.Description>
-                      약 1~2문장, 최대 140자
-                    </RadioCards.Description>
-                  </RadioCards.Item>
-                  <RadioCards.Item value="MEDIUM">
-                    <RadioCards.Badge>X 유료 구독 전용</RadioCards.Badge>
-                    <RadioCards.Label>보통 게시물</RadioCards.Label>
-                    <RadioCards.Description>
-                      약 3~4문장, 최대 300자
-                    </RadioCards.Description>
-                  </RadioCards.Item>
-                  <RadioCards.Item value="LONG">
-                    <RadioCards.Badge>X 유료 구독 전용</RadioCards.Badge>
-                    <RadioCards.Label>긴 게시물</RadioCards.Label>
-                    <RadioCards.Description>
-                      약 7~8문장, 최대 1000자
-                    </RadioCards.Description>
-                  </RadioCards.Item>
+                  {LENGTH_OPTIONS.map(
+                    ({ value, label, description, badge }) => (
+                      <RadioCards.Item key={value} value={value}>
+                        <RadioCards.Badge>{badge}</RadioCards.Badge>
+                        <RadioCards.Label>{label}</RadioCards.Label>
+                        <RadioCards.Description>
+                          {description}
+                        </RadioCards.Description>
+                      </RadioCards.Item>
+                    )
+                  )}
                 </RadioCards>
               )}
             />
@@ -245,10 +232,4 @@ export default function Create() {
       </AnimatedContainer>
     </div>
   );
-}
-
-type NullableString = string | null | undefined;
-
-function isEmptyStringOrNil(value: NullableString): boolean {
-  return isNil(value) || value.trim() === '';
 }
