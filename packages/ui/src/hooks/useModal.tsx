@@ -131,6 +131,9 @@ type AsyncConfirmOptions = ConfirmOptions & {
 export function useModal() {
   const alert = useCallback(
     ({ alertButton = '확인', ...options }: AlertOptions) => {
+      const { onClick: alertOnClick, ...restAlertProps } =
+        options.alertButtonProps || {};
+
       return overlay.open(({ isOpen, close, unmount }) => (
         <Modal
           open={isOpen}
@@ -138,12 +141,13 @@ export function useModal() {
           onExited={unmount}
           cta={
             <Modal.CTA
-              onClick={
-                isNotNil(options.alertButtonProps?.onClick)
-                  ? options.alertButtonProps.onClick
-                  : close
-              }
-              {...options.alertButtonProps}
+              onClick={(e) => {
+                if (alertOnClick) {
+                  alertOnClick(e);
+                }
+                close();
+              }}
+              {...restAlertProps}
             >
               {alertButton}
             </Modal.CTA>
@@ -210,6 +214,11 @@ export function useModal() {
       cancelButton = '취소',
       ...options
     }: ConfirmOptions) => {
+      const { onClick: confirmOnClick, ...restConfirmProps } =
+        options.confirmButtonProps || {};
+      const { onClick: cancelOnClick, ...restCancelProps } =
+        options.cancelButtonProps || {};
+
       return overlay.open(({ isOpen, close, unmount }) => (
         <Modal
           open={isOpen}
@@ -220,17 +229,23 @@ export function useModal() {
             <Modal.DoubleCTA
               confirmProps={{
                 children: confirmButton,
-                onClick: isNotNil(options.confirmButtonProps?.onClick)
-                  ? options.confirmButtonProps.onClick
-                  : close,
-                ...options.confirmButtonProps,
+                onClick: (e) => {
+                  if (confirmOnClick) {
+                    confirmOnClick(e);
+                  }
+                  close();
+                },
+                ...restConfirmProps,
               }}
               cancelProps={{
                 children: cancelButton,
-                onClick: isNotNil(options.cancelButtonProps?.onClick)
-                  ? options.cancelButtonProps.onClick
-                  : close,
-                ...options.cancelButtonProps,
+                onClick: (e) => {
+                  if (cancelOnClick) {
+                    cancelOnClick(e);
+                  }
+                  close();
+                },
+                ...restCancelProps,
               }}
             />
           }
