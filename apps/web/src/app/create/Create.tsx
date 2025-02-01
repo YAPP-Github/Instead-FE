@@ -8,6 +8,7 @@ import {
   Breadcrumb,
   Icon,
   Button,
+  Modal,
 } from '@repo/ui';
 import { ImageManager, MainBreadcrumbItem } from '@web/components/common';
 import { KeywordChipGroup } from './_components/KeywordChip/KeywordChipGroup';
@@ -23,8 +24,16 @@ import {
   LENGTH_OPTIONS,
 } from './constants';
 import * as styles from './pageStyle.css';
+import { useModal } from '@repo/ui/hooks';
+import { useRouter } from 'next/navigation';
+
+const REQUIRED_FIELDS = {
+  TOPIC: 'topic',
+} as const;
 
 export default function Create() {
+  const modal = useModal();
+  const router = useRouter();
   const { watch, control, handleSubmit } = useForm<CreateFormValues>({
     defaultValues: {
       topic: '',
@@ -38,7 +47,7 @@ export default function Create() {
     mode: 'onChange',
   });
 
-  const topic = watch('topic');
+  const topic = watch(REQUIRED_FIELDS.TOPIC);
   const reference = watch('reference');
 
   const onSubmit = (data: CreateFormValues) => {
@@ -60,11 +69,27 @@ export default function Create() {
 
     const requestData = {
       ...data,
-      newsCategory: data.reference === 'NEWS' ? data.newsCategory : null,
-      imageUrls: data.reference === 'IMAGE' ? presignedUrls : null,
+      newsCategory:
+        data.reference === REFERENCE_TYPE.NEWS ? data.newsCategory : null,
+      imageUrls: data.reference === REFERENCE_TYPE.IMAGE ? presignedUrls : null,
     };
 
     console.log('폼 데이터:', requestData);
+  };
+
+  const handleHomeBreadcrumbClick = () => {
+    modal.confirm({
+      title: '정말 나가시겠어요?',
+      description: '이 페이지를 나가면\n작성한 내용은 저장되지 않아요',
+      icon: <Modal.Icon name="notice" color="warning500" />,
+      confirmButton: '나가기',
+      cancelButton: '취소',
+      confirmButtonProps: {
+        onClick: () => {
+          router.push('/');
+        },
+      },
+    });
   };
 
   const isSubmitDisabled = isEmptyStringOrNil(topic);
@@ -74,7 +99,14 @@ export default function Create() {
       <div className={styles.headerStyle}>
         <Breadcrumb>
           <Breadcrumb.Item>
-            <MainBreadcrumbItem href="/create" />
+            <MainBreadcrumbItem
+              href="/"
+              onClick={
+                !isEmptyStringOrNil(topic)
+                  ? handleHomeBreadcrumbClick
+                  : undefined
+              }
+            />
           </Breadcrumb.Item>
         </Breadcrumb>
         <Button
