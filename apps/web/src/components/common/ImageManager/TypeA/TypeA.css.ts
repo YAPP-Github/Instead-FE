@@ -10,11 +10,12 @@ export const textContent = recipe({
     justifyContent: 'center',
     gap: vars.space[8],
     color: vars.colors.grey600,
+    width: '100%',
   },
   variants: {
     isCenter: {
-      true: { alignItems: 'center' },
-      false: { alignItems: 'flex-start' },
+      true: { justifyContent: 'center' },
+      false: { justifyContent: 'flex-start' },
     },
   },
 });

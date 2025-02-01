@@ -20,21 +20,31 @@ export type ImageManagerTypeAProps = {
    * @default 5
    */
   maxFiles?: number;
+  onChange?: (files: File[]) => void;
+  value?: File[];
 };
 
 export const TypeA = ({
   maxFileSize = 10,
   maxFiles = 5,
+  onChange,
+  value = [],
 }: ImageManagerTypeAProps) => {
   if (maxFileSize <= 0) throw new Error('maxFileSize는 0보다 커야합니다.');
   if (maxFiles <= 0) throw new Error('maxFiles는 0보다 커야합니다.');
 
-  const [images, setImages] = useState<ImageFile[]>([]);
-  const isImageUploaded = images.length > 0;
+  const [images, setImages] = useState<ImageFile[]>(
+    value.map((file) => ({
+      id: crypto.randomUUID(),
+      file,
+      preview: URL.createObjectURL(file),
+    }))
+  );
+
   const toast = useToast();
+
   const handleUpload = useCallback(
     (files: FileList) => {
-      // 파일 크기 체크
       const oversizedFiles = Array.from(files).filter(
         (file) => file.size > maxFileSize * 1024 * 1024
       );
@@ -44,7 +54,6 @@ export const TypeA = ({
         return;
       }
 
-      // 최대 파일 개수 체크
       if (images.length + files.length > maxFiles) {
         toast.error(
           `이미지는 최대 ${maxFiles}장까지 업로드할 수 있어요.`,
@@ -53,7 +62,6 @@ export const TypeA = ({
         return;
       }
 
-      // 이미지 파일 타입 체크
       const invalidFiles = Array.from(files).filter(
         (file) => !file.type.startsWith('image/')
       );
@@ -69,30 +77,28 @@ export const TypeA = ({
         preview: URL.createObjectURL(file),
       }));
 
-      setImages((prev) => {
-        prev.forEach((image) => URL.revokeObjectURL(image.preview));
-        return [...prev, ...newFiles];
-      });
+      const updatedImages = [...images, ...newFiles];
+
+      setImages(updatedImages);
+      onChange?.(updatedImages.map((img) => img.file)); // 🔹 변경: File 객체를 넘김
     },
-    [images.length, maxFiles, maxFileSize, toast]
+    [images, maxFiles, maxFileSize, toast, onChange]
   );
 
-  const handleRemove = useCallback((id: string) => {
-    setImages((prevImages) => {
-      const targetImage = prevImages.find((image) => image.id === id);
-      if (targetImage) {
-        URL.revokeObjectURL(targetImage.preview);
-      }
-      return prevImages.filter((image) => image.id !== id);
-    });
-  }, []);
+  const handleRemove = useCallback(
+    (id: string) => {
+      setImages((prevImages) => {
+        const updatedImages = prevImages.filter((image) => image.id !== id);
+        onChange?.(updatedImages.map((img) => img.file)); // 🔹 삭제 후 File 배열 업데이트
+        return updatedImages;
+      });
+    },
+    [onChange]
+  );
 
-  // 컴포넌트 언마운트 시 메모리 정리
   useEffect(() => {
     return () => {
-      images.forEach((image) => {
-        URL.revokeObjectURL(image.preview);
-      });
+      images.forEach((image) => URL.revokeObjectURL(image.preview));
     };
   }, [images]);
 
@@ -101,22 +107,18 @@ export const TypeA = ({
       value={{ images, onUpload: handleUpload, onRemove: handleRemove }}
     >
       <ImageUploader>
-        <div
-          className={styles.textContent({
-            isCenter: !isImageUploaded,
-          })}
-        >
+        <div className={styles.textContent({ isCenter: images.length === 0 })}>
           <Icon name="plusPicture" size={24} color="grey500" />
           <Text.Span color="grey600" fontSize={18} fontWeight="medium">
             이곳에 이미지를 드래그하거나 클릭하여 업로드
           </Text.Span>
-          {!isImageUploaded && (
+          {images.length === 0 && (
             <Text.Span color="grey300" fontSize={18} fontWeight="medium">
-              최대 {maxFiles}장, 각 {maxFileSize}MB이하
+              최대 {maxFiles}장, 각 {maxFileSize}MB 이하
             </Text.Span>
           )}
         </div>
-        {isImageUploaded && (
+        {images.length > 0 && (
           <div className={styles.imagesContent}>
             <UploadedImages images={images} onRemove={handleRemove} />
           </div>

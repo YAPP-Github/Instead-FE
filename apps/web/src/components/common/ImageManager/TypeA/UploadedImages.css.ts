@@ -31,8 +31,8 @@ export const removeButton = style({
   border: 'transparent',
   cursor: 'pointer',
   ':focus-visible': {
-    outline: `2px solid ${vars.colors.primary500}`,
-    outlineOffset: '2px',
+    outline: `0.2rem solid ${vars.colors.primary500}`,
+    outlineOffset: '0.2rem',
   },
   ':hover': {
     opacity: 0.8,

@@ -18,7 +18,7 @@ import Link from 'next/link';
 import { overlay } from 'overlay-kit';
 import { useModal } from '@repo/ui/hooks';
 import { useToast } from '@repo/ui/hooks';
-import { ImageManager } from '../components/common/ImageManager';
+import { ImageManager } from '@web/components/common';
 
 type FormValues = {
   topic: string;
