@@ -245,6 +245,7 @@ export default function Home() {
         <Icon size={24} name="stack" type="stroke" />
         <Icon size={24} name="stack" type="fill" />
         <Icon size={24} name="stack" type="stroke" color="warning300" />
+        <Icon name="xCircle" color="primary600" type="stroke" size={24} />
       </div>
       <div style={{ display: 'flex', gap: '8px' }}>
         <button onClick={notify1}>success 토스트 열기</button>

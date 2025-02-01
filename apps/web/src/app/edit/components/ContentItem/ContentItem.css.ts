@@ -8,3 +8,45 @@ export const contentItemStyle = style({
   height: '6.4rem',
   padding: '1.6rem 1.6rem 1.6rem 1.2rem',
 });
+
+export const titleStyle = style({
+  width: '100%',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+});
+
+export const noShrinkStyle = style({
+  flexShrink: 0,
+});
+
+export const timeStyle = style({
+  display: 'block',
+
+  selectors: {
+    [`${contentItemStyle}:hover &`]: {
+      display: 'none',
+    },
+  },
+});
+
+export const iconHoverStyle = style({
+  display: 'none',
+  pointerEvents: 'none',
+
+  selectors: {
+    [`${contentItemStyle}:hover &`]: {
+      display: 'flex',
+      gap: '1.6rem',
+      pointerEvents: 'auto',
+    },
+  },
+});
+
+export const cursorPointerStyle = style({
+  cursor: 'pointer',
+});
+
+export const cursorGrabStyle = style({
+  cursor: 'grab',
+});

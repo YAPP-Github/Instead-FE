@@ -20,9 +20,11 @@ import IconPlus from './assets/IconPlus';
 import IconPlusPicture from './assets/IconPlusPicture';
 import IconSend from './assets/IconSend';
 import IconShopping from './assets/IconShopping';
+import IconSixDots from './assets/IconSixDots';
 import IconSmile from './assets/IconSmile';
 import IconStack from './assets/IconStack';
 import IconStar from './assets/IconStar';
+import IconTrash from './assets/IconTrash';
 import IconTwinkle from './assets/IconTwinkle';
 import IconUnSelectedCheckbox from './assets/IconUnSelectedCheckbox';
 import IconX from './assets/IconX';
@@ -51,9 +53,11 @@ export const icons = {
   plusPicture: IconPlusPicture,
   send: IconSend,
   shopping: IconShopping,
+  sixDots: IconSixDots,
   smile: IconSmile,
   stack: IconStack,
   star: IconStar,
+  trash: IconTrash,
   twinkle: IconTwinkle,
   unSelectedCheckbox: IconUnSelectedCheckbox,
   x: IconX,
