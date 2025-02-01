@@ -137,7 +137,14 @@ export function useModal() {
           onClose={close}
           onExited={unmount}
           cta={
-            <Modal.CTA onClick={close} {...options.alertButtonProps}>
+            <Modal.CTA
+              onClick={
+                isNotNil(options.alertButtonProps?.onClick)
+                  ? options.alertButtonProps.onClick
+                  : close
+              }
+              {...options.alertButtonProps}
+            >
               {alertButton}
             </Modal.CTA>
           }
@@ -213,12 +220,16 @@ export function useModal() {
             <Modal.DoubleCTA
               confirmProps={{
                 children: confirmButton,
-                onClick: close,
+                onClick: isNotNil(options.confirmButtonProps?.onClick)
+                  ? options.confirmButtonProps.onClick
+                  : close,
                 ...options.confirmButtonProps,
               }}
               cancelProps={{
                 children: cancelButton,
-                onClick: close,
+                onClick: isNotNil(options.cancelButtonProps?.onClick)
+                  ? options.cancelButtonProps.onClick
+                  : close,
                 ...options.cancelButtonProps,
               }}
             />
