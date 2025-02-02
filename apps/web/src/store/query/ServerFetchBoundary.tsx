@@ -26,7 +26,7 @@ type Props<
   children: ReactNode | ReactNode[];
 };
 
-export function ServerFetchBoundary<
+export async function ServerFetchBoundary<
   TQueryFnData = unknown,
   TError = Error,
   TData = TQueryFnData,
@@ -36,7 +36,7 @@ export function ServerFetchBoundary<
 
   const options = Array.isArray(fetchOptions) ? fetchOptions : [fetchOptions];
 
-  options.forEach((option) => queryClient.fetchQuery(option));
+  await Promise.all(options.map((option) => queryClient.fetchQuery(option)));
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

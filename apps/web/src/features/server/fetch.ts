@@ -33,7 +33,7 @@ async function fetchWrapperWithTokenHandler<Data>(
 
     // 기타 예상치 못한 오류 처리
     throw new Error(
-      `API 요청 실패: ${error instanceof Error ? error.message : '알 수 없는 오류'}`
+      `API 요청 실패: ${error instanceof Error ? error.message : '알 수 없는 오류가 발생했어요.'}`
     );
   }
 }

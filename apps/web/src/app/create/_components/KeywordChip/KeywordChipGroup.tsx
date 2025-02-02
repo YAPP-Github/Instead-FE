@@ -14,7 +14,6 @@ type KeywordChipGroupProps = {
   items: { key: string; label: string }[];
   onChange?: (value: string) => void;
   value?: string;
-  defaultValue?: string;
   disabled?: boolean;
   name?: string;
 };
