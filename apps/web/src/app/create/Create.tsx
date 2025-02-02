@@ -26,12 +26,15 @@ import {
 import * as styles from './pageStyle.css';
 import { useModal } from '@repo/ui/hooks';
 import { useRouter } from 'next/navigation';
+import { useNewsCategoriesQuery } from '@web/store/query/useNewsCategoriesQuery';
+import { isNotNil } from '@repo/ui/utils';
 
 const REQUIRED_FIELDS = {
   TOPIC: 'topic',
 } as const;
 
 export default function Create() {
+  const { data: newsCategories } = useNewsCategoriesQuery();
   const modal = useModal();
   const router = useRouter();
   const { watch, control, handleSubmit } = useForm<CreateFormValues>({
@@ -39,7 +42,9 @@ export default function Create() {
       topic: '',
       purpose: 'INFORMATION',
       reference: 'NONE',
-      newsCategory: '투자', // TODO: 백엔드로부터 받는 데이터 타입으로 수정
+      newsCategory: isNotNil(newsCategories.data[0]?.category)
+        ? newsCategories.data[0].category
+        : undefined,
       imageUrls: [], // TODO: presigned url 받아서 첨부
       length: 'SHORT',
       content: '',
@@ -211,9 +216,14 @@ export default function Create() {
                 name="newsCategory"
                 control={control}
                 render={({ field: { value, onChange } }) => (
-                  <KeywordChipGroup onChange={onChange} defaultValue={value}>
-                    {['투자', '패션', '피트니스', '헬스케어']}
-                  </KeywordChipGroup>
+                  <KeywordChipGroup
+                    items={newsCategories.data.map((category) => ({
+                      key: category.category,
+                      label: category.name,
+                    }))}
+                    value={value}
+                    onChange={(value) => onChange(value)}
+                  />
                 )}
               />
             </section>
