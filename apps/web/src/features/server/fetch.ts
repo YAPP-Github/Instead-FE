@@ -1,5 +1,6 @@
 import { ApiResponse, STATUS, Tokens } from './types';
 import { api } from './api';
+import { isNotNil } from '@repo/ui/utils';
 
 type FetchMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
 
@@ -14,8 +15,10 @@ async function fetchWrapperWithTokenHandler<Data>(
   options?: FetchOptions,
   tokens?: Tokens
 ): Promise<ApiResponse<Data>> {
+  const method = isNotNil(options?.method) ? options.method : 'get';
+
   try {
-    const response = await api[options?.method || 'get'](uri, {
+    const response = await api[method](uri, {
       json: options?.json,
       searchParams: options?.searchParams,
     }).json<ApiResponse<Data>>();
