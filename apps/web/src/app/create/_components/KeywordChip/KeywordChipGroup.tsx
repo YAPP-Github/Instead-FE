@@ -1,6 +1,6 @@
 'use client';
 
-import { KeyboardEvent, ReactNode, useCallback, useState } from 'react';
+import { KeyboardEvent, useCallback, useState } from 'react';
 import { KeywordChip } from './KeywordChip';
 import { keywordChipGroupWrapper } from './KeywordChip.css';
 import { KeywordChipProvider } from './context';
@@ -11,22 +11,23 @@ const KEYBOARD_KEY = {
 } as const;
 
 type KeywordChipGroupProps = {
-  children: ReactNode[];
+  items: { key: string; label: string }[];
   onChange?: (value: string) => void;
+  value?: string;
   defaultValue?: string;
   disabled?: boolean;
   name?: string;
 };
 
 export const KeywordChipGroup = ({
-  children,
+  items,
   onChange,
-  defaultValue = '',
+  value: valueProp,
   disabled = false,
   name = 'keyword-group',
 }: KeywordChipGroupProps) => {
-  const [value, setValue] = useState(defaultValue);
   const [itemsRef] = useState<HTMLButtonElement[]>([]);
+  const [value, setValue] = useState(valueProp);
 
   const handleChange = useCallback(
     (newValue: string) => {
@@ -80,9 +81,9 @@ export const KeywordChipGroup = ({
         role="radiogroup"
         aria-label={name}
       >
-        {children.map((child) => (
-          <KeywordChip key={child?.toString()} value={child?.toString() ?? ''}>
-            {child}
+        {items.map(({ key, label }) => (
+          <KeywordChip key={key} value={key}>
+            {label}
           </KeywordChip>
         ))}
       </div>
