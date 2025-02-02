@@ -64,3 +64,37 @@ export function GET<Data>(
     tokens
   );
 }
+
+export function PUT<Data>(
+  uri: string,
+  body?: unknown,
+  tokens?: Tokens
+): Promise<ApiResponse<Data>> {
+  return fetchWrapperWithTokenHandler<Data>(
+    uri,
+    {
+      method: 'put',
+      json: body,
+    },
+    tokens
+  );
+}
+
+export function DELETE<Data>(
+  uri: string,
+  tokens?: Tokens
+): Promise<ApiResponse<Data>> {
+  return fetchWrapperWithTokenHandler<Data>(uri, { method: 'delete' }, tokens);
+}
+
+export function PATCH<Data>(
+  uri: string,
+  body?: unknown,
+  tokens?: Tokens
+): Promise<ApiResponse<Data>> {
+  return fetchWrapperWithTokenHandler<Data>(
+    uri,
+    { method: 'patch', json: body },
+    tokens
+  );
+}
