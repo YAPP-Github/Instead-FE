@@ -1,1 +1,1 @@
-export { POST, GET } from './fetch';
+export { POST, GET, PUT, DELETE, PATCH } from './fetch';
