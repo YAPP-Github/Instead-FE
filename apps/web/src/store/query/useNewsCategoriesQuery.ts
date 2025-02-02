@@ -20,7 +20,9 @@ export function newsCategoriesQueryOptions(tokens?: Tokens) {
     queryKey: ['news', 'categories'],
     queryFn: () =>
       GET<NewsCategoriesQuery>(`news-categories`, undefined, tokens),
-    staleTime: 0,
+    // NOTE: 항상 fresh 상태로 유지
+    staleTime: Infinity,
+    gcTime: Infinity,
   });
 }
 
