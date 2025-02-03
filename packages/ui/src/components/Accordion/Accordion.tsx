@@ -9,6 +9,16 @@ import { AccordionTrigger } from './AccordionTrigger';
  * @example
  *
  * Accordion 컴포넌트 사용 예시입니다.
+ *  <Accordion type="single" defaultValue="item-1">
+          <Accordion.Item value="item-1">
+            <Accordion.Trigger>
+              trigger 버튼
+            </Accordion.Trigger>
+            <Accordion.Content>
+              content
+            </Accordion.Content>
+          </Accordion.Item>
+    </Accordion>
  *
  */
 export const Accordion = Object.assign(AccordionRoot, {

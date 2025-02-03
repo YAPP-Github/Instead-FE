@@ -19,6 +19,7 @@ import { overlay } from 'overlay-kit';
 import { useModal } from '@repo/ui/hooks';
 import { useToast } from '@repo/ui/hooks';
 import { ImageManager } from '@web/components/common';
+import { Accordion } from '@repo/ui/Accordion';
 
 type FormValues = {
   topic: string;
@@ -489,6 +490,45 @@ export default function Home() {
         <Skeleton width="15rem" height="15rem" />
       </div>
       <ImageManager.TypeA maxFileSize={10} maxFiles={5} />
+      <div
+        style={{
+          display: 'flex',
+          gap: '0.8rem',
+          flexDirection: 'column',
+        }}
+      >
+        <div>single accordion</div>
+        <Accordion type="single" defaultValue="item-1">
+          <Accordion.Item value="item-1">
+            <Accordion.Trigger>trigger 버튼</Accordion.Trigger>
+            <Accordion.Content>content</Accordion.Content>
+          </Accordion.Item>
+          <Accordion.Item value="item-2">
+            <Accordion.Trigger>trigger 버튼</Accordion.Trigger>
+            <Accordion.Content>content</Accordion.Content>
+          </Accordion.Item>
+          <Accordion.Item value="item-3">
+            <Accordion.Trigger>trigger 버튼</Accordion.Trigger>
+            <Accordion.Content>content</Accordion.Content>
+          </Accordion.Item>
+        </Accordion>
+
+        <div>multiple accordion</div>
+        <Accordion type="multiple" defaultValue="item-1">
+          <Accordion.Item value="item-1">
+            <Accordion.Trigger>trigger 버튼</Accordion.Trigger>
+            <Accordion.Content>content</Accordion.Content>
+          </Accordion.Item>
+          <Accordion.Item value="item-2">
+            <Accordion.Trigger>trigger 버튼</Accordion.Trigger>
+            <Accordion.Content>content</Accordion.Content>
+          </Accordion.Item>
+          <Accordion.Item value="item-3">
+            <Accordion.Trigger>trigger 버튼</Accordion.Trigger>
+            <Accordion.Content>content</Accordion.Content>
+          </Accordion.Item>
+        </Accordion>
+      </div>
     </div>
   );
 }
