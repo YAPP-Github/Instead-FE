@@ -29,6 +29,7 @@ import { useRouter } from 'next/navigation';
 import { useNewsCategoriesQuery } from '@web/store/query/useNewsCategoriesQuery';
 import { isNotNil } from '@repo/ui/utils';
 import { uploadImages } from '@web/shared/image-upload/ImageUpload';
+import { Suspense } from 'react';
 
 const REQUIRED_FIELDS = {
   TOPIC: 'topic',
@@ -215,20 +216,22 @@ export default function Create() {
           {reference === REFERENCE_TYPE.NEWS && (
             <section className={styles.sectionStyle}>
               <Label variant="required">뉴스 카테고리</Label>
-              <Controller
-                name="newsCategory"
-                control={control}
-                render={({ field: { value, onChange } }) => (
-                  <KeywordChipGroup
-                    items={newsCategories.data.map((category) => ({
-                      key: category.category,
-                      label: category.name,
-                    }))}
-                    value={value}
-                    onChange={(value) => onChange(value)}
-                  />
-                )}
-              />
+              <Suspense>
+                <Controller
+                  name="newsCategory"
+                  control={control}
+                  render={({ field: { value, onChange } }) => (
+                    <KeywordChipGroup
+                      items={newsCategories.data.map((category) => ({
+                        key: category.category,
+                        label: category.name,
+                      }))}
+                      value={value}
+                      onChange={(value) => onChange(value)}
+                    />
+                  )}
+                />
+              </Suspense>
             </section>
           )}
 
