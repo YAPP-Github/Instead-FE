@@ -32,6 +32,7 @@ import { Suspense } from 'react';
 import { NavBar } from '@web/components/common';
 import { useScroll } from '@web/hooks';
 import { useCreatePostsMutation } from '@web/store/mutation/useCreatePostsMutation';
+import { uploadImages } from '@web/shared/image-upload/ImageUpload';
 
 const REQUIRED_FIELDS = {
   TOPIC: 'topic',
@@ -65,6 +66,7 @@ export default function Create() {
 
   const topic = watch(REQUIRED_FIELDS.TOPIC);
   const reference = watch('reference');
+  const imageUrls = watch('imageUrls');
 
   const onSubmit = async (data: CreateFormValues) => {
     const requestData: CreateFormValues = {
@@ -75,6 +77,20 @@ export default function Create() {
     };
 
     createPosts(requestData);
+  };
+
+  const isSubmitDisabled = isEmptyStringOrNil(topic);
+
+  const handleImageUpload = async (files: File[]) => {
+    const uploadedUrls = await uploadImages(files);
+    setValue('imageUrls', uploadedUrls);
+  };
+
+  const handleImageRemove = (url: string) => {
+    setValue(
+      'imageUrls',
+      isNotNil(imageUrls) ? imageUrls.filter((prevUrl) => prevUrl !== url) : []
+    );
   };
 
   const handleHomeBreadcrumbClick = () => {
@@ -90,12 +106,6 @@ export default function Create() {
         },
       },
     });
-  };
-
-  const isSubmitDisabled = isEmptyStringOrNil(topic);
-
-  const onImageChange = async (urls: string[]) => {
-    setValue('imageUrls', urls);
   };
 
   return (
@@ -207,7 +217,11 @@ export default function Create() {
                 name="imageUrls"
                 control={control}
                 render={({ field: { value } }) => (
-                  <ImageManager.TypeA value={value} onChange={onImageChange} />
+                  <ImageManager.TypeA
+                    value={value}
+                    onUpload={handleImageUpload}
+                    onRemove={handleImageRemove}
+                  />
                 )}
               />
             )}
