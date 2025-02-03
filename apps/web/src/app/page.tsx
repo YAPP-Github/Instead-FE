@@ -18,6 +18,7 @@ import Link from 'next/link';
 import { overlay } from 'overlay-kit';
 import { useModal } from '@repo/ui/hooks';
 import { useToast } from '@repo/ui/hooks';
+import { ImageManager } from '@web/components/common';
 
 type FormValues = {
   topic: string;
@@ -487,6 +488,7 @@ export default function Home() {
         <Skeleton width="15rem" height="15rem" radius={4} />
         <Skeleton width="15rem" height="15rem" />
       </div>
+      <ImageManager.TypeA maxFileSize={10} maxFiles={5} />
     </div>
   );
 }

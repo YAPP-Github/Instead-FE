@@ -29,7 +29,7 @@ export const TextFieldInput = forwardRef<
   (
     {
       maxLength = 500,
-      showCounter = true,
+      showCounter = false,
       value: controlledValue,
       defaultValue,
       className = '',
