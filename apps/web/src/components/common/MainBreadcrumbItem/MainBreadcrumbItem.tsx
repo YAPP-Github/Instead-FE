@@ -1,6 +1,8 @@
-import { Icon } from '@repo/ui';
 import * as styles from './MainBreadcrumbItem.css';
 import Link from 'next/link';
+import { MouseEvent } from 'react';
+import Image from 'next/image';
+import InsteadLogoImage from '@web/assets/images/instead.webp';
 
 type MainBreadcrumbItemProps = {
   href?: string;
@@ -11,7 +13,7 @@ export function MainBreadcrumbItem({
   href = '/create',
   onClick,
 }: MainBreadcrumbItemProps) {
-  const handleClick = (event: React.MouseEvent) => {
+  const handleClick = (event: MouseEvent) => {
     if (onClick) {
       event.preventDefault();
       onClick();
@@ -24,8 +26,15 @@ export function MainBreadcrumbItem({
       className={styles.insteadTextWrapperStyle}
       onClick={handleClick}
     >
-      <Icon name="stack" size={32} color="grey900" />
-      <span className={styles.insteadTextStyle}>Instead</span>
+      <Image
+        src={InsteadLogoImage}
+        alt="Instead"
+        loading="lazy"
+        decoding="async"
+        data-nimg="1"
+        width={120}
+        height={32}
+      />
     </Link>
   );
 }
