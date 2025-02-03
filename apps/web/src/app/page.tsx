@@ -533,14 +533,10 @@ export default function Home() {
         </Accordion>
 
         <div>multiple accordion</div>
-        <Accordion
-          type="multiple"
-          defaultValue="item-1"
-          style={{ display: 'flex' }}
-        >
+        <Accordion type="multiple" defaultValue="item-1">
           <Accordion.Item value="item-1">
             <Accordion.Trigger>trigger 버튼</Accordion.Trigger>
-            <Accordion.Content>contentasdfdsasfdasdfasdfsdf</Accordion.Content>
+            <Accordion.Content>content</Accordion.Content>
           </Accordion.Item>
           <Accordion.Item value="item-2">
             <Accordion.Trigger>trigger 버튼</Accordion.Trigger>
