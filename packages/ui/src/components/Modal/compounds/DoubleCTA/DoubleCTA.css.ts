@@ -9,17 +9,16 @@ export const doubleCta = style({
 });
 
 export const ctaButtonStyle = style({
-  width: '100%',
+  width: 'calc(50% - 0.6rem)',
   borderRadius: '1.2rem',
   color: vars.colors.grey,
-  backgroundColor: vars.colors.grey950,
   fontSize: vars.typography.fontSize[20],
   fontWeight: vars.typography.fontWeight.semibold,
   height: '7.2rem',
 });
 
 export const secondaryButtonStyle = style({
-  width: '100%',
+  width: 'calc(50% - 0.6rem)',
   borderRadius: '1.2rem',
   color: vars.colors.grey1000,
   backgroundColor: vars.colors.grey50,

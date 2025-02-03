@@ -36,6 +36,7 @@ export const darkTheme: ThemeContract = {
     grey950toPrimary: tokens.colors.green200,
     grey1000to1000: tokens.colors.grey1000,
 
+    primary200: tokens.colors.primary200,
     primary500: tokens.colors.primary500,
     primary600: tokens.colors.primary600,
     primary700: tokens.colors.primary700,
