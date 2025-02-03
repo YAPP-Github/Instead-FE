@@ -8,6 +8,7 @@ import {
   Breadcrumb,
   Icon,
   Button,
+  Modal,
 } from '@repo/ui';
 import { ImageManager, MainBreadcrumbItem } from '@web/components/common';
 import { KeywordChipGroup } from './_components/KeywordChip/KeywordChipGroup';
@@ -23,48 +24,80 @@ import {
   LENGTH_OPTIONS,
 } from './constants';
 import * as styles from './pageStyle.css';
+import { useModal, useToast } from '@repo/ui/hooks';
+import { useRouter } from 'next/navigation';
+import { useNewsCategoriesQuery } from '@web/store/query/useNewsCategoriesQuery';
+import { isNotNil } from '@repo/ui/utils';
+import { uploadImages } from '@web/shared/image-upload/ImageUpload';
+
+const REQUIRED_FIELDS = {
+  TOPIC: 'topic',
+} as const;
 
 export default function Create() {
+  const { data: newsCategories } = useNewsCategoriesQuery();
+  const modal = useModal();
+  const toast = useToast();
+  const router = useRouter();
   const { watch, control, handleSubmit } = useForm<CreateFormValues>({
     defaultValues: {
       topic: '',
       purpose: 'INFORMATION',
       reference: 'NONE',
-      newsCategory: '투자', // TODO: 백엔드로부터 받는 데이터 타입으로 수정
-      imageUrls: [], // TODO: presigned url 받아서 첨부
+      newsCategory: isNotNil(newsCategories.data[0]?.category)
+        ? newsCategories.data[0].category
+        : undefined,
+      imageUrls: [],
       length: 'SHORT',
       content: '',
     },
     mode: 'onChange',
   });
 
-  const topic = watch('topic');
+  const topic = watch(REQUIRED_FIELDS.TOPIC);
   const reference = watch('reference');
 
-  const onSubmit = (data: CreateFormValues) => {
-    //TODO: 임시 로직. 이런 식으로 요청해야 함
-    // // 1. presigned URL 요청
-    // const presignedUrls = await fetchPresignedUrls(data.imageUrls); // 🔹 presigned URL 요청
+  const onSubmit = async (data: CreateFormValues) => {
+    try {
+      let uploadedImageUrls: string[] = [];
 
-    // // 2. 파일을 presigned URL로 업로드
-    // await Promise.all(
-    //   data.imageUrls.map((file, index) =>
-    //     uploadFileToPresignedUrl(presignedUrls[index], file)
-    //   )
-    // );
+      // 이미지 참조 타입이고 이미지가 있는 경우에만 업로드
+      if (
+        data.reference === REFERENCE_TYPE.IMAGE &&
+        data.imageUrls &&
+        data.imageUrls.length > 0
+      ) {
+        uploadedImageUrls = await uploadImages(data.imageUrls);
+      }
 
-    const presignedUrls = [
-      'https://example.com/image1.jpg',
-      'https://example.com/image2.jpg',
-    ];
+      const requestData = {
+        ...data,
+        newsCategory:
+          data.reference === REFERENCE_TYPE.NEWS ? data.newsCategory : null,
+        imageUrls:
+          data.reference === REFERENCE_TYPE.IMAGE ? uploadedImageUrls : null,
+      };
 
-    const requestData = {
-      ...data,
-      newsCategory: data.reference === 'NEWS' ? data.newsCategory : null,
-      imageUrls: data.reference === 'IMAGE' ? presignedUrls : null,
-    };
+      console.log('폼 데이터:', requestData);
+      // TODO: API 요청 구현
+    } catch (error) {
+      toast.error('이미지를 업로드하는 데 실패했어요');
+    }
+  };
 
-    console.log('폼 데이터:', requestData);
+  const handleHomeBreadcrumbClick = () => {
+    modal.confirm({
+      title: '정말 나가시겠어요?',
+      description: '이 페이지를 나가면\n작성한 내용은 저장되지 않아요',
+      icon: <Modal.Icon name="notice" color="warning500" />,
+      confirmButton: '나가기',
+      cancelButton: '취소',
+      confirmButtonProps: {
+        onClick: () => {
+          router.push('/');
+        },
+      },
+    });
   };
 
   const isSubmitDisabled = isEmptyStringOrNil(topic);
@@ -74,7 +107,14 @@ export default function Create() {
       <div className={styles.headerStyle}>
         <Breadcrumb>
           <Breadcrumb.Item>
-            <MainBreadcrumbItem href="/create" />
+            <MainBreadcrumbItem
+              href="/"
+              onClick={
+                !isEmptyStringOrNil(topic)
+                  ? handleHomeBreadcrumbClick
+                  : undefined
+              }
+            />
           </Breadcrumb.Item>
         </Breadcrumb>
         <Button
@@ -165,7 +205,7 @@ export default function Create() {
                 name="imageUrls"
                 control={control}
                 render={({ field: { value, onChange } }) => (
-                  <ImageManager.TypeA value={value || []} onChange={onChange} />
+                  <ImageManager.TypeA value={value} onChange={onChange} />
                 )}
               />
             )}
@@ -179,9 +219,14 @@ export default function Create() {
                 name="newsCategory"
                 control={control}
                 render={({ field: { value, onChange } }) => (
-                  <KeywordChipGroup onChange={onChange} defaultValue={value}>
-                    {['투자', '패션', '피트니스', '헬스케어']}
-                  </KeywordChipGroup>
+                  <KeywordChipGroup
+                    items={newsCategories.data.map((category) => ({
+                      key: category.category,
+                      label: category.name,
+                    }))}
+                    value={value}
+                    onChange={(value) => onChange(value)}
+                  />
                 )}
               />
             </section>
