@@ -86,8 +86,13 @@ export const TypeA = ({
   }, [value]);
 
   useEffect(() => {
+    const prevImages = images;
     return () => {
-      images.forEach((image) => URL.revokeObjectURL(image.url));
+      prevImages.forEach((image) => {
+        if (image.url.startsWith('blob:')) {
+          URL.revokeObjectURL(image.url);
+        }
+      });
     };
   }, [images]);
 
