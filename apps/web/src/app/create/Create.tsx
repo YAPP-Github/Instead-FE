@@ -28,6 +28,7 @@ import { useModal } from '@repo/ui/hooks';
 import { useRouter } from 'next/navigation';
 import { useNewsCategoriesQuery } from '@web/store/query/useNewsCategoriesQuery';
 import { isNotNil } from '@repo/ui/utils';
+import { uploadImages } from '@web/shared/image-upload/ImageUpload';
 
 const REQUIRED_FIELDS = {
   TOPIC: 'topic',
@@ -55,31 +56,33 @@ export default function Create() {
   const topic = watch(REQUIRED_FIELDS.TOPIC);
   const reference = watch('reference');
 
-  const onSubmit = (data: CreateFormValues) => {
-    //TODO: 임시 로직. 이런 식으로 요청해야 함
-    // // 1. presigned URL 요청
-    // const presignedUrls = await fetchPresignedUrls(data.imageUrls); // 🔹 presigned URL 요청
+  const onSubmit = async (data: CreateFormValues) => {
+    try {
+      let uploadedImageUrls: string[] = [];
 
-    // // 2. 파일을 presigned URL로 업로드
-    // await Promise.all(
-    //   data.imageUrls.map((file, index) =>
-    //     uploadFileToPresignedUrl(presignedUrls[index], file)
-    //   )
-    // );
+      // 이미지 참조 타입이고 이미지가 있는 경우에만 업로드
+      if (
+        data.reference === REFERENCE_TYPE.IMAGE &&
+        data.imageUrls &&
+        data.imageUrls.length > 0
+      ) {
+        uploadedImageUrls = await uploadImages(data.imageUrls);
+      }
 
-    const presignedUrls = [
-      'https://example.com/image1.jpg',
-      'https://example.com/image2.jpg',
-    ];
+      const requestData = {
+        ...data,
+        newsCategory:
+          data.reference === REFERENCE_TYPE.NEWS ? data.newsCategory : null,
+        imageUrls:
+          data.reference === REFERENCE_TYPE.IMAGE ? uploadedImageUrls : null,
+      };
 
-    const requestData = {
-      ...data,
-      newsCategory:
-        data.reference === REFERENCE_TYPE.NEWS ? data.newsCategory : null,
-      imageUrls: data.reference === REFERENCE_TYPE.IMAGE ? presignedUrls : null,
-    };
-
-    console.log('폼 데이터:', requestData);
+      console.log('폼 데이터:', requestData);
+      // TODO: API 요청 구현
+    } catch (error) {
+      console.error('이미지 업로드 실패:', error);
+      // TODO: 에러 처리 (예: 토스트 메시지 표시)
+    }
   };
 
   const handleHomeBreadcrumbClick = () => {
@@ -202,7 +205,7 @@ export default function Create() {
                 name="imageUrls"
                 control={control}
                 render={({ field: { value, onChange } }) => (
-                  <ImageManager.TypeA value={value || []} onChange={onChange} />
+                  <ImageManager.TypeA value={value} onChange={onChange} />
                 )}
               />
             )}

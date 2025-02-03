@@ -1,6 +1,6 @@
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
-import { GET } from '@web/features/server/fetch';
-import { Tokens } from '@web/features/server/types';
+import { GET } from '@web/shared/server/fetch';
+import { Tokens } from '@web/shared/server/types';
 
 export interface NewsCategory {
   /**
