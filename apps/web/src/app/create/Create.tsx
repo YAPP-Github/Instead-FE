@@ -24,7 +24,7 @@ import {
   LENGTH_OPTIONS,
 } from './constants';
 import * as styles from './pageStyle.css';
-import { useModal } from '@repo/ui/hooks';
+import { useModal, useToast } from '@repo/ui/hooks';
 import { useRouter } from 'next/navigation';
 import { useNewsCategoriesQuery } from '@web/store/query/useNewsCategoriesQuery';
 import { isNotNil } from '@repo/ui/utils';
@@ -37,6 +37,7 @@ const REQUIRED_FIELDS = {
 export default function Create() {
   const { data: newsCategories } = useNewsCategoriesQuery();
   const modal = useModal();
+  const toast = useToast();
   const router = useRouter();
   const { watch, control, handleSubmit } = useForm<CreateFormValues>({
     defaultValues: {
@@ -46,7 +47,7 @@ export default function Create() {
       newsCategory: isNotNil(newsCategories.data[0]?.category)
         ? newsCategories.data[0].category
         : undefined,
-      imageUrls: [], // TODO: presigned url 받아서 첨부
+      imageUrls: [],
       length: 'SHORT',
       content: '',
     },
@@ -80,8 +81,7 @@ export default function Create() {
       console.log('폼 데이터:', requestData);
       // TODO: API 요청 구현
     } catch (error) {
-      console.error('이미지 업로드 실패:', error);
-      // TODO: 에러 처리 (예: 토스트 메시지 표시)
+      toast.error('이미지를 업로드하는 데 실패했어요');
     }
   };
 
