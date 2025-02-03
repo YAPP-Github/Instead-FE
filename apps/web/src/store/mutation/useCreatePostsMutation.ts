@@ -27,12 +27,14 @@ export function useCreatePostsMutation({ agentId }: MutationCreatePostsType) {
         `agents/${agentId}/post-groups/posts`,
         values
       ),
-    onSuccess(response) {
+    onSuccess: (response) => {
       const postGroupId = response.data.postGroupId;
       router.push(`/edit/${agentId}/${postGroupId}`);
     },
-    onError(error) {
-      toast.error(error.message);
+    onError: (error) => {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
     },
   });
 }
