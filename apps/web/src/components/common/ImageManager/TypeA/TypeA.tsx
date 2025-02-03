@@ -1,13 +1,14 @@
 'use client';
 
 import { Icon, Text } from '@repo/ui';
+import { useToast } from '@repo/ui/hooks';
 import { ImageManagerProvider } from './context';
 import { ImageUploader } from './ImageUploader';
 import { UploadedImages } from './UploadedImages';
 import * as styles from './TypeA.css';
 import { useState, useCallback, useEffect } from 'react';
 import type { ImageFile } from './types';
-import { useToast } from '../../../../../../../packages/ui/src/hooks';
+import { uploadImages } from '@web/shared/image-upload/ImageUpload';
 
 export type ImageManagerTypeAProps = {
   /**
@@ -20,8 +21,8 @@ export type ImageManagerTypeAProps = {
    * @default 5
    */
   maxFiles?: number;
-  onChange?: (files: File[]) => void;
-  value?: File[];
+  onChange?: (urls: string[]) => void;
+  value?: string[];
 };
 
 export const TypeA = ({
@@ -34,17 +35,16 @@ export const TypeA = ({
   if (maxFiles <= 0) throw new Error('maxFiles는 0보다 커야합니다.');
 
   const [images, setImages] = useState<ImageFile[]>(
-    value.map((file) => ({
+    value.map((url) => ({
       id: crypto.randomUUID(),
-      file,
-      preview: URL.createObjectURL(file),
+      url,
     }))
   );
 
   const toast = useToast();
 
   const handleUpload = useCallback(
-    (files: FileList) => {
+    async (files: FileList) => {
       const oversizedFiles = Array.from(files).filter(
         (file) => file.size > maxFileSize * 1024 * 1024
       );
@@ -71,16 +71,16 @@ export const TypeA = ({
         return;
       }
 
-      const newFiles = Array.from(files).map((file) => ({
+      const uploadedUrls = await uploadImages(Array.from(files));
+      const newImages = uploadedUrls.map((url) => ({
         id: crypto.randomUUID(),
-        file,
-        preview: URL.createObjectURL(file),
+        preview: url,
+        url: url,
       }));
 
-      const updatedImages = [...images, ...newFiles];
-
+      const updatedImages = [...images, ...newImages];
       setImages(updatedImages);
-      onChange?.(updatedImages.map((img) => img.file)); // 🔹 변경: File 객체를 넘김
+      onChange?.(updatedImages.map((img) => img.url));
     },
     [images, maxFiles, maxFileSize, toast, onChange]
   );
@@ -89,7 +89,7 @@ export const TypeA = ({
     (id: string) => {
       setImages((prevImages) => {
         const updatedImages = prevImages.filter((image) => image.id !== id);
-        onChange?.(updatedImages.map((img) => img.file)); // 🔹 삭제 후 File 배열 업데이트
+        onChange?.(updatedImages.map((img) => img.url));
         return updatedImages;
       });
     },
@@ -98,7 +98,7 @@ export const TypeA = ({
 
   useEffect(() => {
     return () => {
-      images.forEach((image) => URL.revokeObjectURL(image.preview));
+      images.forEach((image) => URL.revokeObjectURL(image.url));
     };
   }, [images]);
 
