@@ -48,3 +48,5 @@ export function AccordionContent({
     </div>
   );
 }
+
+AccordionContent.displayName = 'AccordionContent';

@@ -48,3 +48,5 @@ export function AccordionItem({
     </AccordionItemContext.Provider>
   );
 }
+
+AccordionItem.displayName = 'AccordionItem';

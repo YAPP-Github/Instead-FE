@@ -36,3 +36,5 @@ export function AccordionTrigger({
     </button>
   );
 }
+
+AccordionTrigger.displayName = 'AccordionTrigger';

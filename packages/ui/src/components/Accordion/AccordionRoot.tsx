@@ -88,3 +88,5 @@ export function AccordionRoot({
     </AccordionContext.Provider>
   );
 }
+
+AccordionRoot.displayName = 'AccordionRoot';
