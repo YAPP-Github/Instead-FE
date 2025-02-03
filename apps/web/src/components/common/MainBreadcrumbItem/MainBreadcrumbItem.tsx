@@ -28,10 +28,7 @@ export function MainBreadcrumbItem({
     >
       <Image
         src={InsteadLogoImage}
-        alt="Instead"
-        loading="lazy"
-        decoding="async"
-        data-nimg="1"
+        alt="Instead 로고"
         width={120}
         height={32}
       />
