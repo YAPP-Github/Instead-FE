@@ -5,7 +5,7 @@ export const mainStyle = style({
   maxWidth: '100%',
   height: '100vh',
   margin: '0 auto',
-  background: 'radial-gradient(circle at 50% 0%, #D7DAFF 0%, #FFFFFF 76%)',
+  background: 'radial-gradient(100% 100% at 51.8% 0%, #D7DAFF 0%, #FFF 79.28%)',
   overflow: 'auto',
 });
 
