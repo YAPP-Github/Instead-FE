@@ -24,14 +24,14 @@ import {
   LENGTH_OPTIONS,
 } from './constants';
 import * as styles from './pageStyle.css';
-import { useModal, useToast } from '@repo/ui/hooks';
+import { useModal } from '@repo/ui/hooks';
 import { useRouter } from 'next/navigation';
 import { useNewsCategoriesQuery } from '@web/store/query/useNewsCategoriesQuery';
 import { isNotNil } from '@repo/ui/utils';
-import { uploadImages } from '@web/shared/image-upload/ImageUpload';
 import { Suspense } from 'react';
 import { NavBar } from '@web/components/common';
 import { useScroll } from '@web/hooks';
+import { useCreatePostsMutation } from '@web/store/mutation/useCreatePostsMutation';
 
 const REQUIRED_FIELDS = {
   TOPIC: 'topic',
@@ -39,14 +39,16 @@ const REQUIRED_FIELDS = {
 
 export default function Create() {
   const { data: newsCategories } = useNewsCategoriesQuery();
+  const { mutate: createPosts, isPending } = useCreatePostsMutation({
+    agentId: '1',
+  });
   const modal = useModal();
-  const toast = useToast();
   const router = useRouter();
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({
     threshold: 100,
   });
 
-  const { watch, control, handleSubmit } = useForm<CreateFormValues>({
+  const { watch, control, handleSubmit, setValue } = useForm<CreateFormValues>({
     defaultValues: {
       topic: '',
       purpose: 'INFORMATION',
@@ -65,31 +67,14 @@ export default function Create() {
   const reference = watch('reference');
 
   const onSubmit = async (data: CreateFormValues) => {
-    try {
-      let uploadedImageUrls: string[] = [];
+    const requestData: CreateFormValues = {
+      ...data,
+      newsCategory:
+        data.reference === REFERENCE_TYPE.NEWS ? data.newsCategory : undefined,
+      imageUrls: data.reference === REFERENCE_TYPE.IMAGE ? data.imageUrls : [],
+    };
 
-      // 이미지 참조 타입이고 이미지가 있는 경우에만 업로드
-      if (
-        data.reference === REFERENCE_TYPE.IMAGE &&
-        data.imageUrls &&
-        data.imageUrls.length > 0
-      ) {
-        uploadedImageUrls = await uploadImages(data.imageUrls);
-      }
-
-      const requestData = {
-        ...data,
-        newsCategory:
-          data.reference === REFERENCE_TYPE.NEWS ? data.newsCategory : null,
-        imageUrls:
-          data.reference === REFERENCE_TYPE.IMAGE ? uploadedImageUrls : null,
-      };
-
-      console.log('폼 데이터:', requestData);
-      // TODO: API 요청 구현
-    } catch (error) {
-      toast.error('이미지를 업로드하는 데 실패했어요');
-    }
+    createPosts(requestData);
   };
 
   const handleHomeBreadcrumbClick = () => {
@@ -108,6 +93,10 @@ export default function Create() {
   };
 
   const isSubmitDisabled = isEmptyStringOrNil(topic);
+
+  const onImageChange = async (urls: string[]) => {
+    setValue('imageUrls', urls);
+  };
 
   return (
     <div className={styles.mainStyle} ref={scrollRef}>
@@ -134,6 +123,7 @@ export default function Create() {
             leftAddon={<Icon name="twinkle" />}
             onClick={handleSubmit(onSubmit)}
             disabled={isSubmitDisabled}
+            isLoading={isPending}
           >
             생성하기
           </Button>
@@ -216,8 +206,8 @@ export default function Create() {
               <Controller
                 name="imageUrls"
                 control={control}
-                render={({ field: { value, onChange } }) => (
-                  <ImageManager.TypeA value={value} onChange={onChange} />
+                render={({ field: { value } }) => (
+                  <ImageManager.TypeA value={value} onChange={onImageChange} />
                 )}
               />
             )}

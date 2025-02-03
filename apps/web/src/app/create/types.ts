@@ -12,7 +12,7 @@ export interface CreateFormValues {
   purpose: PurposeType;
   reference: ReferenceType;
   newsCategory?: string;
-  imageUrls?: File[];
+  imageUrls?: string[];
   length: LengthType;
   content: string;
 }
