@@ -6,6 +6,7 @@ export const contentItemStyle = style({
   alignItems: 'center',
   gap: '1.6rem',
   height: '6.4rem',
+  width: '100%',
   padding: '1.6rem 1.6rem 1.6rem 1.2rem',
 });
 

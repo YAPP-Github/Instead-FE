@@ -10,7 +10,6 @@ import {
 } from './ContentItem.css';
 import { Icon } from '@repo/ui/Icon';
 import { Text } from '@repo/ui/Text';
-import Image from 'next/image';
 
 export type ContentItemProps = {
   image?: string;
