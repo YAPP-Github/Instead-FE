@@ -30,6 +30,8 @@ import { useNewsCategoriesQuery } from '@web/store/query/useNewsCategoriesQuery'
 import { isNotNil } from '@repo/ui/utils';
 import { uploadImages } from '@web/shared/image-upload/ImageUpload';
 import { Suspense } from 'react';
+import { NavBar } from '@web/components/common';
+import { useScroll } from '@web/hooks';
 
 const REQUIRED_FIELDS = {
   TOPIC: 'topic',
@@ -40,6 +42,10 @@ export default function Create() {
   const modal = useModal();
   const toast = useToast();
   const router = useRouter();
+  const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({
+    threshold: 100,
+  });
+
   const { watch, control, handleSubmit } = useForm<CreateFormValues>({
     defaultValues: {
       topic: '',
@@ -104,31 +110,36 @@ export default function Create() {
   const isSubmitDisabled = isEmptyStringOrNil(topic);
 
   return (
-    <div className={styles.mainStyle}>
-      <div className={styles.headerStyle}>
-        <Breadcrumb>
-          <Breadcrumb.Item>
-            <MainBreadcrumbItem
-              href="/"
-              onClick={
-                !isEmptyStringOrNil(topic)
-                  ? handleHomeBreadcrumbClick
-                  : undefined
-              }
-            />
-          </Breadcrumb.Item>
-        </Breadcrumb>
-        <Button
-          type="submit"
-          size="large"
-          variant="primary"
-          leftAddon={<Icon name="twinkle" />}
-          onClick={handleSubmit(onSubmit)}
-          disabled={isSubmitDisabled}
-        >
-          생성하기
-        </Button>
-      </div>
+    <div className={styles.mainStyle} ref={scrollRef}>
+      <NavBar
+        leftAddon={
+          <Breadcrumb>
+            <Breadcrumb.Item>
+              <MainBreadcrumbItem
+                href="/"
+                onClick={
+                  !isEmptyStringOrNil(topic)
+                    ? handleHomeBreadcrumbClick
+                    : undefined
+                }
+              />
+            </Breadcrumb.Item>
+          </Breadcrumb>
+        }
+        rightAddon={
+          <Button
+            type="submit"
+            size="large"
+            variant="primary"
+            leftAddon={<Icon name="twinkle" />}
+            onClick={handleSubmit(onSubmit)}
+            disabled={isSubmitDisabled}
+          >
+            생성하기
+          </Button>
+        }
+        isScrolled={isScrolled}
+      />
 
       <Spacing size={80} />
 
