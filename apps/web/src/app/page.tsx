@@ -532,7 +532,6 @@ export default function Home() {
           </Accordion.Item>
         </Accordion>
       </div>
-      <ImageManager.TypeA maxFileSize={10} maxFiles={5} />
       <ImageManager maxFileSize={10} maxFiles={5} />
     </div>
   );
