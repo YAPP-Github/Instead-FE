@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ComponentPropsWithoutRef, ReactNode } from 'react';
+import React, { ComponentPropsWithoutRef, forwardRef, ReactNode } from 'react';
 import { accordionTrigger } from './Accordion.css';
 import { useAccordionContext } from './Accordion.context';
 import { useAccordionItemContext } from './AccordionItem';
@@ -10,11 +10,10 @@ export type AccordionTriggerProps = {
   children: ReactNode;
 } & ComponentPropsWithoutRef<'button'>;
 
-export function AccordionTrigger({
-  children,
-  className = '',
-  ...props
-}: AccordionTriggerProps) {
+export const AccordionTrigger = forwardRef<
+  HTMLButtonElement,
+  AccordionTriggerProps
+>(({ children, className = '', ...props }: AccordionTriggerProps, ref) => {
   const { toggleValue, isValueOpen } = useAccordionContext();
   const { value } = useAccordionItemContext();
 
@@ -23,6 +22,7 @@ export function AccordionTrigger({
 
   return (
     <button
+      ref={ref}
       className={`${accordionTrigger} ${className}`}
       onClick={handleClick}
       {...props}
@@ -35,6 +35,6 @@ export function AccordionTrigger({
       {children}
     </button>
   );
-}
+});
 
 AccordionTrigger.displayName = 'AccordionTrigger';

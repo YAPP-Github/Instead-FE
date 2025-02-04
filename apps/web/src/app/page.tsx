@@ -20,6 +20,7 @@ import { Accordion } from '@repo/ui/Accordion';
 import { useModal } from '@repo/ui/hooks';
 import { useToast } from '@repo/ui/hooks';
 import { ImageManager } from '@web/components/common';
+import { style } from '@vanilla-extract/css';
 
 type FormValues = {
   topic: string;
@@ -512,10 +513,14 @@ export default function Home() {
         </Accordion>
 
         <div>multiple accordion</div>
-        <Accordion type="multiple" defaultValue="item-1">
+        <Accordion
+          type="multiple"
+          defaultValue="item-1"
+          style={{ display: 'flex' }}
+        >
           <Accordion.Item value="item-1">
             <Accordion.Trigger>trigger 버튼</Accordion.Trigger>
-            <Accordion.Content>content</Accordion.Content>
+            <Accordion.Content>contentasdfdsasfdasdfasdfsdf</Accordion.Content>
           </Accordion.Item>
           <Accordion.Item value="item-2">
             <Accordion.Trigger>trigger 버튼</Accordion.Trigger>
