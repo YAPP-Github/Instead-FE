@@ -365,7 +365,6 @@ export default function Home() {
               showCounter
               {...register('aiUpgrade')}
             />
-            <TextField.Submit type="submit" />
           </TextField>
 
           <TextField id="ai-field" variant="button" isError>
@@ -373,10 +372,30 @@ export default function Home() {
             <TextField.Input
               placeholder="AI에게 요청하여 글 업그레이드하기"
               maxLength={5000}
+              sumbitButton={<TextField.Submit type="submit" />}
               showCounter
               {...register('aiUpgrade')}
             />
-            <TextField.Submit type="submit" />
+          </TextField>
+
+          <TextField id="ai-field" variant="button">
+            <TextField.Label>AI 업그레이드</TextField.Label>
+            <TextField.Input
+              placeholder="AI에게 요청하여 글 업그레이드하기"
+              maxLength={5000}
+              sumbitButton={<TextField.Submit type="submit" />}
+              {...register('aiUpgrade')}
+            />
+          </TextField>
+
+          <TextField id="ai-field" variant="button">
+            <TextField.Input
+              placeholder="AI에게 요청하여 글 업그레이드하기"
+              maxLength={5000}
+              sumbitButton={<TextField.Submit type="submit" />}
+              showCounter
+              {...register('aiUpgrade')}
+            />
           </TextField>
         </div>
       </form>

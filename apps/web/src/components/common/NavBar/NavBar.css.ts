@@ -3,7 +3,7 @@ import { vars } from '@repo/theme';
 
 export const navBar = style({
   display: 'flex',
-  justifyContent: 'space-between',
+  justifyContent: 'flex-start',
   alignItems: 'center',
   position: 'fixed',
   top: 0,
@@ -18,4 +18,12 @@ export const navBar = style({
 export const scrolled = style({
   background: 'rgba(255, 255, 255, 0.01)',
   backdropFilter: 'blur(50px)',
+});
+
+export const bothAddons = style({
+  justifyContent: 'space-between',
+});
+
+export const rightAddonOnly = style({
+  justifyContent: 'flex-end',
 });
