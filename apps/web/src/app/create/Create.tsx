@@ -8,6 +8,7 @@ import {
   Breadcrumb,
   Icon,
   Button,
+  Modal,
 } from '@repo/ui';
 import { ImageManager, MainBreadcrumbItem } from '@web/components/common';
 import { KeywordChipGroup } from './_components/KeywordChip/KeywordChipGroup';
@@ -23,71 +24,122 @@ import {
   LENGTH_OPTIONS,
 } from './constants';
 import * as styles from './pageStyle.css';
+import { useModal } from '@repo/ui/hooks';
+import { useRouter } from 'next/navigation';
+import { useNewsCategoriesQuery } from '@web/store/query/useNewsCategoriesQuery';
+import { isNotNil } from '@repo/ui/utils';
+import { Suspense } from 'react';
+import { NavBar } from '@web/components/common';
+import { useScroll } from '@web/hooks';
+import { useCreatePostsMutation } from '@web/store/mutation/useCreatePostsMutation';
+import { uploadImages } from '@web/shared/image-upload/ImageUpload';
+
+const REQUIRED_FIELDS = {
+  TOPIC: 'topic',
+} as const;
 
 export default function Create() {
-  const { watch, control, handleSubmit } = useForm<CreateFormValues>({
+  const { data: newsCategories } = useNewsCategoriesQuery();
+  const { mutate: createPosts, isPending } = useCreatePostsMutation({
+    agentId: '1',
+  });
+  const modal = useModal();
+  const router = useRouter();
+  const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({
+    threshold: 100,
+  });
+
+  const { watch, control, handleSubmit, setValue } = useForm<CreateFormValues>({
     defaultValues: {
       topic: '',
       purpose: 'INFORMATION',
       reference: 'NONE',
-      newsCategory: '투자', // TODO: 백엔드로부터 받는 데이터 타입으로 수정
-      imageUrls: [], // TODO: presigned url 받아서 첨부
+      newsCategory: isNotNil(newsCategories.data[0]?.category)
+        ? newsCategories.data[0].category
+        : undefined,
+      imageUrls: [],
       length: 'SHORT',
       content: '',
     },
     mode: 'onChange',
   });
 
-  const topic = watch('topic');
+  const topic = watch(REQUIRED_FIELDS.TOPIC);
   const reference = watch('reference');
+  const imageUrls = watch('imageUrls');
 
-  const onSubmit = (data: CreateFormValues) => {
-    //TODO: 임시 로직. 이런 식으로 요청해야 함
-    // // 1. presigned URL 요청
-    // const presignedUrls = await fetchPresignedUrls(data.imageUrls); // 🔹 presigned URL 요청
-
-    // // 2. 파일을 presigned URL로 업로드
-    // await Promise.all(
-    //   data.imageUrls.map((file, index) =>
-    //     uploadFileToPresignedUrl(presignedUrls[index], file)
-    //   )
-    // );
-
-    const presignedUrls = [
-      'https://example.com/image1.jpg',
-      'https://example.com/image2.jpg',
-    ];
-
-    const requestData = {
+  const onSubmit = async (data: CreateFormValues) => {
+    const requestData: CreateFormValues = {
       ...data,
-      newsCategory: data.reference === 'NEWS' ? data.newsCategory : null,
-      imageUrls: data.reference === 'IMAGE' ? presignedUrls : null,
+      newsCategory:
+        data.reference === REFERENCE_TYPE.NEWS ? data.newsCategory : undefined,
+      imageUrls: data.reference === REFERENCE_TYPE.IMAGE ? data.imageUrls : [],
     };
 
-    console.log('폼 데이터:', requestData);
+    createPosts(requestData);
   };
 
   const isSubmitDisabled = isEmptyStringOrNil(topic);
 
+  const handleImageUpload = async (files: File[]) => {
+    const uploadedUrls = await uploadImages(files);
+    setValue('imageUrls', uploadedUrls);
+  };
+
+  const handleImageRemove = (url: string) => {
+    setValue(
+      'imageUrls',
+      isNotNil(imageUrls) ? imageUrls.filter((prevUrl) => prevUrl !== url) : []
+    );
+  };
+
+  const handleHomeBreadcrumbClick = () => {
+    modal.confirm({
+      title: '정말 나가시겠어요?',
+      description: '이 페이지를 나가면\n작성한 내용은 저장되지 않아요',
+      icon: <Modal.Icon name="notice" color="warning500" />,
+      confirmButton: '나가기',
+      cancelButton: '취소',
+      confirmButtonProps: {
+        onClick: () => {
+          router.push('/');
+        },
+      },
+    });
+  };
+
   return (
-    <div className={styles.mainStyle}>
-      <div className={styles.headerStyle}>
-        <Breadcrumb>
-          <Breadcrumb.Item>
-            <MainBreadcrumbItem href="/create" />
-          </Breadcrumb.Item>
-        </Breadcrumb>
-        <Button
-          type="submit"
-          size="large"
-          variant="primary"
-          leftAddon={<Icon name="twinkle" />}
-          onClick={handleSubmit(onSubmit)}
-          disabled={isSubmitDisabled}
-        >
-          생성하기
-        </Button>
-      </div>
+    <div className={styles.mainStyle} ref={scrollRef}>
+      <NavBar
+        leftAddon={
+          <Breadcrumb>
+            <Breadcrumb.Item>
+              <MainBreadcrumbItem
+                href="/"
+                onClick={
+                  !isEmptyStringOrNil(topic)
+                    ? handleHomeBreadcrumbClick
+                    : undefined
+                }
+              />
+            </Breadcrumb.Item>
+          </Breadcrumb>
+        }
+        rightAddon={
+          <Button
+            type="submit"
+            size="large"
+            variant="primary"
+            leftAddon={<Icon name="twinkle" />}
+            onClick={handleSubmit(onSubmit)}
+            disabled={isSubmitDisabled}
+            isLoading={isPending}
+          >
+            생성하기
+          </Button>
+        }
+        isScrolled={isScrolled}
+      />
 
       <Spacing size={80} />
 
@@ -164,8 +216,12 @@ export default function Create() {
               <Controller
                 name="imageUrls"
                 control={control}
-                render={({ field: { value, onChange } }) => (
-                  <ImageManager.TypeA value={value || []} onChange={onChange} />
+                render={({ field: { value } }) => (
+                  <ImageManager
+                    value={value}
+                    onUpload={handleImageUpload}
+                    onRemove={handleImageRemove}
+                  />
                 )}
               />
             )}
@@ -175,15 +231,22 @@ export default function Create() {
           {reference === REFERENCE_TYPE.NEWS && (
             <section className={styles.sectionStyle}>
               <Label variant="required">뉴스 카테고리</Label>
-              <Controller
-                name="newsCategory"
-                control={control}
-                render={({ field: { value, onChange } }) => (
-                  <KeywordChipGroup onChange={onChange} defaultValue={value}>
-                    {['투자', '패션', '피트니스', '헬스케어']}
-                  </KeywordChipGroup>
-                )}
-              />
+              <Suspense>
+                <Controller
+                  name="newsCategory"
+                  control={control}
+                  render={({ field: { value, onChange } }) => (
+                    <KeywordChipGroup
+                      items={newsCategories.data.map((category) => ({
+                        key: category.category,
+                        label: category.name,
+                      }))}
+                      value={value}
+                      onChange={(value) => onChange(value)}
+                    />
+                  )}
+                />
+              </Suspense>
             </section>
           )}
 

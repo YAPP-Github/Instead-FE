@@ -1,5 +1,8 @@
 name: CI-Build
 
+env:
+  NEXT_PUBLIC_SERVER_BASE_URL: ${{secrets.NEXT_PUBLIC_SERVER_BASE_URL }}
+
 on:
   pull_request:
     branches: [main, develop]
