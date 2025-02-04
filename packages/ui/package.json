@@ -79,6 +79,14 @@
       "types": "./dist/components/Skeleton/index.d.ts",
       "import": "./dist/components/Skeleton/index.js"
     },
+    "./Chip": {
+      "types": "./dist/components/Chip/index.d.ts",
+      "import": "./dist/components/Chip/index.js"
+    },
+    "./Accordion": {
+      "types": "./dist/components/Accordion/index.d.ts",
+      "import": "./dist/components/Accordion/index.js"
+    },
     "./utils": "./dist/utils/index.js"
   },
   "scripts": {
