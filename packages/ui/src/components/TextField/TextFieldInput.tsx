@@ -6,17 +6,20 @@ import {
   useRef,
   useEffect,
   useContext,
+  ReactNode,
 } from 'react';
 import { TextFieldContext } from './context';
 import { textFieldContainerStyle, textFieldStyle } from './TextField.css';
 import { TextFieldCounter } from './TextFieldCounter';
 import { isNil, mergeRefs } from '../../utils';
+import { TextFieldSubmit } from './TextFieldSubmit';
 
 export type TextFieldInputProps = {
   maxLength?: number;
   showCounter?: boolean;
   value?: string;
   defaultValue?: string;
+  sumbitButton?: ReactNode;
 } & Omit<
   ComponentPropsWithoutRef<'textarea'>,
   'maxLength' | 'value' | 'defaultValue'
@@ -32,6 +35,7 @@ export const TextFieldInput = forwardRef<
       showCounter = false,
       value: controlledValue,
       defaultValue,
+      sumbitButton,
       className = '',
       onChange,
       ...props
@@ -88,6 +92,7 @@ export const TextFieldInput = forwardRef<
             data-multiline={isMultiline}
             {...props}
           />
+          {sumbitButton}
         </div>
         {showCounter && (
           <TextFieldCounter current={value.length} max={maxLength} />

@@ -12,9 +12,12 @@ export const textFieldWrapperStyle = style({
 
 export const textFieldContainerStyle = recipe({
   base: {
+    position: 'relative',
     padding: vars.space[16],
     backgroundColor: vars.colors.grey50,
     borderRadius: '1.2rem',
+    display: 'flex',
+    alignItems: 'center',
   },
   variants: {
     variant: {
@@ -84,14 +87,9 @@ export const textFieldStyle = recipe({
 export const submitButtonStyle = recipe({
   base: {
     position: 'absolute',
-    top: '50%',
-    transform: 'translateY(-50%)',
     right: '1.2rem',
     width: '3.2rem',
     height: '3.2rem',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
     border: 'none',
     background: 'transparent',
     padding: 0,
