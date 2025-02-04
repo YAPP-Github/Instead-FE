@@ -487,7 +487,7 @@ export default function Home() {
         <Skeleton width="15rem" height="15rem" radius={4} />
         <Skeleton width="15rem" height="15rem" />
       </div>
-      <ImageManager.TypeA maxFileSize={10} maxFiles={5} />
+      <ImageManager maxFileSize={10} maxFiles={5} />
     </div>
   );
 }

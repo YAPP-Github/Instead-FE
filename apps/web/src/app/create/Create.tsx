@@ -217,7 +217,7 @@ export default function Create() {
                 name="imageUrls"
                 control={control}
                 render={({ field: { value } }) => (
-                  <ImageManager.TypeA
+                  <ImageManager
                     value={value}
                     onUpload={handleImageUpload}
                     onRemove={handleImageRemove}
