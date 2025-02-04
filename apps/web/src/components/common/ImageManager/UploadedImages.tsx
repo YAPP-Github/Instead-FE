@@ -2,15 +2,12 @@
 
 import { Icon } from '@repo/ui';
 import * as styles from './UploadedImages.css';
-import Image from 'next/image';
 import type { ImageFile } from './types';
 import type { ImageManagerContextValue } from './context';
 
 type UploadedImagesProps = {
   images: ImageFile[];
 } & Pick<ImageManagerContextValue, 'onRemove'>;
-
-const IMAGE_SIZE = 64;
 
 export const UploadedImages = ({ images, onRemove }: UploadedImagesProps) => {
   return (
@@ -21,13 +18,8 @@ export const UploadedImages = ({ images, onRemove }: UploadedImagesProps) => {
           className={styles.imageWrapper}
           onClick={(e) => e.preventDefault()} // 이미지 클릭 시 삭제 방지
         >
-          <Image
-            src={image.preview}
-            alt={`업로드된 이미지 ${image.id}`}
-            width={IMAGE_SIZE}
-            height={IMAGE_SIZE}
-            className={styles.image}
-          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={image.url} alt="업로드된 이미지" className={styles.image} />
           <button
             type="button"
             className={styles.removeButton}

@@ -34,4 +34,6 @@ export const KeywordChipRecipe = recipe({
 export const keywordChipGroupWrapper = style({
   display: 'flex',
   gap: vars.space[10],
+  flexWrap: 'wrap',
+  width: '100%',
 });
