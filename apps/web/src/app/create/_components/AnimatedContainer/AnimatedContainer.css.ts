@@ -9,4 +9,5 @@ export const containerStyle = style({
 
   borderRadius: '2.4rem 2.4rem 0 0',
   backgroundColor: vars.colors.grey,
+  marginBottom: '20rem',
 });
