@@ -11,11 +11,12 @@ import { TextFieldSubmit } from './TextFieldSubmit';
  *   <TextField.Label>메시지</TextField.Label>
  *   <TextField.Input
  *     placeholder="메시지를 입력하세요"
+ *     showCounter
+ *     sumbitButton={<TextField.Submit type="submit" />}
  *     {...register('message', {
  *       value: '초기값'
  *     })}
  *   />
- *   <TextField.Submit type="submit" />
  * </TextField>
  *
  * // 2. onChange 이벤트가 필요한 제어 컴포넌트
