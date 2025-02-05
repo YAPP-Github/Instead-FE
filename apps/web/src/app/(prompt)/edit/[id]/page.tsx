@@ -1,14 +1,22 @@
-import { EditPost } from '../_components/EditPost/EditPost';
-import { EditSidebar } from '../_components/EditSidebar/EditSidebar';
-import { editDetailPage, flexColumn } from './page.css';
+import { ServerFetchBoundary } from '@web/store/query/ServerFetchBoundary';
+import { EditDetail } from './EditDetail';
+import { getServerSideTokens } from '@web/shared/server/serverSideTokens';
+import { groupPostsQueryQueryOptions } from '@web/store/query/useGroupPostsQuery';
 
-export default function EditDetailPage() {
+type EditDetailPageProps = {
+  params: { id: string }; // Dynamic Route param
+};
+
+export default function EditDetailPage({ params }: EditDetailPageProps) {
+  const tokens = getServerSideTokens();
+  const serverFetchOptions = groupPostsQueryQueryOptions(
+    1,
+    Number(params.id),
+    tokens
+  );
   return (
-    <div className={editDetailPage}>
-      <EditSidebar />
-      <div className={flexColumn}>
-        <EditPost />
-      </div>
-    </div>
+    <ServerFetchBoundary fetchOptions={serverFetchOptions}>
+      <EditDetail />
+    </ServerFetchBoundary>
   );
 }

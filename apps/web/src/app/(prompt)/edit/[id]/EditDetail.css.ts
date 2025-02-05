@@ -2,8 +2,8 @@ import { style } from '@vanilla-extract/css';
 
 export const editDetailPage = style({
   display: 'flex',
-  minHeight: '100vh',
-  height: 'fit-content',
+  height: '100vh',
+  flexShrink: 0,
 });
 
 export const flexColumn = style({

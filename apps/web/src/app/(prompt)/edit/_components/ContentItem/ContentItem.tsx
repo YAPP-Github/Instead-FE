@@ -2,7 +2,6 @@ import { getTimeAgo } from '../../_utils';
 import {
   contentItemStyle,
   cursorGrabStyle,
-  cursorPointerStyle,
   iconHoverStyle,
   noShrinkStyle,
   timeStyle,
@@ -11,14 +10,17 @@ import {
 import { Icon } from '@repo/ui/Icon';
 import { IconButton } from '@repo/ui/IconButton';
 import { Text } from '@repo/ui/Text';
+import { PostImage } from '@web/types';
 
 export type ContentItemProps = {
-  image?: string;
+  image?: PostImage[];
   title?: string;
   updatedAt: string;
+  onClick: () => void;
   onRemove: () => void;
   onModify: () => void;
   onDrag: () => void;
+  isSelected?: boolean;
 };
 
 /**
@@ -31,10 +33,16 @@ export type ContentItemProps = {
  * @property {() => void} onModify - 수정 아이콘 클릭 시 호출되는 콜백 함수.
  * @property {() => void} onDrag - 드래그 아이콘 마우스 다운 시 호출되는 콜백 함수.
  */
-export function ContentItem({ image, title, updatedAt }: ContentItemProps) {
+export function ContentItem({
+  image,
+  title,
+  updatedAt,
+  onClick,
+  isSelected = false,
+}: ContentItemProps) {
   return (
-    <div className={contentItemStyle}>
-      {image ? (
+    <div className={contentItemStyle} onClick={onClick}>
+      {image?.[0] ? (
         <div>x</div>
       ) : (
         <Icon
@@ -49,7 +57,7 @@ export function ContentItem({ image, title, updatedAt }: ContentItemProps) {
         className={titleStyle}
         fontSize={18}
         fontWeight="semibold"
-        color="grey600"
+        color={isSelected ? 'purple700' : 'grey600'}
       >
         {title}
       </Text>

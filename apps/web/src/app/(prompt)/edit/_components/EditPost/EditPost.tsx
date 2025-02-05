@@ -7,9 +7,17 @@ import { Badge } from '@repo/ui/Badge';
 import { PostEditor } from '../PostEditor/PostEditor';
 import { EditPromptField } from '../EditPromptField/EditPromptField';
 import { FormProvider, useForm } from 'react-hook-form';
+import { useParams, useSearchParams } from 'next/navigation';
+import { useGroupPostsQuery } from '@web/store/query/useGroupPostsQuery';
 
 export function EditPost() {
   const methods = useForm();
+  const { id } = useParams();
+  const searchParams = useSearchParams();
+  const postId = searchParams.get('post');
+  const { data } = useGroupPostsQuery(1, Number(id));
+  const post = data?.data?.posts.find((post) => post.id === Number(postId));
+
   return (
     <div className={wrapper}>
       <div className={controlBar}>
@@ -27,7 +35,7 @@ export function EditPost() {
       <div className={postWrapper}>
         <div className={titleWrapper}>
           <Text color="grey1000" fontSize={28} fontWeight="bold">
-            네이버 웨일, 본사로 이전하는 이유
+            {post?.summary}
           </Text>
           <Badge size="large" variant="neutral" shape="square">
             요약

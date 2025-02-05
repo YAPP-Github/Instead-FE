@@ -19,8 +19,16 @@ import { useEffect, useRef, useState } from 'react';
 import { isNil, mergeRefs } from '@repo/ui/utils';
 import { UploadedImages } from './UploadedImages';
 import { isNotNil } from '../../../../../../../../packages/ui/src/utils/isNotNil';
+import { useParams, useSearchParams } from 'next/navigation';
+import { useGroupPostsQuery } from '@web/store/query/useGroupPostsQuery';
 
 export function PostEditor() {
+  const methods = useForm();
+  const { id } = useParams();
+  const searchParams = useSearchParams();
+  const postId = searchParams.get('post');
+  const { data } = useGroupPostsQuery(1, Number(id));
+  const post = data?.data?.posts.find((post) => post.id === Number(postId));
   const { register, handleSubmit, setValue, watch } = useForm();
   const [text, setText] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -39,6 +47,11 @@ export function PostEditor() {
   useEffect(() => {
     handleResizeHeight();
   }, [watch('editor')]);
+
+  useEffect(() => {
+    setValue('editor', post?.content);
+    setValue('images', post?.postImages);
+  }, [post]);
 
   const onSubmit = (data: any) => {
     console.log('Form Data:', data);
