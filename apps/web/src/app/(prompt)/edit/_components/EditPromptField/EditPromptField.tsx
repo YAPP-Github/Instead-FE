@@ -19,12 +19,12 @@ export function EditPromptField() {
       <Spacing size={16} />
       <TextField id="ai-field" variant="button">
         <TextField.Input
+          sumbitButton={<TextField.Submit type="submit" />}
           placeholder="AI에게 요청하여 글 업그레이드하기"
           {...register('prompt', {
             required: '메시지를 입력해주세요',
           })}
         />
-        <TextField.Submit type="submit" />
       </TextField>
     </div>
   );
