@@ -2,6 +2,8 @@ import IconArrowBottom from './assets/IconArrowBottom';
 import IconArrowFillBottom from './assets/IconArrowFillBottom';
 import IconArrowFillTop from './assets/IconArrowFillTop';
 import IconArrowLeft from './assets/IconArrowLeft';
+import IconArrowLineBottom from './assets/IconArrowLineBottom';
+import IconArrowLineTop from './assets/IconArrowLineTop';
 import IconArrowRight from './assets/IconArrowRight';
 import IconArrowTop from './assets/IconArrowTop';
 import IconCalendar from './assets/IconCalendar';
@@ -11,6 +13,7 @@ import IconCheckCalendar from './assets/IconCheckCalendar';
 import IconCheckbox from './assets/IconCheckbox';
 import IconCircle from './assets/IconCircle';
 import IconDocument from './assets/IconDocument';
+import IconDots from './assets/IconDots';
 import IconLineThree from './assets/IconLineThree';
 import IconNote from './assets/IconNote';
 import IconNotice from './assets/IconNotice';
@@ -35,6 +38,8 @@ export const icons = {
   arrowFillBottom: IconArrowFillBottom,
   arrowFillTop: IconArrowFillTop,
   arrowLeft: IconArrowLeft,
+  arrowLineBottom: IconArrowLineBottom,
+  arrowLineTop: IconArrowLineTop,
   arrowRight: IconArrowRight,
   arrowTop: IconArrowTop,
   calendar: IconCalendar,
@@ -44,6 +49,7 @@ export const icons = {
   checkbox: IconCheckbox,
   circle: IconCircle,
   document: IconDocument,
+  dots: IconDots,
   lineThree: IconLineThree,
   note: IconNote,
   notice: IconNotice,
