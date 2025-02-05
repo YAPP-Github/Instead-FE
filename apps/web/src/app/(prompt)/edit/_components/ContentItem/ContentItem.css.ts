@@ -7,7 +7,7 @@ export const contentItemStyle = style({
   gap: '1.6rem',
   height: '6.4rem',
   width: '100%',
-  padding: '1.6rem 1.6rem 1.6rem 1.2rem',
+  padding: '1.6rem 0.8rem 1.2rem 1.2rem',
 });
 
 export const titleStyle = style({
@@ -15,6 +15,7 @@ export const titleStyle = style({
   whiteSpace: 'nowrap',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
+  marginRight: '0.8rem',
 });
 
 export const noShrinkStyle = style({
@@ -38,7 +39,6 @@ export const iconHoverStyle = style({
   selectors: {
     [`${contentItemStyle}:hover &`]: {
       display: 'flex',
-      gap: '1.6rem',
       pointerEvents: 'auto',
     },
   },

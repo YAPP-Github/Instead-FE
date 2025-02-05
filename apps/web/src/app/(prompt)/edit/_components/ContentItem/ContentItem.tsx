@@ -1,4 +1,4 @@
-import { getMinutesAgo } from '../../utils';
+import { getTimeAgo } from '../../_utils';
 import {
   contentItemStyle,
   cursorGrabStyle,
@@ -9,6 +9,7 @@ import {
   titleStyle,
 } from './ContentItem.css';
 import { Icon } from '@repo/ui/Icon';
+import { IconButton } from '@repo/ui/IconButton';
 import { Text } from '@repo/ui/Text';
 
 export type ContentItemProps = {
@@ -20,6 +21,16 @@ export type ContentItemProps = {
   onDrag: () => void;
 };
 
+/**
+ * ContentItem 컴포넌트의 Props 타입
+ *
+ * @property {string} [image] - 이미지 URL. 제공되지 않으면 기본 아이콘이 표시됩니다.
+ * @property {string} [title] - 표시할 제목 텍스트.
+ * @property {string} updatedAt - ISO 8601 형식의 날짜 문자열로, 마지막 업데이트 시간을 나타냅니다.
+ * @property {() => void} onRemove - 삭제 아이콘 클릭 시 호출되는 콜백 함수.
+ * @property {() => void} onModify - 수정 아이콘 클릭 시 호출되는 콜백 함수.
+ * @property {() => void} onDrag - 드래그 아이콘 마우스 다운 시 호출되는 콜백 함수.
+ */
 export function ContentItem({ image, title, updatedAt }: ContentItemProps) {
   return (
     <div className={contentItemStyle}>
@@ -48,27 +59,12 @@ export function ContentItem({ image, title, updatedAt }: ContentItemProps) {
         fontWeight="medium"
         color="grey400"
       >
-        {`${getMinutesAgo(updatedAt)}분 전`}
+        {`${getTimeAgo(updatedAt)}`}
       </Text>
       <div className={iconHoverStyle}>
-        <Icon
-          className={`${noShrinkStyle} ${cursorPointerStyle}`}
-          name="trash"
-          color="grey400"
-          size="2.4rem"
-        />
-        <Icon
-          className={`${noShrinkStyle} ${cursorPointerStyle}`}
-          name="pencil"
-          color="grey400"
-          size="2.4rem"
-        />
-        <Icon
-          className={`${noShrinkStyle} ${cursorGrabStyle}`}
-          name="sixDots"
-          color="grey400"
-          size="2.4rem"
-        />
+        <IconButton icon="trash" />
+        <IconButton icon="pencil" />
+        <IconButton className={cursorGrabStyle} icon="sixDots" />
       </div>
     </div>
   );
