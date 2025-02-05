@@ -7,6 +7,7 @@ export const container = recipe({
     alignItems: 'center',
     gap: tokens.spacing[4],
     cursor: 'pointer',
+    width: 'fit-content',
   },
   variants: {
     disabled: {

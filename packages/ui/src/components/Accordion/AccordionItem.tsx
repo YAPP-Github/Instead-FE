@@ -6,8 +6,8 @@ import React, {
   useContext,
   useMemo,
   ComponentPropsWithoutRef,
+  forwardRef,
 } from 'react';
-import { accordionItem } from './Accordion.css';
 
 export type AccordionItemProps = {
   value: string;
@@ -32,19 +32,18 @@ function useAccordionItemContext() {
 
 export { useAccordionItemContext };
 
-export function AccordionItem({
-  value,
-  children,
-  className = '',
-  ...props
-}: AccordionItemProps) {
-  const itemContextValue = useMemo(() => ({ value }), [value]);
+export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(
+  ({ value, children, className = '', ...props }: AccordionItemProps, ref) => {
+    const itemContextValue = useMemo(() => ({ value }), [value]);
 
-  return (
-    <AccordionItemContext.Provider value={itemContextValue}>
-      <div className={`${accordionItem} ${className}`} {...props}>
-        {children}
-      </div>
-    </AccordionItemContext.Provider>
-  );
-}
+    return (
+      <AccordionItemContext.Provider value={itemContextValue}>
+        <div ref={ref} className={className} {...props}>
+          {children}
+        </div>
+      </AccordionItemContext.Provider>
+    );
+  }
+);
+
+AccordionItem.displayName = 'AccordionItem';

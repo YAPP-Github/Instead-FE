@@ -3,6 +3,7 @@
 import React, {
   Children,
   ComponentPropsWithoutRef,
+  forwardRef,
   isValidElement,
   ReactNode,
 } from 'react';
@@ -14,11 +15,10 @@ export type AccordionContentProps = {
   children: ReactNode;
 } & ComponentPropsWithoutRef<'div'>;
 
-export function AccordionContent({
-  children,
-  className = '',
-  ...props
-}: AccordionContentProps) {
+export const AccordionContent = forwardRef<
+  HTMLDivElement,
+  AccordionContentProps
+>(({ children, className = '', ...props }: AccordionContentProps, ref) => {
   const { isValueOpen } = useAccordionContext();
   const { value } = useAccordionItemContext();
 
@@ -39,6 +39,7 @@ export function AccordionContent({
 
   return (
     <div
+      ref={ref}
       className={
         open ? ` ${className}` : `${accordionContentHidden} ${className}`
       }
@@ -47,4 +48,6 @@ export function AccordionContent({
       {mappedChildren}
     </div>
   );
-}
+});
+
+AccordionContent.displayName = 'AccordionContent';

@@ -16,10 +16,11 @@ import { Modal } from '@repo/ui/Modal';
 import { Spinner } from '@repo/ui/Spinner';
 import Link from 'next/link';
 import { overlay } from 'overlay-kit';
+import { Accordion } from '@repo/ui/Accordion';
 import { useModal } from '@repo/ui/hooks';
 import { useToast } from '@repo/ui/hooks';
 import { ImageManager } from '@web/components/common';
-import { Accordion } from '@repo/ui/Accordion';
+import { style } from '@vanilla-extract/css';
 
 type FormValues = {
   topic: string;
@@ -365,7 +366,6 @@ export default function Home() {
               showCounter
               {...register('aiUpgrade')}
             />
-            <TextField.Submit type="submit" />
           </TextField>
 
           <TextField id="ai-field" variant="button" isError>
@@ -373,10 +373,30 @@ export default function Home() {
             <TextField.Input
               placeholder="AI에게 요청하여 글 업그레이드하기"
               maxLength={5000}
+              sumbitButton={<TextField.Submit type="submit" />}
               showCounter
               {...register('aiUpgrade')}
             />
-            <TextField.Submit type="submit" />
+          </TextField>
+
+          <TextField id="ai-field" variant="button">
+            <TextField.Label>AI 업그레이드</TextField.Label>
+            <TextField.Input
+              placeholder="AI에게 요청하여 글 업그레이드하기"
+              maxLength={5000}
+              sumbitButton={<TextField.Submit type="submit" />}
+              {...register('aiUpgrade')}
+            />
+          </TextField>
+
+          <TextField id="ai-field" variant="button">
+            <TextField.Input
+              placeholder="AI에게 요청하여 글 업그레이드하기"
+              maxLength={5000}
+              sumbitButton={<TextField.Submit type="submit" />}
+              showCounter
+              {...register('aiUpgrade')}
+            />
           </TextField>
         </div>
       </form>
@@ -489,7 +509,6 @@ export default function Home() {
         <Skeleton width="15rem" height="15rem" radius={4} />
         <Skeleton width="15rem" height="15rem" />
       </div>
-      <ImageManager.TypeA maxFileSize={10} maxFiles={5} />
       <div
         style={{
           display: 'flex',
@@ -514,10 +533,14 @@ export default function Home() {
         </Accordion>
 
         <div>multiple accordion</div>
-        <Accordion type="multiple" defaultValue="item-1">
+        <Accordion
+          type="multiple"
+          defaultValue="item-1"
+          style={{ display: 'flex' }}
+        >
           <Accordion.Item value="item-1">
             <Accordion.Trigger>trigger 버튼</Accordion.Trigger>
-            <Accordion.Content>content</Accordion.Content>
+            <Accordion.Content>contentasdfdsasfdasdfasdfsdf</Accordion.Content>
           </Accordion.Item>
           <Accordion.Item value="item-2">
             <Accordion.Trigger>trigger 버튼</Accordion.Trigger>
