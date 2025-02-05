@@ -1,8 +1,8 @@
 import { style } from '@vanilla-extract/css';
 
 export const sidebarWrapper = style({
-  height: '100vh',
   width: '52rem',
+  flexShrink: '0',
   background:
     'linear-gradient(174deg, rgba(255, 255, 255, 0.55) -11.84%, rgba(243, 244, 249, 0.55) 29.91%, rgba(231, 232, 251, 0.55) 100%)',
 });
