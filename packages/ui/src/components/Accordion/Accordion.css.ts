@@ -2,11 +2,11 @@ import { tokens } from '@repo/theme';
 import { style } from '@vanilla-extract/css';
 
 export const accordionRoot = style({
-  width: 'fit-content',
+  width: '100%',
 });
 
 export const accordionTrigger = style({
-  width: '100%',
+  width: 'fit-content',
   background: 'none',
   border: 'none',
   cursor: 'pointer',
