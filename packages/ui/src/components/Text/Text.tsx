@@ -26,13 +26,14 @@ export function Text<T extends AllowedTags = 'span'>({
   color,
   fontSize = 14,
   fontWeight = 'medium',
+  className = '',
   ...rest
 }: TextProps<T>) {
   const Component = as || 'span';
 
   return (
     <Component
-      className={textStyle}
+      className={`${textStyle} ${className}`}
       style={{
         ...assignInlineVars({
           [colorVar]: color ? tokens.colors[color] : 'inherit',

@@ -248,6 +248,7 @@ export default function Home() {
         <Icon size={24} name="stack" type="stroke" />
         <Icon size={24} name="stack" type="fill" />
         <Icon size={24} name="stack" type="stroke" color="warning300" />
+        <Icon name="xCircle" color="primary600" type="stroke" size={24} />
       </div>
       <div style={{ display: 'flex', gap: '8px' }}>
         <button onClick={notify1}>success 토스트 열기</button>
@@ -532,14 +533,10 @@ export default function Home() {
         </Accordion>
 
         <div>multiple accordion</div>
-        <Accordion
-          type="multiple"
-          defaultValue="item-1"
-          style={{ display: 'flex' }}
-        >
+        <Accordion type="multiple" defaultValue="item-1">
           <Accordion.Item value="item-1">
             <Accordion.Trigger>trigger 버튼</Accordion.Trigger>
-            <Accordion.Content>contentasdfdsasfdasdfasdfsdf</Accordion.Content>
+            <Accordion.Content>content</Accordion.Content>
           </Accordion.Item>
           <Accordion.Item value="item-2">
             <Accordion.Trigger>trigger 버튼</Accordion.Trigger>

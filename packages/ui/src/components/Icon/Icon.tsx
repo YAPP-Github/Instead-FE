@@ -21,6 +21,7 @@ export function Icon({
   size = '100%',
   style: iconStyle,
   'aria-label': ariaLabel,
+  className = '',
   ...restProps
 }: IconProps) {
   const SVG = icons[name];
@@ -36,7 +37,7 @@ export function Icon({
 
   return (
     <SVG
-      className={styles.parent}
+      className={`${styles.parent} ${className}`}
       style={{
         ...assignInlineVars(colorStyle),
         width: size,

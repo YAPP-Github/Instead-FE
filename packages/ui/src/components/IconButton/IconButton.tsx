@@ -7,12 +7,13 @@ export type IconButtonProps = Omit<
   'children'
 > & {
   icon: IconProps['name'];
+  iconType?: IconProps['type'];
 };
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ icon, className = '', ...rest }, ref) => (
+  ({ icon, iconType = 'fill', className = '', ...rest }, ref) => (
     <button ref={ref} className={`${iconButtonStyle} ${className}`} {...rest}>
-      <Icon name={icon} />
+      <Icon name={icon} type={iconType} />
     </button>
   )
 );
