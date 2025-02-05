@@ -1,0 +1,1 @@
+export { getTimeAgo } from './getTimeAgo';
