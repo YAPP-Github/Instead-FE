@@ -154,7 +154,7 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
               >
                 <FormProvider {...methods}>
                   <form onSubmit={handleSubmit(onSubmit)}>
-                    <TextField variant="button">
+                    <TextField variant="white">
                       <TextField.Input
                         {...register('prompt')}
                         value={promptValue}

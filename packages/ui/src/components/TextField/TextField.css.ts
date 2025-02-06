@@ -29,6 +29,11 @@ export const textFieldContainerStyle = recipe({
         backgroundColor: vars.colors.grey50,
         paddingRight: '4.8rem',
       },
+      white: {
+        backgroundColor: vars.colors.grey,
+        paddingRight: '4.8rem',
+        border: `1px solid ${vars.colors.grey100}`,
+      },
     },
   },
 });
@@ -47,9 +52,6 @@ export const textFieldStyle = recipe({
     paddingRight: vars.space[4],
     maxHeight: `calc(${vars.typography.fontSize[18]} * 11 * 1.5)`,
     overflowY: 'auto',
-    '::placeholder': {
-      color: vars.colors.grey400,
-    },
     selectors: {
       '&::-webkit-scrollbar': {
         width: '0.6rem',
@@ -62,6 +64,9 @@ export const textFieldStyle = recipe({
       '&::-webkit-scrollbar-track': {
         backgroundColor: 'transparent',
       },
+      '&::placeholder': {
+        color: vars.colors.grey400,
+      },
     },
     scrollbarWidth: 'thin',
     scrollbarColor: `${vars.colors.grey200} transparent`,
@@ -70,15 +75,12 @@ export const textFieldStyle = recipe({
     variant: {
       default: {
         backgroundColor: vars.colors.grey25,
-        '::placeholder': {
-          color: vars.colors.grey400,
-        },
       },
       button: {
         backgroundColor: vars.colors.grey50,
-        '::placeholder': {
-          color: vars.colors.grey400,
-        },
+      },
+      white: {
+        backgroundColor: vars.colors.grey,
       },
     },
   },
