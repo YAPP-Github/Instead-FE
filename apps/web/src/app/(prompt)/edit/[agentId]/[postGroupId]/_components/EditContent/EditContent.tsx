@@ -15,6 +15,7 @@ import {
   UpdatePromptRequest,
   useUpdatePromptMutation,
 } from '@web/store/mutation/useUpdatePromptMutation';
+import { SkeletonItems } from '../SkeletonItems/SkeletonItems';
 
 type PromptForm = UpdatePromptRequest;
 
@@ -100,16 +101,7 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
           </Accordion.Trigger>
           <Accordion.Content className={style.accordionContentStyle}>
             <div className={style.contentInnerWrapper}>
-              {isCreateMorePostsPending &&
-                Array.from({ length: 5 }).map((_, index) => (
-                  <DndController.Item
-                    key={index}
-                    id={index}
-                    summary=""
-                    updatedAt=""
-                    isLoading={true}
-                  />
-                ))}
+              {isCreateMorePostsPending && <SkeletonItems length={5} />}
               <DndController.Droppable id={POST_STATUS.GENERATED}>
                 <DndController.SortableList
                   items={getItemsByStatus(POST_STATUS.GENERATED).map(
@@ -124,6 +116,7 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
                       updatedAt={item.updatedAt}
                       onRemove={() => handleDeletePost(item.id)}
                       onModify={() => handleModify(item.id)}
+                      isLoading={isCreateMorePostsPending}
                     />
                   ))}
                 </DndController.SortableList>
