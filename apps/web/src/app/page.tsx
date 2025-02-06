@@ -296,6 +296,9 @@ export default function Home() {
         >
           생성하기
         </Button>
+        <Button size="large" variant="line" leftAddon={<Icon name="twinkle" />}>
+          생성하기
+        </Button>
         <Button size="small" variant="neutral">
           다음
         </Button>

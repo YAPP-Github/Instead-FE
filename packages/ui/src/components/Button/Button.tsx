@@ -3,7 +3,7 @@ import { addonRootStyle, buttonRecipe } from './Button.css';
 import { Spinner, SpinnerProps } from '../Spinner';
 
 export type ButtonSize = 'small' | 'large';
-export type ButtonVariant = 'primary' | 'neutral' | 'text';
+export type ButtonVariant = 'primary' | 'neutral' | 'text' | 'line';
 
 export type ButtonProps = {
   size: ButtonSize;
@@ -17,6 +17,8 @@ const SpinnerColor: Record<ButtonVariant, SpinnerProps['color']> = {
   primary: 'white',
   neutral: 'white',
   text: 'black',
+  // TODO
+  line: 'black',
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(

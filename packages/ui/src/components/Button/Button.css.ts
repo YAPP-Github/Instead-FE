@@ -1,6 +1,16 @@
 import { tokens } from '@repo/theme';
-import { styleVariants } from '@vanilla-extract/css';
+import { keyframes, styleVariants } from '@vanilla-extract/css';
 import { recipe, RecipeVariants } from '@vanilla-extract/recipes';
+
+// TODO 가상선택자 방식으로 바꾸기
+const rotateGradient = keyframes({
+  '0%': {
+    backgroundImage: `linear-gradient(to right, #F9F4FF, #F9F4FF), linear-gradient(0deg, #B68AE7 0.56%, #3348D6 41.25%, #9290DC 75.34%, #F8B3EC 110.53%)`,
+  },
+  '100%': {
+    backgroundImage: `linear-gradient(to right, #F9F4FF, #F9F4FF), linear-gradient(359deg, #B68AE7 0.56%, #3348D6 41.25%, #9290DC 75.34%, #F8B3EC 110.53%)`,
+  },
+});
 
 export const buttonRecipe = recipe({
   base: {
@@ -76,6 +86,24 @@ export const buttonRecipe = recipe({
           '&:hover': {
             backgroundColor: tokens.colors.grey50,
             color: tokens.colors.grey1000,
+          },
+          '&:disabled': {
+            // TODO 디자이너 분들이 지정해 주시면 스타일 수정 필요
+            backgroundColor: tokens.colors.grey200,
+            color: tokens.colors.grey0,
+          },
+        },
+      },
+      line: {
+        border: '0.2rem solid transparent',
+        // TODO 토큰 지정해 주시면 바꾸기
+        backgroundImage: `linear-gradient(to right, #F9F4FF, #F9F4FF), linear-gradient(144deg, #B68AE7 0.56%, #3348D6 41.25%, #9290DC 75.34%, #F8B3EC 110.53%)`,
+        backgroundOrigin: 'border-box',
+        backgroundClip: 'padding-box, border-box',
+        color: tokens.colors.primary800,
+        selectors: {
+          '&:hover': {
+            animation: `${rotateGradient} 1.5s linear infinite`,
           },
           '&:disabled': {
             // TODO 디자이너 분들이 지정해 주시면 스타일 수정 필요
