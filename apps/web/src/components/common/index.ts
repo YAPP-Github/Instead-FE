@@ -5,3 +5,5 @@ export { MainBreadcrumbItem } from './MainBreadcrumbItem/MainBreadcrumbItem';
 
 export { NavBar } from './NavBar/NavBar';
 export type { NavBarProps } from './NavBar/NavBar';
+
+export { DndController, useDndController } from './DNDController/DndController';

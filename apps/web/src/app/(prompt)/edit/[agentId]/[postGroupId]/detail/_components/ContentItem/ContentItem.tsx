@@ -1,4 +1,3 @@
-import { getTimeAgo } from '../../_utils';
 import {
   contentItemStyle,
   cursorGrabStyle,
@@ -11,6 +10,7 @@ import { Icon } from '@repo/ui/Icon';
 import { IconButton } from '@repo/ui/IconButton';
 import { Text } from '@repo/ui/Text';
 import { PostImage } from '@web/types';
+import { getTimeAgo } from '@web/utils';
 
 export type ContentItemProps = {
   image?: PostImage[];

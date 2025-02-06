@@ -2,6 +2,9 @@ import { ServerFetchBoundary } from '@web/store/query/ServerFetchBoundary';
 import { EditDetail } from './EditDetail';
 import { getServerSideTokens } from '@web/shared/server/serverSideTokens';
 import { groupPostsQueryQueryOptions } from '@web/store/query/useGroupPostsQuery';
+import { EditPost } from './_components/EditPost/EditPost';
+import { EditSidebar } from './_components/EditSidebar/EditSidebar';
+import { editDetailPage, flexColumn } from './page.css';
 
 type EditDetailPageProps = {
   params: { id: string }; // Dynamic Route param

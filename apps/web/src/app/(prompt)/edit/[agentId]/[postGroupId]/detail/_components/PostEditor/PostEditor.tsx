@@ -16,9 +16,8 @@ import { Button } from '@repo/ui/Button';
 import EmojiPicker from 'emoji-picker-react';
 import { useForm } from 'react-hook-form';
 import { useEffect, useRef, useState } from 'react';
-import { isNil, mergeRefs } from '@repo/ui/utils';
+import { isNil, isNotNil, mergeRefs } from '@repo/ui/utils';
 import { UploadedImages } from './UploadedImages';
-import { isNotNil } from '../../../../../../../../packages/ui/src/utils/isNotNil';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useGroupPostsQuery } from '@web/store/query/useGroupPostsQuery';
 
