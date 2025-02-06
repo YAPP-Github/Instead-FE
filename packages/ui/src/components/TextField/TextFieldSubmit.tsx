@@ -14,7 +14,7 @@ export const TextFieldSubmit = forwardRef<
 >(({ className = '', type = 'button', disabled, ...props }, ref) => {
   const { variant, isError } = useContext(TextFieldContext);
 
-  if (variant !== 'button') return null;
+  if (variant !== 'button' && variant !== 'white') return null;
 
   return (
     <button

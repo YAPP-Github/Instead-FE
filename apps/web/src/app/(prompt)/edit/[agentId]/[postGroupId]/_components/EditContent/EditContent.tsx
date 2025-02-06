@@ -22,6 +22,7 @@ type PromptForm = UpdatePromptRequest;
 export function EditContent({ agentId, postGroupId }: EditPageParams) {
   const modal = useModal();
   const { getItemsByStatus } = useDndController();
+  const isExistEditingPost = getItemsByStatus(POST_STATUS.EDITING).length > 0;
   const methods = useForm<PromptForm>({
     defaultValues: {
       prompt: '',
@@ -116,7 +117,6 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
                       updatedAt={item.updatedAt}
                       onRemove={() => handleDeletePost(item.id)}
                       onModify={() => handleModify(item.id)}
-                      isLoading={isCreateMorePostsPending}
                     />
                   ))}
                 </DndController.SortableList>
@@ -152,26 +152,28 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
                   (item) => item.id
                 )}
               >
-                <FormProvider {...methods}>
-                  <form onSubmit={handleSubmit(onSubmit)}>
-                    <TextField variant="white">
-                      <TextField.Input
-                        {...register('prompt')}
-                        value={promptValue}
-                        onChange={(e) => setValue('prompt', e.target.value)}
-                        placeholder="AI에게 요청하여 글 업그레이드하기"
-                        sumbitButton={
-                          <TextField.Submit
-                            type="submit"
-                            disabled={isUpdatePromptPending}
-                          />
-                        }
-                        maxLength={5000}
-                      />
-                    </TextField>
-                  </form>
-                </FormProvider>
-                {getItemsByStatus(POST_STATUS.EDITING).length > 0 ? (
+                {isExistEditingPost && (
+                  <FormProvider {...methods}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                      <TextField variant="white">
+                        <TextField.Input
+                          {...register('prompt')}
+                          value={promptValue}
+                          onChange={(e) => setValue('prompt', e.target.value)}
+                          placeholder="AI에게 요청하여 글 업그레이드하기"
+                          sumbitButton={
+                            <TextField.Submit
+                              type="submit"
+                              disabled={isUpdatePromptPending}
+                            />
+                          }
+                          maxLength={5000}
+                        />
+                      </TextField>
+                    </form>
+                  </FormProvider>
+                )}
+                {isExistEditingPost ? (
                   getItemsByStatus(POST_STATUS.EDITING).map((item) => (
                     <DndController.Item
                       key={item.id}
