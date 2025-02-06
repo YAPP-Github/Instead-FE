@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-export type TextFieldVariant = 'default' | 'button';
+export type TextFieldVariant = 'default' | 'button' | 'white';
 
 export type TextFieldContextValue = {
   id?: string;
