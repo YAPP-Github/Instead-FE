@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DragEndEvent, DragOverEvent } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import { Post } from '@web/types';
@@ -6,7 +6,7 @@ import { Post } from '@web/types';
 type UseDragAndDropProps = {
   initialItems: Post[];
   onItemsChange?: (items: Post[]) => void;
-  onDragEnd?: () => void;
+  onDragEnd?: (items: Post[]) => void;
 };
 
 export function useDragAndDrop({
@@ -16,6 +16,11 @@ export function useDragAndDrop({
 }: UseDragAndDropProps) {
   const [items, setItems] = useState<Post[]>(initialItems);
   const [activeId, setActiveId] = useState<number | null>(null);
+
+  // initialItems가 변경될 때마다 items 상태 업데이트
+  useEffect(() => {
+    setItems(initialItems);
+  }, [initialItems]);
 
   const getItemsByStatus = (status: Post['status']) =>
     items.filter((item) => item.status === status);
@@ -103,14 +108,13 @@ export function useDragAndDrop({
     if (typeof over.id === 'string') {
       const targetStatus = over.id as Post['status'];
 
-      // 같은 상태면 무시
       if (draggedItem.status === targetStatus) return;
 
-      setItems((prev) =>
-        prev.map((item) =>
-          item.id === draggedItemId ? { ...item, status: targetStatus } : item
-        )
+      const newItems = items.map((item) =>
+        item.id === draggedItemId ? { ...item, status: targetStatus } : item
       );
+      setItems(newItems);
+      onDragEnd?.(newItems);
       return;
     }
 
@@ -121,9 +125,9 @@ export function useDragAndDrop({
     const oldIndex = items.findIndex((item) => item.id === draggedItemId);
     const newIndex = items.findIndex((item) => item.id === overId);
 
-    setItems(arrayMove(items, oldIndex, newIndex));
-
-    onDragEnd?.();
+    const newItems = arrayMove(items, oldIndex, newIndex);
+    setItems(newItems);
+    onDragEnd?.(newItems);
   };
 
   const handleRemove = (id: number) => {

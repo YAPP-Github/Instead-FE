@@ -77,6 +77,9 @@ export function DndControllerProvider({
           scaleY: 1,
         }),
       ]}
+      autoScroll={{
+        enabled: false,
+      }}
     >
       <DndControllerContext.Provider value={dnd}>
         {children}
