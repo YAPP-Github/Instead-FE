@@ -7,10 +7,7 @@ import { NavBar, MainBreadcrumbItem } from '@web/components/common';
 import { Breadcrumb, Button, Chip, Icon, Accordion } from '@repo/ui';
 import { POST_STATUS } from '@web/types/post';
 import { INITIAL_CONTENT_ITEMS } from './constants';
-import {
-  DndControler,
-  useDndControler,
-} from '@web/components/common/DND/DndControler';
+import { DndController, useDndController } from '@web/components/common';
 import { EditPageParams } from './types';
 import { DragGuide } from './_components/DragGuide/DragGuide';
 
@@ -27,7 +24,7 @@ function EditContent({
   agentId,
   postGroupId,
 }: EditContentProps) {
-  const { getItemsByStatus, handleRemove } = useDndControler();
+  const { getItemsByStatus, handleRemove } = useDndController();
 
   return (
     <div className={style.mainStyle} ref={scrollRef}>
@@ -73,14 +70,14 @@ function EditContent({
               <Chip variant="grey">생성된 글</Chip>
             </Accordion.Trigger>
             <Accordion.Content>
-              <DndControler.Droppable id={POST_STATUS.GENERATED}>
-                <DndControler.SortableList
+              <DndController.Droppable id={POST_STATUS.GENERATED}>
+                <DndController.SortableList
                   items={getItemsByStatus(POST_STATUS.GENERATED).map(
                     (item) => item.id
                   )}
                 >
                   {getItemsByStatus(POST_STATUS.GENERATED).map((item) => (
-                    <DndControler.Item
+                    <DndController.Item
                       key={item.id}
                       id={item.id}
                       summary={item.summary}
@@ -89,8 +86,8 @@ function EditContent({
                       onModify={() => {}}
                     />
                   ))}
-                </DndControler.SortableList>
-              </DndControler.Droppable>
+                </DndController.SortableList>
+              </DndController.Droppable>
             </Accordion.Content>
           </Accordion.Item>
 
@@ -103,15 +100,15 @@ function EditContent({
               <Chip variant="purple">수정 중인 글</Chip>
             </Accordion.Trigger>
             <Accordion.Content id={POST_STATUS.EDITING}>
-              <DndControler.Droppable id={POST_STATUS.EDITING}>
-                <DndControler.SortableList
+              <DndController.Droppable id={POST_STATUS.EDITING}>
+                <DndController.SortableList
                   items={getItemsByStatus(POST_STATUS.EDITING).map(
                     (item) => item.id
                   )}
                 >
                   {getItemsByStatus(POST_STATUS.EDITING).length > 0 ? (
                     getItemsByStatus(POST_STATUS.EDITING).map((item) => (
-                      <DndControler.Item
+                      <DndController.Item
                         key={item.id}
                         id={item.id}
                         summary={item.summary}
@@ -123,8 +120,8 @@ function EditContent({
                   ) : (
                     <DragGuide description="수정 중인 글을 끌어서 여기에 놓아주세요" />
                   )}
-                </DndControler.SortableList>
-              </DndControler.Droppable>
+                </DndController.SortableList>
+              </DndController.Droppable>
             </Accordion.Content>
           </Accordion.Item>
 
@@ -137,8 +134,8 @@ function EditContent({
               <Chip variant="green">업로드할 글</Chip>
             </Accordion.Trigger>
             <Accordion.Content id={POST_STATUS.READY_TO_UPLOAD}>
-              <DndControler.Droppable id={POST_STATUS.READY_TO_UPLOAD}>
-                <DndControler.SortableList
+              <DndController.Droppable id={POST_STATUS.READY_TO_UPLOAD}>
+                <DndController.SortableList
                   items={getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).map(
                     (item) => item.id
                   )}
@@ -146,7 +143,7 @@ function EditContent({
                   {getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).length > 0 ? (
                     getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).map(
                       (item) => (
-                        <DndControler.Item
+                        <DndController.Item
                           key={item.id}
                           id={item.id}
                           summary={item.summary}
@@ -159,8 +156,8 @@ function EditContent({
                   ) : (
                     <DragGuide description="업로드가 준비된 글을 끌어서 여기에 놓아주세요" />
                   )}
-                </DndControler.SortableList>
-              </DndControler.Droppable>
+                </DndController.SortableList>
+              </DndController.Droppable>
             </Accordion.Content>
           </Accordion.Item>
         </Accordion>
@@ -173,7 +170,7 @@ export default function Edit({ agentId, postGroupId }: EditPageParams) {
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({ threshold: 100 });
 
   return (
-    <DndControler
+    <DndController
       initialItems={INITIAL_CONTENT_ITEMS}
       onDragEnd={(items) => {
         console.log('=== Current Items Status ===');
@@ -196,6 +193,6 @@ export default function Edit({ agentId, postGroupId }: EditPageParams) {
         agentId={agentId}
         postGroupId={postGroupId}
       />
-    </DndControler>
+    </DndController>
   );
 }

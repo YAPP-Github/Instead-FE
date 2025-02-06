@@ -5,7 +5,7 @@ import {
 import { ReactNode } from 'react';
 import { DroppableContent } from './compounds/DroppableContent/DroppableContent';
 import { DraggableContentItem } from './compounds/DraggableContentItem/DraggableContentItem';
-import { DndControlerProvider } from './context/DndContext';
+import { DndControllerProvider } from './context/DndContext';
 
 type SortableListProps = {
   items: (number | string)[];
@@ -20,11 +20,11 @@ function SortableList({ items, children }: SortableListProps) {
   );
 }
 
-export const DndControler = Object.assign(DndControlerProvider, {
+export const DndController = Object.assign(DndControllerProvider, {
   Droppable: DroppableContent,
   SortableList,
   Item: DraggableContentItem,
 });
 
-export { useDndControler } from './context/DndContext';
+export { useDndController } from './context/DndContext';
 export type { DndItemData } from './context/DndContext';

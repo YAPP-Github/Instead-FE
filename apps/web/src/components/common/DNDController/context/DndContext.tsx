@@ -16,31 +16,33 @@ import { Post } from '@web/types';
 
 export type DndItemData = Post;
 
-type DndControlerProviderProps = {
+type DndControllerProviderProps = {
   initialItems: DndItemData[];
   children: ReactNode;
   onDragEnd?: (items: DndItemData[]) => void;
 };
 
-type DndControlerContextType = ReturnType<typeof useDragAndDrop>;
+type DndControllerContextType = ReturnType<typeof useDragAndDrop>;
 
-const DndControlerContext = createContext<DndControlerContextType | null>(null);
+const DndControllerContext = createContext<DndControllerContextType | null>(
+  null
+);
 
-export function useDndControler() {
-  const context = useContext(DndControlerContext);
+export function useDndController() {
+  const context = useContext(DndControllerContext);
   if (!context) {
     throw new Error(
-      'useDndControler는 DndControler.Provider 내부에서만 사용할 수 있습니다.'
+      'useDndController는 DndController.Provider 내부에서만 사용할 수 있습니다.'
     );
   }
   return context;
 }
 
-export function DndControlerProvider({
+export function DndControllerProvider({
   initialItems,
   children,
   onDragEnd,
-}: DndControlerProviderProps) {
+}: DndControllerProviderProps) {
   const sensors = useSensors(
     useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
     useSensor(TouchSensor, { activationConstraint: { distance: 5 } })
@@ -76,9 +78,9 @@ export function DndControlerProvider({
         }),
       ]}
     >
-      <DndControlerContext.Provider value={dnd}>
+      <DndControllerContext.Provider value={dnd}>
         {children}
-      </DndControlerContext.Provider>
+      </DndControllerContext.Provider>
       <DragOverlay style={{ backgroundColor: 'transparent' }}>
         {activeId && activeItem ? (
           <ContentItem
