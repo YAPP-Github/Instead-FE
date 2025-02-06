@@ -8,7 +8,7 @@ const rotateGradient = keyframes({
     backgroundImage: `linear-gradient(to right, #F9F4FF, #F9F4FF), linear-gradient(0deg, #B68AE7 0.56%, #3348D6 41.25%, #9290DC 75.34%, #F8B3EC 110.53%)`,
   },
   '100%': {
-    backgroundImage: `linear-gradient(to right, #F9F4FF, #F9F4FF), linear-gradient(359deg, #B68AE7 0.56%, #3348D6 41.25%, #9290DC 75.34%, #F8B3EC 110.53%)`,
+    backgroundImage: `linear-gradient(to right, #F9F4FF, #F9F4FF), linear-gradient(10deg, #B68AE7 0.56%, #3348D6 41.25%, #9290DC 75.34%, #F8B3EC 110.53%)`,
   },
 });
 
@@ -134,6 +134,18 @@ export const buttonRecipe = recipe({
       variants: { size: 'small', isLoading: true },
       style: {
         padding: '0.55rem 2rem',
+      },
+    },
+    {
+      variants: { size: 'large', variant: 'line', isLoading: false },
+      style: {
+        padding: '1.0rem 1.6rem',
+      },
+    },
+    {
+      variants: { size: 'large', variant: 'line', isLoading: true },
+      style: {
+        padding: '0.5rem 5.25rem',
       },
     },
   ],

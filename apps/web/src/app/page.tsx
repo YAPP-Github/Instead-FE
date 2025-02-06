@@ -299,6 +299,14 @@ export default function Home() {
         <Button size="large" variant="line" leftAddon={<Icon name="twinkle" />}>
           생성하기
         </Button>
+        <Button
+          size="large"
+          variant="line"
+          leftAddon={<Icon name="twinkle" />}
+          isLoading
+        >
+          생성하기
+        </Button>
         <Button size="small" variant="neutral">
           다음
         </Button>
@@ -551,7 +559,7 @@ export default function Home() {
           </Accordion.Item>
         </Accordion>
       </div>
-      <ImageManager maxFileSize={10} maxFiles={5} />
+      {/* <ImageManager maxFileSize={10} maxFiles={5} /> */}
     </div>
   );
 }
