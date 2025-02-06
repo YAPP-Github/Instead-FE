@@ -2,13 +2,14 @@ import { style } from '@vanilla-extract/css';
 import { vars } from '@repo/theme';
 
 export const mainStyle = style({
-  width: '100%',
-  height: '100vh',
-  background:
-    'linear-gradient(174deg, rgba(255, 255, 255, 0.55) -11.84%, rgba(243, 244, 249, 0.55) 29.91%, rgba(231, 232, 251, 0.55) 100%), #FFF',
+  maxWidth: '100%',
+  minHeight: '100vh',
   display: 'flex',
   justifyContent: 'center',
-  overflow: 'auto',
+  paddingTop: '8rem',
+  overflowY: 'auto',
+  background:
+    'linear-gradient(174deg, rgba(255, 255, 255, 0.55) -11.84%, rgba(243, 244, 249, 0.55) 29.91%, rgba(231, 232, 251, 0.55) 100%), #FFF',
 });
 
 export const contentStyle = style({
@@ -39,4 +40,19 @@ export const accordionTriggerStyle = style({
 export const accordionItemStyle = style({
   width: '51.2rem',
   flex: '0 0 auto',
+});
+
+export const accordionContentStyle = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: vars.space[10],
+});
+
+export const contentInnerWrapper = style({
+  height: '100%',
+});
+
+export const buttonWrapperStyle = style({
+  display: 'flex',
+  justifyContent: 'flex-end',
 });
