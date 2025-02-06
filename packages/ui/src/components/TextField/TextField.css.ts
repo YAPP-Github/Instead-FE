@@ -105,6 +105,11 @@ export const submitButtonStyle = recipe({
         cursor: 'not-allowed',
       },
     },
+    isDisabled: {
+      true: {
+        cursor: 'not-allowed',
+      },
+    },
   },
 });
 
