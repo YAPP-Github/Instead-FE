@@ -181,6 +181,7 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
                       updatedAt={item.updatedAt}
                       onRemove={() => handleDeletePost(item.id)}
                       onModify={() => handleModify(item.id)}
+                      isLoading={isUpdatePromptPending}
                     />
                   ))
                 ) : (
