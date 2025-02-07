@@ -40,30 +40,16 @@ export const POST_LENGTH = {
 
 type PostLength = (typeof POST_LENGTH)[keyof typeof POST_LENGTH];
 
-export interface PostGroup {
-  id: number;
-  topic: string;
-  purpose: PostPurpose;
-  reference: PostReference;
-  newsCategory: string;
-  imageUrls: string[];
-  length: PostLength;
-  content: string;
-  // NOTE api 수정되기 전까지만 nullable
-  eof?: boolean;
-}
-
 export interface Post {
   id: number;
   createdAt: string;
   updatedAt: string;
-  displayOrder: number;
   summary: string;
   content: string;
   postImages: PostImage[];
   status: PostStatus;
   uploadTime: string;
-  displayOrder?: number;
+  displayOrder: number;
   isLoading?: boolean;
 }
 
@@ -101,7 +87,7 @@ export interface PostGroup {
   topic: string;
   purpose: Purpose;
   reference: Reference;
-  newsCategory: NewsCategory | null;
+  newsCategory?: NewsCategory;
   postGroupImages: PostImage[];
   length: PostGroupLength;
   content: string;
