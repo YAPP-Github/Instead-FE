@@ -10,8 +10,8 @@ import {
   closestCenter,
   MeasuringStrategy,
 } from '@dnd-kit/core';
-import { useDragAndDrop } from '../hooks/useDragAndDrop';
-import { ContentItem } from '../compounds/ContentItem/ContentItem';
+import { useDragAndDrop } from '../hooks';
+import { ContentItem } from '../compounds';
 import { Post } from '@web/types';
 
 export type DndItemData = Post;
