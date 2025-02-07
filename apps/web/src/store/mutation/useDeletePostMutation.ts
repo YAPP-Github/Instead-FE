@@ -33,6 +33,10 @@ export function useDeletePostMutation({
       queryClient.invalidateQueries(
         getAllPostsQueryOptions({ agentId, postGroupId })
       );
+      // TODO 위 로직과 통일 예정
+      queryClient.invalidateQueries({
+        queryKey: ['postGroup', 'Agents'],
+      });
     },
     onError: (error) => {
       if (error instanceof Error) {

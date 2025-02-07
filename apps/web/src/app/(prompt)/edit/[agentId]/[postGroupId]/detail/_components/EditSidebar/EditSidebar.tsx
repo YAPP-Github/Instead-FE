@@ -18,16 +18,21 @@ import { Text } from '@repo/ui/Text';
 import { Accordion } from '@repo/ui/Accordion';
 import { Chip } from '@repo/ui/Chip';
 import { useGroupPostsQuery } from '@web/store/query/useGroupPostsQuery';
-import { POST_STATUS } from '@web/types/post';
+import { Post, POST_STATUS } from '@web/types/post';
 import {
   MutationModifyPostsRequest,
   useModifyPostsMutation,
 } from '@web/store/mutation/useModifyPostsMutation';
-import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation';
-import { IconButton } from '@repo/ui';
+import { IconButton } from '@repo/ui/IconButton';
 import { useEffect, useState } from 'react';
+import { useCreateMorePostsMutation } from '@web/store/mutation/useCreateMorePostsMutation';
+import { SkeletonContentItem } from '../ContentItem/SkeletonContentItem';
+import { useModal } from '@repo/ui/hooks';
+import { Modal } from '@repo/ui/Modal';
+import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation';
 
 function EditSidebarContent() {
+  const modal = useModal();
   const { agentId, postGroupId } = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -36,6 +41,17 @@ function EditSidebarContent() {
   const { data } = useGroupPostsQuery(Number(agentId), Number(postGroupId));
   const posts = data?.data.posts ?? [];
   const { getItemsByStatus, handleRemove } = useDndController();
+  // TODO: param 주입 방식 수정
+  const { mutate: createMorePosts, isPending: isCreateMorePostsPending } =
+    useCreateMorePostsMutation({
+      agentId: String(agentId),
+      postGroupId: String(postGroupId),
+    });
+
+  const { mutate: deletePost } = useDeletePostMutation({
+    agentId: String(agentId),
+    postGroupId: String(postGroupId),
+  });
 
   const defaultValue = posts.find(
     (post) => post.id === Number(postParam)
@@ -50,6 +66,35 @@ function EditSidebarContent() {
   const handleClick = (postId: number) => {
     router.push(`?post=${postId}`);
   };
+
+  const handlePlusClick = () => {
+    setAccordionValue('EDITING');
+    createMorePosts();
+  };
+
+  const handleDeletePost = (postId: Post['id']) => {
+    modal.confirm({
+      title: '정말 삭제하시겠어요?',
+      description: '삭제된 글은 복구할 수 없어요',
+      icon: <Modal.Icon name="notice" color="warning500" />,
+      confirmButton: '삭제하기',
+      cancelButton: '취소',
+      confirmButtonProps: {
+        onClick: () => {
+          deletePost(postId);
+        },
+      },
+    });
+  };
+
+  // TODO
+  const skeletonData = Array.from({ length: 5 }).map((_, index) => ({
+    id: 10000 + index,
+    summary: '',
+    updatedAt: '',
+    uploadTime: '',
+    isLoading: true,
+  }));
 
   return (
     // TODO 중복되는 로직 컴포넌트화 할 예정
@@ -84,7 +129,11 @@ function EditSidebarContent() {
                     {getItemsByStatus(POST_STATUS.GENERATED).length}
                   </Text>
                 </Accordion.Trigger>
-                <IconButton icon="plus" />
+                <IconButton
+                  icon="plus"
+                  onClick={handlePlusClick}
+                  isLoading={isCreateMorePostsPending}
+                />
               </div>
               <Accordion.Content className={accordionContent}>
                 <DndController.SortableList
@@ -92,13 +141,18 @@ function EditSidebarContent() {
                     (item) => item.id
                   )}
                 >
+                  {/* TODO FIXME */}
+                  {isCreateMorePostsPending &&
+                    skeletonData.map((item) => (
+                      <SkeletonContentItem key={item.id} />
+                    ))}
                   {getItemsByStatus(POST_STATUS.GENERATED).map((item) => (
                     <DndController.Item
                       key={item.id}
                       id={item.id}
                       summary={item.summary}
                       updatedAt={item.updatedAt}
-                      onRemove={() => handleRemove(item.id)}
+                      onRemove={() => handleDeletePost(item.id)}
                       onModify={() => {}}
                       onClick={() => handleClick(item.id)}
                       isSelected={Number(postParam) === item.id}
@@ -133,7 +187,7 @@ function EditSidebarContent() {
                       id={item.id}
                       summary={item.summary}
                       updatedAt={item.updatedAt}
-                      onRemove={() => handleRemove(item.id)}
+                      onRemove={() => handleDeletePost(item.id)}
                       onModify={() => {}}
                       onClick={() => handleClick(item.id)}
                       isSelected={Number(postParam) === item.id}
@@ -168,7 +222,7 @@ function EditSidebarContent() {
                       id={item.id}
                       summary={item.summary}
                       updatedAt={item.updatedAt}
-                      onRemove={() => handleRemove(item.id)}
+                      onRemove={() => handleDeletePost(item.id)}
                       onModify={() => {}}
                       onClick={() => handleClick(item.id)}
                       isSelected={Number(postParam) === item.id}
