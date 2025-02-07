@@ -15,7 +15,7 @@ import { Text } from '@repo/ui/Text';
 import { Button } from '@repo/ui/Button';
 import EmojiPicker from 'emoji-picker-react';
 import { useForm } from 'react-hook-form';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { isNotNil, mergeRefs } from '@repo/ui/utils';
 import { UploadedImages } from './UploadedImages';
 import { useParams, useSearchParams } from 'next/navigation';
@@ -25,6 +25,7 @@ import { isEmptyStringOrNil } from '@web/utils';
 
 import { useModifyPostMutation } from '@web/store/mutation/useModifyPostMutation';
 import { Post } from '@web/types';
+import { DetailPageContext } from '../../EditDetail';
 
 export function PostEditor() {
   const { agentId, postGroupId } = useParams();
@@ -41,7 +42,7 @@ export function PostEditor() {
       content: '',
     },
   });
-  const [text, setText] = useState('');
+  const { loadingPosts, setLoadingPosts } = useContext(DetailPageContext);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null); // 파일 탐색기용 ref
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -76,11 +77,19 @@ export function PostEditor() {
     setValue('imageUrls', urls);
   }, [post]);
 
+  // TODO 제거 예정 너무 빨리 수정돼서 없어져도 괜찮을 듯
+  useEffect(() => {
+    if (isPending) {
+      setLoadingPosts([Number(postId)]);
+    } else {
+      setLoadingPosts((prev) => prev.filter((id) => id !== Number(postId)));
+    }
+  }, [isPending, postId, setLoadingPosts]);
+
   const onSubmit = async (data: {
     imageUrls: string[];
     content: Post['content'];
   }) => {
-    console.log('Form Data:', data);
     const updateType = data.imageUrls.length > 0 ? 'CONTENT_IMAGE' : 'CONTENT';
 
     if (updateType === 'CONTENT') {

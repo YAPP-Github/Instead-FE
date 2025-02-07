@@ -8,6 +8,9 @@ import { Spacing } from '@repo/ui/Spacing';
 import { isEmptyStringOrNil } from '@web/utils';
 import { usePatchPromptMutation } from '@web/store/mutation/usePatchPromptMutation';
 import { useParams, useSearchParams } from 'next/navigation';
+import { useContext, useEffect } from 'react';
+import { DetailPageContext } from '../../EditDetail';
+import { useGroupPostsQuery } from '@web/store/query/useGroupPostsQuery';
 
 export function EditPromptField() {
   const { register, watch, control, handleSubmit } = useForm<{
@@ -19,20 +22,46 @@ export function EditPromptField() {
       prompt: '',
     },
   });
+  const { loadingPosts, setLoadingPosts } = useContext(DetailPageContext);
   const isEntire = watch('isEntire');
   const prompt = watch('prompt');
   const isSubmitDisabled = isEmptyStringOrNil(prompt);
   const { agentId, postGroupId } = useParams();
   const searchParams = useSearchParams();
   const postId = searchParams.get('post');
-  const { mutate: patchPrompt } = usePatchPromptMutation({
+  const { data } = useGroupPostsQuery(Number(agentId), Number(postGroupId));
+  const posts = data?.data.posts ?? [];
+  const editingPosts = posts
+    .filter((post) => post.status === 'EDITING')
+    .map((post) => post.id);
+
+  const { mutate: patchPrompt, isPending } = usePatchPromptMutation({
     agentId: Number(agentId),
     postGroupId: Number(postGroupId),
     postId: Number(postId),
   });
 
+  // TODO 제거 예정
+  useEffect(() => {
+    if (isPending) {
+      // 요청이 진행 중이면
+      if (isEntire) {
+        setLoadingPosts(editingPosts);
+      } else {
+        setLoadingPosts([Number(postId)]);
+      }
+    } else {
+      if (isEntire) {
+        setLoadingPosts((prev) =>
+          prev.filter((id) => !editingPosts.includes(id))
+        );
+      } else {
+        setLoadingPosts((prev) => prev.filter((id) => id !== Number(postId)));
+      }
+    }
+  }, [isPending]);
+
   const onSubmit = async (data: { isEntire: boolean; prompt: string }) => {
-    console.log('Form Data:', data);
     patchPrompt({ ...data });
   };
 

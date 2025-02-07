@@ -24,15 +24,17 @@ import {
   useModifyPostsMutation,
 } from '@web/store/mutation/useModifyPostsMutation';
 import { IconButton } from '@repo/ui/IconButton';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useCreateMorePostsMutation } from '@web/store/mutation/useCreateMorePostsMutation';
 import { SkeletonContentItem } from '../ContentItem/SkeletonContentItem';
 import { useModal } from '@repo/ui/hooks';
 import { Modal } from '@repo/ui/Modal';
 import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation';
+import { DetailPageContext } from '../../EditDetail';
 
 function EditSidebarContent() {
   const modal = useModal();
+  const { loadingPosts, setLoadingPosts } = useContext(DetailPageContext);
   const { agentId, postGroupId } = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -156,6 +158,7 @@ function EditSidebarContent() {
                       onModify={() => {}}
                       onClick={() => handleClick(item.id)}
                       isSelected={Number(postParam) === item.id}
+                      isLoading={loadingPosts.includes(item.id)}
                     />
                   ))}
                 </DndController.SortableList>
@@ -191,6 +194,7 @@ function EditSidebarContent() {
                       onModify={() => {}}
                       onClick={() => handleClick(item.id)}
                       isSelected={Number(postParam) === item.id}
+                      isLoading={loadingPosts.includes(item.id)}
                     />
                   ))}
                 </DndController.SortableList>
@@ -226,6 +230,7 @@ function EditSidebarContent() {
                       onModify={() => {}}
                       onClick={() => handleClick(item.id)}
                       isSelected={Number(postParam) === item.id}
+                      isLoading={loadingPosts.includes(item.id)}
                     />
                   ))}
                 </DndController.SortableList>

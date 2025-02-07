@@ -27,6 +27,7 @@ export function usePatchPromptMutation({
     .map((post) => post.id);
 
   return useMutation({
+    mutationKey: ['patch', agentId, postGroupId, postId],
     mutationFn: (values: MutationPatchPromptRequest) => {
       const endpoint = values.isEntire
         ? `agents/${agentId}/post-groups/${postGroupId}/posts/prompt`
