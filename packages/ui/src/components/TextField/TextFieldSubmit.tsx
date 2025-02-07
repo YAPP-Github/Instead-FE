@@ -11,19 +11,24 @@ export type TextFieldSubmitProps = Omit<
 export const TextFieldSubmit = forwardRef<
   HTMLButtonElement,
   TextFieldSubmitProps
->(({ className = '', type = 'button', ...props }, ref) => {
+>(({ className = '', type = 'button', disabled, ...props }, ref) => {
   const { variant, isError } = useContext(TextFieldContext);
 
-  if (variant !== 'button') return null;
+  if (variant !== 'button' && variant !== 'white') return null;
 
   return (
     <button
       ref={ref}
-      className={`${submitButtonStyle({ isError })} ${className}`}
+      className={`${submitButtonStyle({ isError, isDisabled: disabled })} ${className}`}
       type={type}
+      disabled={disabled}
       {...props}
     >
-      <Icon name="send" size={32} color={isError ? 'grey200' : 'grey950'} />
+      <Icon
+        name="send"
+        size={32}
+        color={isError || disabled ? 'grey200' : 'grey950'}
+      />
     </button>
   );
 });

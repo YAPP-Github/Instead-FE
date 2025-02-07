@@ -1,30 +1,35 @@
 'use client';
 
-import React, { RefObject } from 'react';
 import { useScroll } from '@web/hooks';
 import * as style from './pageStyle.css';
 import { NavBar, MainBreadcrumbItem } from '@web/components/common';
-import { Breadcrumb, Button, Chip, Icon, Accordion } from '@repo/ui';
+import { Breadcrumb, Button, Icon } from '@repo/ui';
 import { POST_STATUS } from '@web/types/post';
-import { INITIAL_CONTENT_ITEMS } from './constants';
-import { DndController, useDndController } from '@web/components/common';
+import { DndController } from '@web/components/common';
 import { EditPageParams } from './types';
-import { DragGuide } from './_components/DragGuide/DragGuide';
+import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
+import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
+import { useRouter } from 'next/navigation';
+import { EditContent } from './_components/EditContent/EditContent';
 
-type EditContentProps = {
-  scrollRef: RefObject<HTMLDivElement>;
-  isScrolled: boolean;
-  agentId: EditPageParams['agentId'];
-  postGroupId: EditPageParams['postGroupId'];
-};
+export default function Edit({ agentId, postGroupId }: EditPageParams) {
+  const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({ threshold: 100 });
+  const { data: posts } = useGetAllPostsQuery({
+    agentId,
+    postGroupId,
+  });
+  const { mutate: updatePosts } = useUpdatePostsMutation({
+    agentId,
+    postGroupId,
+  });
+  const router = useRouter();
 
-function EditContent({
-  scrollRef,
-  isScrolled,
-  agentId,
-  postGroupId,
-}: EditContentProps) {
-  const { getItemsByStatus, handleRemove } = useDndController();
+  /**
+   * READY_TO_UPLOAD 상태인 게시물이 있는지 확인
+   */
+  const hasReadyToUploadPosts = posts.data.posts.some(
+    (post) => post.status === POST_STATUS.READY_TO_UPLOAD
+  );
 
   return (
     <div className={style.mainStyle} ref={scrollRef}>
@@ -41,9 +46,10 @@ function EditContent({
             size="large"
             variant="primary"
             leftAddon={<Icon name="checkCalendar" size={20} />}
-            onClick={() => {}}
-            disabled={false}
-            isLoading={false}
+            onClick={() =>
+              router.push(`/edit/${agentId}/${postGroupId}/schedule`)
+            }
+            disabled={!hasReadyToUploadPosts}
             className={style.submitButtonStyle}
           >
             예약하러 가기
@@ -51,148 +57,23 @@ function EditContent({
         }
         isScrolled={isScrolled}
       />
-      <div className={style.contentStyle}>
-        <Accordion
-          type="multiple"
-          defaultValue={[
-            POST_STATUS.GENERATED,
-            POST_STATUS.EDITING,
-            POST_STATUS.READY_TO_UPLOAD,
-          ]}
-          className={style.accordionStyle}
-        >
-          {/* 생성된 글 영역 */}
-          <Accordion.Item
-            value={POST_STATUS.GENERATED}
-            className={style.accordionItemStyle}
-          >
-            <Accordion.Trigger className={style.accordionTriggerStyle}>
-              <Chip variant="grey">생성된 글</Chip>
-            </Accordion.Trigger>
-            <Accordion.Content>
-              <DndController.Droppable id={POST_STATUS.GENERATED}>
-                <DndController.SortableList
-                  items={getItemsByStatus(POST_STATUS.GENERATED).map(
-                    (item) => item.id
-                  )}
-                >
-                  {getItemsByStatus(POST_STATUS.GENERATED).map((item) => (
-                    <DndController.Item
-                      key={item.id}
-                      id={item.id}
-                      summary={item.summary}
-                      updatedAt={item.updatedAt}
-                      onRemove={() => handleRemove(item.id)}
-                      onModify={() => {}}
-                    />
-                  ))}
-                </DndController.SortableList>
-              </DndController.Droppable>
-            </Accordion.Content>
-          </Accordion.Item>
-
-          {/* 수정 중인 글 영역 */}
-          <Accordion.Item
-            value={POST_STATUS.EDITING}
-            className={style.accordionItemStyle}
-          >
-            <Accordion.Trigger className={style.accordionTriggerStyle}>
-              <Chip variant="purple">수정 중인 글</Chip>
-            </Accordion.Trigger>
-            <Accordion.Content id={POST_STATUS.EDITING}>
-              <DndController.Droppable id={POST_STATUS.EDITING}>
-                <DndController.SortableList
-                  items={getItemsByStatus(POST_STATUS.EDITING).map(
-                    (item) => item.id
-                  )}
-                >
-                  {getItemsByStatus(POST_STATUS.EDITING).length > 0 ? (
-                    getItemsByStatus(POST_STATUS.EDITING).map((item) => (
-                      <DndController.Item
-                        key={item.id}
-                        id={item.id}
-                        summary={item.summary}
-                        updatedAt={item.updatedAt}
-                        onRemove={() => handleRemove(item.id)}
-                        onModify={() => {}}
-                      />
-                    ))
-                  ) : (
-                    <DragGuide description="수정 중인 글을 끌어서 여기에 놓아주세요" />
-                  )}
-                </DndController.SortableList>
-              </DndController.Droppable>
-            </Accordion.Content>
-          </Accordion.Item>
-
-          {/* 업로드할 글 영역 */}
-          <Accordion.Item
-            value={POST_STATUS.READY_TO_UPLOAD}
-            className={style.accordionItemStyle}
-          >
-            <Accordion.Trigger className={style.accordionTriggerStyle}>
-              <Chip variant="green">업로드할 글</Chip>
-            </Accordion.Trigger>
-            <Accordion.Content id={POST_STATUS.READY_TO_UPLOAD}>
-              <DndController.Droppable id={POST_STATUS.READY_TO_UPLOAD}>
-                <DndController.SortableList
-                  items={getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).map(
-                    (item) => item.id
-                  )}
-                >
-                  {getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).length > 0 ? (
-                    getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).map(
-                      (item) => (
-                        <DndController.Item
-                          key={item.id}
-                          id={item.id}
-                          summary={item.summary}
-                          updatedAt={item.updatedAt}
-                          onRemove={() => handleRemove(item.id)}
-                          onModify={() => {}}
-                        />
-                      )
-                    )
-                  ) : (
-                    <DragGuide description="업로드가 준비된 글을 끌어서 여기에 놓아주세요" />
-                  )}
-                </DndController.SortableList>
-              </DndController.Droppable>
-            </Accordion.Content>
-          </Accordion.Item>
-        </Accordion>
-      </div>
+      <DndController
+        key={posts.data.posts.map((p) => p.id).join(',')}
+        initialItems={posts.data.posts}
+        onDragEnd={(updatedItems) => {
+          const updatePayload = {
+            posts: updatedItems.map((item) => ({
+              postId: item.id,
+              status: item.status,
+              displayOrder: item.displayOrder,
+              uploadTime: item.uploadTime,
+            })),
+          };
+          updatePosts(updatePayload);
+        }}
+      >
+        <EditContent agentId={agentId} postGroupId={postGroupId} />
+      </DndController>
     </div>
-  );
-}
-
-export default function Edit({ agentId, postGroupId }: EditPageParams) {
-  const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({ threshold: 100 });
-
-  return (
-    <DndController
-      initialItems={INITIAL_CONTENT_ITEMS}
-      onDragEnd={(items) => {
-        console.log('=== Current Items Status ===');
-        const itemsByStatus = {
-          GENERATED: items.filter((item) => item.status === 'GENERATED'),
-          EDITING: items.filter((item) => item.status === 'EDITING'),
-          READY_TO_UPLOAD: items.filter(
-            (item) => item.status === 'READY_TO_UPLOAD'
-          ),
-        };
-        console.log('GENERATED:', itemsByStatus.GENERATED);
-        console.log('EDITING:', itemsByStatus.EDITING);
-        console.log('READY_TO_UPLOAD:', itemsByStatus.READY_TO_UPLOAD);
-        console.log('========================');
-      }}
-    >
-      <EditContent
-        scrollRef={scrollRef}
-        isScrolled={isScrolled}
-        agentId={agentId}
-        postGroupId={postGroupId}
-      />
-    </DndController>
   );
 }
