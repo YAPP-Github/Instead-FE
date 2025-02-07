@@ -3,8 +3,13 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@repo/ui/hooks';
 import { EditPageParams } from '@web/app/(prompt)/edit/[agentId]/[postGroupId]/types';
 import { Post } from '@web/types';
-import { PostGroup } from '@web/types/post';
-import { getAllPostsQueryOptions } from '../query/useGetAllPostsQuery';
+import { PostGroup, SKELETON_STATUS } from '@web/types/post';
+import {
+  getAllPostsQueryOptions,
+  GetAllPostsResponse,
+} from '../query/useGetAllPostsQuery';
+import { ApiResponse } from '@web/shared/server/types';
+import { createItemsByStatus } from '@web/components/common/DNDController';
 
 export interface CreateMorePostsResponse {
   postGroup: PostGroup;
@@ -26,16 +31,70 @@ export function useCreateMorePostsMutation({
       POST<CreateMorePostsResponse>(
         `agents/${agentId}/post-groups/${postGroupId}/posts`
       ),
-    onSuccess: () => {
-      toast.success('게시글이 5개 추가됐어요!');
-      queryClient.invalidateQueries(
+    onMutate: async () => {
+      // 진행 중인 posts 쿼리 취소
+      await queryClient.cancelQueries(
         getAllPostsQueryOptions({ agentId, postGroupId })
       );
+
+      // 이전 데이터 백업
+      const previousData = queryClient.getQueryData<
+        ApiResponse<GetAllPostsResponse>
+      >(getAllPostsQueryOptions({ agentId, postGroupId }).queryKey);
+
+      // 낙관적 업데이트: 기존 데이터 앞에 5개의 스켈레톤 추가
+      queryClient.setQueryData<ApiResponse<GetAllPostsResponse>>(
+        getAllPostsQueryOptions({ agentId, postGroupId }).queryKey,
+        (old) => {
+          if (!old) return old;
+
+          const itemsByStatus = createItemsByStatus(old.data.posts);
+          const currentStatusLength = itemsByStatus['GENERATED']?.length || 0;
+
+          const skeletonPosts: Post[] = Array.from({ length: 5 }).map(
+            (_, index) => ({
+              id: index,
+              createdAt: '',
+              updatedAt: '',
+              summary: '',
+              content: '',
+              postImages: [],
+              status: 'GENERATED',
+              uploadTime: SKELETON_STATUS,
+              displayOrder: currentStatusLength + index + 1,
+            })
+          );
+
+          return {
+            ...old,
+            data: {
+              ...old.data,
+              posts: [...old.data.posts, ...skeletonPosts],
+            },
+          };
+        }
+      );
+
+      return { previousData };
     },
-    onError: (error) => {
+    onError: (error, _, context) => {
+      // 에러 발생 시 이전 상태로 롤백
+      if (context?.previousData) {
+        queryClient.setQueryData(
+          getAllPostsQueryOptions({ agentId, postGroupId }).queryKey,
+          context.previousData
+        );
+      }
       if (error instanceof Error) {
         toast.error(error.message);
       }
+    },
+    onSuccess: () => {
+      toast.success('게시글이 5개 추가됐어요!');
+      // 실제 서버 데이터로 동기화
+      queryClient.invalidateQueries(
+        getAllPostsQueryOptions({ agentId, postGroupId })
+      );
     },
   });
 }
