@@ -18,5 +18,10 @@ export const iconButtonStyle = style({
     '&:hover': {
       backgroundColor: tokens.colors.grey50,
     },
+    '&:disabled': {
+      // TODO  디자이너분과 논의 후 색상 바꾸기
+      color: tokens.colors.grey100,
+      pointerEvents: 'none',
+    },
   },
 });
