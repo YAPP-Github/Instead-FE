@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Chip, Icon, Accordion, Modal, TextField } from '@repo/ui';
-import { Post, POST_STATUS } from '@web/types/post';
+import { Post, POST_STATUS, SKELETON_STATUS } from '@web/types/post';
 import { DndController, useDndController } from '@web/components/common';
 import { useCreateMorePostsMutation } from '@web/store/mutation/useCreateMorePostsMutation';
 import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation';
@@ -15,7 +15,6 @@ import {
   UpdatePromptRequest,
   useUpdatePromptMutation,
 } from '@web/store/mutation/useUpdatePromptMutation';
-import { SkeletonItems } from '../SkeletonItems/SkeletonItems';
 
 type PromptForm = UpdatePromptRequest;
 
@@ -102,7 +101,6 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
           </Accordion.Trigger>
           <Accordion.Content className={style.accordionContentStyle}>
             <div className={style.contentInnerWrapper}>
-              {isCreateMorePostsPending && <SkeletonItems length={5} />}
               <DndController.Droppable id={POST_STATUS.GENERATED}>
                 <DndController.SortableList
                   items={getItemsByStatus(POST_STATUS.GENERATED).map(
@@ -117,6 +115,7 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
                       updatedAt={item.updatedAt}
                       onRemove={() => handleDeletePost(item.id)}
                       onModify={() => handleModify(item.id)}
+                      isLoading={item.uploadTime === SKELETON_STATUS}
                     />
                   ))}
                 </DndController.SortableList>
@@ -148,9 +147,9 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
           <Accordion.Content id={POST_STATUS.EDITING}>
             <DndController.Droppable id={POST_STATUS.EDITING}>
               <DndController.SortableList
-                items={getItemsByStatus(POST_STATUS.EDITING).map(
-                  (item) => item.id
-                )}
+                items={getItemsByStatus(POST_STATUS.EDITING)
+                  .sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0))
+                  .map((item) => item.id)}
               >
                 {isExistEditingPost && (
                   <FormProvider {...methods}>
@@ -182,7 +181,6 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
                       updatedAt={item.updatedAt}
                       onRemove={() => handleDeletePost(item.id)}
                       onModify={() => handleModify(item.id)}
-                      isLoading={isUpdatePromptPending}
                     />
                   ))
                 ) : (

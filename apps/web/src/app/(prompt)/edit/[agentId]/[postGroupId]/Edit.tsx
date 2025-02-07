@@ -9,7 +9,6 @@ import { DndController } from '@web/components/common';
 import { EditPageParams } from './types';
 import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
 import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { EditContent } from './_components/EditContent/EditContent';
 
@@ -25,12 +24,10 @@ export default function Edit({ agentId, postGroupId }: EditPageParams) {
   });
   const router = useRouter();
 
-  const [items, setItems] = useState(posts?.data.posts ?? []);
-
   /**
    * READY_TO_UPLOAD 상태인 게시물이 있는지 확인
    */
-  const hasReadyToUploadPosts = items.some(
+  const hasReadyToUploadPosts = posts.data.posts.some(
     (post) => post.status === POST_STATUS.READY_TO_UPLOAD
   );
 
@@ -64,13 +61,11 @@ export default function Edit({ agentId, postGroupId }: EditPageParams) {
       <DndController
         initialItems={posts.data.posts}
         onDragEnd={(updatedItems) => {
-          setItems(updatedItems);
-
           const updatePayload = {
-            posts: updatedItems.map((item, index) => ({
+            posts: updatedItems.map((item) => ({
               postId: item.id,
               status: item.status,
-              displayOrder: index + 1,
+              displayOrder: item.displayOrder,
               uploadTime: item.uploadTime,
             })),
           };
