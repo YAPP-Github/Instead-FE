@@ -118,10 +118,7 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
           <Accordion.Trigger className={style.accordionTriggerStyle}>
             <Chip variant="grey">생성된 글</Chip>
           </Accordion.Trigger>
-          <Accordion.Content
-            id={POST_STATUS.GENERATED}
-            className={style.accordionContentStyle}
-          >
+          <Accordion.Content id={POST_STATUS.GENERATED}>
             <div className={style.contentInnerWrapper}>
               <DndController.Droppable id={POST_STATUS.GENERATED}>
                 <DndController.SortableList items={data.map((item) => item.id)}>

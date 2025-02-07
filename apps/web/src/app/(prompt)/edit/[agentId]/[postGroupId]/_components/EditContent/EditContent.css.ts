@@ -15,6 +15,7 @@ export const submitButtonStyle = style({
 
 export const accordionStyle = style({
   display: 'flex',
+  flexDirection: 'row',
   gap: vars.space[64],
   height: 'fit-content',
   minWidth: 'min-content',
@@ -31,12 +32,6 @@ export const accordionItemStyle = style({
   flex: '0 0 auto',
 });
 
-export const accordionContentStyle = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: vars.space[10],
-});
-
 export const contentInnerWrapper = style({
   height: '100%',
 });
@@ -44,4 +39,5 @@ export const contentInnerWrapper = style({
 export const buttonWrapperStyle = style({
   display: 'flex',
   justifyContent: 'flex-end',
+  marginTop: vars.space[10],
 });
