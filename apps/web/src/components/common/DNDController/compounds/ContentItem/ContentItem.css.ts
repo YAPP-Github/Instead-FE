@@ -8,6 +8,7 @@ export const contentItemStyle = style({
   height: '6.4rem',
   width: '100%',
   padding: '1.6rem 0.8rem 1.2rem 1.2rem',
+  cursor: 'pointer',
 });
 
 export const summaryStyle = style({

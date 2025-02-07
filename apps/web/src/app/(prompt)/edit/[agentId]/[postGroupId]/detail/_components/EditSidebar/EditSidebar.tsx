@@ -1,7 +1,6 @@
 'use client';
 import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import { Breadcrumb } from '@repo/ui/Breadcrumb';
-import { ContentItem } from '../ContentItem/ContentItem';
 import {
   accordionContent,
   accordionTrigger,
@@ -9,14 +8,18 @@ import {
   contentWrapper,
   sidebarWrapper,
 } from './EditSidebar.css';
-import { MainBreadcrumbItem } from '@web/components/common';
+import {
+  DndController,
+  MainBreadcrumbItem,
+  useDndController,
+} from '@web/components/common';
 import { Text } from '@repo/ui/Text';
 import { Accordion } from '@repo/ui/Accordion';
 import { Chip } from '@repo/ui/Chip';
 import { useGroupPostsQuery } from '@web/store/query/useGroupPostsQuery';
 import { POST_STATUS } from '@web/types/post';
 
-export function EditSidebar() {
+function EditSidebarContent() {
   const { id } = useParams();
   const router = useRouter();
   const searchParams = useSearchParams(); // ?post=3 같은 쿼리 파라미터
@@ -24,6 +27,7 @@ export function EditSidebar() {
 
   const { data } = useGroupPostsQuery(1, Number(id));
   const posts = data?.data.posts ?? [];
+  const { getItemsByStatus, handleRemove } = useDndController();
 
   const generatedPosts = posts.filter(
     (post) => post.status === POST_STATUS.GENERATED
@@ -75,18 +79,25 @@ export function EditSidebar() {
               </Text>
             </Accordion.Trigger>
             <Accordion.Content className={accordionContent}>
-              {generatedPosts.map((post) => (
-                <ContentItem
-                  key={post.id}
-                  image={post.postImages}
-                  title={post.summary}
-                  updatedAt={post.updatedAt}
-                  onClick={() => handleClick(post.id)}
-                  onRemove={() => {}}
-                  onModify={() => {}}
-                  onDrag={() => {}}
-                />
-              ))}
+              <DndController.Droppable id={POST_STATUS.GENERATED}>
+                <DndController.SortableList
+                  items={getItemsByStatus(POST_STATUS.GENERATED).map(
+                    (item) => item.id
+                  )}
+                >
+                  {getItemsByStatus(POST_STATUS.GENERATED).map((item) => (
+                    <DndController.Item
+                      key={item.id}
+                      id={item.id}
+                      summary={item.summary}
+                      updatedAt={item.updatedAt}
+                      onRemove={() => handleRemove(item.id)}
+                      onModify={() => {}}
+                      onClick={() => handleClick(item.id)}
+                    />
+                  ))}
+                </DndController.SortableList>
+              </DndController.Droppable>
             </Accordion.Content>
           </Accordion.Item>
           <Accordion.Item value={POST_STATUS.EDITING}>
@@ -101,19 +112,25 @@ export function EditSidebar() {
                 {editingPosts.length}
               </Text>
             </Accordion.Trigger>
-            <Accordion.Content>
-              {editingPosts.map((post) => (
-                <ContentItem
-                  key={post.id}
-                  image={post.postImages}
-                  title={post.summary}
-                  updatedAt={post.updatedAt}
-                  onClick={() => handleClick(post.id)}
-                  onRemove={() => {}}
-                  onModify={() => {}}
-                  onDrag={() => {}}
-                />
-              ))}
+            <Accordion.Content className={accordionContent}>
+              <DndController.Droppable id={POST_STATUS.EDITING}>
+                <DndController.SortableList
+                  items={getItemsByStatus(POST_STATUS.EDITING).map(
+                    (item) => item.id
+                  )}
+                >
+                  {getItemsByStatus(POST_STATUS.EDITING).map((item) => (
+                    <DndController.Item
+                      key={item.id}
+                      id={item.id}
+                      summary={item.summary}
+                      updatedAt={item.updatedAt}
+                      onRemove={() => handleRemove(item.id)}
+                      onModify={() => {}}
+                    />
+                  ))}
+                </DndController.SortableList>
+              </DndController.Droppable>
             </Accordion.Content>
           </Accordion.Item>
           <Accordion.Item value={POST_STATUS.READY_TO_UPLOAD}>
@@ -128,23 +145,75 @@ export function EditSidebar() {
                 {readyToUploadPosts.length}
               </Text>
             </Accordion.Trigger>
-            <Accordion.Content>
-              {readyToUploadPosts.map((post) => (
-                <ContentItem
-                  key={post.id}
-                  image={post.postImages}
-                  title={post.summary}
-                  updatedAt={post.updatedAt}
-                  onClick={() => handleClick(post.id)}
-                  onRemove={() => {}}
-                  onModify={() => {}}
-                  onDrag={() => {}}
-                />
-              ))}
+            <Accordion.Content className={accordionContent}>
+              <DndController.Droppable id={POST_STATUS.READY_TO_UPLOAD}>
+                <DndController.SortableList
+                  items={getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).map(
+                    (item) => item.id
+                  )}
+                >
+                  {getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).map((item) => (
+                    <DndController.Item
+                      key={item.id}
+                      id={item.id}
+                      summary={item.summary}
+                      updatedAt={item.updatedAt}
+                      onRemove={() => handleRemove(item.id)}
+                      onModify={() => {}}
+                    />
+                  ))}
+                </DndController.SortableList>
+              </DndController.Droppable>
             </Accordion.Content>
           </Accordion.Item>
         </Accordion>
       </div>
     </div>
+  );
+}
+
+export function EditSidebar() {
+  const { id } = useParams();
+  const router = useRouter();
+  const searchParams = useSearchParams(); // ?post=3 같은 쿼리 파라미터
+  const postParam = searchParams.get('post'); // '3' (string) or null
+
+  const { data } = useGroupPostsQuery(1, Number(id));
+  const posts = data?.data.posts ?? [];
+
+  const generatedPosts = posts.filter(
+    (post) => post.status === POST_STATUS.GENERATED
+  );
+  const editingPosts = posts.filter(
+    (post) => post.status === POST_STATUS.EDITING
+  );
+  const readyToUploadPosts = posts.filter(
+    (post) => post.status === POST_STATUS.READY_TO_UPLOAD
+  );
+
+  const defaultValue = posts.find(
+    (post) => post.id === Number(postParam)
+  )?.status;
+
+  return (
+    <DndController
+      initialItems={posts}
+      onDragEnd={(items) => {
+        console.log('=== Current Items Status ===');
+        const itemsByStatus = {
+          GENERATED: items.filter((item) => item.status === 'GENERATED'),
+          EDITING: items.filter((item) => item.status === 'EDITING'),
+          READY_TO_UPLOAD: items.filter(
+            (item) => item.status === 'READY_TO_UPLOAD'
+          ),
+        };
+        console.log('GENERATED:', itemsByStatus.GENERATED);
+        console.log('EDITING:', itemsByStatus.EDITING);
+        console.log('READY_TO_UPLOAD:', itemsByStatus.READY_TO_UPLOAD);
+        console.log('========================');
+      }}
+    >
+      <EditSidebarContent />
+    </DndController>
   );
 }

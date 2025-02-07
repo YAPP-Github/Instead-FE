@@ -18,6 +18,7 @@ export const INITIAL_CONTENT_ITEMS: Post[] = [
     ],
     status: POST_STATUS.GENERATED,
     uploadTime: new Date().toISOString(),
+    displayOrder: 0,
   },
   {
     id: 2,
@@ -28,6 +29,7 @@ export const INITIAL_CONTENT_ITEMS: Post[] = [
     postImages: [],
     status: POST_STATUS.GENERATED,
     uploadTime: new Date().toISOString(),
+    displayOrder: 1,
   },
   {
     id: 3,
@@ -38,6 +40,7 @@ export const INITIAL_CONTENT_ITEMS: Post[] = [
     postImages: [],
     status: POST_STATUS.GENERATED,
     uploadTime: new Date().toISOString(),
+    displayOrder: 2,
   },
   {
     id: 4,
@@ -48,6 +51,7 @@ export const INITIAL_CONTENT_ITEMS: Post[] = [
     postImages: [],
     status: POST_STATUS.GENERATED,
     uploadTime: new Date().toISOString(),
+    displayOrder: 3,
   },
   {
     id: 5,
@@ -58,5 +62,6 @@ export const INITIAL_CONTENT_ITEMS: Post[] = [
     postImages: [],
     status: POST_STATUS.GENERATED,
     uploadTime: new Date().toISOString(),
+    displayOrder: 4,
   },
 ];

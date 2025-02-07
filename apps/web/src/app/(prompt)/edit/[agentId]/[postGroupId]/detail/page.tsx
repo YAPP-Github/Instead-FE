@@ -7,14 +7,14 @@ import { EditSidebar } from './_components/EditSidebar/EditSidebar';
 import { editDetailPage, flexColumn } from './page.css';
 
 type EditDetailPageProps = {
-  params: { id: string }; // Dynamic Route param
+  params: { agentId: string; postGroupId: string };
 };
 
 export default function EditDetailPage({ params }: EditDetailPageProps) {
   const tokens = getServerSideTokens();
   const serverFetchOptions = groupPostsQueryQueryOptions(
-    1,
-    Number(params.id),
+    Number(params.agentId),
+    Number(params.postGroupId),
     tokens
   );
   return (
