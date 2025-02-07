@@ -64,4 +64,5 @@ export interface PostGroup {
   postGroupImages: PostImage[];
   length: PostGroupLength;
   content: string;
+  eof: boolean;
 }

@@ -1,9 +1,5 @@
 import { GET } from '@web/shared/server';
-import {
-  queryOptions,
-  useQuery,
-  useSuspenseQuery,
-} from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
 import { Post } from '@web/types';
 import { EditPageParams } from '@web/app/(prompt)/edit/[agentId]/[postGroupId]/types';
 import { PostGroup } from '@web/types/post';

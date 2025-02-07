@@ -10,6 +10,7 @@ import {
 } from '../query/useGetAllPostsQuery';
 import { ApiResponse } from '@web/shared/server/types';
 import { createItemsByStatus } from '@web/components/common/DNDController';
+import { useGetAllPostsQuery } from '../query/useGetAllPostsQuery';
 
 export interface CreateMorePostsResponse {
   postGroup: PostGroup;
@@ -25,12 +26,20 @@ export function useCreateMorePostsMutation({
 }: EditPageParams) {
   const queryClient = useQueryClient();
   const toast = useToast();
+  const { data: posts } = useGetAllPostsQuery({ agentId, postGroupId });
 
   return useMutation({
-    mutationFn: () =>
-      POST<CreateMorePostsResponse>(
+    mutationFn: () => {
+      // eof가 true이면 더 이상 생성할 수 없음
+      if (posts.data.postGroup.eof) {
+        toast.error('게시글은 25개까지만 생성할 수 있어요.');
+        throw new Error('게시글은 25개까지만 생성할 수 있어요.');
+      }
+
+      return POST<CreateMorePostsResponse>(
         `agents/${agentId}/post-groups/${postGroupId}/posts`
-      ),
+      );
+    },
     onMutate: async () => {
       // 진행 중인 posts 쿼리 취소
       await queryClient.cancelQueries(
