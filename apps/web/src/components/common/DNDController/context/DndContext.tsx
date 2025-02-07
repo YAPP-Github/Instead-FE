@@ -7,7 +7,7 @@ import {
   TouchSensor,
   useSensor,
   useSensors,
-  closestCenter,
+  closestCorners,
   MeasuringStrategy,
 } from '@dnd-kit/core';
 import { useDragAndDrop } from '../hooks';
@@ -58,7 +58,7 @@ export function DndControllerProvider({
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCenter}
+      collisionDetection={closestCorners}
       onDragStart={
         disabled
           ? undefined

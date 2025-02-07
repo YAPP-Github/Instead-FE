@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { DragEndEvent, DragOverEvent } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import { Post } from '@web/types';
@@ -85,11 +85,7 @@ export function useDragAndDrop({
           });
         }
 
-        const newItems = updateDisplayOrders(
-          Object.values(itemsByStatus).flat()
-        );
-        onDragEnd?.(newItems);
-        return newItems;
+        return updateDisplayOrders(Object.values(itemsByStatus).flat());
       });
       return;
     }
@@ -111,9 +107,7 @@ export function useDragAndDrop({
         status: targetStatus,
       });
 
-      const newItems = updateDisplayOrders(Object.values(itemsByStatus).flat());
-      onDragEnd?.(newItems);
-      return newItems;
+      return updateDisplayOrders(Object.values(itemsByStatus).flat());
     });
   };
 
@@ -123,7 +117,6 @@ export function useDragAndDrop({
 
     const draggedItemId = Number(active.id);
     const draggedItem = items.find((item) => item.id === draggedItemId);
-
     if (!draggedItem) return;
 
     // 드롭 영역(상태)으로 이동하는 경우
@@ -138,11 +131,9 @@ export function useDragAndDrop({
         );
         const targetItems = itemsByStatus[targetStatus] || [];
 
-        // 이동된 아이템을 타겟 상태의 마지막에 추가
         const updatedItem = { ...draggedItem, status: targetStatus };
         targetItems.push(updatedItem);
 
-        // displayOrder 재계산
         sourceItems.forEach((item, index) => {
           item.displayOrder = index + 1;
         });
@@ -159,31 +150,32 @@ export function useDragAndDrop({
         onDragEnd?.(newItems);
         return newItems;
       });
-      return;
-    }
+    } else {
+      // 같은 상태 내에서 순서 변경
+      const overId = Number(over.id);
+      if (draggedItemId === overId) return;
 
-    // 같은 상태 내에서 순서 변경
-    const overId = Number(over.id);
-    if (draggedItemId === overId) return;
+      setItems((prev) => {
+        const itemsByStatus = createItemsByStatus(prev);
+        const statusItems = itemsByStatus[draggedItem.status];
+        const oldIndex = statusItems.findIndex(
+          (item) => item.id === draggedItemId
+        );
+        const newIndex = statusItems.findIndex((item) => item.id === overId);
+        const reorderedItems = arrayMove(statusItems, oldIndex, newIndex);
 
-    setItems((prev) => {
-      const itemsByStatus = createItemsByStatus(prev);
-      const statusItems = itemsByStatus[draggedItem.status];
-      const oldIndex = statusItems.findIndex(
-        (item) => item.id === draggedItemId
-      );
-      const newIndex = statusItems.findIndex((item) => item.id === overId);
-      const reorderedItems = arrayMove(statusItems, oldIndex, newIndex);
+        reorderedItems.forEach((item, index) => {
+          item.displayOrder = index + 1;
+        });
 
-      reorderedItems.forEach((item, index) => {
-        item.displayOrder = index + 1;
+        itemsByStatus[draggedItem.status] = reorderedItems;
+        const newItems = updateDisplayOrders(
+          Object.values(itemsByStatus).flat()
+        );
+        onDragEnd?.(newItems);
+        return newItems;
       });
-
-      itemsByStatus[draggedItem.status] = reorderedItems;
-      const newItems = updateDisplayOrders(Object.values(itemsByStatus).flat());
-      onDragEnd?.(newItems);
-      return newItems;
-    });
+    }
   };
 
   const handleRemove = (id: number) => {
