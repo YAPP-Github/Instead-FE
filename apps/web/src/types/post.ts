@@ -13,11 +13,6 @@ export const POST_STATUS = {
   UPLOAD_FAILED: 'UPLOAD_FAILED',
 } as const;
 
-/**
- * 스켈레톤용 임시 상태
- */
-export const SKELETON_STATUS = 'IS_LOADING';
-
 export type PostStatus = (typeof POST_STATUS)[keyof typeof POST_STATUS];
 
 export interface Post {

@@ -85,7 +85,11 @@ export function useDragAndDrop({
           });
         }
 
-        return updateDisplayOrders(Object.values(itemsByStatus).flat());
+        const newItems = updateDisplayOrders(
+          Object.values(itemsByStatus).flat()
+        );
+        onDragEnd?.(newItems);
+        return newItems;
       });
       return;
     }
@@ -107,7 +111,9 @@ export function useDragAndDrop({
         status: targetStatus,
       });
 
-      return updateDisplayOrders(Object.values(itemsByStatus).flat());
+      const newItems = updateDisplayOrders(Object.values(itemsByStatus).flat());
+      onDragEnd?.(newItems);
+      return newItems;
     });
   };
 

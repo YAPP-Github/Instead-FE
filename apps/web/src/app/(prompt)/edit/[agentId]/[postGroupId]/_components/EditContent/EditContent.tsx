@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Chip, Icon, Accordion, Modal, TextField } from '@repo/ui';
-import { Post, POST_STATUS, SKELETON_STATUS } from '@web/types/post';
+import { Post, POST_STATUS } from '@web/types/post';
 import { DndController, useDndController } from '@web/components/common';
 import { useCreateMorePostsMutation } from '@web/store/mutation/useCreateMorePostsMutation';
 import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation';
@@ -91,6 +91,9 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
     isLoading: true,
   }));
 
+  /**
+   * 스켈레톤을 추가하기 위해 생성된 글 데이터를 가져와 로딩 상태일 때 스켈레톤 데이터를 붙인다.
+   */
   const data = useMemo(() => {
     if (isCreateMorePostsPending) {
       return [...getItemsByStatus(POST_STATUS.GENERATED), ...skeletonData];
@@ -132,7 +135,6 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
                       updatedAt={item.updatedAt}
                       onRemove={() => handleDeletePost(item.id)}
                       onModify={() => handleModify(item.id)}
-                      //isLoading={item.uploadTime === SKELETON_STATUS}
                       isLoading={item?.isLoading ?? false}
                     />
                   ))}
