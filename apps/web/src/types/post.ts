@@ -49,6 +49,8 @@ export interface PostGroup {
   imageUrls: string[];
   length: PostLength;
   content: string;
+  // NOTE api 수정되기 전까지만 nullable
+  eof?: boolean;
 }
 
 export interface Post {
