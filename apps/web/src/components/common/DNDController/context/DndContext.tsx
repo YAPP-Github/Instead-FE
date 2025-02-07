@@ -20,6 +20,7 @@ type DndControllerProviderProps = {
   initialItems: DndItemData[];
   children: ReactNode;
   onDragEnd?: (items: DndItemData[]) => void;
+  disabled?: boolean;
 };
 
 type DndControllerContextType = ReturnType<typeof useDragAndDrop>;
@@ -42,6 +43,7 @@ export function DndControllerProvider({
   initialItems,
   children,
   onDragEnd,
+  disabled,
 }: DndControllerProviderProps) {
   const sensors = useSensors(
     useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
@@ -59,14 +61,22 @@ export function DndControllerProvider({
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
-      onDragStart={({ active }) => {
-        setActiveId(Number(active.id));
-      }}
-      onDragOver={dnd.handleDragOver}
-      onDragEnd={(event) => {
-        dnd.handleDragEnd(event);
-        onDragEnd?.(items);
-      }}
+      onDragStart={
+        disabled
+          ? undefined
+          : ({ active }) => {
+              setActiveId(Number(active.id));
+            }
+      }
+      onDragOver={disabled ? undefined : dnd.handleDragOver}
+      onDragEnd={
+        disabled
+          ? undefined
+          : (event) => {
+              dnd.handleDragEnd(event);
+              onDragEnd?.(items);
+            }
+      }
       measuring={{
         droppable: { strategy: MeasuringStrategy.Always },
       }}

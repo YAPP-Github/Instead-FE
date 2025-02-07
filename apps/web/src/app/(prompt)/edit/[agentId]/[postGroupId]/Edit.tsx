@@ -11,6 +11,7 @@ import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
 import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
 import { useRouter } from 'next/navigation';
 import { EditContent } from './_components/EditContent/EditContent';
+import { SKELETON_STATUS } from '@web/types/post';
 
 export default function Edit({ agentId, postGroupId }: EditPageParams) {
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({ threshold: 100 });
@@ -31,6 +32,13 @@ export default function Edit({ agentId, postGroupId }: EditPageParams) {
     (post) => post.status === POST_STATUS.READY_TO_UPLOAD
   );
 
+  /**
+   * 스켈레톤 상태(생성중)인 포스트가 있는지 확인
+   */
+  const isGenerating = posts.data.posts.some(
+    (post) => post.uploadTime === SKELETON_STATUS
+  );
+
   return (
     <div className={style.mainStyle} ref={scrollRef}>
       <NavBar
@@ -49,7 +57,7 @@ export default function Edit({ agentId, postGroupId }: EditPageParams) {
             onClick={() =>
               router.push(`/edit/${agentId}/${postGroupId}/schedule`)
             }
-            disabled={!hasReadyToUploadPosts}
+            disabled={!hasReadyToUploadPosts || isGenerating}
             isLoading={false}
             className={style.submitButtonStyle}
           >
@@ -60,18 +68,22 @@ export default function Edit({ agentId, postGroupId }: EditPageParams) {
       />
       <DndController
         initialItems={posts.data.posts}
-        onDragEnd={(updatedItems) => {
-          const updatePayload = {
-            posts: updatedItems.map((item) => ({
-              postId: item.id,
-              status: item.status,
-              displayOrder: item.displayOrder,
-              uploadTime: item.uploadTime,
-            })),
-          };
-
-          updatePosts(updatePayload);
-        }}
+        disabled={isGenerating}
+        onDragEnd={
+          isGenerating
+            ? undefined
+            : (updatedItems) => {
+                const updatePayload = {
+                  posts: updatedItems.map((item) => ({
+                    postId: item.id,
+                    status: item.status,
+                    displayOrder: item.displayOrder,
+                    uploadTime: item.uploadTime,
+                  })),
+                };
+                updatePosts(updatePayload);
+              }
+        }
       >
         <EditContent agentId={agentId} postGroupId={postGroupId} />
       </DndController>
