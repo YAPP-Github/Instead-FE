@@ -3,9 +3,8 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { ReactNode } from 'react';
-import { DroppableContent } from './compounds/DroppableContent/DroppableContent';
-import { DraggableContentItem } from './compounds/DraggableContentItem/DraggableContentItem';
-import { DndControllerProvider } from './context/DndContext';
+import { DroppableContent, DraggableContentItem } from './compounds';
+import { DndControllerProvider } from './context';
 
 type SortableListProps = {
   items: (number | string)[];
@@ -26,5 +25,5 @@ export const DndController = Object.assign(DndControllerProvider, {
   Item: DraggableContentItem,
 });
 
-export { useDndController } from './context/DndContext';
-export type { DndItemData } from './context/DndContext';
+export { useDndController } from './context';
+export type { DndItemData } from './context';

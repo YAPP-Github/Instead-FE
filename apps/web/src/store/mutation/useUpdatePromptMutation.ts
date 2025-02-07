@@ -1,35 +1,32 @@
-import { DELETE } from '@web/shared/server';
+import { PATCH } from '@web/shared/server';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@repo/ui/hooks';
 import { EditPageParams } from '@web/app/(prompt)/edit/[agentId]/[postGroupId]/types';
 import { getAllPostsQueryOptions } from '../query/useGetAllPostsQuery';
 import { Post } from '@web/types';
 
-export interface MutationDeletePost {
-  agentId: number;
-  postGroupId: number;
+export interface UpdatePromptRequest {
+  prompt: string;
+  postsId: Post['id'][];
 }
 
 /**
- * 게시물 개별 삭제 API
+ * 게시물 프롬프트 기반 일괄 수정
  *
- * 업로드가 확정되지 않은 단건의 게시물을 개별 삭제합니다. (생성됨, 수정 중, 수정 완료)
- *
- * 업로드가 확정된 상태의 게시물은 삭제할 수 없습니다. (예약 완료, 업로드 완료, 업로드 실패)
+ * 일괄 게시물에 대해 입력된 프롬프트를 바탕으로 수정합니다.
  */
-export function useDeletePostMutation({
+export function useUpdatePromptMutation({
   agentId,
   postGroupId,
 }: EditPageParams) {
   const queryClient = useQueryClient();
-
   const toast = useToast();
 
   return useMutation({
-    mutationFn: (postId: Post['id']) =>
-      DELETE(`agents/${agentId}/post-groups/${postGroupId}/posts/${postId}`),
+    mutationFn: (data: UpdatePromptRequest) =>
+      PATCH(`agents/${agentId}/post-groups/${postGroupId}/posts/prompt`, data),
     onSuccess: () => {
-      toast.success('게시글이 삭제되었어요.');
+      toast.success('프롬프트가 적용되었어요!');
       queryClient.invalidateQueries(
         getAllPostsQueryOptions({ agentId, postGroupId })
       );

@@ -13,7 +13,7 @@ export const POST_STATUS = {
   UPLOAD_FAILED: 'UPLOAD_FAILED',
 } as const;
 
-type PostStatus = (typeof POST_STATUS)[keyof typeof POST_STATUS];
+export type PostStatus = (typeof POST_STATUS)[keyof typeof POST_STATUS];
 
 export const POST_PURPOSE = {
   INFORMATION: 'INFORMATION',
@@ -63,4 +63,47 @@ export interface Post {
   postImages: PostImage[];
   status: PostStatus;
   uploadTime: string;
+  displayOrder?: number;
+  isLoading?: boolean;
+}
+
+export interface CreatedPost {
+  postGroupId: number;
+  eof: boolean;
+  posts: Post[];
+}
+
+export type Purpose = 'INFORMATION' | 'OPINION' | 'HUMOR' | 'MARKETING';
+
+export type Reference = 'NONE' | 'NEWS' | 'IMAGE';
+
+export type NewsCategory =
+  | 'INVEST'
+  | 'STOCK'
+  | 'REALESTATE'
+  | 'FASHION'
+  | 'TRAVEL'
+  | 'BEAUTY'
+  | 'FITNESS'
+  | 'COOKING'
+  | 'HEALTHCARE'
+  | 'AI'
+  | 'GAME'
+  | 'APP'
+  | 'SPACE'
+  | 'ENVIRONMENT'
+  | 'ENGINEER';
+
+export type PostGroupLength = 'SHORT' | 'MEDIUM' | 'LONG';
+
+export interface PostGroup {
+  id: number;
+  topic: string;
+  purpose: Purpose;
+  reference: Reference;
+  newsCategory: NewsCategory | null;
+  postGroupImages: PostImage[];
+  length: PostGroupLength;
+  content: string;
+  eof: boolean;
 }

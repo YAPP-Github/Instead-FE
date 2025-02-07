@@ -10,8 +10,8 @@ import {
   closestCenter,
   MeasuringStrategy,
 } from '@dnd-kit/core';
-import { useDragAndDrop } from '../hooks/useDragAndDrop';
-import { ContentItem } from '../compounds/ContentItem/ContentItem';
+import { useDragAndDrop } from '../hooks';
+import { ContentItem } from '../compounds';
 import { Post } from '@web/types';
 
 export type DndItemData = Post;
@@ -20,6 +20,7 @@ type DndControllerProviderProps = {
   initialItems: DndItemData[];
   children: ReactNode;
   onDragEnd?: (items: DndItemData[]) => void;
+  disabled?: boolean;
 };
 
 type DndControllerContextType = ReturnType<typeof useDragAndDrop>;
@@ -42,6 +43,7 @@ export function DndControllerProvider({
   initialItems,
   children,
   onDragEnd,
+  disabled,
 }: DndControllerProviderProps) {
   const sensors = useSensors(
     useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
@@ -50,46 +52,49 @@ export function DndControllerProvider({
 
   const dnd = useDragAndDrop({
     initialItems,
+    onDragEnd,
   });
-
-  const { activeId, setActiveId, items } = dnd;
-  const activeItem = items.find((item) => item.id === activeId);
 
   return (
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
-      onDragStart={({ active }) => {
-        setActiveId(Number(active.id));
-      }}
-      onDragOver={dnd.handleDragOver}
-      onDragEnd={(event) => {
-        dnd.handleDragEnd(event);
-        onDragEnd?.(items);
-      }}
+      onDragStart={
+        disabled
+          ? undefined
+          : ({ active }) => {
+              dnd.setActiveId(Number(active.id));
+            }
+      }
+      onDragOver={disabled ? undefined : dnd.handleDragOver}
+      onDragEnd={
+        disabled
+          ? undefined
+          : (event) => {
+              dnd.handleDragEnd(event);
+            }
+      }
       measuring={{
         droppable: { strategy: MeasuringStrategy.Always },
       }}
-      modifiers={[
-        (args) => ({
-          ...args.transform,
-          scaleX: 1,
-          scaleY: 1,
-        }),
-      ]}
     >
       <DndControllerContext.Provider value={dnd}>
         {children}
       </DndControllerContext.Provider>
-      <DragOverlay style={{ backgroundColor: 'transparent' }}>
-        {activeId && activeItem ? (
+      <DragOverlay>
+        {dnd.activeId && (
           <ContentItem
-            summary={activeItem.summary}
-            updatedAt={activeItem.updatedAt}
-            onRemove={() => dnd.handleRemove(activeItem.id)}
+            summary={
+              dnd.items.find((item) => item.id === dnd.activeId)?.summary
+            }
+            updatedAt={
+              dnd.items.find((item) => item.id === dnd.activeId)?.updatedAt ||
+              ''
+            }
+            onRemove={() => {}}
             onModify={() => {}}
           />
-        ) : null}
+        )}
       </DragOverlay>
     </DndContext>
   );
