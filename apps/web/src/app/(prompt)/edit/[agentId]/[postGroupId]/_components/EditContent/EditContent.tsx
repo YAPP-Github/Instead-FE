@@ -43,8 +43,6 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
       postGroupId,
     });
 
-  const isGenerating = isCreateMorePostsPending || isUpdatePromptPending;
-
   const { mutate: deletePost } = useDeletePostMutation({
     agentId,
     postGroupId,
@@ -138,16 +136,6 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
                       isLoading={item?.isLoading ?? false}
                     />
                   ))}
-                  {/* {isCreateMorePostsPending &&
-                    Array.from({ length: 5 }).map((_, index) => (
-                      <DndController.Item
-                        key={index}
-                        id={index}
-                        summary=""
-                        updatedAt=""
-                        isLoading={true}
-                      />
-                    ))} */}
                 </DndController.SortableList>
               </DndController.Droppable>
             </div>
