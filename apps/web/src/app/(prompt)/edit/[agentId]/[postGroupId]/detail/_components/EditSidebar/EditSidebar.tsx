@@ -31,6 +31,7 @@ import { useModal } from '@repo/ui/hooks';
 import { Modal } from '@repo/ui/Modal';
 import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation';
 import { DetailPageContext } from '../../EditDetail';
+import { DragGuide } from '../DragGuide/DragGuide';
 
 function EditSidebarContent() {
   const modal = useModal();
@@ -59,7 +60,9 @@ function EditSidebarContent() {
     (post) => post.id === Number(postParam)
   )?.status;
 
-  const [accordionValue, setAccordionValue] = useState(defaultValue);
+  const [accordionValue, setAccordionValue] = useState<
+    Post['status'] | undefined
+  >(defaultValue);
 
   useEffect(() => {
     setAccordionValue(defaultValue);
@@ -116,7 +119,11 @@ function EditSidebarContent() {
 
       <div className={contentWrapper}>
         {/* TODO 제어 컴포넌트도 수정해야 함 */}
-        <Accordion type="single" defaultValue={accordionValue}>
+        <Accordion<Post['status']>
+          type="single"
+          value={accordionValue}
+          onValueChange={(newValue) => setAccordionValue(newValue)}
+        >
           <DndController.Droppable id={POST_STATUS.GENERATED}>
             <Accordion.Item value={POST_STATUS.GENERATED}>
               <div className={generateTrigger}>
@@ -138,30 +145,34 @@ function EditSidebarContent() {
                 />
               </div>
               <Accordion.Content className={accordionContent}>
-                <DndController.SortableList
-                  items={getItemsByStatus(POST_STATUS.GENERATED).map(
-                    (item) => item.id
-                  )}
-                >
-                  {/* TODO FIXME */}
-                  {isCreateMorePostsPending &&
-                    skeletonData.map((item) => (
-                      <SkeletonContentItem key={item.id} />
+                {getItemsByStatus(POST_STATUS.GENERATED).length > 0 ? (
+                  <DndController.SortableList
+                    items={getItemsByStatus(POST_STATUS.GENERATED).map(
+                      (item) => item.id
+                    )}
+                  >
+                    {/* TODO FIXME */}
+                    {isCreateMorePostsPending &&
+                      skeletonData.map((item) => (
+                        <SkeletonContentItem key={item.id} />
+                      ))}
+                    {getItemsByStatus(POST_STATUS.GENERATED).map((item) => (
+                      <DndController.Item
+                        key={item.id}
+                        id={item.id}
+                        summary={item.summary}
+                        updatedAt={item.updatedAt}
+                        onRemove={() => handleDeletePost(item.id)}
+                        onModify={() => {}}
+                        onClick={() => handleClick(item.id)}
+                        isSelected={Number(postParam) === item.id}
+                        isLoading={loadingPosts.includes(item.id)}
+                      />
                     ))}
-                  {getItemsByStatus(POST_STATUS.GENERATED).map((item) => (
-                    <DndController.Item
-                      key={item.id}
-                      id={item.id}
-                      summary={item.summary}
-                      updatedAt={item.updatedAt}
-                      onRemove={() => handleDeletePost(item.id)}
-                      onModify={() => {}}
-                      onClick={() => handleClick(item.id)}
-                      isSelected={Number(postParam) === item.id}
-                      isLoading={loadingPosts.includes(item.id)}
-                    />
-                  ))}
-                </DndController.SortableList>
+                  </DndController.SortableList>
+                ) : (
+                  <DragGuide description="+ 버튼을 눌러\n게시글을 5개 추가해보세요" />
+                )}
               </Accordion.Content>
             </Accordion.Item>
           </DndController.Droppable>
@@ -179,25 +190,29 @@ function EditSidebarContent() {
                 </Text>
               </Accordion.Trigger>
               <Accordion.Content className={accordionContent}>
-                <DndController.SortableList
-                  items={getItemsByStatus(POST_STATUS.EDITING).map(
-                    (item) => item.id
-                  )}
-                >
-                  {getItemsByStatus(POST_STATUS.EDITING).map((item) => (
-                    <DndController.Item
-                      key={item.id}
-                      id={item.id}
-                      summary={item.summary}
-                      updatedAt={item.updatedAt}
-                      onRemove={() => handleDeletePost(item.id)}
-                      onModify={() => {}}
-                      onClick={() => handleClick(item.id)}
-                      isSelected={Number(postParam) === item.id}
-                      isLoading={loadingPosts.includes(item.id)}
-                    />
-                  ))}
-                </DndController.SortableList>
+                {getItemsByStatus(POST_STATUS.EDITING).length > 0 ? (
+                  <DndController.SortableList
+                    items={getItemsByStatus(POST_STATUS.EDITING).map(
+                      (item) => item.id
+                    )}
+                  >
+                    {getItemsByStatus(POST_STATUS.EDITING).map((item) => (
+                      <DndController.Item
+                        key={item.id}
+                        id={item.id}
+                        summary={item.summary}
+                        updatedAt={item.updatedAt}
+                        onRemove={() => handleDeletePost(item.id)}
+                        onModify={() => {}}
+                        onClick={() => handleClick(item.id)}
+                        isSelected={Number(postParam) === item.id}
+                        isLoading={loadingPosts.includes(item.id)}
+                      />
+                    ))}
+                  </DndController.SortableList>
+                ) : (
+                  <DragGuide description="수정하고 싶은 글을" />
+                )}
               </Accordion.Content>
             </Accordion.Item>
           </DndController.Droppable>
@@ -215,25 +230,31 @@ function EditSidebarContent() {
                 </Text>
               </Accordion.Trigger>
               <Accordion.Content className={accordionContent}>
-                <DndController.SortableList
-                  items={getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).map(
-                    (item) => item.id
-                  )}
-                >
-                  {getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).map((item) => (
-                    <DndController.Item
-                      key={item.id}
-                      id={item.id}
-                      summary={item.summary}
-                      updatedAt={item.updatedAt}
-                      onRemove={() => handleDeletePost(item.id)}
-                      onModify={() => {}}
-                      onClick={() => handleClick(item.id)}
-                      isSelected={Number(postParam) === item.id}
-                      isLoading={loadingPosts.includes(item.id)}
-                    />
-                  ))}
-                </DndController.SortableList>
+                {getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).length > 0 ? (
+                  <DndController.SortableList
+                    items={getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).map(
+                      (item) => item.id
+                    )}
+                  >
+                    {getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).map(
+                      (item) => (
+                        <DndController.Item
+                          key={item.id}
+                          id={item.id}
+                          summary={item.summary}
+                          updatedAt={item.updatedAt}
+                          onRemove={() => handleDeletePost(item.id)}
+                          onModify={() => {}}
+                          onClick={() => handleClick(item.id)}
+                          isSelected={Number(postParam) === item.id}
+                          isLoading={loadingPosts.includes(item.id)}
+                        />
+                      )
+                    )}
+                  </DndController.SortableList>
+                ) : (
+                  <DragGuide description="업로드가 준비된 글을" />
+                )}
               </Accordion.Content>
             </Accordion.Item>
           </DndController.Droppable>
