@@ -27,3 +27,8 @@ export const accordionContent = style({
   maxHeight: 'calc(100vh - 24.8rem)',
   overflowY: 'scroll',
 });
+
+export const generateTrigger = style({
+  display: 'flex',
+  justifyContent: 'space-between',
+});

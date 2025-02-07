@@ -6,6 +6,7 @@ import {
   accordionTrigger,
   breadcrumbWrapper,
   contentWrapper,
+  generateTrigger,
   sidebarWrapper,
 } from './EditSidebar.css';
 import {
@@ -18,38 +19,40 @@ import { Accordion } from '@repo/ui/Accordion';
 import { Chip } from '@repo/ui/Chip';
 import { useGroupPostsQuery } from '@web/store/query/useGroupPostsQuery';
 import { POST_STATUS } from '@web/types/post';
+import {
+  MutationModifyPostsRequest,
+  useModifyPostsMutation,
+} from '@web/store/mutation/useModifyPostsMutation';
+import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation';
+import { IconButton } from '@repo/ui';
+import { useEffect, useState } from 'react';
 
 function EditSidebarContent() {
-  const { id } = useParams();
+  const { agentId, postGroupId } = useParams();
   const router = useRouter();
-  const searchParams = useSearchParams(); // ?post=3 같은 쿼리 파라미터
-  const postParam = searchParams.get('post'); // '3' (string) or null
+  const searchParams = useSearchParams();
+  const postParam = searchParams.get('post');
 
-  const { data } = useGroupPostsQuery(1, Number(id));
+  const { data } = useGroupPostsQuery(Number(agentId), Number(postGroupId));
   const posts = data?.data.posts ?? [];
   const { getItemsByStatus, handleRemove } = useDndController();
-
-  const generatedPosts = posts.filter(
-    (post) => post.status === POST_STATUS.GENERATED
-  );
-  const editingPosts = posts.filter(
-    (post) => post.status === POST_STATUS.EDITING
-  );
-  const readyToUploadPosts = posts.filter(
-    (post) => post.status === POST_STATUS.READY_TO_UPLOAD
-  );
 
   const defaultValue = posts.find(
     (post) => post.id === Number(postParam)
   )?.status;
 
+  const [accordionValue, setAccordionValue] = useState(defaultValue);
+
+  useEffect(() => {
+    setAccordionValue(defaultValue);
+  }, [defaultValue]);
+
   const handleClick = (postId: number) => {
-    // 기존 searchParams를 복사해서 새로운 URLSearchParams 인스턴스 생성
     router.push(`?post=${postId}`);
-    console.log(postId);
   };
 
   return (
+    // TODO 중복되는 로직 컴포넌트화 할 예정
     <div className={sidebarWrapper}>
       <div className={breadcrumbWrapper}>
         <Breadcrumb>
@@ -65,21 +68,25 @@ function EditSidebarContent() {
       </div>
 
       <div className={contentWrapper}>
-        <Accordion type="single" defaultValue={defaultValue}>
-          <Accordion.Item value={POST_STATUS.GENERATED}>
-            <Accordion.Trigger className={accordionTrigger}>
-              <Chip
-                variant="grey"
-                leftAddon={<Chip.Icon variant="grey" name="circle" />}
-              >
-                생성된 글
-              </Chip>
-              <Text color="grey300" fontSize={16} fontWeight="semibold">
-                {generatedPosts.length}
-              </Text>
-            </Accordion.Trigger>
-            <Accordion.Content className={accordionContent}>
-              <DndController.Droppable id={POST_STATUS.GENERATED}>
+        {/* TODO 제어 컴포넌트도 수정해야 함 */}
+        <Accordion type="single" defaultValue={accordionValue}>
+          <DndController.Droppable id={POST_STATUS.GENERATED}>
+            <Accordion.Item value={POST_STATUS.GENERATED}>
+              <div className={generateTrigger}>
+                <Accordion.Trigger className={accordionTrigger}>
+                  <Chip
+                    variant="grey"
+                    leftAddon={<Chip.Icon variant="grey" name="circle" />}
+                  >
+                    생성된 글
+                  </Chip>
+                  <Text color="grey300" fontSize={16} fontWeight="semibold">
+                    {getItemsByStatus(POST_STATUS.GENERATED).length}
+                  </Text>
+                </Accordion.Trigger>
+                <IconButton icon="plus" />
+              </div>
+              <Accordion.Content className={accordionContent}>
                 <DndController.SortableList
                   items={getItemsByStatus(POST_STATUS.GENERATED).map(
                     (item) => item.id
@@ -94,26 +101,27 @@ function EditSidebarContent() {
                       onRemove={() => handleRemove(item.id)}
                       onModify={() => {}}
                       onClick={() => handleClick(item.id)}
+                      isSelected={Number(postParam) === item.id}
                     />
                   ))}
                 </DndController.SortableList>
-              </DndController.Droppable>
-            </Accordion.Content>
-          </Accordion.Item>
-          <Accordion.Item value={POST_STATUS.EDITING}>
-            <Accordion.Trigger className={accordionTrigger}>
-              <Chip
-                variant="purple"
-                leftAddon={<Chip.Icon variant="purple" name="circle" />}
-              >
-                수정 중인 글
-              </Chip>
-              <Text color="grey300" fontSize={16} fontWeight="semibold">
-                {editingPosts.length}
-              </Text>
-            </Accordion.Trigger>
-            <Accordion.Content className={accordionContent}>
-              <DndController.Droppable id={POST_STATUS.EDITING}>
+              </Accordion.Content>
+            </Accordion.Item>
+          </DndController.Droppable>
+          <DndController.Droppable id={POST_STATUS.EDITING}>
+            <Accordion.Item value={POST_STATUS.EDITING}>
+              <Accordion.Trigger className={accordionTrigger}>
+                <Chip
+                  variant="purple"
+                  leftAddon={<Chip.Icon variant="purple" name="circle" />}
+                >
+                  수정 중인 글
+                </Chip>
+                <Text color="grey300" fontSize={16} fontWeight="semibold">
+                  {getItemsByStatus(POST_STATUS.EDITING).length}
+                </Text>
+              </Accordion.Trigger>
+              <Accordion.Content className={accordionContent}>
                 <DndController.SortableList
                   items={getItemsByStatus(POST_STATUS.EDITING).map(
                     (item) => item.id
@@ -127,26 +135,28 @@ function EditSidebarContent() {
                       updatedAt={item.updatedAt}
                       onRemove={() => handleRemove(item.id)}
                       onModify={() => {}}
+                      onClick={() => handleClick(item.id)}
+                      isSelected={Number(postParam) === item.id}
                     />
                   ))}
                 </DndController.SortableList>
-              </DndController.Droppable>
-            </Accordion.Content>
-          </Accordion.Item>
-          <Accordion.Item value={POST_STATUS.READY_TO_UPLOAD}>
-            <Accordion.Trigger className={accordionTrigger}>
-              <Chip
-                variant="green"
-                leftAddon={<Chip.Icon variant="green" name="circle" />}
-              >
-                업로드할 글
-              </Chip>
-              <Text color="grey300" fontSize={16} fontWeight="semibold">
-                {readyToUploadPosts.length}
-              </Text>
-            </Accordion.Trigger>
-            <Accordion.Content className={accordionContent}>
-              <DndController.Droppable id={POST_STATUS.READY_TO_UPLOAD}>
+              </Accordion.Content>
+            </Accordion.Item>
+          </DndController.Droppable>
+          <DndController.Droppable id={POST_STATUS.READY_TO_UPLOAD}>
+            <Accordion.Item value={POST_STATUS.READY_TO_UPLOAD}>
+              <Accordion.Trigger className={accordionTrigger}>
+                <Chip
+                  variant="green"
+                  leftAddon={<Chip.Icon variant="green" name="circle" />}
+                >
+                  업로드할 글
+                </Chip>
+                <Text color="grey300" fontSize={16} fontWeight="semibold">
+                  {getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).length}
+                </Text>
+              </Accordion.Trigger>
+              <Accordion.Content className={accordionContent}>
                 <DndController.SortableList
                   items={getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).map(
                     (item) => item.id
@@ -160,12 +170,14 @@ function EditSidebarContent() {
                       updatedAt={item.updatedAt}
                       onRemove={() => handleRemove(item.id)}
                       onModify={() => {}}
+                      onClick={() => handleClick(item.id)}
+                      isSelected={Number(postParam) === item.id}
                     />
                   ))}
                 </DndController.SortableList>
-              </DndController.Droppable>
-            </Accordion.Content>
-          </Accordion.Item>
+              </Accordion.Content>
+            </Accordion.Item>
+          </DndController.Droppable>
         </Accordion>
       </div>
     </div>
@@ -173,33 +185,20 @@ function EditSidebarContent() {
 }
 
 export function EditSidebar() {
-  const { id } = useParams();
-  const router = useRouter();
-  const searchParams = useSearchParams(); // ?post=3 같은 쿼리 파라미터
-  const postParam = searchParams.get('post'); // '3' (string) or null
+  const { agentId, postGroupId } = useParams();
+  const { mutate: modifyPosts } = useModifyPostsMutation({
+    agentId: Number(agentId),
+    postGroupId: Number(postGroupId),
+  });
 
-  const { data } = useGroupPostsQuery(1, Number(id));
-  const posts = data?.data.posts ?? [];
-
-  const generatedPosts = posts.filter(
-    (post) => post.status === POST_STATUS.GENERATED
+  const { data } = useGroupPostsQuery(Number(agentId), Number(postGroupId));
+  const posts = (data?.data.posts ?? []).sort(
+    (a, b) => a.displayOrder - b.displayOrder
   );
-  const editingPosts = posts.filter(
-    (post) => post.status === POST_STATUS.EDITING
-  );
-  const readyToUploadPosts = posts.filter(
-    (post) => post.status === POST_STATUS.READY_TO_UPLOAD
-  );
-
-  const defaultValue = posts.find(
-    (post) => post.id === Number(postParam)
-  )?.status;
-
   return (
     <DndController
       initialItems={posts}
       onDragEnd={(items) => {
-        console.log('=== Current Items Status ===');
         const itemsByStatus = {
           GENERATED: items.filter((item) => item.status === 'GENERATED'),
           EDITING: items.filter((item) => item.status === 'EDITING'),
@@ -207,10 +206,35 @@ export function EditSidebar() {
             (item) => item.status === 'READY_TO_UPLOAD'
           ),
         };
-        console.log('GENERATED:', itemsByStatus.GENERATED);
-        console.log('EDITING:', itemsByStatus.EDITING);
-        console.log('READY_TO_UPLOAD:', itemsByStatus.READY_TO_UPLOAD);
-        console.log('========================');
+
+        const updatedItems: MutationModifyPostsRequest[] = [
+          ...itemsByStatus.GENERATED.map((item, index) => {
+            const { id, ...rest } = item;
+            return {
+              ...rest,
+              postId: id,
+              displayOrder: index + 1,
+            };
+          }),
+          ...itemsByStatus.EDITING.map((item, index) => {
+            const { id, ...rest } = item;
+            return {
+              ...rest,
+              postId: id,
+              displayOrder: index + 1,
+            };
+          }),
+          ...itemsByStatus.READY_TO_UPLOAD.map((item, index) => {
+            const { id, ...rest } = item;
+            return {
+              ...rest,
+              postId: id,
+              displayOrder: index + 1,
+            };
+          }),
+        ];
+
+        modifyPosts(updatedItems);
       }}
     >
       <EditSidebarContent />
