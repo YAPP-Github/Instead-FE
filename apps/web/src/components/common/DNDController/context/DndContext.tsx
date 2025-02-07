@@ -52,10 +52,8 @@ export function DndControllerProvider({
 
   const dnd = useDragAndDrop({
     initialItems,
+    onDragEnd,
   });
-
-  const { activeId, setActiveId, items } = dnd;
-  const activeItem = items.find((item) => item.id === activeId);
 
   return (
     <DndContext
@@ -65,7 +63,7 @@ export function DndControllerProvider({
         disabled
           ? undefined
           : ({ active }) => {
-              setActiveId(Number(active.id));
+              dnd.setActiveId(Number(active.id));
             }
       }
       onDragOver={disabled ? undefined : dnd.handleDragOver}
@@ -74,35 +72,29 @@ export function DndControllerProvider({
           ? undefined
           : (event) => {
               dnd.handleDragEnd(event);
-              onDragEnd?.(items);
             }
       }
       measuring={{
         droppable: { strategy: MeasuringStrategy.Always },
       }}
-      modifiers={[
-        (args) => ({
-          ...args.transform,
-          scaleX: 1,
-          scaleY: 1,
-        }),
-      ]}
-      autoScroll={{
-        enabled: false,
-      }}
     >
       <DndControllerContext.Provider value={dnd}>
         {children}
       </DndControllerContext.Provider>
-      <DragOverlay style={{ backgroundColor: 'transparent' }}>
-        {activeId && activeItem ? (
+      <DragOverlay>
+        {dnd.activeId && (
           <ContentItem
-            summary={activeItem.summary}
-            updatedAt={activeItem.updatedAt}
-            onRemove={() => dnd.handleRemove(activeItem.id)}
+            summary={
+              dnd.items.find((item) => item.id === dnd.activeId)?.summary
+            }
+            updatedAt={
+              dnd.items.find((item) => item.id === dnd.activeId)?.updatedAt ||
+              ''
+            }
+            onRemove={() => {}}
             onModify={() => {}}
           />
-        ) : null}
+        )}
       </DragOverlay>
     </DndContext>
   );

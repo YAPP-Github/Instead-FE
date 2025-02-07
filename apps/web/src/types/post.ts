@@ -30,6 +30,13 @@ export interface Post {
   status: PostStatus;
   uploadTime: string;
   displayOrder?: number;
+  isLoading?: boolean;
+}
+
+export interface CreatedPost {
+  postGroupId: number;
+  eof: boolean;
+  posts: Post[];
 }
 
 export type Purpose = 'INFORMATION' | 'OPINION' | 'HUMOR' | 'MARKETING';

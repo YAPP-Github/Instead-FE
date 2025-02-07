@@ -31,11 +31,6 @@ export function useDragAndDrop({
   const [items, setItems] = useState<Post[]>(initialItems);
   const [activeId, setActiveId] = useState<number | null>(null);
 
-  // initialItems가 변경될 때마다 items 상태 업데이트
-  useEffect(() => {
-    setItems(initialItems);
-  }, [initialItems]);
-
   const getItemsByStatus = (status: Post['status']) => {
     return items
       .filter((item) => item.status === status)

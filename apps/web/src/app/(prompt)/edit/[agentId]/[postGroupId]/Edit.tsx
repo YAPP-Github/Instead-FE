@@ -67,6 +67,7 @@ export default function Edit({ agentId, postGroupId }: EditPageParams) {
         isScrolled={isScrolled}
       />
       <DndController
+        key={posts.data.posts.map((p) => p.id).join(',')}
         initialItems={posts.data.posts}
         disabled={isGenerating}
         onDragEnd={

@@ -15,6 +15,7 @@ import {
   UpdatePromptRequest,
   useUpdatePromptMutation,
 } from '@web/store/mutation/useUpdatePromptMutation';
+import { useMemo } from 'react';
 
 type PromptForm = UpdatePromptRequest;
 
@@ -82,6 +83,21 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
     setValue('prompt', '');
   };
 
+  const skeletonData = Array.from({ length: 5 }).map((_, index) => ({
+    id: 10000 + index,
+    summary: '',
+    updatedAt: '',
+    uploadTime: '',
+    isLoading: true,
+  }));
+
+  const data = useMemo(() => {
+    if (isCreateMorePostsPending) {
+      return [...getItemsByStatus(POST_STATUS.GENERATED), ...skeletonData];
+    }
+    return getItemsByStatus(POST_STATUS.GENERATED);
+  }, [isCreateMorePostsPending, getItemsByStatus, skeletonData]);
+
   return (
     <div className={style.contentStyle}>
       <Accordion
@@ -101,28 +117,26 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
           <Accordion.Trigger className={style.accordionTriggerStyle}>
             <Chip variant="grey">생성된 글</Chip>
           </Accordion.Trigger>
-          <Accordion.Content className={style.accordionContentStyle}>
+          <Accordion.Content
+            id={POST_STATUS.GENERATED}
+            className={style.accordionContentStyle}
+          >
             <div className={style.contentInnerWrapper}>
               <DndController.Droppable id={POST_STATUS.GENERATED}>
-                <DndController.SortableList
-                  items={getItemsByStatus(POST_STATUS.GENERATED).map(
-                    (item) => item.id
-                  )}
-                >
-                  {getItemsByStatus(POST_STATUS.GENERATED).map((item) => (
-                    <>
-                      <DndController.Item
-                        key={item.id}
-                        id={item.id}
-                        summary={item.summary}
-                        updatedAt={item.updatedAt}
-                        onRemove={() => handleDeletePost(item.id)}
-                        onModify={() => handleModify(item.id)}
-                        isLoading={item.uploadTime === SKELETON_STATUS}
-                      />
-                    </>
+                <DndController.SortableList items={data.map((item) => item.id)}>
+                  {data.map((item) => (
+                    <DndController.Item
+                      key={item.id}
+                      id={item.id}
+                      summary={item.summary}
+                      updatedAt={item.updatedAt}
+                      onRemove={() => handleDeletePost(item.id)}
+                      onModify={() => handleModify(item.id)}
+                      //isLoading={item.uploadTime === SKELETON_STATUS}
+                      isLoading={item?.isLoading ?? false}
+                    />
                   ))}
-                  {isCreateMorePostsPending &&
+                  {/* {isCreateMorePostsPending &&
                     Array.from({ length: 5 }).map((_, index) => (
                       <DndController.Item
                         key={index}
@@ -131,7 +145,7 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
                         updatedAt=""
                         isLoading={true}
                       />
-                    ))}
+                    ))} */}
                 </DndController.SortableList>
               </DndController.Droppable>
             </div>
