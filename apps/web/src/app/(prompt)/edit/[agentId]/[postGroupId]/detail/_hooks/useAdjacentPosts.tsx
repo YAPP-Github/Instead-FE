@@ -52,10 +52,10 @@ export function useAdjacentPosts(posts: Post[], currentPost?: Post) {
   const canMoveUp = Boolean(previousPost);
   const canMoveDown = Boolean(nextPost);
   const routePreviousPost = () => {
-    router.push(`?post=${previousPost?.id}`);
+    router.push(`?postId=${previousPost?.id}`);
   };
   const routeNextPost = () => {
-    router.push(`?post=${nextPost?.id}`);
+    router.push(`?postId=${nextPost?.id}`);
   };
 
   return {

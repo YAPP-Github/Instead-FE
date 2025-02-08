@@ -30,7 +30,7 @@ import { DetailPageContext } from '../../EditDetail';
 export function PostEditor() {
   const { agentId, postGroupId } = useParams();
   const searchParams = useSearchParams();
-  const postId = searchParams.get('post');
+  const postId = searchParams.get('postId');
   const { data } = useGroupPostsQuery(1, Number(postGroupId));
   const post = data?.data?.posts.find((post) => post.id === Number(postId));
   const { register, handleSubmit, setValue, watch } = useForm<{
