@@ -1,22 +1,26 @@
 import { ServerFetchBoundary } from '@web/store/query/ServerFetchBoundary';
-import { EditDetail } from './EditDetail';
-import { getServerSideTokens } from '@web/shared/server/serverSideTokens';
-import { groupPostsQueryQueryOptions } from '@web/store/query/useGroupPostsQuery';
 
-type EditDetailPageProps = {
-  params: { agentId: string; postGroupId: string };
+import { getServerSideTokens } from '@web/shared/server/serverSideTokens';
+
+import { Log } from './Log';
+import { PostHistoryQueryQueryOptions } from '@web/store/query/usePostHistoryQuery';
+
+type LogPageProps = {
+  params: { agentId: string; postGroupId: string; postId: string };
 };
 
-export default function EditDetailPage({ params }: EditDetailPageProps) {
+export default function LogPage({ params }: LogPageProps) {
   const tokens = getServerSideTokens();
-  const serverFetchOptions = groupPostsQueryQueryOptions(
+
+  const serverFetchOptions = PostHistoryQueryQueryOptions(
     Number(params.agentId),
     Number(params.postGroupId),
+    Number(params.postId),
     tokens
   );
   return (
     <ServerFetchBoundary fetchOptions={serverFetchOptions}>
-      <EditDetail />
+      <Log />
     </ServerFetchBoundary>
   );
 }

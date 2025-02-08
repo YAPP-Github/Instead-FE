@@ -1,97 +1,158 @@
 'use client';
 
-import { ComponentPropsWithoutRef, forwardRef, ReactNode } from 'react';
-import React, { useState, useMemo, useCallback } from 'react';
+import {
+  ComponentPropsWithoutRef,
+  forwardRef,
+  Ref,
+  useMemo,
+  useCallback,
+} from 'react';
+import React from 'react';
 import { accordionRoot } from './Accordion.css';
 import { AccordionContext } from './Accordion.context';
+import { useControllableState } from './hooks/useControllableState';
 
 export type AccordionType = 'single' | 'multiple';
 
-export type AccordionProps = {
-  /**
-   * 하나의 아이템만 열 수 있는 single 모드,
-   * 여러 아이템을 동시에 열 수 있는 multiple 모드
-   */
-  type?: AccordionType;
-  /**
-   * 기본으로 열어놓고 싶은 item의 value.
-   * 'single' 모드이면 단일 string 또는 string[]
-   * 'multiple' 모드이면 string[]
-   */
-  defaultValue?: string | string[];
-  /** 자식으로 AccordionItem 컴포넌트들 */
-  children: ReactNode;
-} & ComponentPropsWithoutRef<'div'>;
+// TODO 수정 예정
+export type AccordionProps<T extends string = string> =
+  | ({
+      /** 단일 모드: type은 생략하거나 'single'로 지정 */
+      type?: 'single';
+      /** 단일 모드에서는 value가 T (또는 undefined) */
+      value?: T | undefined;
+      /** 기본값도 단일 값이어야 함 */
+      defaultValue?: T | undefined;
+      /** 단일 모드에서는 onValueChange 콜백에 단일 값(T) 전달 */
+      onValueChange?: (value: T | undefined) => void;
+    } & ComponentPropsWithoutRef<'div'> & { children: React.ReactNode })
+  | ({
+      /** 다중 모드: type은 반드시 'multiple' */
+      type: 'multiple';
+      /** 다중 모드에서는 value가 T[] */
+      value?: T[];
+      /** 기본값도 배열이어야 함 */
+      defaultValue?: T[];
+      /** 다중 모드에서는 onValueChange 콜백에 배열(T[]) 전달 */
+      onValueChange?: (value: T[]) => void;
+    } & ComponentPropsWithoutRef<'div'> & { children: React.ReactNode });
 
-export const AccordionRoot = forwardRef<HTMLDivElement, AccordionProps>(
-  (
-    {
-      type = 'single',
-      defaultValue = [],
-      children,
-      className = '',
-      ...props
-    }: AccordionProps,
-    ref
-  ) => {
-    // 초기 열림 상태 결정
-    const initialOpenValues = useMemo(() => {
+// 제네릭 내부 컴포넌트
+function AccordionRootInner<T extends string = string>(
+  {
+    type = 'single',
+    value: valueProp,
+    onValueChange,
+    defaultValue,
+    children,
+    className = '',
+    ...props
+  }: AccordionProps<T>,
+  ref: Ref<HTMLDivElement>
+) {
+  // 내부에서 defaultValue가 없으면 모드에 따라 기본값 할당
+  const resolvedDefaultValue = useMemo(() => {
+    if (defaultValue !== undefined) {
+      return defaultValue;
+    }
+    // single 모드라면 기본값은 undefined, multiple 모드라면 빈 배열로 처리
+    return type === 'multiple' ? [] : undefined;
+  }, [defaultValue, type]);
+
+  // 내부 상태는 항상 T[] 형태로 관리 (단일 모드일 때도 [value] 배열로)
+  const initialOpenValues = useMemo(() => {
+    if (resolvedDefaultValue !== undefined) {
       if (type === 'single') {
-        return Array.isArray(defaultValue)
-          ? defaultValue.slice(0, 1) // 여러 값이 들어와도 첫 번째만
-          : [defaultValue];
+        return Array.isArray(resolvedDefaultValue)
+          ? resolvedDefaultValue.slice(0, 1)
+          : [resolvedDefaultValue];
       }
-      // multiple 모드
-      return Array.isArray(defaultValue) ? defaultValue : [defaultValue];
-    }, [type, defaultValue]);
+      return Array.isArray(resolvedDefaultValue)
+        ? resolvedDefaultValue
+        : [resolvedDefaultValue];
+    }
+    return [];
+  }, [type, resolvedDefaultValue]);
 
-    // 비제어: 내부 state로 열림 상태 관리
-    const [openValues, setOpenValues] = useState<string[]>(initialOpenValues);
+  // useControllableState 훅을 사용하여 controlled / uncontrolled 상태 지원
+  const [openValues, setOpenValues] = useControllableState<T[]>({
+    // controlled 상태: valueProp를 배열로 변환 (단일 모드면 [value])
+    prop:
+      valueProp !== undefined
+        ? Array.isArray(valueProp)
+          ? valueProp
+          : [valueProp]
+        : undefined,
+    defaultProp: initialOpenValues,
+    onChange: (vals) => {
+      if (onValueChange) {
+        if (type === 'single') {
+          // 단일 모드에서는 onValueChange의 타입을 (value: T | undefined) => void로 캐스팅
+          (onValueChange as (value: T | undefined) => void)(
+            vals.length > 0 ? vals[0] : undefined
+          );
+        } else {
+          // 다중 모드에서는 onValueChange의 타입을 (value: T[]) => void로 캐스팅
+          (onValueChange as (value: T[]) => void)(vals);
+        }
+      }
+    },
+  });
 
-    // 토글 함수
-    const toggleValue = useCallback(
-      (value: string) => {
-        setOpenValues((prev) => {
-          if (type === 'single') {
-            // 이미 열려있으면 닫고, 아니면 그 아이템만
-            return prev.includes(value) ? [] : [value];
-          } else {
-            // multiple
-            if (prev.includes(value)) {
-              return prev.filter((v) => v !== value);
-            }
-            return [...prev, value];
-          }
-        });
-      },
-      [type]
-    );
+  // 단일 모드: 열려 있는 값은 하나만 유지
+  const normalizedOpenValues = useMemo(() => {
+    const current = openValues ?? [];
+    if (type === 'single' && current.length > 1) {
+      return current.slice(0, 1);
+    }
+    return current;
+  }, [openValues, type]);
 
-    // 열려 있는지 여부 판단
-    const isValueOpen = useCallback(
-      (value: string) => openValues.includes(value),
-      [openValues]
-    );
+  const toggleValue = useCallback(
+    (value: string) => {
+      setOpenValues((prev = []) => {
+        if (type === 'single') {
+          return prev.includes(value as T) ? [] : [value as T];
+        } else {
+          return prev.includes(value as T)
+            ? prev.filter((v) => v !== value)
+            : [...prev, value as T];
+        }
+      });
+    },
+    [setOpenValues, type]
+  );
 
-    // Context에 주입할 값
-    const contextValue = useMemo(
-      () => ({
-        type,
-        openValues,
-        toggleValue,
-        isValueOpen,
-      }),
-      [type, openValues, toggleValue, isValueOpen]
-    );
+  const isValueOpen = useCallback(
+    (itemValue: string) =>
+      (normalizedOpenValues ?? []).includes(itemValue as T),
+    [normalizedOpenValues]
+  );
 
-    return (
-      <AccordionContext.Provider value={contextValue}>
-        <div ref={ref} className={`${accordionRoot} ${className}`} {...props}>
-          {children}
-        </div>
-      </AccordionContext.Provider>
-    );
-  }
-);
+  const contextValue = useMemo(
+    () => ({
+      type,
+      openValues: normalizedOpenValues ?? [],
+      toggleValue,
+      isValueOpen,
+    }),
+    [type, normalizedOpenValues, toggleValue, isValueOpen]
+  );
 
-AccordionRoot.displayName = 'AccordionRoot';
+  return (
+    <AccordionContext.Provider value={contextValue}>
+      <div ref={ref} className={`${accordionRoot} ${className}`} {...props}>
+        {children}
+      </div>
+    </AccordionContext.Provider>
+  );
+}
+
+// any 캐스트
+export const AccordionRoot = forwardRef(AccordionRootInner) as <
+  T extends string = string,
+>(
+  props: AccordionProps<T> & { ref?: React.Ref<HTMLDivElement> }
+) => JSX.Element;
+
+(AccordionRoot as any).displayName = 'AccordionRoot';

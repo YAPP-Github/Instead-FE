@@ -1,6 +1,7 @@
 import { ComponentPropsWithoutRef, forwardRef } from 'react';
 import { iconButtonStyle } from './IconButton.css';
 import { Icon, IconProps } from '../Icon/Icon';
+import { Spinner } from '../Spinner';
 
 export type IconButtonProps = Omit<
   ComponentPropsWithoutRef<'button'>,
@@ -8,12 +9,22 @@ export type IconButtonProps = Omit<
 > & {
   icon: IconProps['name'];
   iconType?: IconProps['type'];
+  isLoading?: boolean;
 };
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ icon, iconType = 'fill', className = '', ...rest }, ref) => (
+  (
+    { icon, iconType = 'fill', className = '', isLoading = false, ...rest },
+    ref
+  ) => (
     <button ref={ref} className={`${iconButtonStyle} ${className}`} {...rest}>
-      <Icon name={icon} type={iconType} />
+      {isLoading ? (
+        <>
+          <Spinner color="icon" size="icon" />
+        </>
+      ) : (
+        <Icon name={icon} type={iconType} />
+      )}
     </button>
   )
 );

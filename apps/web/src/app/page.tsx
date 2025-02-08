@@ -533,7 +533,7 @@ export default function Home() {
         </Accordion>
 
         <div>multiple accordion</div>
-        <Accordion type="multiple" defaultValue="item-1">
+        <Accordion type="multiple">
           <Accordion.Item value="item-1">
             <Accordion.Trigger>trigger 버튼</Accordion.Trigger>
             <Accordion.Content>content</Accordion.Content>

@@ -2,8 +2,8 @@ import { forwardRef } from 'react';
 import * as styles from './Spinner.css';
 
 export type SpinnerProps = {
-  color?: 'black' | 'white';
-  size?: 'small' | 'large';
+  color?: 'black' | 'white' | 'icon';
+  size?: 'small' | 'large' | 'icon';
 };
 
 /**
