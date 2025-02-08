@@ -6,9 +6,9 @@ export function LogSidebar() {
   const router = useRouter();
   const { agentId, postGroupId } = useParams();
   const searchParams = useSearchParams();
-  const postId = searchParams.get('post');
+  const postId = searchParams.get('postId');
   const handleXClick = () => {
-    router.push(`/edit/${agentId}/${postGroupId}/detail?post=${postId}`);
+    router.push(`/edit/${agentId}/${postGroupId}/detail?postId=${postId}`);
   };
   return (
     <div className={sidebarWrapper}>

@@ -39,7 +39,7 @@ function EditSidebarContent() {
   const { agentId, postGroupId } = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const postParam = searchParams.get('post');
+  const postParam = searchParams.get('postId');
 
   const { data } = useGroupPostsQuery(Number(agentId), Number(postGroupId));
   const posts = data?.data.posts ?? [];
@@ -69,7 +69,7 @@ function EditSidebarContent() {
   }, [defaultValue]);
 
   const handleClick = (postId: number) => {
-    router.push(`?post=${postId}`);
+    router.push(`?postId=${postId}`);
   };
 
   const handlePlusClick = () => {

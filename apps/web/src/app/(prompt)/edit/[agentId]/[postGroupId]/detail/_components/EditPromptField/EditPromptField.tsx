@@ -28,7 +28,7 @@ export function EditPromptField() {
   const isSubmitDisabled = isEmptyStringOrNil(prompt);
   const { agentId, postGroupId } = useParams();
   const searchParams = useSearchParams();
-  const postId = searchParams.get('post');
+  const postId = searchParams.get('postId');
   const { data } = useGroupPostsQuery(Number(agentId), Number(postGroupId));
   const posts = data?.data.posts ?? [];
   const editingPosts = posts
