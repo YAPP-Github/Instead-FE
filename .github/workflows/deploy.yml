@@ -24,7 +24,7 @@ jobs:
           destination-github-username: 'instdofficial'
           destination-repository-name: '25th-Web-Team-1-FE'
           user-email: ${{ secrets.EMAIL }}
-          commit-message: ${{ github.event.commits[0].message }}
+          commit-message: ${{ github.event.head_commit.message && github.event.head_commit.message != '' ? github.event.head_commit.message : 'Default deployment commit message' }}
           target-branch: main
       - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY
