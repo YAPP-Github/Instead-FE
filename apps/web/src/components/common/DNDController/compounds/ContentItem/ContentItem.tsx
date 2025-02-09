@@ -35,6 +35,7 @@ export type ContentItemProps = {
   onModify?: VoidFunction;
 
   isLoading?: boolean;
+  isSelected?: boolean;
 } & Omit<ComponentPropsWithoutRef<'div'>, 'id'>;
 
 /**
@@ -56,6 +57,7 @@ export const ContentItem = forwardRef<HTMLDivElement, ContentItemProps>(
       onModify,
       className,
       isLoading,
+      isSelected = 'false',
       ...props
     },
     ref
@@ -84,8 +86,8 @@ export const ContentItem = forwardRef<HTMLDivElement, ContentItemProps>(
             <Text
               className={summaryStyle}
               fontSize={18}
-              fontWeight="semibold"
-              color="grey600"
+              fontWeight={isSelected ? 'bold' : 'semibold'}
+              color={isSelected ? 'purple800' : 'grey600'}
             >
               {summary}
             </Text>

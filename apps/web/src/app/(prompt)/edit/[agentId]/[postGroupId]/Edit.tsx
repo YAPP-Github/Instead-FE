@@ -38,7 +38,9 @@ export default function Edit({ agentId, postGroupId }: EditPageParams) {
         leftAddon={
           <Breadcrumb>
             <MainBreadcrumbItem href="/" />
-            <Breadcrumb.Item active>기초 경제 지식</Breadcrumb.Item>
+            <Breadcrumb.Item active>
+              {posts?.data?.postGroup.topic}
+            </Breadcrumb.Item>
           </Breadcrumb>
         }
         rightAddon={

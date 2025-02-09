@@ -5,6 +5,11 @@ import { EditPageParams } from '@web/app/(prompt)/edit/[agentId]/[postGroupId]/t
 import { getAllPostsQueryOptions } from '../query/useGetAllPostsQuery';
 import { Post } from '@web/types';
 
+export interface MutationDeletePost {
+  agentId: number;
+  postGroupId: number;
+}
+
 /**
  * 게시물 개별 삭제 API
  *
@@ -17,6 +22,7 @@ export function useDeletePostMutation({
   postGroupId,
 }: EditPageParams) {
   const queryClient = useQueryClient();
+
   const toast = useToast();
 
   return useMutation({
@@ -27,6 +33,10 @@ export function useDeletePostMutation({
       queryClient.invalidateQueries(
         getAllPostsQueryOptions({ agentId, postGroupId })
       );
+      // TODO 위 로직과 통일 예정
+      queryClient.invalidateQueries({
+        queryKey: ['postGroup', 'Agents'],
+      });
     },
     onError: (error) => {
       if (error instanceof Error) {
