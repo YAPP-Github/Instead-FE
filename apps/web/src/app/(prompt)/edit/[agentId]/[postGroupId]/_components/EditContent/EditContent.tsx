@@ -227,7 +227,6 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
                   getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).map((item) => (
                     <DndController.Item id={item.id} key={item.id}>
                       <ContentItem
-                        key={item.id}
                         summary={item.summary}
                         updatedAt={item.updatedAt}
                         onRemove={() => handleDeletePost(item.id)}

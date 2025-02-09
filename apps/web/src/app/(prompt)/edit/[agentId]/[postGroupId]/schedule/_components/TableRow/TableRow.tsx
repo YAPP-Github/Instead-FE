@@ -1,7 +1,7 @@
 import {
   ContentItem,
   ContentItemProps,
-} from '@web/components/common/DNDController/compounds/ContentItem/ContentItem';
+} from '@web/app/(prompt)/edit/[agentId]/[postGroupId]/_components/ContentItem/ContentItem';
 import * as style from './TableRow.css';
 import { Post } from '@web/types';
 import { Column } from '../ScheduleTable/types';

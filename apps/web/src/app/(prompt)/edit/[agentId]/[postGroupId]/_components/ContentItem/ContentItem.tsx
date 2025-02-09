@@ -57,7 +57,7 @@ export const ContentItem = forwardRef<HTMLDivElement, ContentItemProps>(
       onModify,
       className,
       isLoading,
-      isSelected = 'false',
+      isSelected = false,
       ...props
     },
     ref
