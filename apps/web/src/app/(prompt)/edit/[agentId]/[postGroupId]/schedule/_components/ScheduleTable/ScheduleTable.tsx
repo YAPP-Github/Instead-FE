@@ -9,7 +9,7 @@ import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation
 import { Modal } from '@repo/ui';
 import { useModal } from '@repo/ui/hooks';
 import { POST_STATUS } from '@web/types/post';
-import { DndTableRow } from '../DndTableRow/DndTableRow';
+import { TableRow } from '../TableRow/TableRow';
 import { Column } from './types';
 
 export type ScheduleTableProps = {
@@ -67,13 +67,14 @@ export function ScheduleTable({ params, columns }: ScheduleTableProps) {
         <div className={style.itemsContainer}>
           <DndController.SortableList items={data.map((item) => item.id)}>
             {data.map((item) => (
-              <DndTableRow
-                key={item.id}
-                columns={columns}
-                onModify={() => handleModify(item.id)}
-                onRemove={() => handleDeletePost(item.id)}
-                {...item}
-              />
+              <DndController.Item id={item.id} key={item.id}>
+                <TableRow
+                  columns={columns}
+                  onModify={() => handleModify(item.id)}
+                  onRemove={() => handleDeletePost(item.id)}
+                  {...item}
+                />
+              </DndController.Item>
             ))}
           </DndController.SortableList>
         </div>

@@ -1,15 +1,16 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { ContentItem, ContentItemProps } from '../ContentItem/ContentItem';
+import { ComponentPropsWithoutRef } from 'react';
 
-type DraggableContentItemProps = Omit<ContentItemProps, 'dragListeners'> & {
-  id: number;
-};
+type DraggableItemProps = {
+  id: number | string;
+} & Omit<ComponentPropsWithoutRef<'div'>, 'id'>;
 
-export function DraggableContentItem({
+export function DraggableItem({
   id,
-  ...contentItemProps
-}: DraggableContentItemProps) {
+  children,
+  className = '',
+}: DraggableItemProps) {
   const {
     attributes,
     listeners,
@@ -38,8 +39,9 @@ export function DraggableContentItem({
       data-id={id}
       {...attributes}
       {...listeners}
+      className={className}
     >
-      <ContentItem {...contentItemProps} />
+      {children}
     </div>
   );
 }

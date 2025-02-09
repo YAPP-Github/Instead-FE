@@ -16,6 +16,7 @@ import {
   useUpdatePromptMutation,
 } from '@web/store/mutation/useUpdatePromptMutation';
 import { useMemo } from 'react';
+import { ContentItem } from '@web/components/common/DNDController/compounds';
 
 type PromptForm = UpdatePromptRequest;
 
@@ -123,15 +124,15 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
               <DndController.Droppable id={POST_STATUS.GENERATED}>
                 <DndController.SortableList items={data.map((item) => item.id)}>
                   {data.map((item) => (
-                    <DndController.Item
-                      key={item.id}
-                      id={item.id}
-                      summary={item.summary}
-                      updatedAt={item.updatedAt}
-                      onRemove={() => handleDeletePost(item.id)}
-                      onModify={() => handleModify(item.id)}
-                      isLoading={item?.isLoading ?? false}
-                    />
+                    <DndController.Item id={item.id} key={item.id}>
+                      <ContentItem
+                        summary={item.summary}
+                        updatedAt={item.updatedAt}
+                        onRemove={() => handleDeletePost(item.id)}
+                        onModify={() => handleModify(item.id)}
+                        isLoading={item?.isLoading ?? false}
+                      />
+                    </DndController.Item>
                   ))}
                 </DndController.SortableList>
               </DndController.Droppable>
@@ -189,15 +190,15 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
                 )}
                 {isExistEditingPost ? (
                   getItemsByStatus(POST_STATUS.EDITING).map((item) => (
-                    <DndController.Item
-                      key={item.id}
-                      id={item.id}
-                      summary={item.summary}
-                      updatedAt={item.updatedAt}
-                      onRemove={() => handleDeletePost(item.id)}
-                      onModify={() => handleModify(item.id)}
-                      isLoading={isUpdatePromptPending}
-                    />
+                    <DndController.Item id={item.id} key={item.id}>
+                      <ContentItem
+                        summary={item.summary}
+                        updatedAt={item.updatedAt}
+                        onRemove={() => handleDeletePost(item.id)}
+                        onModify={() => handleModify(item.id)}
+                        isLoading={isUpdatePromptPending}
+                      />
+                    </DndController.Item>
                   ))
                 ) : (
                   <DragGuide description="수정 중인 글을 끌어서 여기에 놓아주세요" />
@@ -224,14 +225,15 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
               >
                 {getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).length > 0 ? (
                   getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).map((item) => (
-                    <DndController.Item
-                      key={item.id}
-                      id={item.id}
-                      summary={item.summary}
-                      updatedAt={item.updatedAt}
-                      onRemove={() => handleDeletePost(item.id)}
-                      onModify={() => handleModify(item.id)}
-                    />
+                    <DndController.Item id={item.id} key={item.id}>
+                      <ContentItem
+                        key={item.id}
+                        summary={item.summary}
+                        updatedAt={item.updatedAt}
+                        onRemove={() => handleDeletePost(item.id)}
+                        onModify={() => handleModify(item.id)}
+                      />
+                    </DndController.Item>
                   ))
                 ) : (
                   <DragGuide description="업로드가 준비된 글을 끌어서 여기에 놓아주세요" />

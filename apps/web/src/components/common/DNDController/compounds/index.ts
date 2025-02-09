@@ -1,3 +1,3 @@
 export { ContentItem } from './ContentItem/ContentItem';
-export { DraggableContentItem } from './DraggableContentItem/DraggableContentItem';
+export { DraggableItem } from './DraggableItem/DraggableItem';
 export { DroppableContent } from './DroppableContent/DroppableContent';

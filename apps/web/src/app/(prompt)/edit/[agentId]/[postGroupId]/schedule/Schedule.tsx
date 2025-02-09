@@ -3,7 +3,7 @@
 import { useScroll } from '@web/hooks';
 import * as style from './pageStyle.css';
 import { NavBar, MainBreadcrumbItem } from '@web/components/common';
-import { Breadcrumb, Button, Icon, Label, Text } from '@repo/ui';
+import { Breadcrumb, Button, Icon, Label } from '@repo/ui';
 import { DndController } from '@web/components/common';
 import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
 import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
@@ -13,7 +13,7 @@ import { TitleWithDescription } from './_components/TitleWithDescription/TitleWi
 import { useRouter } from 'next/navigation';
 import { ScheduleTable } from './_components/ScheduleTable/ScheduleTable';
 import { POST_STATUS } from '@web/types/post';
-import { DndTableRow } from './_components/DndTableRow/DndTableRow';
+import { TableRow } from './_components/TableRow/TableRow';
 import { Column } from './_components/ScheduleTable/types';
 
 export default function Schedule({ params }: SchedulePageProps) {
@@ -123,7 +123,7 @@ export default function Schedule({ params }: SchedulePageProps) {
               updatePosts(updatePayload);
             }}
             renderDragOverlay={(activeItem) => (
-              <DndTableRow columns={columns} {...activeItem} />
+              <TableRow columns={columns} {...activeItem} />
             )}
           >
             <ScheduleTable params={params} columns={columns} />
