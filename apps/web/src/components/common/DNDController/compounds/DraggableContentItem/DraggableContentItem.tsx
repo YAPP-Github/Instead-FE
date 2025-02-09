@@ -25,20 +25,21 @@ export function DraggableContentItem({
     },
   });
 
-  const style = {
+  const itemstyle = {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0 : 1,
   };
 
   return (
-    <ContentItem
+    <div
       ref={setNodeRef}
-      style={style}
+      style={itemstyle}
       data-id={id}
-      dragListeners={listeners}
-      {...contentItemProps}
       {...attributes}
-    />
+      {...listeners}
+    >
+      <ContentItem {...contentItemProps} />
+    </div>
   );
 }

@@ -2,7 +2,6 @@ import { ComponentPropsWithoutRef, forwardRef } from 'react';
 import { getTimeAgo } from '@web/utils';
 import {
   contentItemStyle,
-  cursorGrabStyle,
   iconHoverStyle,
   noShrinkStyle,
   timeStyle,
@@ -11,7 +10,6 @@ import {
 import { Icon } from '@repo/ui/Icon';
 import { IconButton } from '@repo/ui/IconButton';
 import { Text } from '@repo/ui/Text';
-import type { DraggableSyntheticListeners } from '@dnd-kit/core';
 import { Skeleton } from '@repo/ui/Skeleton';
 
 export type ContentItemProps = {
@@ -35,10 +33,7 @@ export type ContentItemProps = {
    * 수정 아이콘 클릭 시 호출되는 콜백 함수.
    */
   onModify?: VoidFunction;
-  /**
-   * 드래그 아이콘 마우스 다운 시 리스너.
-   */
-  dragListeners?: DraggableSyntheticListeners;
+
   isLoading?: boolean;
 } & Omit<ComponentPropsWithoutRef<'div'>, 'id'>;
 
@@ -50,7 +45,6 @@ export type ContentItemProps = {
  * @property {string} updatedAt - ISO 8601 형식의 날짜 문자열로, 마지막 업데이트 시간을 나타냅니다.
  * @property {VoidFunction} [onRemove] - 삭제 아이콘 클릭 시 호출되는 콜백 함수.
  * @property {VoidFunction} [onModify] - 수정 아이콘 클릭 시 호출되는 콜백 함수.
- * @property {DraggableSyntheticListeners} [dragListeners] - 드래그 아이콘 마우스 다운 시 리스너.
  */
 export const ContentItem = forwardRef<HTMLDivElement, ContentItemProps>(
   (
@@ -60,7 +54,6 @@ export const ContentItem = forwardRef<HTMLDivElement, ContentItemProps>(
       updatedAt,
       onRemove,
       onModify,
-      dragListeners,
       className,
       isLoading,
       ...props
@@ -111,13 +104,7 @@ export const ContentItem = forwardRef<HTMLDivElement, ContentItemProps>(
           <div className={iconHoverStyle}>
             {onRemove && <IconButton icon="trash" onClick={onRemove} />}
             {onModify && <IconButton icon="pencil" onClick={onModify} />}
-            {dragListeners && (
-              <IconButton
-                className={cursorGrabStyle}
-                icon="sixDots"
-                {...dragListeners}
-              />
-            )}
+            <IconButton icon="sixDots" />
           </div>
         )}
       </div>
