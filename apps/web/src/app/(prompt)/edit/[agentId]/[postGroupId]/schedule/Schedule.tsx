@@ -106,6 +106,7 @@ export default function Schedule({ params }: SchedulePageProps) {
         <div className={style.dndSectionStyle}>
           <TitleWithDescription
             title="업로드 예약 일정"
+            rightTitle={readyToUploadPosts.length.toString()}
             description="개별 글의 업로드 날짜와 순서를 변경할 수 있어요"
           />
           <DndController
