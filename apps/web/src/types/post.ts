@@ -22,7 +22,7 @@ export const POST_PURPOSE = {
   MARKETING: 'MARKETING',
 } as const;
 
-type PostPurpose = (typeof POST_PURPOSE)[keyof typeof POST_PURPOSE];
+export type PostPurpose = (typeof POST_PURPOSE)[keyof typeof POST_PURPOSE];
 
 export const POST_REFERENCE = {
   NONE: 'NONE',
@@ -30,7 +30,8 @@ export const POST_REFERENCE = {
   IMAGE: 'IMAGE',
 } as const;
 
-type PostReference = (typeof POST_REFERENCE)[keyof typeof POST_REFERENCE];
+export type PostReference =
+  (typeof POST_REFERENCE)[keyof typeof POST_REFERENCE];
 
 export const POST_LENGTH = {
   SHORT: 'SHORT',
@@ -38,7 +39,7 @@ export const POST_LENGTH = {
   LONG: 'LONG',
 };
 
-type PostLength = (typeof POST_LENGTH)[keyof typeof POST_LENGTH];
+export type PostLength = (typeof POST_LENGTH)[keyof typeof POST_LENGTH];
 
 export interface Post {
   id: number;
