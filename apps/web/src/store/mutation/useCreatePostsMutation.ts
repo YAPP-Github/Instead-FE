@@ -3,17 +3,13 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { CreateFormValues } from '@web/app/create/types';
 import { useToast } from '@repo/ui/hooks';
-import { Post } from '@web/types';
+import { CreatedPost } from '@web/types/post';
 
 export type MutationCreatePostsType = {
   agentId: string;
 };
 
-export interface MutationCreatePostsResponse {
-  postGroupId: number;
-  eof: boolean;
-  posts: Post[];
-}
+export type MutationCreatePostsResponse = CreatedPost;
 
 type MutationCreatePostsRequest = CreateFormValues;
 

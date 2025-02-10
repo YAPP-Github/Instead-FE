@@ -12,7 +12,6 @@ import { TextFieldContext } from './context';
 import { textFieldContainerStyle, textFieldStyle } from './TextField.css';
 import { TextFieldCounter } from './TextFieldCounter';
 import { isNil, mergeRefs } from '../../utils';
-import { TextFieldSubmit } from './TextFieldSubmit';
 
 export type TextFieldInputProps = {
   maxLength?: number;

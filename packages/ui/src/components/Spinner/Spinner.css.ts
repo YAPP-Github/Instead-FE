@@ -36,6 +36,10 @@ export const spinnerRecipe = recipe({
   },
   variants: {
     size: {
+      icon: {
+        width: '2.4rem',
+        height: '2.4rem',
+      },
       small: {
         width: '3.2rem',
         height: '3.2rem',
@@ -75,6 +79,9 @@ export const circleRecipe = recipe({
       },
       line: {
         stroke: `${tokens.colors.primary800}`,
+      },
+      icon: {
+        stroke: `${tokens.colors.grey300}`,
       },
     },
   },

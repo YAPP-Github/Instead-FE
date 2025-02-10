@@ -13,24 +13,19 @@ export function useScroll<T extends HTMLElement>({
   const elementRef = useRef<T>(null);
 
   useEffect(() => {
-    const targetElement: HTMLElement | Window = elementRef.current ?? window;
-
     const handleScroll = () => {
       requestAnimationFrame(() => {
-        const scrollTop =
-          targetElement instanceof HTMLElement
-            ? targetElement.scrollTop
-            : window.scrollY || document.documentElement.scrollTop;
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
         const scrolled = scrollTop > threshold;
         setIsScrolled((prev) => (prev !== scrolled ? scrolled : prev));
       });
     };
 
-    targetElement.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
 
     return () => {
-      targetElement.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, [threshold]);
 

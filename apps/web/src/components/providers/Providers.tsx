@@ -2,6 +2,7 @@
 
 import { ThemeProvider } from '@repo/ui/provider';
 import { QueryClientProvider } from '@web/store/query/QueryClientProvider';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { OverlayProvider } from 'overlay-kit';
 import { ReactNode } from 'react';
 
@@ -15,6 +16,7 @@ export function Providers({ children }: ProvidersProps) {
       <ThemeProvider theme="light">
         <OverlayProvider>{children}</OverlayProvider>
       </ThemeProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }
