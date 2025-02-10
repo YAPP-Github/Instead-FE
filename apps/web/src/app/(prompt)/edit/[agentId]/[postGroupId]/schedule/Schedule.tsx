@@ -126,7 +126,7 @@ export default function Schedule({ params }: SchedulePageProps) {
               <TableRow columns={columns} {...activeItem} />
             )}
           >
-            <ScheduleTable params={params} columns={columns} />
+            <ScheduleTable columns={columns} />
           </DndController>
         </div>
       </div>
