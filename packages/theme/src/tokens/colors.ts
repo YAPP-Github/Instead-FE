@@ -23,6 +23,7 @@ export const colors = {
   blue400: '#7698E2',
   blue800: '#153C66',
 
+  purple100: '#F9F4FF',
   purple200: '#E5CEFF',
   purple400: '#B68AE7',
   purple600: '#9365C5',

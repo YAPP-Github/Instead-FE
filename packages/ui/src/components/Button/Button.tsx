@@ -1,5 +1,10 @@
 import { ComponentPropsWithoutRef, forwardRef, ReactElement } from 'react';
-import { addonRootStyle, buttonRecipe } from './Button.css';
+import {
+  addonRootStyle,
+  buttonChildrenRecipe,
+  buttonRecipe,
+  spinner,
+} from './Button.css';
 import { Spinner, SpinnerProps } from '../Spinner';
 
 export type ButtonSize = 'small' | 'large';
@@ -17,8 +22,7 @@ const SpinnerColor: Record<ButtonVariant, SpinnerProps['color']> = {
   primary: 'white',
   neutral: 'white',
   text: 'black',
-  // TODO
-  line: 'black',
+  line: 'line',
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -40,19 +44,18 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className={`${buttonRecipe({ size, variant, isLoading })} ${className}`}
       {...rest}
     >
-      {isLoading ? (
-        <>
-          <Spinner color={SpinnerColor[variant]} size={size} />
-        </>
-      ) : (
-        <>
-          {leftAddon && <div className={addonRootStyle[size]}>{leftAddon}</div>}
-          {children}
-          {rightAddon && (
-            <div className={addonRootStyle[size]}>{rightAddon}</div>
-          )}
-        </>
+      {isLoading && (
+        <Spinner
+          className={spinner({ size, isLoading })}
+          color={SpinnerColor[variant]}
+          size={size}
+        />
       )}
+      <div className={`${buttonChildrenRecipe({ size, isLoading })}`}>
+        {leftAddon && <div className={addonRootStyle[size]}>{leftAddon}</div>}
+        {children}
+        {rightAddon && <div className={addonRootStyle[size]}>{rightAddon}</div>}
+      </div>
     </button>
   )
 );

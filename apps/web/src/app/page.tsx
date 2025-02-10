@@ -19,8 +19,7 @@ import { overlay } from 'overlay-kit';
 import { Accordion } from '@repo/ui/Accordion';
 import { useModal } from '@repo/ui/hooks';
 import { useToast } from '@repo/ui/hooks';
-import { ImageManager } from '@web/components/common';
-import { style } from '@vanilla-extract/css';
+import { LineButton } from '@web/components/common/LineButton/LineButton';
 
 type FormValues = {
   topic: string;
@@ -296,17 +295,6 @@ export default function Home() {
         >
           생성하기
         </Button>
-        <Button size="large" variant="line" leftAddon={<Icon name="twinkle" />}>
-          생성하기
-        </Button>
-        <Button
-          size="large"
-          variant="line"
-          leftAddon={<Icon name="twinkle" />}
-          isLoading
-        >
-          생성하기
-        </Button>
         <Button size="small" variant="neutral">
           다음
         </Button>
@@ -325,6 +313,28 @@ export default function Home() {
         <Button size="small" variant="text" isLoading>
           이전
         </Button>
+      </div>
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <LineButton size="large" leftAddon={<Icon name="twinkle" />}>
+          5개 더 생성하기
+        </LineButton>
+        <LineButton size="large" leftAddon={<Icon name="twinkle" />} isLoading>
+          5개 더 생성하기
+        </LineButton>
+        <LineButton size="large" leftAddon={<Icon name="twinkle" />} disabled>
+          5개 더 생성하기
+        </LineButton>
+      </div>
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <LineButton size="small" leftAddon={<Icon name="twinkle" />}>
+          5개 더 생성하기
+        </LineButton>
+        <LineButton size="small" leftAddon={<Icon name="twinkle" />} isLoading>
+          5개 더 생성하기
+        </LineButton>
+        <LineButton size="small" leftAddon={<Icon name="twinkle" />} disabled>
+          5개 더 생성하기
+        </LineButton>
       </div>
       <div style={{ display: 'flex', gap: '8px' }}>
         <Badge size="medium" variant="neutral" shape="round">
