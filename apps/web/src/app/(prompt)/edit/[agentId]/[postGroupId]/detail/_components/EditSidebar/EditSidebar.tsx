@@ -32,6 +32,7 @@ import { Modal } from '@repo/ui/Modal';
 import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation';
 import { DetailPageContext } from '../../EditDetail';
 import { DragGuide } from '../DragGuide/DragGuide';
+import { ContentItem } from '@web/components/common/DNDController/compounds';
 
 function EditSidebarContent() {
   const modal = useModal();
@@ -157,17 +158,17 @@ function EditSidebarContent() {
                         <SkeletonContentItem key={item.id} />
                       ))}
                     {getItemsByStatus(POST_STATUS.GENERATED).map((item) => (
-                      <DndController.Item
-                        key={item.id}
-                        id={item.id}
-                        summary={item.summary}
-                        updatedAt={item.updatedAt}
-                        onRemove={() => handleDeletePost(item.id)}
-                        onModify={() => {}}
-                        onClick={() => handleClick(item.id)}
-                        isSelected={Number(postParam) === item.id}
-                        isLoading={loadingPosts.includes(item.id)}
-                      />
+                      <DndController.Item id={item.id} key={item.id}>
+                        <ContentItem
+                          summary={item.summary}
+                          updatedAt={item.updatedAt}
+                          onRemove={() => handleDeletePost(item.id)}
+                          onModify={() => {}}
+                          onClick={() => handleClick(item.id)}
+                          isSelected={Number(postParam) === item.id}
+                          isLoading={loadingPosts.includes(item.id)}
+                        />
+                      </DndController.Item>
                     ))}
                   </DndController.SortableList>
                 ) : (
@@ -197,17 +198,17 @@ function EditSidebarContent() {
                     )}
                   >
                     {getItemsByStatus(POST_STATUS.EDITING).map((item) => (
-                      <DndController.Item
-                        key={item.id}
-                        id={item.id}
-                        summary={item.summary}
-                        updatedAt={item.updatedAt}
-                        onRemove={() => handleDeletePost(item.id)}
-                        onModify={() => {}}
-                        onClick={() => handleClick(item.id)}
-                        isSelected={Number(postParam) === item.id}
-                        isLoading={loadingPosts.includes(item.id)}
-                      />
+                      <DndController.Item id={item.id} key={item.id}>
+                        <ContentItem
+                          summary={item.summary}
+                          updatedAt={item.updatedAt}
+                          onRemove={() => handleDeletePost(item.id)}
+                          onModify={() => {}}
+                          onClick={() => handleClick(item.id)}
+                          isSelected={Number(postParam) === item.id}
+                          isLoading={loadingPosts.includes(item.id)}
+                        />
+                      </DndController.Item>
                     ))}
                   </DndController.SortableList>
                 ) : (
@@ -238,17 +239,17 @@ function EditSidebarContent() {
                   >
                     {getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).map(
                       (item) => (
-                        <DndController.Item
-                          key={item.id}
-                          id={item.id}
-                          summary={item.summary}
-                          updatedAt={item.updatedAt}
-                          onRemove={() => handleDeletePost(item.id)}
-                          onModify={() => {}}
-                          onClick={() => handleClick(item.id)}
-                          isSelected={Number(postParam) === item.id}
-                          isLoading={loadingPosts.includes(item.id)}
-                        />
+                        <DndController.Item id={item.id} key={item.id}>
+                          <ContentItem
+                            summary={item.summary}
+                            updatedAt={item.updatedAt}
+                            onRemove={() => handleDeletePost(item.id)}
+                            onModify={() => {}}
+                            onClick={() => handleClick(item.id)}
+                            isSelected={Number(postParam) === item.id}
+                            isLoading={loadingPosts.includes(item.id)}
+                          />
+                        </DndController.Item>
                       )
                     )}
                   </DndController.SortableList>
@@ -316,6 +317,12 @@ export function EditSidebar() {
 
         modifyPosts(updatedItems);
       }}
+      renderDragOverlay={(activeItem) => (
+        <ContentItem
+          summary={activeItem.summary}
+          updatedAt={activeItem.updatedAt}
+        />
+      )}
     >
       <EditSidebarContent />
     </DndController>

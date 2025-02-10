@@ -3,7 +3,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { ReactNode } from 'react';
-import { DroppableContent, DraggableContentItem } from './compounds';
+import { DroppableContent, DraggableItem } from './compounds';
 import { DndControllerProvider } from './context';
 
 type SortableListProps = {
@@ -22,7 +22,7 @@ function SortableList({ items, children }: SortableListProps) {
 export const DndController = Object.assign(DndControllerProvider, {
   Droppable: DroppableContent,
   SortableList,
-  Item: DraggableContentItem,
+  Item: DraggableItem,
 });
 
 export { useDndController } from './context';
