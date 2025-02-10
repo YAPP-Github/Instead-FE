@@ -175,7 +175,7 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
                           {...register('prompt')}
                           value={promptValue}
                           onChange={(e) => setValue('prompt', e.target.value)}
-                          placeholder="AI에게 요청하여 글 업그레이드하기"
+                          placeholder="AI에게 요청하여 수정 중인 글 모두 업그레이드하기"
                           sumbitButton={
                             <TextField.Submit
                               type="submit"
