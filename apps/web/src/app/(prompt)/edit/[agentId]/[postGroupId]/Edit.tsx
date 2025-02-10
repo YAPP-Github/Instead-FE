@@ -39,7 +39,7 @@ export default function Edit({ agentId, postGroupId }: EditPageParams) {
           <Breadcrumb>
             <MainBreadcrumbItem href="/" />
             <Breadcrumb.Item active>
-              {posts?.data?.postGroup.topic}
+              {posts.data.postGroup.topic}
             </Breadcrumb.Item>
           </Breadcrumb>
         }
