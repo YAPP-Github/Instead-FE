@@ -2,8 +2,9 @@ import { forwardRef } from 'react';
 import * as styles from './Spinner.css';
 
 export type SpinnerProps = {
-  color?: 'black' | 'white';
+  color?: 'black' | 'white' | 'line';
   size?: 'small' | 'large';
+  className?: string;
 };
 
 /**
@@ -12,9 +13,12 @@ export type SpinnerProps = {
  * @property {size} [size='small'] - 'small' | 'large' 스피너 크기
  */
 export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
-  ({ color = 'white', size = 'small' }, ref) => {
+  ({ color = 'white', size = 'small', className = '' }, ref) => {
     return (
-      <div ref={ref} className={styles.spinnerRecipe({ size })}>
+      <div
+        ref={ref}
+        className={`${className} ${styles.spinnerRecipe({ size })}`}
+      >
         <svg
           className={styles.svg}
           viewBox="0 0 24 24"
