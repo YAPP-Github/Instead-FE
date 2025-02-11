@@ -87,10 +87,6 @@
       "types": "./dist/components/Accordion/index.d.ts",
       "import": "./dist/components/Accordion/index.js"
     },
-    "./LineButton": {
-      "types": "./dist/components/LineButton/index.d.ts",
-      "import": "./dist/components/LineButton/index.js"
-    },
     "./utils": "./dist/utils/index.js"
   },
   "scripts": {

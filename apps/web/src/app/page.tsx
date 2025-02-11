@@ -19,7 +19,6 @@ import { overlay } from 'overlay-kit';
 import { Accordion } from '@repo/ui/Accordion';
 import { useModal } from '@repo/ui/hooks';
 import { useToast } from '@repo/ui/hooks';
-import { LineButton } from '@repo/ui/LineButton';
 
 type FormValues = {
   topic: string;
@@ -315,26 +314,46 @@ export default function Home() {
         </Button>
       </div>
       <div style={{ display: 'flex', gap: '8px' }}>
-        <LineButton size="large" leftAddon={<Icon name="twinkle" />}>
+        <Button size="large" variant="line" leftAddon={<Icon name="twinkle" />}>
           5개 더 생성하기
-        </LineButton>
-        <LineButton size="large" leftAddon={<Icon name="twinkle" />} isLoading>
+        </Button>
+        <Button
+          size="large"
+          variant="line"
+          leftAddon={<Icon name="twinkle" />}
+          isLoading
+        >
           5개 더 생성하기
-        </LineButton>
-        <LineButton size="large" leftAddon={<Icon name="twinkle" />} disabled>
+        </Button>
+        <Button
+          size="large"
+          variant="line"
+          leftAddon={<Icon name="twinkle" />}
+          disabled
+        >
           5개 더 생성하기
-        </LineButton>
+        </Button>
       </div>
       <div style={{ display: 'flex', gap: '8px' }}>
-        <LineButton size="small" leftAddon={<Icon name="twinkle" />}>
+        <Button size="small" variant="line" leftAddon={<Icon name="twinkle" />}>
           5개 더 생성하기
-        </LineButton>
-        <LineButton size="small" leftAddon={<Icon name="twinkle" />} isLoading>
+        </Button>
+        <Button
+          size="small"
+          variant="line"
+          leftAddon={<Icon name="twinkle" />}
+          isLoading
+        >
           5개 더 생성하기
-        </LineButton>
-        <LineButton size="small" leftAddon={<Icon name="twinkle" />} disabled>
+        </Button>
+        <Button
+          size="small"
+          variant="line"
+          leftAddon={<Icon name="twinkle" />}
+          disabled
+        >
           5개 더 생성하기
-        </LineButton>
+        </Button>
       </div>
       <div style={{ display: 'flex', gap: '8px' }}>
         <Badge size="medium" variant="neutral" shape="round">

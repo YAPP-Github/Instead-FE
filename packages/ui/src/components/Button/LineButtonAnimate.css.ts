@@ -36,22 +36,3 @@ export const gradient = style({
   backgroundClip: 'padding-box, border-box',
   overflow: 'visible',
 });
-
-export const button = style({
-  border: '0.2rem solid transparent',
-  backgroundClip: 'padding-box',
-  backgroundColor: tokens.colors.purple100,
-  color: tokens.colors.primary800,
-
-  selectors: {
-    '&:hover': {
-      color: tokens.colors.primary800,
-      backgroundColor: tokens.colors.purple100,
-    },
-    '&:disabled': {
-      backgroundColor: tokens.colors.grey0,
-      color: tokens.colors.grey200,
-      borderColor: tokens.colors.grey100,
-    },
-  },
-});
