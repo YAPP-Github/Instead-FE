@@ -87,6 +87,10 @@
       "types": "./dist/components/Accordion/index.d.ts",
       "import": "./dist/components/Accordion/index.js"
     },
+    "./Dropdown": {
+      "types": "./dist/components/Dropdown/index.d.ts",
+      "import": "./dist/components/Dropdown/index.js"
+    },
     "./utils": "./dist/utils/index.js"
   },
   "scripts": {
