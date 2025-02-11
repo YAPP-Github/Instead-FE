@@ -1,5 +1,5 @@
 import { tokens } from '@repo/theme';
-import { style, styleVariants } from '@vanilla-extract/css';
+import { styleVariants } from '@vanilla-extract/css';
 import { recipe, RecipeVariants } from '@vanilla-extract/recipes';
 
 export const buttonRecipe = recipe({

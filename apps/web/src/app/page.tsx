@@ -19,7 +19,7 @@ import { overlay } from 'overlay-kit';
 import { Accordion } from '@repo/ui/Accordion';
 import { useModal } from '@repo/ui/hooks';
 import { useToast } from '@repo/ui/hooks';
-import { LineButton } from '@web/components/common/LineButton/LineButton';
+import { LineButton } from '@repo/ui/LineButton';
 
 type FormValues = {
   topic: string;
