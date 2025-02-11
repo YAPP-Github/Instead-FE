@@ -1,6 +1,7 @@
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
 import { GET } from '@web/shared/server';
 import { Tokens } from '@web/shared/server/types';
+import { queryKeys } from '../constants';
 import { Post } from '@web/types';
 import { PostGroup } from '@web/types/post';
 
@@ -19,8 +20,7 @@ export function PostHistoryQueryQueryOptions(
   tokens?: Tokens
 ) {
   return queryOptions({
-    //TODO FIXME
-    queryKey: ['postHistory', 'Post', postId],
+    queryKey: queryKeys.postHistory.detail(postId),
     queryFn: () =>
       GET<PostHistoryQuery>(
         `agents/${agentId}/post-groups/${postGroupId}/posts/${postId}/prompt-histories`,
