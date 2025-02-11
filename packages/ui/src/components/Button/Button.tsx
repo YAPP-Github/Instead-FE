@@ -40,7 +40,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const content = (
+    const buttonElement = (
       <button
         ref={ref}
         className={`${buttonRecipe({ size, variant, isLoading })} ${className}`}
@@ -64,9 +64,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     );
 
     if (variant === 'line') {
-      return <LineButtonAnimate size={size}>{content}</LineButtonAnimate>;
+      return <LineButtonAnimate size={size}>{buttonElement}</LineButtonAnimate>;
     }
-    return <>{content}</>;
+    return <>{buttonElement}</>;
   }
 );
 
