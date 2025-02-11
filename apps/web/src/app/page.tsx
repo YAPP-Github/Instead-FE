@@ -19,8 +19,6 @@ import { overlay } from 'overlay-kit';
 import { Accordion } from '@repo/ui/Accordion';
 import { useModal } from '@repo/ui/hooks';
 import { useToast } from '@repo/ui/hooks';
-import { ImageManager } from '@web/components/common';
-import { style } from '@vanilla-extract/css';
 
 type FormValues = {
   topic: string;
@@ -313,6 +311,48 @@ export default function Home() {
         </Button>
         <Button size="small" variant="text" isLoading>
           이전
+        </Button>
+      </div>
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <Button size="large" variant="line" leftAddon={<Icon name="twinkle" />}>
+          5개 더 생성하기
+        </Button>
+        <Button
+          size="large"
+          variant="line"
+          leftAddon={<Icon name="twinkle" />}
+          isLoading
+        >
+          5개 더 생성하기
+        </Button>
+        <Button
+          size="large"
+          variant="line"
+          leftAddon={<Icon name="twinkle" />}
+          disabled
+        >
+          5개 더 생성하기
+        </Button>
+      </div>
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <Button size="small" variant="line" leftAddon={<Icon name="twinkle" />}>
+          5개 더 생성하기
+        </Button>
+        <Button
+          size="small"
+          variant="line"
+          leftAddon={<Icon name="twinkle" />}
+          isLoading
+        >
+          5개 더 생성하기
+        </Button>
+        <Button
+          size="small"
+          variant="line"
+          leftAddon={<Icon name="twinkle" />}
+          disabled
+        >
+          5개 더 생성하기
         </Button>
       </div>
       <div style={{ display: 'flex', gap: '8px' }}>

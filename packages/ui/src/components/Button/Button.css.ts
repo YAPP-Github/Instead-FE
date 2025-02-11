@@ -5,6 +5,7 @@ import { recipe, RecipeVariants } from '@vanilla-extract/recipes';
 export const buttonRecipe = recipe({
   base: {
     display: 'inline-flex',
+    position: 'relative',
     alignItems: 'center',
     justifyContent: 'center',
     whiteSpace: 'nowrap',
@@ -25,15 +26,11 @@ export const buttonRecipe = recipe({
   variants: {
     size: {
       large: {
-        gap: '0.8rem',
-        padding: '1.2rem 1.8rem',
         borderRadius: tokens.radius[12],
         fontSize: tokens.typography.fontSize[20],
         fontWeight: tokens.typography.fontWeight.semibold,
       },
       small: {
-        gap: '0.4rem',
-        padding: '0.8rem 2rem',
         borderRadius: tokens.radius[8],
         fontSize: tokens.typography.fontSize[18],
         fontWeight: tokens.typography.fontWeight.semibold,
@@ -84,6 +81,24 @@ export const buttonRecipe = recipe({
           },
         },
       },
+      line: {
+        border: '0.2rem solid transparent',
+        backgroundClip: 'padding-box',
+        backgroundColor: tokens.colors.purple100,
+        color: tokens.colors.primary800,
+
+        selectors: {
+          '&:hover': {
+            color: tokens.colors.primary800,
+            backgroundColor: tokens.colors.purple100,
+          },
+          '&:disabled': {
+            backgroundColor: tokens.colors.grey0,
+            color: tokens.colors.grey200,
+            borderColor: tokens.colors.grey100,
+          },
+        },
+      },
     },
 
     isLoading: {
@@ -91,6 +106,59 @@ export const buttonRecipe = recipe({
         cursor: 'not-allowed',
         pointerEvents: 'none',
       },
+      false: {},
+    },
+  },
+});
+
+export const buttonChildrenRecipe = recipe({
+  base: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+
+  variants: {
+    isLoading: {
+      true: {
+        cursor: 'not-allowed',
+        pointerEvents: 'none',
+        visibility: 'hidden',
+      },
+      false: {
+        visibility: 'visible',
+      },
+    },
+
+    size: {
+      large: {
+        gap: '0.8rem',
+        padding: '1.2rem 1.8rem',
+      },
+      small: {
+        gap: '0.4rem',
+        padding: '0.8rem 2rem',
+      },
+    },
+  },
+});
+
+export const spinner = recipe({
+  base: {
+    position: 'absolute',
+    inset: 0,
+    display: 'flex',
+    alignSelf: 'center',
+    justifySelf: 'center',
+  },
+
+  variants: {
+    size: {
+      large: {},
+      small: {},
+    },
+    isLoading: {
+      true: {},
       false: {},
     },
   },

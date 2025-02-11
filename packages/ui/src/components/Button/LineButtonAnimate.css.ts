@@ -1,0 +1,38 @@
+import { tokens } from '@repo/theme';
+import { style } from '@vanilla-extract/css';
+import { recipe } from '@vanilla-extract/recipes';
+
+export const wrapper = recipe({
+  base: {
+    width: 'fit-content',
+    height: 'fit-content',
+    position: 'relative',
+    overflow: 'hidden',
+    borderRadius: '1.2rem',
+  },
+  variants: {
+    size: {
+      large: {
+        borderRadius: tokens.radius[12],
+      },
+      small: {
+        borderRadius: tokens.radius[8],
+      },
+    },
+  },
+});
+
+export const gradient = style({
+  width: '600%',
+  height: '600%',
+  position: 'absolute',
+  top: '-250%',
+  left: '-250%',
+  transform: 'translate(-50%, -50%)',
+  zIndex: -1,
+  borderRadius: tokens.radius[12],
+  backgroundImage: `linear-gradient(115deg, #B68AE7 44.22%, #3348D6 48.73%, #9290DC 51.48%, #F8B3EC 55.15%);`,
+  backgroundOrigin: 'border-box',
+  backgroundClip: 'padding-box, border-box',
+  overflow: 'visible',
+});

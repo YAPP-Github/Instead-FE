@@ -77,6 +77,9 @@ export const circleRecipe = recipe({
       white: {
         stroke: `${tokens.colors.grey0}`,
       },
+      line: {
+        stroke: `${tokens.colors.primary800}`,
+      },
       icon: {
         stroke: `${tokens.colors.grey300}`,
       },
