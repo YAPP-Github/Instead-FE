@@ -14,7 +14,7 @@ export default function EditPage({ params }: EditPageProps) {
 
   return (
     <ServerFetchBoundary fetchOptions={serverFetchOptions}>
-      <Edit agentId={params.agentId} postGroupId={params.postGroupId} />
+      <Edit params={params} />
     </ServerFetchBoundary>
   );
 }

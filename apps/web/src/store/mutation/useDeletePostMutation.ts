@@ -1,14 +1,10 @@
 import { DELETE } from '@web/shared/server';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@repo/ui/hooks';
-import { EditPageParams } from '@web/app/(prompt)/edit/[agentId]/[postGroupId]/types';
 import { getAllPostsQueryOptions } from '../query/useGetAllPostsQuery';
-import { Post } from '@web/types';
+import { IdParams, Post } from '@web/types';
 
-export interface MutationDeletePost {
-  agentId: number;
-  postGroupId: number;
-}
+export type MutationDeletePost = Omit<IdParams, 'postId'>;
 
 /**
  * 게시물 개별 삭제 API
@@ -20,7 +16,7 @@ export interface MutationDeletePost {
 export function useDeletePostMutation({
   agentId,
   postGroupId,
-}: EditPageParams) {
+}: MutationDeletePost) {
   const queryClient = useQueryClient();
 
   const toast = useToast();

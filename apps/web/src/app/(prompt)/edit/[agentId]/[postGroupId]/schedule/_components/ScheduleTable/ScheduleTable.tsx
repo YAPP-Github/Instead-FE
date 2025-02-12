@@ -3,7 +3,6 @@
 import { DndController, useDndController } from '@web/components/common';
 import * as style from './ScheduleTable.css';
 import { Post } from '@web/types';
-import { SchedulePageProps } from '../../type';
 import { useRouter } from 'next/navigation';
 import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation';
 import { Modal } from '@repo/ui';
@@ -11,10 +10,11 @@ import { useModal } from '@repo/ui/hooks';
 import { POST_STATUS } from '@web/types/post';
 import { TableRow } from '../TableRow/TableRow';
 import { Column } from './types';
+import { EditPageProps } from '../../../types';
 
 export type ScheduleTableProps = {
   columns: Column[];
-} & SchedulePageProps;
+} & EditPageProps;
 
 export function ScheduleTable({ params, columns }: ScheduleTableProps) {
   const router = useRouter();

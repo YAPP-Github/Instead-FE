@@ -1,12 +1,14 @@
+import { AgentId, PostGroupId, PostId } from '@web/types';
+
 export const queryKeys = {
   posts: {
-    all: (agentId: number | string, postGroupId: number | string) =>
+    all: (agentId: AgentId, postGroupId: PostGroupId) =>
       ['posts', agentId, postGroupId] as const,
   },
   news: {
     categories: ['news', 'categories'] as const,
   },
   postHistory: {
-    detail: (postId: number) => ['postHistory', 'Post', postId] as const,
+    detail: (postId: PostId) => ['postHistory', 'Post', postId] as const,
   },
 } as const;

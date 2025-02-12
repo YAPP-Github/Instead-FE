@@ -7,7 +7,6 @@ import { Breadcrumb, Button, Icon, Label } from '@repo/ui';
 import { DndController } from '@web/components/common';
 import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
 import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
-import { SchedulePageProps } from './type';
 import { SideBar } from './_components/SideBar/SideBar';
 import { TitleWithDescription } from './_components/TitleWithDescription/TitleWithDescription';
 import { useRouter } from 'next/navigation';
@@ -15,8 +14,9 @@ import { ScheduleTable } from './_components/ScheduleTable/ScheduleTable';
 import { POST_STATUS } from '@web/types/post';
 import { TableRow } from './_components/TableRow/TableRow';
 import { Column } from './_components/ScheduleTable/types';
+import { EditPageProps } from '../types';
 
-export default function Schedule({ params }: SchedulePageProps) {
+export default function Schedule({ params }: EditPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({ threshold: 100 });
   const { data: posts } = useGetAllPostsQuery(params);
   const { mutate: updatePosts } = useUpdatePostsMutation(params);
