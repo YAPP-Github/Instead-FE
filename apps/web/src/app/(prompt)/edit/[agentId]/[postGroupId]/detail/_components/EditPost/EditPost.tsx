@@ -33,8 +33,8 @@ export function EditPost() {
   useEffect(() => {
     queryClient.invalidateQueries(
       getAllPostsQueryOptions({
-        agentId: String(agentId),
-        postGroupId: String(postGroupId),
+        agentId: Number(agentId),
+        postGroupId: Number(postGroupId),
       })
     );
     queryClient.invalidateQueries({

@@ -4,9 +4,10 @@ import { useRouter } from 'next/navigation';
 import { CreateFormValues } from '@web/app/create/types';
 import { useToast } from '@repo/ui/hooks';
 import { CreatedPost } from '@web/types/post';
+import { AgentId } from '@web/types';
 
 export type MutationCreatePostsType = {
-  agentId: string;
+  agentId: AgentId;
 };
 
 export type MutationCreatePostsResponse = CreatedPost;

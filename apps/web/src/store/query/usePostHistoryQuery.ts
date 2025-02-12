@@ -2,8 +2,7 @@ import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
 import { GET } from '@web/shared/server';
 import { Tokens } from '@web/shared/server/types';
 import { queryKeys } from '../constants';
-import { Post } from '@web/types';
-import { PostGroup } from '@web/types/post';
+import { IdParams } from '@web/types';
 
 export interface PostHistoryQuery {
   id: number;
@@ -13,12 +12,17 @@ export interface PostHistoryQuery {
   type: 'EACH' | 'ALL';
 }
 
-export function PostHistoryQueryQueryOptions(
-  agentId: number,
-  postGroupId: number,
-  postId: number,
-  tokens?: Tokens
-) {
+export type PostHistoryQueryParams = IdParams &
+  Pick<Required<IdParams>, 'postId'> & {
+    tokens?: Tokens;
+  };
+
+export function PostHistoryQueryQueryOptions({
+  agentId,
+  postGroupId,
+  postId,
+  tokens,
+}: PostHistoryQueryParams) {
   return queryOptions({
     queryKey: queryKeys.postHistory.detail(postId),
     queryFn: () =>
@@ -33,12 +37,6 @@ export function PostHistoryQueryQueryOptions(
   });
 }
 
-export function useGroupPostsQuery(
-  agentId: number,
-  postGroupId: number,
-  postId: number
-) {
-  return useSuspenseQuery(
-    PostHistoryQueryQueryOptions(agentId, postGroupId, postId)
-  );
+export function usePostHistoryQuery(params: PostHistoryQueryParams) {
+  return useSuspenseQuery(PostHistoryQueryQueryOptions(params));
 }

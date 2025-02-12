@@ -41,7 +41,7 @@ const REQUIRED_FIELDS = {
 export default function Create() {
   const { data: newsCategories } = useNewsCategoriesQuery();
   const { mutate: createPosts, isPending } = useCreatePostsMutation({
-    agentId: '1',
+    agentId: 1, // TODO: 임시 값
   });
   const modal = useModal();
   const router = useRouter();

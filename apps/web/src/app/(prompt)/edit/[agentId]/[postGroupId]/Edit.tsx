@@ -83,10 +83,7 @@ export default function Edit({ params }: EditPageProps) {
           />
         )}
       >
-        <EditContent
-          agentId={params.agentId}
-          postGroupId={params.postGroupId}
-        />
+        <EditContent params={params} />
       </DndController>
     </div>
   );

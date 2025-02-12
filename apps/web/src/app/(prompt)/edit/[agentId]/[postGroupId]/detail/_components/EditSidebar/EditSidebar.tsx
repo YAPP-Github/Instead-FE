@@ -48,13 +48,13 @@ function EditSidebarContent() {
   // TODO: param 주입 방식 수정
   const { mutate: createMorePosts, isPending: isCreateMorePostsPending } =
     useCreateMorePostsMutation({
-      agentId: String(agentId),
-      postGroupId: String(postGroupId),
+      agentId: Number(agentId),
+      postGroupId: Number(postGroupId),
     });
 
   const { mutate: deletePost } = useDeletePostMutation({
-    agentId: String(agentId),
-    postGroupId: String(postGroupId),
+    agentId: Number(agentId),
+    postGroupId: Number(postGroupId),
   });
 
   const defaultValue = posts.find(
