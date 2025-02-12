@@ -12,7 +12,7 @@ export interface PostHistoryQuery {
   type: 'EACH' | 'ALL';
 }
 
-export type PostHistoryQueryParams = IdParams &
+type PostHistoryQueryParams = Omit<IdParams, 'postId'> &
   Pick<Required<IdParams>, 'postId'> & {
     tokens?: Tokens;
   };
