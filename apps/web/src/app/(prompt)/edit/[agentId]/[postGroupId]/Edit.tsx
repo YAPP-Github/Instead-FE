@@ -12,6 +12,7 @@ import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutati
 import { useRouter } from 'next/navigation';
 import { EditContent } from './_components/EditContent/EditContent';
 import { ContentItem } from '@web/components/common/DNDController/compounds';
+import { ROUTES } from '@web/routes';
 
 export default function Edit({ params }: EditPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({ threshold: 100 });
@@ -51,7 +52,10 @@ export default function Edit({ params }: EditPageProps) {
             leftAddon={<Icon name="checkCalendar" size={20} />}
             onClick={() =>
               router.push(
-                `/edit/${params.agentId}/${params.postGroupId}/schedule`
+                ROUTES.EDIT.SCHEDULE({
+                  agentId: params.agentId,
+                  postGroupId: params.postGroupId,
+                })
               )
             }
             disabled={!hasReadyToUploadPosts}

@@ -15,6 +15,7 @@ import { POST_STATUS } from '@web/types/post';
 import { TableRow } from './_components/TableRow/TableRow';
 import { Column } from './_components/ScheduleTable/types';
 import { EditPageProps } from '../types';
+import { ROUTES } from '@web/routes';
 
 export default function Schedule({ params }: EditPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({ threshold: 100 });
@@ -65,7 +66,12 @@ export default function Schedule({ params }: EditPageProps) {
               size="large"
               variant="text"
               onClick={() =>
-                router.push(`/edit/${params.agentId}/${params.postGroupId}`)
+                router.push(
+                  ROUTES.EDIT.ROOT({
+                    agentId: Number(params.agentId),
+                    postGroupId: Number(params.postGroupId),
+                  })
+                )
               }
             >
               이전

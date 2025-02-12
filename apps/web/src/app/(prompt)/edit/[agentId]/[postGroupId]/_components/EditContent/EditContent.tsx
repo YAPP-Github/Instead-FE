@@ -17,6 +17,7 @@ import {
 } from '@web/store/mutation/useUpdatePromptMutation';
 import { useMemo } from 'react';
 import { ContentItem } from '@web/components/common/DNDController/compounds';
+import { ROUTES } from '@web/routes';
 
 type PromptForm = UpdatePromptRequest;
 
@@ -44,7 +45,11 @@ export function EditContent({ params }: EditPageProps) {
 
   const handleModify = (postId: Post['id']) => {
     router.push(
-      `/edit/${params.agentId}/${params.postGroupId}/detail?postId=${postId}`
+      ROUTES.EDIT.DETAIL({
+        agentId: params.agentId,
+        postGroupId: params.postGroupId,
+        postId,
+      })
     );
   };
 

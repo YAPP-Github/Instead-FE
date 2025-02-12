@@ -13,6 +13,7 @@ import { useAdjacentPosts } from '../../_hooks/useAdjacentPosts';
 import { useEffect } from 'react';
 import { queryClient } from '@web/store/query/QueryClientProvider';
 import { getAllPostsQueryOptions } from '@web/store/query/useGetAllPostsQuery';
+import { ROUTES } from '@web/routes';
 
 export function EditPost() {
   const router = useRouter();
@@ -63,7 +64,14 @@ export function EditPost() {
           <IconButton
             icon="x"
             iconType="stroke"
-            onClick={() => router.push(`/edit/${agentId}/${postGroupId}`)}
+            onClick={() =>
+              router.push(
+                ROUTES.EDIT.ROOT({
+                  agentId: Number(agentId),
+                  postGroupId: Number(postGroupId),
+                })
+              )
+            }
           />
         </div>
       </div>

@@ -5,6 +5,7 @@ import { CreateFormValues } from '@web/app/create/types';
 import { useToast } from '@repo/ui/hooks';
 import { CreatedPost } from '@web/types/post';
 import { AgentId } from '@web/types';
+import { ROUTES } from '@web/routes';
 
 export type MutationCreatePostsType = {
   agentId: AgentId;
@@ -26,7 +27,12 @@ export function useCreatePostsMutation({ agentId }: MutationCreatePostsType) {
       ),
     onSuccess: (response) => {
       const postGroupId = response.data.postGroupId;
-      router.push(`/edit/${agentId}/${postGroupId}`);
+      router.push(
+        ROUTES.EDIT.ROOT({
+          agentId: Number(agentId),
+          postGroupId: Number(postGroupId),
+        })
+      );
     },
     onError: (error) => {
       if (error instanceof Error) {

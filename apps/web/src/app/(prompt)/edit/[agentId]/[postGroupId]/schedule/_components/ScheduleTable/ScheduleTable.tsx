@@ -11,6 +11,7 @@ import { POST_STATUS } from '@web/types/post';
 import { TableRow } from '../TableRow/TableRow';
 import { Column } from './types';
 import { EditPageProps } from '../../../types';
+import { ROUTES } from '@web/routes';
 
 export type ScheduleTableProps = {
   columns: Column[];
@@ -26,7 +27,11 @@ export function ScheduleTable({ params, columns }: ScheduleTableProps) {
 
   const handleModify = (postId: Post['id']) => {
     router.push(
-      `/edit/${params.agentId}/${params.postGroupId}/detail?postId=${postId}`
+      ROUTES.EDIT.DETAIL({
+        agentId: Number(params.agentId),
+        postGroupId: Number(params.postGroupId),
+        postId,
+      })
     );
   };
 
