@@ -255,7 +255,9 @@ export default function Create() {
 
           {/* 본문 길이 */}
           <section className={styles.sectionStyle}>
-            <Label>본문 길이</Label>
+            <Label description="3문장 이상의 긴 게시물을 업로드 하려면 X 유료 구독 플랜에 가입해주세요">
+              본문 길이
+            </Label>
             <Controller
               name="length"
               control={control}
