@@ -1,14 +1,21 @@
 // Dropdown.context.ts
-import { createContext, useContext, useRef } from 'react';
+import {
+  createContext,
+  Dispatch,
+  MutableRefObject,
+  ReactNode,
+  SetStateAction,
+  useContext,
+} from 'react';
 
 export interface DropdownContextValue {
   value: string | string[];
   onValueChange?: (value: string) => void;
-  placeholder?: React.ReactNode;
+  placeholder?: ReactNode;
   isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
   // 추가: trigger의 DOM 노드를 참조하기 위한 ref
-  triggerRef: React.RefObject<HTMLElement>;
+  triggerRef: MutableRefObject<HTMLDivElement | null>;
 }
 
 export const DropdownContext = createContext<DropdownContextValue | null>(null);

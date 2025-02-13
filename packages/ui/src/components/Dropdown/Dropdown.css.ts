@@ -21,6 +21,7 @@ export const dropdownContent = style({
   width: 'max-content',
   display: 'flex',
   flexDirection: 'column',
+  padding: '1rem 0.8rem',
 
   // 기본은 아래에 표시
   top: '100%',
@@ -45,6 +46,7 @@ export const dropdownContentAbove = style({
 export const dropdownItem = style({
   cursor: 'pointer',
   padding: '1.6rem',
+  borderRadius: tokens.radius[8],
   width: '100%',
   selectors: {
     '&:hover': {

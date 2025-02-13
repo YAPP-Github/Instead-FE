@@ -2,6 +2,7 @@
 import { ComponentPropsWithoutRef, forwardRef, ReactNode } from 'react';
 import { useDropdownContext } from './Dropdown.context';
 import { dropdownTrigger } from './Dropdown.css';
+import { mergeRefs } from '@repo/ui/utils';
 
 export type DropdownTriggerProps = {
   children?: ReactNode;
@@ -10,22 +11,14 @@ export type DropdownTriggerProps = {
 export const DropdownTrigger = forwardRef<HTMLDivElement, DropdownTriggerProps>(
   ({ children, className = '', ...props }, ref) => {
     const { setIsOpen, value, placeholder, triggerRef } = useDropdownContext();
+
     const handleClick = () => {
       setIsOpen((prev) => !prev);
     };
 
     return (
       <div
-        ref={(node) => {
-          if (typeof ref === 'function') {
-            ref(node);
-          } else if (ref) {
-            (ref as any).current = node;
-          }
-          if (triggerRef) {
-            (triggerRef as any).current = node;
-          }
-        }}
+        ref={mergeRefs(ref, triggerRef)}
         className={`${className} ${dropdownTrigger}`}
         onClick={handleClick}
         {...props}

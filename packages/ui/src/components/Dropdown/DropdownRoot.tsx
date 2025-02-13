@@ -32,7 +32,7 @@ export const DropdownRoot = forwardRef<HTMLDivElement, DropdownProps>(
       typeof value !== 'undefined' && typeof onValueChange === 'function';
     const [isOpen, setIsOpen] = useState(false);
 
-    const triggerRef = useRef<HTMLElement>(null);
+    const triggerRef = useRef<HTMLDivElement>(null);
 
     const contextValue: DropdownContextValue = isSelectMode
       ? {

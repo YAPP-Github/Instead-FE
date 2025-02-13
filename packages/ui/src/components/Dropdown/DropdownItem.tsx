@@ -1,25 +1,23 @@
 'use client';
-import * as React from 'react';
+
+import { ComponentPropsWithoutRef, forwardRef, MouseEvent } from 'react';
 import { useDropdownContext } from './Dropdown.context';
 import { dropdownItem } from './Dropdown.css';
 
-export interface DropdownItemProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export type DropdownItemProps = {
   /** select 모드에서 사용 시, 아이템의 고유 값 */
   value?: string;
   /**
    * 클릭 시 실행할 콜백 (선택 이벤트)
    */
-  onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-}
+  onClick?: (event: MouseEvent<HTMLDivElement, MouseEvent>) => void;
+} & ComponentPropsWithoutRef<'div'>;
 
-export const DropdownItem = React.forwardRef<HTMLDivElement, DropdownItemProps>(
+export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
   ({ className = '', value, children, onClick, ...props }, ref) => {
     const context = useDropdownContext();
 
-    const handleClick = (
-      event: React.MouseEvent<HTMLDivElement, MouseEvent>
-    ) => {
+    const handleClick = (event: MouseEvent<HTMLDivElement>) => {
       if (onClick) onClick(event);
       if (context && value !== undefined) {
         context.onValueChange?.(value);

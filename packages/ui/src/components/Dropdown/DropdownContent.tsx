@@ -27,6 +27,10 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
     const contentRef = useRef<HTMLDivElement>(null);
     const [positionAbove, setPositionAbove] = useState(false);
 
+    const contentClassName = `${className} ${dropdownContent} ${positionAbove ? dropdownContentAbove : ''} ${
+      align === 'right' ? dropdownContentRight : dropdownContentLeft
+    }`;
+
     useLayoutEffect(() => {
       function updatePosition() {
         if (isOpen && triggerRef.current && contentRef.current) {
@@ -57,9 +61,7 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
     return (
       <div
         ref={mergeRefs(ref, contentRef)}
-        className={`${className} ${dropdownContent} ${positionAbove ? dropdownContentAbove : ''} ${
-          align === 'right' ? dropdownContentRight : dropdownContentLeft
-        }`}
+        className={contentClassName}
         {...props}
       >
         {children}
