@@ -1,14 +1,15 @@
 import { PATCH } from '@web/shared/server';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@repo/ui/hooks';
-import { EditPageParams } from '@web/app/(prompt)/edit/[agentId]/[postGroupId]/types';
 import { getAllPostsQueryOptions } from '../query/useGetAllPostsQuery';
-import { Post } from '@web/types';
+import { IdParams, Post } from '@web/types';
 
 export interface UpdatePromptRequest {
   prompt: string;
   postsId: Post['id'][];
 }
+
+export type MutationUpdatePrompt = Omit<IdParams, 'postId'>;
 
 /**
  * 게시물 프롬프트 기반 일괄 수정
@@ -18,7 +19,7 @@ export interface UpdatePromptRequest {
 export function useUpdatePromptMutation({
   agentId,
   postGroupId,
-}: EditPageParams) {
+}: MutationUpdatePrompt) {
   const queryClient = useQueryClient();
   const toast = useToast();
 

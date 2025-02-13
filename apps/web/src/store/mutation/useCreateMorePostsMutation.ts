@@ -1,7 +1,6 @@
 import { POST } from '@web/shared/server';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@repo/ui/hooks';
-import { EditPageParams } from '@web/app/(prompt)/edit/[agentId]/[postGroupId]/types';
 import { CreatedPost } from '@web/types/post';
 import {
   getAllPostsQueryOptions,
@@ -9,8 +8,11 @@ import {
 } from '../query/useGetAllPostsQuery';
 import { ApiResponse } from '@web/shared/server/types';
 import { useGetAllPostsQuery } from '../query/useGetAllPostsQuery';
+import { IdParams } from '@web/types';
 
 export type MutationCreateMorePostsResponse = CreatedPost;
+
+type MutationCreateMorePosts = Omit<IdParams, 'postId'>;
 
 /**
  * 게시물 추가 생성 API
@@ -18,7 +20,7 @@ export type MutationCreateMorePostsResponse = CreatedPost;
 export function useCreateMorePostsMutation({
   agentId,
   postGroupId,
-}: EditPageParams) {
+}: MutationCreateMorePosts) {
   const queryClient = useQueryClient();
   const toast = useToast();
   const { data: posts } = useGetAllPostsQuery({ agentId, postGroupId });

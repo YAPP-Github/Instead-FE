@@ -9,6 +9,9 @@ type GroupPostsQuery = {
   posts: Post[];
 };
 
+/**
+ * @deprecated 더 이상 사용하지 않음. getAllPostsQueryOptions를 사용해주세요.
+ */
 export function groupPostsQueryQueryOptions(
   agentId: number,
   postGroupId: number,
@@ -28,6 +31,9 @@ export function groupPostsQueryQueryOptions(
   });
 }
 
+/**
+ * @deprecated 더 이상 사용하지 않음. useGetAllPostsQuery를 사용해주세요.
+ */
 export function useGroupPostsQuery(agentId: number, postGroupId: number) {
   return useSuspenseQuery(groupPostsQueryQueryOptions(agentId, postGroupId));
 }

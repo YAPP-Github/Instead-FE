@@ -1,6 +1,8 @@
+import { PostGroupId, PostId } from './id';
+
 export interface PostImage {
   id: number;
-  postId: number;
+  postId: PostId;
   url: string;
 }
 
@@ -22,23 +24,17 @@ export const POST_PURPOSE = {
   MARKETING: 'MARKETING',
 } as const;
 
-type PostPurpose = (typeof POST_PURPOSE)[keyof typeof POST_PURPOSE];
-
 export const POST_REFERENCE = {
   NONE: 'NONE',
   NEWS: 'NEWS',
   IMAGE: 'IMAGE',
 } as const;
 
-type PostReference = (typeof POST_REFERENCE)[keyof typeof POST_REFERENCE];
-
 export const POST_LENGTH = {
   SHORT: 'SHORT',
   MEDIUM: 'MEDIUM',
   LONG: 'LONG',
 };
-
-type PostLength = (typeof POST_LENGTH)[keyof typeof POST_LENGTH];
 
 export interface Post {
   id: number;
@@ -54,7 +50,7 @@ export interface Post {
 }
 
 export interface CreatedPost {
-  postGroupId: number;
+  postGroupId: PostGroupId;
   eof: boolean;
   posts: Post[];
 }

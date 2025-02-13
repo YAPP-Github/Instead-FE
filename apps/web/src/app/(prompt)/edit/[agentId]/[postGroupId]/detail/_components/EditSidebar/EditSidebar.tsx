@@ -33,6 +33,7 @@ import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation
 import { DetailPageContext } from '../../EditDetail';
 import { DragGuide } from '../DragGuide/DragGuide';
 import { ContentItem } from '@web/components/common/DNDController/compounds';
+import { ROUTES } from '@web/routes';
 
 function EditSidebarContent() {
   const modal = useModal();
@@ -48,13 +49,13 @@ function EditSidebarContent() {
   // TODO: param 주입 방식 수정
   const { mutate: createMorePosts, isPending: isCreateMorePostsPending } =
     useCreateMorePostsMutation({
-      agentId: String(agentId),
-      postGroupId: String(postGroupId),
+      agentId: Number(agentId),
+      postGroupId: Number(postGroupId),
     });
 
   const { mutate: deletePost } = useDeletePostMutation({
-    agentId: String(agentId),
-    postGroupId: String(postGroupId),
+    agentId: Number(agentId),
+    postGroupId: Number(postGroupId),
   });
 
   const defaultValue = posts.find(
@@ -70,7 +71,13 @@ function EditSidebarContent() {
   }, [defaultValue]);
 
   const handleClick = (postId: number) => {
-    router.push(`?postId=${postId}`);
+    router.push(
+      ROUTES.EDIT.DETAIL({
+        agentId: Number(agentId),
+        postGroupId: Number(postGroupId),
+        postId,
+      })
+    );
   };
 
   const handlePlusClick = () => {

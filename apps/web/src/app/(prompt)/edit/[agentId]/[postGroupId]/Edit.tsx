@@ -6,22 +6,23 @@ import { NavBar, MainBreadcrumbItem } from '@web/components/common';
 import { Breadcrumb, Button, Icon } from '@repo/ui';
 import { POST_STATUS } from '@web/types/post';
 import { DndController } from '@web/components/common';
-import { EditPageParams } from './types';
+import { EditPageProps } from './types';
 import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
 import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
 import { useRouter } from 'next/navigation';
 import { EditContent } from './_components/EditContent/EditContent';
 import { ContentItem } from '@web/components/common/DNDController/compounds';
+import { ROUTES } from '@web/routes';
 
-export default function Edit({ agentId, postGroupId }: EditPageParams) {
+export default function Edit({ params }: EditPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({ threshold: 100 });
   const { data: posts } = useGetAllPostsQuery({
-    agentId,
-    postGroupId,
+    agentId: params.agentId,
+    postGroupId: params.postGroupId,
   });
   const { mutate: updatePosts } = useUpdatePostsMutation({
-    agentId,
-    postGroupId,
+    agentId: params.agentId,
+    postGroupId: params.postGroupId,
   });
   const router = useRouter();
 
@@ -50,7 +51,12 @@ export default function Edit({ agentId, postGroupId }: EditPageParams) {
             variant="primary"
             leftAddon={<Icon name="checkCalendar" size={20} />}
             onClick={() =>
-              router.push(`/edit/${agentId}/${postGroupId}/schedule`)
+              router.push(
+                ROUTES.EDIT.SCHEDULE({
+                  agentId: params.agentId,
+                  postGroupId: params.postGroupId,
+                })
+              )
             }
             disabled={!hasReadyToUploadPosts}
             className={style.submitButtonStyle}
@@ -81,7 +87,7 @@ export default function Edit({ agentId, postGroupId }: EditPageParams) {
           />
         )}
       >
-        <EditContent agentId={agentId} postGroupId={postGroupId} />
+        <EditContent params={params} />
       </DndController>
     </div>
   );

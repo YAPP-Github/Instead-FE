@@ -33,6 +33,7 @@ import { NavBar } from '@web/components/common';
 import { useScroll } from '@web/hooks';
 import { useCreatePostsMutation } from '@web/store/mutation/useCreatePostsMutation';
 import { uploadImages } from '@web/shared/image-upload/ImageUpload';
+import { ROUTES } from '@web/routes';
 
 const REQUIRED_FIELDS = {
   TOPIC: 'topic',
@@ -41,7 +42,7 @@ const REQUIRED_FIELDS = {
 export default function Create() {
   const { data: newsCategories } = useNewsCategoriesQuery();
   const { mutate: createPosts, isPending } = useCreatePostsMutation({
-    agentId: '1',
+    agentId: 1, // TODO: 임시 값
   });
   const modal = useModal();
   const router = useRouter();
@@ -102,7 +103,7 @@ export default function Create() {
       cancelButton: '취소',
       confirmButtonProps: {
         onClick: () => {
-          router.push('/');
+          router.push(ROUTES.HOME);
         },
       },
     });

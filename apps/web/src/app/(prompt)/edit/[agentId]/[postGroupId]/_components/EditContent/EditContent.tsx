@@ -8,7 +8,7 @@ import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation
 import { useRouter } from 'next/navigation';
 import { useModal } from '@repo/ui/hooks';
 import { FormProvider, useForm } from 'react-hook-form';
-import { EditPageParams } from '../../types';
+import { EditPageProps } from '../../types';
 import * as style from './EditContent.css';
 import { DragGuide } from '../DragGuide/DragGuide';
 import {
@@ -17,10 +17,11 @@ import {
 } from '@web/store/mutation/useUpdatePromptMutation';
 import { useMemo } from 'react';
 import { ContentItem } from '@web/components/common/DNDController/compounds';
+import { ROUTES } from '@web/routes';
 
 type PromptForm = UpdatePromptRequest;
 
-export function EditContent({ agentId, postGroupId }: EditPageParams) {
+export function EditContent({ params }: EditPageProps) {
   const modal = useModal();
   const { getItemsByStatus } = useDndController();
   const isExistEditingPost = getItemsByStatus(POST_STATUS.EDITING).length > 0;
@@ -33,26 +34,23 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
   const promptValue = watch('prompt');
 
   const { mutate: createMorePosts, isPending: isCreateMorePostsPending } =
-    useCreateMorePostsMutation({
-      agentId,
-      postGroupId,
-    });
+    useCreateMorePostsMutation(params);
 
   const { mutate: updatePrompt, isPending: isUpdatePromptPending } =
-    useUpdatePromptMutation({
-      agentId,
-      postGroupId,
-    });
+    useUpdatePromptMutation(params);
 
-  const { mutate: deletePost } = useDeletePostMutation({
-    agentId,
-    postGroupId,
-  });
+  const { mutate: deletePost } = useDeletePostMutation(params);
 
   const router = useRouter();
 
   const handleModify = (postId: Post['id']) => {
-    router.push(`/edit/${agentId}/${postGroupId}/detail?postId=${postId}`);
+    router.push(
+      ROUTES.EDIT.DETAIL({
+        agentId: params.agentId,
+        postGroupId: params.postGroupId,
+        postId,
+      })
+    );
   };
 
   const handleDeletePost = (postId: Post['id']) => {

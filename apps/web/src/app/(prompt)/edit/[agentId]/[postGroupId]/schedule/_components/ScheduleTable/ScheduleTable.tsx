@@ -3,7 +3,6 @@
 import { DndController, useDndController } from '@web/components/common';
 import * as style from './ScheduleTable.css';
 import { Post } from '@web/types';
-import { SchedulePageProps } from '../../type';
 import { useRouter } from 'next/navigation';
 import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation';
 import { Modal } from '@repo/ui';
@@ -11,10 +10,12 @@ import { useModal } from '@repo/ui/hooks';
 import { POST_STATUS } from '@web/types/post';
 import { TableRow } from '../TableRow/TableRow';
 import { Column } from './types';
+import { EditPageProps } from '../../../types';
+import { ROUTES } from '@web/routes';
 
 export type ScheduleTableProps = {
   columns: Column[];
-} & SchedulePageProps;
+} & EditPageProps;
 
 export function ScheduleTable({ params, columns }: ScheduleTableProps) {
   const router = useRouter();
@@ -26,7 +27,11 @@ export function ScheduleTable({ params, columns }: ScheduleTableProps) {
 
   const handleModify = (postId: Post['id']) => {
     router.push(
-      `/edit/${params.agentId}/${params.postGroupId}/detail?postId=${postId}`
+      ROUTES.EDIT.DETAIL({
+        agentId: Number(params.agentId),
+        postGroupId: Number(params.postGroupId),
+        postId,
+      })
     );
   };
 
