@@ -35,7 +35,6 @@ export function getAllPostsQueryOptions({
         undefined,
         tokens
       ),
-    // NOTE: 항상 fresh 상태로 유지
     staleTime: STALE_TIME,
     gcTime: GC_TIME,
   });

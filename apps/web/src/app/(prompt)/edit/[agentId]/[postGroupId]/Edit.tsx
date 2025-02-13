@@ -11,6 +11,7 @@ import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
 import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
 import { useRouter } from 'next/navigation';
 import { EditContent } from './_components/EditContent/EditContent';
+import { ContentItem } from '@web/components/common/DNDController/compounds';
 
 export default function Edit({ agentId, postGroupId }: EditPageParams) {
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({ threshold: 100 });
@@ -60,8 +61,8 @@ export default function Edit({ agentId, postGroupId }: EditPageParams) {
         isScrolled={isScrolled}
       />
       <DndController
-        key={posts.data.posts.map((p) => p.id).join(',')}
         initialItems={posts.data.posts}
+        key={posts.data.posts.map((p) => p.id).join(',')}
         onDragEnd={(updatedItems) => {
           const updatePayload = {
             posts: updatedItems.map((item) => ({
@@ -73,6 +74,12 @@ export default function Edit({ agentId, postGroupId }: EditPageParams) {
           };
           updatePosts(updatePayload);
         }}
+        renderDragOverlay={(activeItem) => (
+          <ContentItem
+            summary={activeItem.summary}
+            updatedAt={activeItem.updatedAt}
+          />
+        )}
       >
         <EditContent agentId={agentId} postGroupId={postGroupId} />
       </DndController>

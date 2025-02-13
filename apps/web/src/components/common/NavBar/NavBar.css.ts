@@ -27,3 +27,8 @@ export const bothAddons = style({
 export const rightAddonOnly = style({
   justifyContent: 'flex-end',
 });
+
+export const addonStyle = style({
+  display: 'flex',
+  alignItems: 'center',
+});

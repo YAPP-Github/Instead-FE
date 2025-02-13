@@ -323,6 +323,48 @@ export default function Home() {
         </Button>
       </div>
       <div style={{ display: 'flex', gap: '8px' }}>
+        <Button size="large" variant="line" leftAddon={<Icon name="twinkle" />}>
+          5개 더 생성하기
+        </Button>
+        <Button
+          size="large"
+          variant="line"
+          leftAddon={<Icon name="twinkle" />}
+          isLoading
+        >
+          5개 더 생성하기
+        </Button>
+        <Button
+          size="large"
+          variant="line"
+          leftAddon={<Icon name="twinkle" />}
+          disabled
+        >
+          5개 더 생성하기
+        </Button>
+      </div>
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <Button size="small" variant="line" leftAddon={<Icon name="twinkle" />}>
+          5개 더 생성하기
+        </Button>
+        <Button
+          size="small"
+          variant="line"
+          leftAddon={<Icon name="twinkle" />}
+          isLoading
+        >
+          5개 더 생성하기
+        </Button>
+        <Button
+          size="small"
+          variant="line"
+          leftAddon={<Icon name="twinkle" />}
+          disabled
+        >
+          5개 더 생성하기
+        </Button>
+      </div>
+      <div style={{ display: 'flex', gap: '8px' }}>
         <Badge size="medium" variant="neutral" shape="round">
           X Premium 계정 전용
         </Badge>

@@ -1,9 +1,15 @@
 import { ComponentPropsWithoutRef, forwardRef, ReactElement } from 'react';
-import { addonRootStyle, buttonRecipe } from './Button.css';
+import {
+  addonRootStyle,
+  buttonChildrenRecipe,
+  buttonRecipe,
+  spinner,
+} from './Button.css';
 import { Spinner, SpinnerProps } from '../Spinner';
+import { LineButtonAnimate } from './LineButtonAnimate';
 
 export type ButtonSize = 'small' | 'large';
-export type ButtonVariant = 'primary' | 'neutral' | 'text';
+export type ButtonVariant = 'primary' | 'neutral' | 'text' | 'line';
 
 export type ButtonProps = {
   size: ButtonSize;
@@ -17,6 +23,7 @@ const SpinnerColor: Record<ButtonVariant, SpinnerProps['color']> = {
   primary: 'white',
   neutral: 'white',
   text: 'black',
+  line: 'line',
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -32,27 +39,35 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       ...rest
     },
     ref
-  ) => (
-    <button
-      ref={ref}
-      className={`${buttonRecipe({ size, variant, isLoading })} ${className}`}
-      {...rest}
-    >
-      {isLoading ? (
-        <>
-          <Spinner color={SpinnerColor[variant]} size={size} />
-        </>
-      ) : (
-        <>
+  ) => {
+    const buttonElement = (
+      <button
+        ref={ref}
+        className={`${buttonRecipe({ size, variant, isLoading })} ${className}`}
+        {...rest}
+      >
+        {isLoading && (
+          <Spinner
+            className={spinner({ size, isLoading })}
+            color={SpinnerColor[variant]}
+            size={size}
+          />
+        )}
+        <div className={`${buttonChildrenRecipe({ size, isLoading })}`}>
           {leftAddon && <div className={addonRootStyle[size]}>{leftAddon}</div>}
           {children}
           {rightAddon && (
             <div className={addonRootStyle[size]}>{rightAddon}</div>
           )}
-        </>
-      )}
-    </button>
-  )
+        </div>
+      </button>
+    );
+
+    if (variant === 'line') {
+      return <LineButtonAnimate size={size}>{buttonElement}</LineButtonAnimate>;
+    }
+    return <>{buttonElement}</>;
+  }
 );
 
 Button.displayName = 'Button';

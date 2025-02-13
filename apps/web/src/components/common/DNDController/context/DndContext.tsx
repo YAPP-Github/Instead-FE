@@ -7,11 +7,10 @@ import {
   TouchSensor,
   useSensor,
   useSensors,
-  closestCenter,
+  closestCorners,
   MeasuringStrategy,
 } from '@dnd-kit/core';
 import { useDragAndDrop } from '../hooks';
-import { ContentItem } from '../compounds';
 import { Post } from '@web/types';
 
 export type DndItemData = Post;
@@ -21,6 +20,7 @@ type DndControllerProviderProps = {
   children: ReactNode;
   onDragEnd?: (items: DndItemData[]) => void;
   disabled?: boolean;
+  renderDragOverlay?: (activeItem: DndItemData) => ReactNode;
 };
 
 type DndControllerContextType = ReturnType<typeof useDragAndDrop>;
@@ -44,6 +44,7 @@ export function DndControllerProvider({
   children,
   onDragEnd,
   disabled,
+  renderDragOverlay,
 }: DndControllerProviderProps) {
   const sensors = useSensors(
     useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
@@ -55,10 +56,14 @@ export function DndControllerProvider({
     onDragEnd,
   });
 
+  const activeItem = dnd.activeId
+    ? dnd.items.find((item) => item.id === dnd.activeId)
+    : null;
+
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCenter}
+      collisionDetection={closestCorners}
       onDragStart={
         disabled
           ? undefined
@@ -82,19 +87,7 @@ export function DndControllerProvider({
         {children}
       </DndControllerContext.Provider>
       <DragOverlay>
-        {dnd.activeId && (
-          <ContentItem
-            summary={
-              dnd.items.find((item) => item.id === dnd.activeId)?.summary
-            }
-            updatedAt={
-              dnd.items.find((item) => item.id === dnd.activeId)?.updatedAt ||
-              ''
-            }
-            onRemove={() => {}}
-            onModify={() => {}}
-          />
-        )}
+        {activeItem && renderDragOverlay && renderDragOverlay(activeItem)}
       </DragOverlay>
     </DndContext>
   );

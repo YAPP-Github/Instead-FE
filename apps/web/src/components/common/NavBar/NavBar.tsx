@@ -20,8 +20,8 @@ export function NavBar({ leftAddon, rightAddon, isScrolled }: NavBarProps) {
 
   return (
     <div className={getNavBarClassName()}>
-      {leftAddon}
-      {rightAddon}
+      <div className={styles.addonStyle}>{leftAddon}</div>
+      <div className={styles.addonStyle}>{rightAddon}</div>
     </div>
   );
 }
