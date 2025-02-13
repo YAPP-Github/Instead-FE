@@ -25,3 +25,9 @@ export const labelDiscriptionWrapperStyle = style({
   display: 'flex',
   flexDirection: 'column',
 });
+
+export const titleStyle = style({
+  width: '100%',
+  padding: `${vars.space[24]} 0`,
+  textAlign: 'center',
+});

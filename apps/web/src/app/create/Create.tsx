@@ -9,10 +9,10 @@ import {
   Icon,
   Button,
   Modal,
+  GradientAnimatedText,
 } from '@repo/ui';
 import { ImageManager, MainBreadcrumbItem } from '@web/components/common';
 import { KeywordChipGroup } from './_components/KeywordChip/KeywordChipGroup';
-import { GradientAnimatedTitle } from './_components/GradientAnimatedTitle/GradientAnimatedTitle';
 import { AnimatedContainer } from './_components/AnimatedContainer/AnimatedContainer';
 import { useForm, Controller } from 'react-hook-form';
 import { isEmptyStringOrNil } from '@web/utils';
@@ -144,7 +144,9 @@ export default function Create() {
 
       <Spacing size={80} />
 
-      <GradientAnimatedTitle>어떤 글을 생성할까요?</GradientAnimatedTitle>
+      <GradientAnimatedText className={styles.titleStyle}>
+        어떤 글을 생성할까요?
+      </GradientAnimatedText>
 
       <AnimatedContainer>
         <form className={styles.contentStyle}>
