@@ -19,6 +19,9 @@ import { overlay } from 'overlay-kit';
 import { Accordion } from '@repo/ui/Accordion';
 import { useModal } from '@repo/ui/hooks';
 import { useToast } from '@repo/ui/hooks';
+import { Dropdown } from '@repo/ui/Dropdown';
+import { useState } from 'react';
+import { IconButton } from '@repo/ui/IconButton';
 
 type FormValues = {
   topic: string;
@@ -26,6 +29,12 @@ type FormValues = {
 };
 
 export default function Home() {
+  const [selectedValue, setSelectedValue] = useState('Select an option');
+
+  const handleSelect = (value: string) => {
+    setSelectedValue(value);
+  };
+
   const toast = useToast();
 
   const { register, handleSubmit } = useForm<FormValues>({
@@ -588,7 +597,72 @@ export default function Home() {
           </Accordion.Item>
         </Accordion>
       </div>
-      {/* <ImageManager maxFileSize={10} maxFiles={5} /> */}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '0.8rem',
+          marginLeft: '10rem',
+        }}
+      >
+        <Dropdown>
+          <Dropdown.Trigger>
+            <IconButton icon="dots" />
+          </Dropdown.Trigger>
+          <Dropdown.Content align="right">
+            <Dropdown.Item
+              value="option1"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1rem',
+                width: 'fit-content',
+              }}
+            >
+              <Icon name="clock" size="2.4rem" color="grey400" />
+              <Text fontSize={18} fontWeight="medium" color="grey1000">
+                수정하기
+              </Text>
+            </Dropdown.Item>
+            <Dropdown.Item
+              value="option1"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1rem',
+                width: 'fit-content',
+              }}
+            >
+              <Icon name="trash" size="2.4rem" color="grey400" />
+              <Text fontSize={18} fontWeight="medium" color="grey1000">
+                삭제하기
+              </Text>
+            </Dropdown.Item>
+          </Dropdown.Content>
+        </Dropdown>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          gap: '0.8rem',
+          flexDirection: 'column',
+          marginBottom: '10rem',
+        }}
+      >
+        <Dropdown
+          value={selectedValue}
+          onValueChange={setSelectedValue}
+          placeholder="Select an option"
+        >
+          <Dropdown.Trigger />
+          <Dropdown.Content>
+            <Dropdown.Item value="option1">Option 1</Dropdown.Item>
+            <Dropdown.Item value="option2">Option 2</Dropdown.Item>
+            <Dropdown.Item value="option3">Option 3</Dropdown.Item>
+          </Dropdown.Content>
+        </Dropdown>
+        <p>현재 선택된 값: {selectedValue}</p>
+      </div>
     </div>
   );
 }
