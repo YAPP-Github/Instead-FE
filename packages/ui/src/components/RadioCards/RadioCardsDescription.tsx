@@ -14,7 +14,7 @@ export const RadioCardsDescription = ({
     <Text.P
       fontSize={14}
       fontWeight="medium"
-      color={isDisabled ? 'grey400' : 'grey600'}
+      color={isDisabled ? 'grey200' : 'grey600'}
       {...props}
     >
       {children}

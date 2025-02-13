@@ -9,10 +9,10 @@ import {
   Icon,
   Button,
   Modal,
+  GradientAnimatedText,
 } from '@repo/ui';
 import { ImageManager, MainBreadcrumbItem } from '@web/components/common';
 import { KeywordChipGroup } from './_components/KeywordChip/KeywordChipGroup';
-import { GradientAnimatedTitle } from './_components/GradientAnimatedTitle/GradientAnimatedTitle';
 import { AnimatedContainer } from './_components/AnimatedContainer/AnimatedContainer';
 import { useForm, Controller } from 'react-hook-form';
 import { isEmptyStringOrNil } from '@web/utils';
@@ -144,7 +144,9 @@ export default function Create() {
 
       <Spacing size={80} />
 
-      <GradientAnimatedTitle>어떤 글을 생성할까요?</GradientAnimatedTitle>
+      <GradientAnimatedText className={styles.titleStyle}>
+        어떤 글을 생성할까요?
+      </GradientAnimatedText>
 
       <AnimatedContainer>
         <form className={styles.contentStyle}>
@@ -253,23 +255,22 @@ export default function Create() {
 
           {/* 본문 길이 */}
           <section className={styles.sectionStyle}>
-            <Label>본문 길이</Label>
+            <Label description="3문장 이상의 긴 게시물을 업로드 하려면 X 유료 구독 플랜에 가입해주세요">
+              본문 길이
+            </Label>
             <Controller
               name="length"
               control={control}
               render={({ field: { onChange, value } }) => (
                 <RadioCards value={value} onChange={onChange} columns={3}>
-                  {LENGTH_OPTIONS.map(
-                    ({ value, label, description, badge }) => (
-                      <RadioCards.Item key={value} value={value}>
-                        <RadioCards.Badge>{badge}</RadioCards.Badge>
-                        <RadioCards.Label>{label}</RadioCards.Label>
-                        <RadioCards.Description>
-                          {description}
-                        </RadioCards.Description>
-                      </RadioCards.Item>
-                    )
-                  )}
+                  {LENGTH_OPTIONS.map(({ value, label, description }) => (
+                    <RadioCards.Item key={value} value={value}>
+                      <RadioCards.Label>{label}</RadioCards.Label>
+                      <RadioCards.Description>
+                        {description}
+                      </RadioCards.Description>
+                    </RadioCards.Item>
+                  ))}
                 </RadioCards>
               )}
             />
