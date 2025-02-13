@@ -261,17 +261,14 @@ export default function Create() {
               control={control}
               render={({ field: { onChange, value } }) => (
                 <RadioCards value={value} onChange={onChange} columns={3}>
-                  {LENGTH_OPTIONS.map(
-                    ({ value, label, description, badge }) => (
-                      <RadioCards.Item key={value} value={value}>
-                        <RadioCards.Badge>{badge}</RadioCards.Badge>
-                        <RadioCards.Label>{label}</RadioCards.Label>
-                        <RadioCards.Description>
-                          {description}
-                        </RadioCards.Description>
-                      </RadioCards.Item>
-                    )
-                  )}
+                  {LENGTH_OPTIONS.map(({ value, label, description }) => (
+                    <RadioCards.Item key={value} value={value}>
+                      <RadioCards.Label>{label}</RadioCards.Label>
+                      <RadioCards.Description>
+                        {description}
+                      </RadioCards.Description>
+                    </RadioCards.Item>
+                  ))}
                 </RadioCards>
               )}
             />
