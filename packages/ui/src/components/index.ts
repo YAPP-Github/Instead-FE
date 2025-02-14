@@ -14,3 +14,4 @@ export * from './Modal';
 export * from './Skeleton';
 export * from './Chip';
 export * from './Accordion';
+export * from './GradientAnimatedText';

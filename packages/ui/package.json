@@ -91,6 +91,10 @@
       "types": "./dist/components/Dropdown/index.d.ts",
       "import": "./dist/components/Dropdown/index.js"
     },
+    "./GradientAnimatedText": {
+      "types": "./dist/components/GradientAnimatedText/index.d.ts",
+      "import": "./dist/components/GradientAnimatedText/index.js"
+    },
     "./utils": "./dist/utils/index.js"
   },
   "scripts": {

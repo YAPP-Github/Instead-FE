@@ -1,6 +1,12 @@
 import { vars } from '@repo/theme';
 import { style } from '@vanilla-extract/css';
 
+export const labelWrapperStyle = style({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: vars.space[12],
+});
+
 export const labelStyle = style({
   display: 'flex',
   alignItems: 'center',

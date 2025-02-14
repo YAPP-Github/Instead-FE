@@ -14,7 +14,7 @@ export const RadioCardsLabel = ({
     <Text.Span
       fontSize={18}
       fontWeight="semibold"
-      color={isDisabled ? 'grey400' : 'grey800'}
+      color={isDisabled ? 'grey300' : 'grey800'}
       {...props}
     >
       {children}
