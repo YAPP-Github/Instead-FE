@@ -6,7 +6,6 @@ import { AccountItem } from '../AccountItem/AccountItem';
 export function AccountSidebar() {
   return (
     <div className={wrapper}>
-      <Spacing size={80} />
       <Text className={title} fontSize={18} fontWeight="medium" color="grey600">
         내 계정
       </Text>

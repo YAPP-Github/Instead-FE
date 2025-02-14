@@ -1,9 +1,9 @@
 import { style } from '@vanilla-extract/css';
 
 export const wrapper = style({
-  maxWidth: '36.8rem',
+  minWidth: '36.8rem',
   minHeight: '100vh',
-  margin: '0 1.6rem',
+  margin: '0 0 0 1.6rem',
   backgroundColor: 'transparent',
   overflow: 'auto',
 });
