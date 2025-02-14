@@ -1,0 +1,13 @@
+import { style } from '@vanilla-extract/css';
+
+export const wrapper = style({
+  maxWidth: '36.8rem',
+  minHeight: '100vh',
+  margin: '0 1.6rem',
+  backgroundColor: 'transparent',
+  overflow: 'auto',
+});
+
+export const title = style({
+  padding: '2.65rem 1.2rem 1.45rem 1.2rem',
+});
