@@ -9,6 +9,7 @@ export const buttonRecipe = recipe({
     alignItems: 'center',
     justifyContent: 'center',
     whiteSpace: 'nowrap',
+    width: 'fit-content',
     height: 'fit-content',
     lineHeight: '150%',
     textAlign: 'center',

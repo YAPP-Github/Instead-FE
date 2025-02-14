@@ -15,6 +15,7 @@ import IconCircle from './assets/IconCircle';
 import IconClock from './assets/IconClock';
 import IconDocument from './assets/IconDocument';
 import IconDots from './assets/IconDots';
+import IconInstead from './assets/IconInstead';
 import IconLineThree from './assets/IconLineThree';
 import IconNote from './assets/IconNote';
 import IconNotice from './assets/IconNotice';
@@ -52,6 +53,7 @@ export const icons = {
   clock: IconClock,
   document: IconDocument,
   dots: IconDots,
+  instead: IconInstead,
   lineThree: IconLineThree,
   note: IconNote,
   notice: IconNotice,
