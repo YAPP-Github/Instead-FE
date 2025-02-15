@@ -1,11 +1,11 @@
-import { tokens } from '@repo/theme';
+import { vars } from '@repo/theme';
 import { style } from '@vanilla-extract/css';
 
 export const wrapper = style({
   width: '100%',
   height: '100%',
-  border: `0.2rem solid ${tokens.colors.grey50}`,
-  borderRadius: tokens.radius[16],
+  border: `0.2rem solid ${vars.colors.grey50}`,
+  borderRadius: vars.borderRadius[16],
   display: 'flex',
   flexDirection: 'column',
 });
@@ -14,7 +14,7 @@ export const toolBar = style({
   display: 'flex',
   justifyContent: 'space-between',
   padding: '1.6rem 1.2rem',
-  borderBottom: `0.2rem solid ${tokens.colors.grey50}`,
+  borderBottom: `0.2rem solid ${vars.colors.grey50}`,
 });
 
 export const saveArea = style({
@@ -38,7 +38,7 @@ export const textarea = style({
   lineHeight: '170%',
   letterSpacing: '-0.032rem',
   fontWeight: 'medium',
-  fontSize: `${tokens.typography.fontSize[16]}`,
+  fontSize: `${vars.typography.fontSize[16]}`,
   width: '100%',
   resize: 'none',
   overflow: 'visible',

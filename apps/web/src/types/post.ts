@@ -17,13 +17,6 @@ export const POST_STATUS = {
 
 export type PostStatus = (typeof POST_STATUS)[keyof typeof POST_STATUS];
 
-export const POST_PURPOSE = {
-  INFORMATION: 'INFORMATION',
-  OPINION: 'OPINION',
-  HUMOR: 'HUMOR',
-  MARKETING: 'MARKETING',
-} as const;
-
 export const POST_REFERENCE = {
   NONE: 'NONE',
   NEWS: 'NEWS',
@@ -57,6 +50,13 @@ export interface CreatedPost {
 
 export type Purpose = 'INFORMATION' | 'OPINION' | 'HUMOR' | 'MARKETING';
 
+export const POST_PURPOSE = {
+  INFORMATION: { code: 'INFORMATION', label: '정보 제공' },
+  OPINION: { code: 'OPINION', label: '의견 표출' },
+  HUMOR: { code: 'HUMOR', label: '공감/유머' },
+  MARKETING: { code: 'MARKETING', label: '홍보/마케팅' },
+} as const;
+
 export type Reference = 'NONE' | 'NEWS' | 'IMAGE';
 
 export type NewsCategory =
@@ -83,9 +83,14 @@ export interface PostGroup {
   topic: string;
   purpose: Purpose;
   reference: Reference;
-  newsCategory?: NewsCategory;
-  postGroupImages: PostImage[];
+  newsCategory: NewsCategory | null;
+  postGroupImages: PostImage[] | null;
   length: PostGroupLength;
   content: string;
   eof: boolean;
 }
+
+export type HomePostGroup = Omit<PostGroup, 'postGroupImages'> & {
+  thumbnailImageUrl: string;
+  createdAt: string;
+};

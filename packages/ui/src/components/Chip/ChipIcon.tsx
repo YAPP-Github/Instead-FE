@@ -1,4 +1,4 @@
-import { ColorsType } from '@repo/theme';
+import { vars } from '@repo/theme';
 import { Icon, IconProps } from '../Icon/Icon';
 import { ButtonVariant } from './ChipItem';
 
@@ -8,7 +8,7 @@ export type ChipIconProps = {
   type?: IconProps['type'];
 } & Omit<IconProps, 'color' | 'name' | 'type'>;
 
-const color: Record<ButtonVariant, keyof ColorsType> = {
+const color: Record<ButtonVariant, keyof typeof vars.colors> = {
   grey: 'grey600',
   purple: 'purple800',
   green: 'green800',

@@ -5,7 +5,8 @@ export type ThemeContract = {
     primary: string;
     primary400to200: string;
     primaryHover: string;
-    warning: string;
+    warning300: string;
+    warning500: string;
     grey: string;
     grey25: string;
     grey50: string;
@@ -39,10 +40,18 @@ export type ThemeContract = {
     primary800: string;
 
     shadow: string;
+    hover: string;
     blue: string;
+
+    //TODO 삭제 예정
+    green200: string;
+    green400: string;
+    green600: string;
+    green800: string;
 
     pink200: string;
     pink400: string;
+    pink600: string;
     pink800: string;
 
     orange200: string;
@@ -52,6 +61,13 @@ export type ThemeContract = {
     blue200: string;
     blue400: string;
     blue800: string;
+
+    purple100: string;
+    purple200: string;
+    purple400: string;
+    purple600: string;
+    purple700: string;
+    purple800: string;
 
     violet0: string;
     violet100: string;

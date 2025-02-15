@@ -1,4 +1,4 @@
-import { tokens } from '@repo/theme';
+import { vars } from '@repo/theme';
 import { recipe, RecipeVariants } from '@vanilla-extract/recipes';
 
 export const chipRecipe = recipe({
@@ -18,16 +18,16 @@ export const chipRecipe = recipe({
   variants: {
     variant: {
       grey: {
-        backgroundColor: tokens.colors.grey50,
-        color: tokens.colors.grey600,
+        backgroundColor: vars.colors.grey50,
+        color: vars.colors.grey600,
       },
       purple: {
-        backgroundColor: tokens.colors.purple200,
-        color: tokens.colors.purple800,
+        backgroundColor: vars.colors.purple200,
+        color: vars.colors.purple800,
       },
       green: {
-        backgroundColor: tokens.colors.green200,
-        color: tokens.colors.green800,
+        backgroundColor: vars.colors.blue200,
+        color: vars.colors.blue800,
       },
     },
   },
@@ -42,13 +42,13 @@ export const addonRootRecipe = recipe({
   variants: {
     color: {
       grey: {
-        color: tokens.colors.grey400,
+        color: vars.colors.grey400,
       },
       purple: {
-        color: tokens.colors.purple400,
+        color: vars.colors.purple400,
       },
       green: {
-        color: tokens.colors.green400,
+        color: vars.colors.blue400,
       },
     },
   },
