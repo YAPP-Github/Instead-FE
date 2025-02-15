@@ -10,7 +10,7 @@ import DNDImage from '@web/assets/images/dndImage.webp';
 import { AgentPlan } from '@web/types/agent';
 import { Text } from '@repo/ui/Text';
 import { Icon } from '@repo/ui/Icon';
-import { ColorsType } from '@repo/theme';
+import { ColorsType, vars } from '@repo/theme';
 import { isNil } from '@repo/ui/utils';
 
 export type AccountItemProps = {
@@ -56,7 +56,7 @@ export function AccountItem({
 }
 
 function AgentPlanBadge({ agentPlan }: { agentPlan: AgentPlan }) {
-  const color: Record<AgentPlan, keyof ColorsType> = {
+  const color: Record<AgentPlan, keyof typeof vars.colors> = {
     BASIC: 'grey300',
     PREMIUM: 'primary600',
   };

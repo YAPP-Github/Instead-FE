@@ -1,11 +1,11 @@
 import { recipe } from '@vanilla-extract/recipes';
-import { vars, tokens } from '@repo/theme';
+import { vars } from '@repo/theme';
 
 export const container = recipe({
   base: {
     display: 'inline-flex',
     alignItems: 'center',
-    gap: tokens.spacing[4],
+    gap: vars.space[4],
     cursor: 'pointer',
     width: 'fit-content',
   },

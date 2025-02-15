@@ -1,4 +1,4 @@
-import { tokens } from '@repo/theme';
+import { vars } from '@repo/theme';
 import { style } from '@vanilla-extract/css';
 
 export const background = style({
@@ -33,8 +33,8 @@ export const image = style({
   borderRadius: '100%',
   width: '4rem',
   height: '4rem',
-  backgroundColor: tokens.colors.grey25,
-  border: `0.1rem solid ${tokens.colors.grey200}`,
+  backgroundColor: vars.colors.grey25,
+  border: `0.1rem solid ${vars.colors.grey200}`,
   objectFit: 'cover',
 });
 

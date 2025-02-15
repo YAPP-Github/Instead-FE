@@ -1,5 +1,5 @@
 import { HTMLAttributes } from 'react';
-import { tokens } from '@repo/theme';
+import { vars } from '@repo/theme';
 import { directionVar, sizeVar, spacingStyle } from './Spacing.css';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 
@@ -7,15 +7,15 @@ export type SpacingDirection = 'row' | 'column';
 
 export type SpacingProps = HTMLAttributes<HTMLDivElement> & {
   direction?: SpacingDirection;
-  size: keyof typeof tokens.spacing;
+  size: keyof typeof vars.space;
 };
 
 export function Spacing({ direction = 'column', size, ...rest }: SpacingProps) {
   const sizeValue =
     direction === 'row'
-      ? tokens.spacing[size]
+      ? vars.space[size]
       : direction === 'column'
-        ? tokens.spacing[size]
+        ? vars.space[size]
         : 'auto';
 
   return (

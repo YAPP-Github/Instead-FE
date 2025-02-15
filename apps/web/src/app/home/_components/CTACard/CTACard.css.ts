@@ -1,12 +1,12 @@
-import { tokens } from '@repo/theme';
+import { vars } from '@repo/theme';
 import { style } from '@vanilla-extract/css';
 
 export const card = style({
   width: '100%',
   display: 'flex',
   justifyContent: 'space-between',
-  borderRadius: tokens.radius[24],
-  backgroundColor: tokens.colors.grey0,
+  borderRadius: vars.borderRadius[24],
+  backgroundColor: vars.colors.grey,
 
   ':hover': {
     boxShadow: '0rem 1.6rem 1.6rem 0rem rgba(74, 98, 139, 0.10)',
@@ -26,6 +26,6 @@ export const createImage = style({
   aspectRatio: '30 / 17',
   maxWidth: '30rem',
   maxHeight: '17rem',
-  borderRadius: tokens.radius[24],
+  borderRadius: vars.borderRadius[24],
   objectFit: 'cover',
 });

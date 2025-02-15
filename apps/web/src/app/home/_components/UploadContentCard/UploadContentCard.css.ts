@@ -1,4 +1,4 @@
-import { tokens } from '@repo/theme';
+import { vars } from '@repo/theme';
 import { style } from '@vanilla-extract/css';
 
 export const card = style({
@@ -7,8 +7,8 @@ export const card = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '1.6rem',
-  borderRadius: tokens.radius[24],
-  backgroundColor: tokens.colors.grey0,
+  borderRadius: vars.borderRadius[24],
+  backgroundColor: vars.colors.grey,
   padding: '1.95rem 2rem',
 });
 
@@ -28,11 +28,11 @@ export const leftText = style({
 export const uploadContentItem = style({
   display: 'flex',
   justifyContent: 'space-between',
-  borderRadius: tokens.radius[12],
+  borderRadius: vars.borderRadius[12],
   padding: '1.2rem 1.6rem 1.2rem 1.2rem',
   cursor: 'pointer',
   ':hover': {
-    backgroundColor: tokens.colors.hover,
+    backgroundColor: vars.colors.hover,
     padding: '1.2rem 1.6rem 1.2rem 2rem',
   },
 });

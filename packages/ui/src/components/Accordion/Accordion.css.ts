@@ -1,4 +1,4 @@
-import { tokens } from '@repo/theme';
+import { vars } from '@repo/theme';
 import { style } from '@vanilla-extract/css';
 
 export const accordionRoot = style({
@@ -17,7 +17,7 @@ export const accordionTrigger = style({
 });
 
 export const accordionContentItem = style({
-  borderBottom: `1px solid ${tokens.colors.grey100}`,
+  borderBottom: `1px solid ${vars.colors.grey100}`,
 
   selectors: {
     '&:last-child': {

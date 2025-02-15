@@ -1,4 +1,4 @@
-import { tokens } from '@repo/theme';
+import { vars } from '@repo/theme';
 import { style } from '@vanilla-extract/css';
 
 export const card = style({
@@ -6,8 +6,8 @@ export const card = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '2.4rem',
-  borderRadius: tokens.radius[24],
-  backgroundColor: tokens.colors.grey0,
+  borderRadius: vars.borderRadius[24],
+  backgroundColor: vars.colors.grey,
   padding: '2.4rem 3.2rem',
   cursor: 'pointer',
 });
@@ -34,7 +34,7 @@ export const contentGroupImage = style({
   minWidth: '20rem',
   aspectRatio: '392 / 224',
   objectFit: 'cover',
-  borderRadius: tokens.radius[16],
+  borderRadius: vars.borderRadius[16],
 });
 
 export const contentGroupText = style({

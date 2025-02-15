@@ -1,6 +1,6 @@
 import { SVGProps } from 'react';
 import { icons } from './assets';
-import { tokens } from '@repo/theme';
+import { vars } from '@repo/theme';
 import * as styles from './Icon.css';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
 
@@ -9,7 +9,7 @@ export type IconName = keyof typeof icons;
 export type IconProps = SVGProps<SVGSVGElement> & {
   name: IconName;
   type?: 'fill' | 'stroke';
-  color?: keyof typeof tokens.colors;
+  color?: keyof typeof vars.colors;
   size?: number | string;
   'aria-label'?: string;
 };
@@ -28,10 +28,10 @@ export function Icon({
 
   const colorStyle = {
     ...(type !== 'stroke' && {
-      [styles.fillColor]: color ? tokens.colors[color] : 'currentColor',
+      [styles.fillColor]: color ? vars.colors[color] : 'currentColor',
     }),
     ...(type !== 'fill' && {
-      [styles.strokeColor]: color ? tokens.colors[color] : 'currentColor',
+      [styles.strokeColor]: color ? vars.colors[color] : 'currentColor',
     }),
   };
 
