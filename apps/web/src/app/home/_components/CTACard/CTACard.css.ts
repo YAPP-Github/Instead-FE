@@ -3,7 +3,6 @@ import { style } from '@vanilla-extract/css';
 
 export const card = style({
   width: '100%',
-  minWidth: 'rem',
   display: 'flex',
   justifyContent: 'space-between',
   borderRadius: tokens.radius[24],

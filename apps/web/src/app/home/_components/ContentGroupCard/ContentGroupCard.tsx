@@ -21,8 +21,8 @@ import { IconButton } from '@repo/ui/IconButton';
 export type ContentGroupCardProps = {
   text: string;
   postGroups: HomePostGroup[];
-  onItemClick: (id: number | string) => void;
-  onItemRemove: (id: number | string) => void;
+  onItemClick: (id: number) => void;
+  onItemRemove: (id: number) => void;
 };
 
 export function ContentGroupCard({

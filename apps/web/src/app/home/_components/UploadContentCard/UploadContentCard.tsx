@@ -14,7 +14,7 @@ export type UploadContentCardProps = {
   text: string;
   onMoreButtonClick: () => void;
   items: Post[];
-  onItemClick: (id: number | string) => void;
+  onItemClick: (id: number) => void;
 };
 
 export function UploadContentCard({
@@ -39,7 +39,7 @@ export function UploadContentCard({
         </Button>
       </div>
       <div>
-        {items?.map((item) => (
+        {items.map((item) => (
           <UploadContentItem
             key={item.id}
             item={item}
