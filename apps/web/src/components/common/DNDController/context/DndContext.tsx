@@ -1,3 +1,5 @@
+'use client';
+
 import React, { ReactNode } from 'react';
 import { createContext, useContext } from 'react';
 import {
@@ -11,16 +13,16 @@ import {
   MeasuringStrategy,
 } from '@dnd-kit/core';
 import { useDragAndDrop } from '../hooks';
-import { Post } from '@web/types';
+import { Post, PostStatus } from '@web/types';
 
 export type DndItemData = Post;
 
 type DndControllerProviderProps = {
-  initialItems: DndItemData[];
+  initialItems: Record<PostStatus, Post[]>;
   children: ReactNode;
-  onDragEnd?: (items: DndItemData[]) => void;
+  onDragEnd?: (items: Record<PostStatus, Post[]>) => void;
   disabled?: boolean;
-  renderDragOverlay?: (activeItem: DndItemData) => ReactNode;
+  renderDragOverlay?: (activeItem: Post) => ReactNode;
 };
 
 type DndControllerContextType = ReturnType<typeof useDragAndDrop>;
@@ -57,7 +59,9 @@ export function DndControllerProvider({
   });
 
   const activeItem = dnd.activeId
-    ? dnd.items.find((item) => item.id === dnd.activeId)
+    ? Object.values(dnd.items)
+        .flat()
+        .find((item) => item.id === dnd.activeId)
     : null;
 
   return (
@@ -79,9 +83,6 @@ export function DndControllerProvider({
               dnd.handleDragEnd(event);
             }
       }
-      measuring={{
-        droppable: { strategy: MeasuringStrategy.Always },
-      }}
     >
       <DndControllerContext.Provider value={dnd}>
         {children}

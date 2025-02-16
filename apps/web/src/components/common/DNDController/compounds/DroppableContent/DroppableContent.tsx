@@ -14,6 +14,7 @@ export function DroppableContent({ id, children }: DroppableContentProps) {
     id,
     data: {
       type: 'container',
+      status: id,
       accepts: ['item'],
     },
   });
