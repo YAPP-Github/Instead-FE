@@ -3,7 +3,7 @@ import { style } from '@vanilla-extract/css';
 
 export const card = style({
   width: '100%',
-  maxWidth: '62.8rem',
+  minWidth: '62.8rem',
   display: 'flex',
   flexDirection: 'column',
   gap: '1.6rem',

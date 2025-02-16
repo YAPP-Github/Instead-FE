@@ -30,6 +30,6 @@ export interface Agent {
 export interface AgentPersonalSetting {
   domain: string;
   introduction: string;
-  tone: string;
+  tone: AgentTone;
   customTone: string;
 }
