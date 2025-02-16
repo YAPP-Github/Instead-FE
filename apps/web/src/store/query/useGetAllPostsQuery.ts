@@ -1,7 +1,6 @@
 import { GET } from '@web/shared/server';
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
-import { IdParams, Post } from '@web/types';
-import { PostGroup } from '@web/types/post';
+import type { IdParams, PostGroup, PostsByStatus } from '@web/types';
 import { Tokens } from '@web/shared/server/types';
 import { queryKeys } from '../constants';
 
@@ -14,7 +13,7 @@ export type GetAllPostsParams = Omit<IdParams, 'postId'> & {
 
 export interface GetAllPostsResponse {
   postGroup: PostGroup;
-  posts: Post[];
+  posts: PostsByStatus;
 }
 
 /**
