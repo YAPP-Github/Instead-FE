@@ -1,3 +1,5 @@
+'use client';
+
 import { useDroppable } from '@dnd-kit/core';
 import { ReactNode } from 'react';
 import * as style from './DroppableContent.css';
