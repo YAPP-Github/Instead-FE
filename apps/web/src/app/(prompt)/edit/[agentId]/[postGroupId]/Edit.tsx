@@ -13,7 +13,6 @@ import { useRouter } from 'next/navigation';
 import { EditContent } from './_components/EditContent/EditContent';
 import { ContentItem } from '@web/components/common/DNDController/compounds';
 import { ROUTES } from '@web/routes';
-import { Suspense } from 'react';
 
 export default function Edit({ params }: EditPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({ threshold: 100 });
@@ -64,36 +63,34 @@ export default function Edit({ params }: EditPageProps) {
         isScrolled={isScrolled}
       />
 
-      <Suspense>
-        <DndController
-          initialItems={posts.data.posts}
-          key={Object.values(posts.data.posts)
-            .flat()
-            .map((p) => p.id)
-            .join(',')}
-          onDragEnd={(updatedItems) => {
-            const updatePayload = {
-              posts: Object.values(updatedItems)
-                .flat()
-                .map((item) => ({
-                  postId: item.id,
-                  status: item.status,
-                  displayOrder: item.displayOrder,
-                  uploadTime: item.uploadTime,
-                })),
-            };
-            updatePosts(updatePayload);
-          }}
-          renderDragOverlay={(activeItem) => (
-            <ContentItem
-              summary={activeItem.summary}
-              updatedAt={activeItem.updatedAt}
-            />
-          )}
-        >
-          <EditContent params={params} />
-        </DndController>
-      </Suspense>
+      <DndController
+        initialItems={posts.data.posts}
+        key={Object.values(posts.data.posts)
+          .flat()
+          .map((item) => `${item.id}-${item.displayOrder}-${item.status}`)
+          .join(',')}
+        onDragEnd={(updatedItems) => {
+          const updatePayload = {
+            posts: Object.values(updatedItems)
+              .flat()
+              .map((item) => ({
+                postId: item.id,
+                status: item.status,
+                displayOrder: item.displayOrder,
+                uploadTime: item.uploadTime,
+              })),
+          };
+          updatePosts(updatePayload);
+        }}
+        renderDragOverlay={(activeItem) => (
+          <ContentItem
+            summary={activeItem.summary}
+            updatedAt={activeItem.updatedAt}
+          />
+        )}
+      >
+        <EditContent params={params} />
+      </DndController>
     </div>
   );
 }

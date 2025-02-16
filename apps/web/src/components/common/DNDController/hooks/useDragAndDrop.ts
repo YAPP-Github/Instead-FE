@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { DragEndEvent, DragOverEvent } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import { Post, PostStatus } from '@web/types';
@@ -14,12 +14,15 @@ export function useDragAndDrop({
   initialItems,
   onDragEnd,
 }: UseDragAndDropProps) {
-  const [items, setItems] = useState<Record<PostStatus, Post[]>>(initialItems);
+  const [items, setItems] = useState(initialItems);
   const [activeId, setActiveId] = useState<number | null>(null);
 
-  const getItemsByStatus = (status: PostStatus) => {
-    return items[status] || [];
-  };
+  const getItemsByStatus = useCallback(
+    (status: PostStatus) => {
+      return items[status] || [];
+    },
+    [items]
+  );
 
   const handleDragOver = (event: DragOverEvent) => {
     const { active, over } = event;
@@ -35,21 +38,23 @@ export function useDragAndDrop({
       const targetStatus = over.id as PostStatus;
       if (draggedItem.status === targetStatus) return;
 
-      setItems((prev) => {
-        const targetItems = prev[targetStatus];
-        const updatedItem = {
-          ...draggedItem,
-          status: targetStatus,
-          displayOrder: targetItems.length, // 마지막 순서로 이동
-        };
+      const targetItems = items[targetStatus];
+      const updatedItem = {
+        ...draggedItem,
+        status: targetStatus,
+        displayOrder: over.data?.current?.sortable?.index ?? targetItems.length,
+      };
 
-        return {
-          ...prev,
-          [draggedItem.status]: prev[draggedItem.status]
-            .filter((item) => item.id !== draggedItemId)
-            .map((item, index) => ({ ...item, displayOrder: index })),
-          [targetStatus]: [...targetItems, updatedItem],
-        };
+      setItems({
+        ...items,
+        [draggedItem.status]: items[draggedItem.status]
+          .filter((item) => item.id !== draggedItemId)
+          .map((item, index) => ({ ...item, displayOrder: index })),
+        [targetStatus]: [
+          ...targetItems.slice(0, updatedItem.displayOrder),
+          updatedItem,
+          ...targetItems.slice(updatedItem.displayOrder),
+        ].map((item, index) => ({ ...item, displayOrder: index })),
       });
       return;
     }
@@ -61,46 +66,44 @@ export function useDragAndDrop({
     const overItem = allItems.find((item) => item.id === overId);
     if (!overItem) return;
 
-    setItems((prev) => {
-      if (draggedItem.status === overItem.status) {
-        // 같은 상태 내에서의 이동
-        const currentItems = [...prev[draggedItem.status]];
-        const oldIndex = currentItems.findIndex(
-          (item) => item.id === draggedItemId
-        );
-        const newIndex = currentItems.findIndex((item) => item.id === overId);
-        const reorderedItems = arrayMove(currentItems, oldIndex, newIndex).map(
-          (item, index) => ({ ...item, displayOrder: index })
-        );
+    if (draggedItem.status === overItem.status) {
+      // 같은 상태 내에서의 이동
+      const currentItems = [...items[draggedItem.status]];
+      const oldIndex = currentItems.findIndex(
+        (item) => item.id === draggedItemId
+      );
+      const newIndex = currentItems.findIndex((item) => item.id === overId);
+      const reorderedItems = arrayMove(currentItems, oldIndex, newIndex).map(
+        (item, index) => ({ ...item, displayOrder: index })
+      );
 
-        return {
-          ...prev,
-          [draggedItem.status]: reorderedItems,
-        };
-      } else {
-        // 다른 상태로의 이동
-        const targetItems = [...prev[overItem.status]];
-        const targetIndex = targetItems.findIndex((item) => item.id === overId);
-        const updatedItem = {
-          ...draggedItem,
-          status: overItem.status,
-          displayOrder: targetIndex,
-        };
+      setItems({
+        ...items,
+        [draggedItem.status]: reorderedItems,
+      });
+    } else {
+      // 다른 상태로의 이동
+      const targetItems = [...items[overItem.status]];
+      const targetIndex = targetItems.findIndex((item) => item.id === overId);
 
-        targetItems.splice(targetIndex, 0, updatedItem);
+      const updatedItem = {
+        ...draggedItem,
+        status: overItem.status,
+        displayOrder: targetIndex,
+      };
 
-        return {
-          ...prev,
-          [draggedItem.status]: prev[draggedItem.status]
-            .filter((item) => item.id !== draggedItemId)
-            .map((item, index) => ({ ...item, displayOrder: index })),
-          [overItem.status]: targetItems.map((item, index) => ({
-            ...item,
-            displayOrder: index,
-          })),
-        };
-      }
-    });
+      setItems({
+        ...items,
+        [draggedItem.status]: items[draggedItem.status]
+          .filter((item) => item.id !== draggedItemId)
+          .map((item, index) => ({ ...item, displayOrder: index })),
+        [overItem.status]: [
+          ...targetItems.slice(0, targetIndex),
+          updatedItem,
+          ...targetItems.slice(targetIndex),
+        ].map((item, index) => ({ ...item, displayOrder: index })),
+      });
+    }
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
