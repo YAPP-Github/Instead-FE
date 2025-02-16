@@ -5,7 +5,7 @@ import { Tokens } from '@web/shared/server/types';
 import { queryKeys } from '../constants';
 
 const STALE_TIME = 1000 * 60 * 1;
-const GC_TIME = 1000 * 60 * 1;
+const GC_TIME = 1000 * 60 * 2;
 
 export type GetAllPostsParams = Omit<IdParams, 'postId'> & {
   tokens?: Tokens;
