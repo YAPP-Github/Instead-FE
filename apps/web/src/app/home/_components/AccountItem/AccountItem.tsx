@@ -57,13 +57,17 @@ export function AccountItem({
 
 function AgentPlanBadge({ agentPlan }: { agentPlan: AgentPlan }) {
   const color: Record<AgentPlan, keyof typeof vars.colors> = {
+    FREE: 'grey300',
     BASIC: 'grey300',
     PREMIUM: 'primary600',
+    PREMIUM_PLUS: 'primary600',
   };
 
   const plan: Record<AgentPlan, string> = {
-    BASIC: '무료',
-    PREMIUM: '프리미엄 플러스',
+    FREE: '무료',
+    BASIC: '베이직',
+    PREMIUM: '프리미엄',
+    PREMIUM_PLUS: '프리미엄 플러스',
   };
   return (
     <div className={agentPlanBadge}>

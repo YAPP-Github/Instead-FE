@@ -163,12 +163,13 @@ export default function Home() {
                   purpose: 'OPINION',
                   reference: 'NONE',
                   newsCategory: 'ENVIRONMENT',
-                  thumbnailImageUrl:
+                  thumbnailImage:
                     'https://instead-dev.s3.ap-northeast-2.amazonaws.com/post-group/019504d8-92ee-713e-aea0-347ce4d7bebf',
                   length: 'SHORT',
                   content: "'이런 메뉴는 어떨까?'와 같은 마무리 멘트",
                   eof: false,
                   createdAt: '2025-01-01T00:00:00.000Z',
+                  postGroupImages: [],
                 },
                 {
                   id: 2,
@@ -176,12 +177,13 @@ export default function Home() {
                   purpose: 'HUMOR',
                   reference: 'NONE',
                   newsCategory: 'GAME',
-                  thumbnailImageUrl:
+                  thumbnailImage:
                     'https://instead-dev.s3.ap-northeast-2.amazonaws.com/post-group/019504d8-92ee-713e-aea0-347ce4d7bebf',
                   length: 'SHORT',
                   content: "'이런 메뉴는 어떨까?'와 같은 마무리 멘트",
                   eof: false,
                   createdAt: '2025-01-01T00:00:00.000Z',
+                  postGroupImages: [],
                 },
                 {
                   id: 3,
@@ -189,12 +191,13 @@ export default function Home() {
                   purpose: 'HUMOR',
                   reference: 'NONE',
                   newsCategory: 'GAME',
-                  thumbnailImageUrl:
+                  thumbnailImage:
                     'https://instead-dev.s3.ap-northeast-2.amazonaws.com/post-group/019504d8-92ee-713e-aea0-347ce4d7bebf',
                   length: 'SHORT',
                   content: "'이런 메뉴는 어떨까?'와 같은 마무리 멘트",
                   eof: false,
                   createdAt: '2025-01-01T00:00:00.000Z',
+                  postGroupImages: [],
                 },
               ]}
               onItemClick={function (id: number | string): void {

@@ -88,9 +88,6 @@ export interface PostGroup {
   length: PostGroupLength;
   content: string;
   eof: boolean;
-}
-
-export type HomePostGroup = Omit<PostGroup, 'postGroupImages'> & {
-  thumbnailImageUrl: string;
+  thumbnailImage: string;
   createdAt: string;
-};
+}

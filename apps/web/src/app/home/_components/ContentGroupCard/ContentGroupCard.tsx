@@ -10,7 +10,7 @@ import {
   items,
   leftText,
 } from './ContentGroupCard.css';
-import { HomePostGroup, POST_PURPOSE } from '@web/types/post';
+import { POST_PURPOSE, PostGroup } from '@web/types/post';
 import Image from 'next/image';
 import { getFormattedYearMonthDayHour } from '@web/utils/getFormattedYearMonthDayHour';
 import { motion } from 'motion/react';
@@ -20,7 +20,7 @@ import { IconButton } from '@repo/ui/IconButton';
 
 export type ContentGroupCardProps = {
   text: string;
-  postGroups: HomePostGroup[];
+  postGroups: PostGroup[];
   onItemClick: (id: number) => void;
   onItemRemove: (id: number) => void;
 };
@@ -56,7 +56,7 @@ export function ContentGroupCard({
 }
 
 export type ContentGroupItemProps = {
-  item: HomePostGroup;
+  item: PostGroup;
   onItemClick: () => void;
   onItemRemove: () => void;
 };
@@ -82,7 +82,7 @@ export function ContentGroupItem({
         <Image
           width={392}
           height={224}
-          src={item.thumbnailImageUrl}
+          src={item.thumbnailImage}
           alt="content thumbnail"
           className={contentGroupImage}
         />
