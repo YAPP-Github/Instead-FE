@@ -3,7 +3,6 @@ import { ServerFetchBoundary } from '@web/store/query/ServerFetchBoundary';
 import { getServerSideTokens } from '@web/shared/server/serverSideTokens';
 import { ScheduleDetailPageProps } from './type';
 import { getPostQueryOptions } from '@web/store/query/useGetPostQuery';
-import { getAllPostsQueryOptions } from '@web/store/query/useGetAllPostsQuery';
 
 export default function ScheduleDetailPage({
   params,
@@ -16,16 +15,8 @@ export default function ScheduleDetailPage({
     tokens,
   });
 
-  const serverFetchOption2 = getAllPostsQueryOptions({
-    agentId: params.agentId,
-    postGroupId: params.postGroupId,
-    tokens,
-  });
-
   return (
-    <ServerFetchBoundary
-      fetchOptions={[serverFetchOptions, serverFetchOption2]}
-    >
+    <ServerFetchBoundary fetchOptions={serverFetchOptions}>
       <ScheduleDetail params={params} />
     </ServerFetchBoundary>
   );
