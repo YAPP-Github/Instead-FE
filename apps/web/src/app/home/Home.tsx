@@ -131,6 +131,7 @@ export default function Home() {
                     ],
                     status: 'GENERATED',
                     uploadTime: '2025-01-01T00:00:00.000Z',
+                    postGroupId: 1,
                   },
                   {
                     id: 2,
@@ -148,6 +149,7 @@ export default function Home() {
                     ],
                     status: 'GENERATED',
                     uploadTime: '2025-01-01T00:00:00.000Z',
+                    postGroupId: 2,
                   },
                 ]}
               />
