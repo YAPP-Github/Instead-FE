@@ -6,12 +6,14 @@ import { POST_STATUS } from '@web/types/post';
 import { TableRow } from '../TableRow/TableRow';
 import { Column } from './types';
 import { useRouter } from 'next/navigation';
+import { ROUTES } from '@web/routes';
+import { EditPageProps } from '../../../types';
 
 export type ScheduleTableProps = {
   columns: Column[];
-};
+} & EditPageProps;
 
-export function ScheduleTable({ columns }: ScheduleTableProps) {
+export function ScheduleTable({ columns, params }: ScheduleTableProps) {
   const { getItemsByStatus } = useDndController();
   const data = getItemsByStatus(POST_STATUS.READY_TO_UPLOAD);
   const router = useRouter();
@@ -43,7 +45,13 @@ export function ScheduleTable({ columns }: ScheduleTableProps) {
                   columns={columns}
                   {...item}
                   onClick={() => {
-                    router.push(`./schedule/detail/${item.id}`);
+                    router.push(
+                      ROUTES.SCHEDULE.DETAIL({
+                        agentId: params.agentId,
+                        postGroupId: item.postGroupId,
+                        postId: item.id,
+                      })
+                    );
                   }}
                 />
               </DndController.Item>
