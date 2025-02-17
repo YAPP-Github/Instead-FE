@@ -4,6 +4,7 @@ import { DropdownRoot } from './DropdownRoot';
 import { DropdownItem } from './DropdownItem';
 import { DropdownContent } from './DropdownContent';
 import { DropdownTrigger } from './DropdownTrigger';
+import { DropdownIcon } from './DropdownIcon';
 
 /**
  * @example
@@ -40,9 +41,11 @@ export const Dropdown = Object.assign(DropdownRoot, {
   Item: DropdownItem,
   Content: DropdownContent,
   Trigger: DropdownTrigger,
+  Icon: DropdownIcon,
 });
 
 export type { DropdownProps } from './DropdownRoot';
 export type { DropdownItemProps } from './DropdownItem';
 export type { DropdownContentProps } from './DropdownContent';
 export type { DropdownTriggerProps } from './DropdownTrigger';
+export type { DropdownIconProps } from './DropdownIcon';

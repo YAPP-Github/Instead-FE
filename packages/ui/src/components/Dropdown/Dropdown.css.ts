@@ -1,5 +1,6 @@
 import { vars } from '@repo/theme';
 import { style } from '@vanilla-extract/css';
+import { recipe } from '@vanilla-extract/recipes';
 
 export const dropdownRoot = style({
   position: 'relative',
@@ -52,5 +53,20 @@ export const dropdownItem = style({
     '&:hover': {
       backgroundColor: vars.colors.grey25,
     },
+  },
+});
+
+export const dropdownIcon = recipe({
+  base: {
+    transition: 'transform 0.3s ease',
+  },
+  variants: {
+    open: {
+      true: { transform: 'rotate(-180deg)' },
+      false: { transform: 'rotate(0deg)' },
+    },
+  },
+  defaultVariants: {
+    open: false,
   },
 });
