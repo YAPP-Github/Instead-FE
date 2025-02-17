@@ -15,6 +15,8 @@ body {
   max-width: 100vw;
   overflow-x: hidden;
   font-size: 62.5%;
+  margin: 0;
+  padding: 0;
 
   @media (max-width: 1680px) {
     font-size: 50%;
@@ -34,6 +36,8 @@ body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  scrollbar-width: thin; /* auto, thin, none 중 선택 */
+  scrollbar-color: var(--color-grey-200, #c1ceda) transparent;
 }
 
 a {
@@ -45,4 +49,28 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+/* 전체 스크롤바 너비 */
+::-webkit-scrollbar {
+  width: 8px; /* 필요에 따라 너비 조정 */
+}
+
+/* 스크롤바 트랙 (배경) */
+::-webkit-scrollbar-track {
+  background: transparent; /* 혹은 원하는 색상 지정 */
+}
+
+/* 스크롤바 thumb (실제 스크롤바 부분) */
+::-webkit-scrollbar-thumb {
+  background: var(--color-grey-200, #c1ceda);
+  border-radius: 4px;
+}
+
+/* 스크롤바 thumb hover 상태 */
+::-webkit-scrollbar-thumb:hover {
+  background: var(
+    --color-grey-200,
+    #c1ceda
+  ); /* hover 시 약간 다른 색상 사용 가능 */
 }
