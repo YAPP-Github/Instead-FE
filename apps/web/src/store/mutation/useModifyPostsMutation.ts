@@ -15,7 +15,9 @@ type NullablePostFields = {
 export interface MutationModifyPostsRequest extends NullablePostFields {
   postId: Post['id'];
 }
-
+/**
+ * @deprecated 더 이상 사용하지 않음. useUpdatePostsMutation를 사용해주세요.
+ */
 export function useModifyPostsMutation({
   agentId,
   postGroupId,

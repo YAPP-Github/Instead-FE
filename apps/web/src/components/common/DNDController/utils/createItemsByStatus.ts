@@ -1,14 +1,11 @@
-import { Post } from '@web/types';
+import { Post, POST_STATUS, PostStatus } from '@web/types';
 
-export function createItemsByStatus(
-  items: Post[]
-): Record<Post['status'], Post[]> {
-  return items.reduce(
-    (acc, item) => {
-      if (!acc[item.status]) acc[item.status] = [];
-      acc[item.status].push(item);
+export function createItemsByStatus(items: Post[]): Record<PostStatus, Post[]> {
+  return Object.values(POST_STATUS).reduce(
+    (acc, status) => {
+      acc[status] = items.filter((item) => item.status === status);
       return acc;
     },
-    {} as Record<Post['status'], Post[]>
+    {} as Record<PostStatus, Post[]>
   );
 }

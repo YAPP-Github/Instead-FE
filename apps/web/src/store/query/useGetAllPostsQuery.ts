@@ -1,20 +1,19 @@
 import { GET } from '@web/shared/server';
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
-import { Post } from '@web/types';
-import { EditPageParams } from '@web/app/(prompt)/edit/[agentId]/[postGroupId]/types';
-import { PostGroup } from '@web/types/post';
+import type { IdParams, PostGroup, PostsByStatus } from '@web/types';
 import { Tokens } from '@web/shared/server/types';
+import { queryKeys } from '../constants';
 
 const STALE_TIME = 1000 * 60 * 1;
-const GC_TIME = 1000 * 60 * 1;
+const GC_TIME = 1000 * 60 * 2;
 
-export type GetAllPostsParams = EditPageParams & {
+export type GetAllPostsParams = Omit<IdParams, 'postId'> & {
   tokens?: Tokens;
 };
 
 export interface GetAllPostsResponse {
   postGroup: PostGroup;
-  posts: Post[];
+  posts: PostsByStatus;
 }
 
 /**
@@ -28,7 +27,7 @@ export function getAllPostsQueryOptions({
   tokens,
 }: GetAllPostsParams) {
   return queryOptions({
-    queryKey: ['posts', agentId, postGroupId],
+    queryKey: queryKeys.posts.all(agentId, postGroupId),
     queryFn: () =>
       GET<GetAllPostsResponse>(
         `agents/${agentId}/post-groups/${postGroupId}/posts`,

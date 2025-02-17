@@ -1,6 +1,7 @@
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
 import { GET } from '@web/shared/server/fetch';
 import { Tokens } from '@web/shared/server/types';
+import { queryKeys } from '../constants';
 
 export interface NewsCategory {
   /**
@@ -17,7 +18,7 @@ type NewsCategoriesQuery = NewsCategory[];
 
 export function newsCategoriesQueryOptions(tokens?: Tokens) {
   return queryOptions({
-    queryKey: ['news', 'categories'],
+    queryKey: queryKeys.news.categories,
     queryFn: () =>
       GET<NewsCategoriesQuery>(`news-categories`, undefined, tokens),
     // NOTE: 항상 fresh 상태로 유지

@@ -129,7 +129,7 @@ export const counterStyle = recipe({
         color: vars.colors.grey500,
       },
       true: {
-        color: vars.colors.warning,
+        color: vars.colors.warning500,
       },
     },
   },
@@ -142,7 +142,7 @@ export const labelStyle = recipe({
   variants: {
     isError: {
       true: {
-        color: vars.colors.warning,
+        color: vars.colors.warning500,
       },
     },
   },

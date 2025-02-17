@@ -2,12 +2,9 @@ import { ServerFetchBoundary } from '@web/store/query/ServerFetchBoundary';
 import { EditDetail } from './EditDetail';
 import { getServerSideTokens } from '@web/shared/server/serverSideTokens';
 import { groupPostsQueryQueryOptions } from '@web/store/query/useGroupPostsQuery';
+import { EditPageProps } from '../types';
 
-type EditDetailPageProps = {
-  params: { agentId: string; postGroupId: string };
-};
-
-export default function EditDetailPage({ params }: EditDetailPageProps) {
+export default function EditDetailPage({ params }: EditPageProps) {
   const tokens = getServerSideTokens();
   const serverFetchOptions = groupPostsQueryQueryOptions(
     Number(params.agentId),

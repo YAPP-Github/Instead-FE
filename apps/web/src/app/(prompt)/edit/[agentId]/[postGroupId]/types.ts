@@ -1,8 +1,5 @@
-export type EditPageProps = {
-  params: EditPageParams;
-};
+import { IdParams } from '@web/types';
 
-export type EditPageParams = {
-  agentId: string;
-  postGroupId: string;
+export type EditPageProps = {
+  params: Omit<IdParams, 'postId'>;
 };

@@ -1,4 +1,4 @@
-import { tokens, TypographyType } from '@repo/theme';
+import { vars, TypographyType } from '@repo/theme';
 import { ComponentPropsWithoutRef } from 'react';
 import { colorVar, sizeVar, textStyle, weightVar } from './Text.css';
 import { assignInlineVars } from '@vanilla-extract/dynamic';
@@ -16,7 +16,7 @@ export type AllowedTags =
 
 export type TextProps<T extends AllowedTags> = {
   as?: T;
-  color?: keyof typeof tokens.colors;
+  color?: keyof typeof vars.colors;
   fontSize?: keyof TypographyType['fontSize'];
   fontWeight?: keyof TypographyType['fontWeight'];
 } & ComponentPropsWithoutRef<T>;
@@ -36,9 +36,9 @@ export function Text<T extends AllowedTags = 'span'>({
       className={`${textStyle} ${className}`}
       style={{
         ...assignInlineVars({
-          [colorVar]: color ? tokens.colors[color] : 'inherit',
-          [sizeVar]: tokens.typography.fontSize[fontSize],
-          [weightVar]: tokens.typography.fontWeight[fontWeight],
+          [colorVar]: color ? vars.colors[color] : 'inherit',
+          [sizeVar]: vars.typography.fontSize[fontSize],
+          [weightVar]: vars.typography.fontWeight[fontWeight],
         }),
       }}
       {...rest}

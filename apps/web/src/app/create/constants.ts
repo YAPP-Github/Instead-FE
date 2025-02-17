@@ -66,18 +66,15 @@ export const LENGTH_OPTIONS = [
     value: LENGTH_TYPE.SHORT,
     label: '짧은 게시물',
     description: '약 1~2문장, 최대 140자',
-    badge: '누구나 이용 가능',
   },
   {
     value: LENGTH_TYPE.MEDIUM,
     label: '보통 게시물',
     description: '약 3~4문장, 최대 300자',
-    badge: 'X 유료 구독 전용',
   },
   {
     value: LENGTH_TYPE.LONG,
     label: '긴 게시물',
     description: '약 7~8문장, 최대 1000자',
-    badge: 'X 유료 구독 전용',
   },
 ] as const;

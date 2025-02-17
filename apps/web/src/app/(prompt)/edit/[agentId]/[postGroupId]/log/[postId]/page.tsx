@@ -12,12 +12,12 @@ type LogPageProps = {
 export default function LogPage({ params }: LogPageProps) {
   const tokens = getServerSideTokens();
 
-  const serverFetchOptions = PostHistoryQueryQueryOptions(
-    Number(params.agentId),
-    Number(params.postGroupId),
-    Number(params.postId),
-    tokens
-  );
+  const serverFetchOptions = PostHistoryQueryQueryOptions({
+    agentId: Number(params.agentId),
+    postGroupId: Number(params.postGroupId),
+    postId: Number(params.postId),
+    tokens,
+  });
   return (
     <ServerFetchBoundary fetchOptions={serverFetchOptions}>
       <Log />

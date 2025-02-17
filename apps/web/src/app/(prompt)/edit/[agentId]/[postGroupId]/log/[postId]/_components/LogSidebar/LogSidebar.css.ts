@@ -1,11 +1,11 @@
-import { tokens } from '@repo/theme';
+import { vars } from '@repo/theme';
 import { style } from '@vanilla-extract/css';
 
 export const sidebarWrapper = style({
   width: '42.3rem',
   height: '100vh',
   flexShrink: '0',
-  backgroundColor: `${tokens.colors.grey0}`,
+  backgroundColor: `${vars.colors.grey}`,
 });
 
 export const closeArea = style({

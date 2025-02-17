@@ -2,19 +2,51 @@
 
 import { DndController, useDndController } from '@web/components/common';
 import * as style from './ScheduleTable.css';
+import { Post } from '@web/types';
+import { useRouter } from 'next/navigation';
+import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation';
+import { Modal } from '@repo/ui';
+import { useModal } from '@repo/ui/hooks';
 import { POST_STATUS } from '@web/types/post';
 import { TableRow } from '../TableRow/TableRow';
 import { Column } from './types';
-import { useRouter } from 'next/navigation';
+import { EditPageProps } from '../../../types';
+import { ROUTES } from '@web/routes';
 
 export type ScheduleTableProps = {
   columns: Column[];
-};
+} & EditPageProps;
 
 export function ScheduleTable({ columns }: ScheduleTableProps) {
   const { getItemsByStatus } = useDndController();
   const data = getItemsByStatus(POST_STATUS.READY_TO_UPLOAD);
-  const router = useRouter();
+
+  const { mutate: deletePost } = useDeletePostMutation(params);
+
+  const handleModify = (postId: Post['id']) => {
+    router.push(
+      ROUTES.EDIT.DETAIL({
+        agentId: Number(params.agentId),
+        postGroupId: Number(params.postGroupId),
+        postId,
+      })
+    );
+  };
+
+  const handleDeletePost = (postId: Post['id']) => {
+    modal.confirm({
+      title: '정말 삭제하시겠어요?',
+      description: '삭제된 글은 복구할 수 없어요',
+      icon: <Modal.Icon name="notice" color="warning500" />,
+      confirmButton: '삭제하기',
+      cancelButton: '취소',
+      confirmButtonProps: {
+        onClick: () => {
+          deletePost(postId);
+        },
+      },
+    });
+  };
 
   return (
     <div className={style.tableContainer}>
