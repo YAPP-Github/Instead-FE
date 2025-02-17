@@ -1,4 +1,5 @@
-import { style } from '@vanilla-extract/css';
+import { vars } from '@repo/theme';
+import { globalStyle, style } from '@vanilla-extract/css';
 
 export const wrapper = style({
   width: '100%',
@@ -31,4 +32,22 @@ export const titleWrapper = style({
   alignItems: 'center',
   gap: '1.6rem',
   padding: '1.6rem 1.2rem 3.2rem 1.2rem',
+});
+
+export const chipDropdownTrigger = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.8rem',
+  padding: '1.2rem 0.8rem',
+  borderRadius: vars.borderRadius[12],
+
+  ':hover': {
+    backgroundColor: vars.colors.grey25,
+  },
+});
+
+export const dropdownItem = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '1rem',
 });

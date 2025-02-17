@@ -4,6 +4,7 @@ export const editDetailPage = style({
   display: 'flex',
   height: '100vh',
   flexShrink: 0,
+  overflow: 'hidden',
 });
 
 export const flexColumn = style({

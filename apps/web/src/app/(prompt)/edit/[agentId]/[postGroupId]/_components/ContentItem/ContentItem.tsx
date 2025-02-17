@@ -1,4 +1,6 @@
-import { ComponentPropsWithoutRef, forwardRef } from 'react';
+'use client';
+
+import { ComponentPropsWithoutRef, forwardRef, useEffect, useRef } from 'react';
 import { getTimeAgo } from '@web/utils';
 import {
   contentItemStyle,
@@ -11,6 +13,7 @@ import { Icon } from '@repo/ui/Icon';
 import { IconButton } from '@repo/ui/IconButton';
 import { Text } from '@repo/ui/Text';
 import { Skeleton } from '@repo/ui/Skeleton';
+import { mergeRefs } from '@repo/ui/utils';
 
 export type ContentItemProps = {
   /**
@@ -62,9 +65,16 @@ export const ContentItem = forwardRef<HTMLDivElement, ContentItemProps>(
     },
     ref
   ) => {
+    const itemRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      if (isSelected && itemRef.current) {
+        itemRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, [isSelected]);
     return (
       <div
-        ref={ref}
+        ref={mergeRefs(ref, itemRef)}
         className={`${contentItemStyle} ${className ?? ''}`}
         {...props}
       >
