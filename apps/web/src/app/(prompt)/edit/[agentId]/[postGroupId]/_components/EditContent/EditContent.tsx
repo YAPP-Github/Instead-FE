@@ -115,7 +115,12 @@ export function EditContent({ params }: EditPageProps) {
           className={style.accordionItemStyle}
         >
           <Accordion.Trigger className={style.accordionTriggerStyle}>
-            <Chip variant="grey">생성된 글</Chip>
+            <Chip
+              variant="grey"
+              leftAddon={<Chip.Icon variant="grey" name="circle" />}
+            >
+              생성된 글
+            </Chip>
           </Accordion.Trigger>
           <Accordion.Content id={POST_STATUS.GENERATED}>
             <div className={style.contentInnerWrapper}>
@@ -156,7 +161,12 @@ export function EditContent({ params }: EditPageProps) {
           className={style.accordionItemStyle}
         >
           <Accordion.Trigger className={style.accordionTriggerStyle}>
-            <Chip variant="purple">수정 중인 글</Chip>
+            <Chip
+              variant="purple"
+              leftAddon={<Chip.Icon variant="purple" name="circle" />}
+            >
+              수정 중인 글
+            </Chip>
           </Accordion.Trigger>
           <Accordion.Content id={POST_STATUS.EDITING}>
             <DndController.Droppable id={POST_STATUS.EDITING}>
@@ -212,7 +222,12 @@ export function EditContent({ params }: EditPageProps) {
           className={style.accordionItemStyle}
         >
           <Accordion.Trigger className={style.accordionTriggerStyle}>
-            <Chip variant="green">업로드할 글</Chip>
+            <Chip
+              variant="green"
+              leftAddon={<Chip.Icon variant="green" name="circle" />}
+            >
+              업로드할 글
+            </Chip>
           </Accordion.Trigger>
           <Accordion.Content id={POST_STATUS.READY_TO_UPLOAD}>
             <DndController.Droppable id={POST_STATUS.READY_TO_UPLOAD}>
