@@ -21,6 +21,7 @@ export default function Schedule({ params }: EditPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({ threshold: 100 });
   const { data: posts } = useGetAllPostsQuery(params);
   const { mutate: updatePosts } = useUpdatePostsMutation(params);
+  const readyToUploadPosts = posts.data.posts.READY_TO_UPLOAD;
   const router = useRouter();
 
   const columns: Column[] = [
