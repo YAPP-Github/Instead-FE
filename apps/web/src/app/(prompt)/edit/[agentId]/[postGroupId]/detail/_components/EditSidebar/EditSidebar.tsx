@@ -18,7 +18,6 @@ import { Text } from '@repo/ui/Text';
 import { Accordion } from '@repo/ui/Accordion';
 import { Chip } from '@repo/ui/Chip';
 import { Post, POST_STATUS } from '@web/types/post';
-import { MutationModifyPostsRequest } from '@web/store/mutation/useModifyPostsMutation';
 import { IconButton } from '@repo/ui/IconButton';
 import { useContext, useEffect, useState } from 'react';
 import { useCreateMorePostsMutation } from '@web/store/mutation/useCreateMorePostsMutation';

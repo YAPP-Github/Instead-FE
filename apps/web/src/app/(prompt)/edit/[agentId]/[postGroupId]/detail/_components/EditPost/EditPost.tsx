@@ -34,19 +34,6 @@ export function EditPost() {
   const { routePreviousPost, routeNextPost, canMoveUp, canMoveDown } =
     useAdjacentPosts(posts?.data?.posts, post);
 
-  // TODO 제거 예정 UT용...
-  useEffect(() => {
-    queryClient.invalidateQueries(
-      getAllPostsQueryOptions({
-        agentId: Number(agentId),
-        postGroupId: Number(postGroupId),
-      })
-    );
-    queryClient.invalidateQueries({
-      queryKey: ['postGroup', 'Agents'],
-    });
-  }, []);
-
   return (
     <div className={wrapper}>
       <div className={controlBar}>

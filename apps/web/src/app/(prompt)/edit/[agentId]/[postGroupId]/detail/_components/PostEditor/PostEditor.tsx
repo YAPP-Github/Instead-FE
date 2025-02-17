@@ -19,11 +19,10 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { isNotNil, mergeRefs } from '@repo/ui/utils';
 import { UploadedImages } from './UploadedImages';
 import { useParams, useSearchParams } from 'next/navigation';
-import { useGroupPostsQuery } from '@web/store/query/useGroupPostsQuery';
 import { uploadImages } from '@web/shared/image-upload/ImageUpload';
 import { isEmptyStringOrNil } from '@web/utils';
 
-import { useModifyPostMutation } from '@web/store/mutation/useModifyPostMutation';
+import { useUpdatePostMutation } from '@web/store/mutation/useUpdatePostMutation';
 import { Post } from '@web/types';
 import { DetailPageContext } from '../../EditDetail';
 import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
@@ -48,11 +47,11 @@ export function PostEditor() {
       content: '',
     },
   });
-  const { loadingPosts, setLoadingPosts } = useContext(DetailPageContext);
+  const { setLoadingPosts } = useContext(DetailPageContext);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null); // 파일 탐색기용 ref
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const { mutate: modifyPost, isPending } = useModifyPostMutation({
+  const { mutate: modifyPost, isPending } = useUpdatePostMutation({
     agentId: Number(agentId),
     postGroupId: Number(postGroupId),
     postId: Number(postId),
@@ -82,15 +81,6 @@ export function PostEditor() {
     const urls = post?.postImages.map((img) => img.url) || [];
     setValue('imageUrls', urls);
   }, [post]);
-
-  // TODO 제거 예정 너무 빨리 수정돼서 없어져도 괜찮을 듯
-  useEffect(() => {
-    if (isPending) {
-      setLoadingPosts([Number(postId)]);
-    } else {
-      setLoadingPosts((prev) => prev.filter((id) => id !== Number(postId)));
-    }
-  }, [isPending, postId, setLoadingPosts]);
 
   const onSubmit = async (data: {
     imageUrls: string[];

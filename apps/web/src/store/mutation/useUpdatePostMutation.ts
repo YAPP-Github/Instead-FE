@@ -3,13 +3,13 @@ import { useMutation } from '@tanstack/react-query';
 import { PUT } from '@web/shared/server';
 import { Post } from '@web/types';
 
-export interface MutationModifyPost {
+export interface MutationUpdatePost {
   agentId: number;
   postGroupId: number;
   postId: number;
 }
 
-export interface MutationModifyPostRequest {
+export interface MutationUpdatePostRequest {
   updateType: 'STATUS' | 'UPLOAD_TIME' | 'CONTENT' | 'CONTENT_IMAGE';
   imageUrls?: string[];
   content?: Post['content'];
@@ -17,15 +17,15 @@ export interface MutationModifyPostRequest {
   uploadTime?: Date;
 }
 
-export function useModifyPostMutation({
+export function useUpdatePostMutation({
   agentId,
   postGroupId,
   postId,
-}: MutationModifyPost) {
+}: MutationUpdatePost) {
   const toast = useToast();
 
   return useMutation({
-    mutationFn: (values: MutationModifyPostRequest) =>
+    mutationFn: (values: MutationUpdatePostRequest) =>
       PUT(
         `agents/${agentId}/post-groups/${postGroupId}/posts/${postId}`,
         values
