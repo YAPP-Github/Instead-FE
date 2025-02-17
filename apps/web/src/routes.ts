@@ -23,4 +23,5 @@ export const ROUTES = {
     DETAIL: ({ agentId, postGroupId, postId }: IdParams) =>
       `/schedule/${agentId}/${postGroupId}/${postId}`,
   },
+  ERROR: '/error',
 } as const;
