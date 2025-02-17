@@ -13,8 +13,8 @@ import * as style from './EditContent.css';
 import { DragGuide } from '../DragGuide/DragGuide';
 import {
   UpdatePromptRequest,
-  useUpdatePromptMutation,
-} from '@web/store/mutation/useUpdatePromptMutation';
+  useUpdateMultiplePromptMutation,
+} from '@web/store/mutation/useUpdateMultiplePromptMutation';
 import { useMemo } from 'react';
 import { ContentItem } from '@web/components/common/DNDController/compounds';
 import { ROUTES } from '@web/routes';
@@ -37,7 +37,7 @@ export function EditContent({ params }: EditPageProps) {
     useCreateMorePostsMutation(params);
 
   const { mutate: updatePrompt, isPending: isUpdatePromptPending } =
-    useUpdatePromptMutation(params);
+    useUpdateMultiplePromptMutation(params);
 
   const { mutate: deletePost } = useDeletePostMutation(params);
 
