@@ -139,7 +139,7 @@ export function EditContent({ params }: EditPageProps) {
               <Button
                 type="submit"
                 size="large"
-                variant="primary"
+                variant="line"
                 leftAddon={<Icon name="twinkle" size={20} color="primary800" />}
                 onClick={() => createMorePosts()}
                 isLoading={isCreateMorePostsPending}
