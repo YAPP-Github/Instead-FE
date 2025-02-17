@@ -21,8 +21,8 @@ import { IconButton } from '@repo/ui/IconButton';
 export type ContentGroupCardProps = {
   text: string;
   postGroups: PostGroup[];
-  onItemClick: (id: number) => void;
-  onItemRemove: (id: number) => void;
+  onItemClick: (postGroup: PostGroup) => void;
+  onItemRemove: (postGroup: PostGroup) => void;
 };
 
 export function ContentGroupCard({
@@ -45,8 +45,8 @@ export function ContentGroupCard({
         {postGroups.map((item) => (
           <ContentGroupItem
             key={item.id}
-            onItemClick={() => onItemClick(item.id)}
-            onItemRemove={() => onItemRemove(item.id)}
+            onItemClick={() => onItemClick(item)}
+            onItemRemove={() => onItemRemove(item)}
             item={item}
           />
         ))}
@@ -108,7 +108,10 @@ export function ContentGroupItem({
               <Dropdown.Item
                 value="option1"
                 className={dropdownItem}
-                onClick={onItemRemove}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onItemRemove();
+                }}
               >
                 <Icon name="trash" size="2.4rem" color="grey400" />
                 <Text fontSize={18} fontWeight="medium" color="grey1000">

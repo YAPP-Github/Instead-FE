@@ -3,7 +3,7 @@ import { IdParams } from './types';
 type EditPagesParams = Omit<IdParams, 'postId'>;
 
 export const ROUTES = {
-  HOME: '/',
+  HOME: (agentId: IdParams['agentId']) => `/${agentId}`,
   CREATE: '/create',
   EDIT: {
     ROOT: ({ agentId, postGroupId }: EditPagesParams) =>
@@ -16,5 +16,9 @@ export const ROUTES = {
       `/edit/${agentId}/${postGroupId}/detail?postId=${postId}`,
     SCHEDULE: ({ agentId, postGroupId }: EditPagesParams) =>
       `/edit/${agentId}/${postGroupId}/schedule`,
+    SCHEDULE_DETAIL: ({ agentId, postGroupId, postId }: IdParams) =>
+      `/edit/${agentId}/${postGroupId}/schedule/${postId}`,
   },
+  PERSONALIZE: (agentId: IdParams['agentId']) => `/personalize/${agentId}`,
+  SCHEDULE: (agentId: IdParams['agentId']) => `/schedule/${agentId}`,
 } as const;

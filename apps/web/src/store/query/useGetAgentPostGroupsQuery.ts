@@ -1,5 +1,4 @@
 import {
-  queryOptions,
   useSuspenseQuery,
   UseSuspenseQueryOptions,
 } from '@tanstack/react-query';

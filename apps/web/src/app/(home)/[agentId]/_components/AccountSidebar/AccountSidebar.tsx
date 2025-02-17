@@ -3,8 +3,17 @@ import { wrapper, title } from './AccountSidebar.css';
 import { AccountItem } from '../AccountItem/AccountItem';
 import { Agent } from '@web/types';
 
-export function AccountSidebar({ agentData }: { agentData: Agent[] }) {
-  console.log({ agentData });
+export type AccountSidebarProps = {
+  agentData: Agent[];
+  selectedId: number;
+  onAccountClick: (id: number) => void;
+};
+
+export function AccountSidebar({
+  agentData,
+  selectedId,
+  onAccountClick,
+}: AccountSidebarProps) {
   return (
     <div className={wrapper}>
       <Text className={title} fontSize={18} fontWeight="medium" color="grey600">
@@ -13,8 +22,11 @@ export function AccountSidebar({ agentData }: { agentData: Agent[] }) {
       {agentData?.map((data) => (
         <AccountItem
           key={data.accountId}
+          profileImageUrl={data.profileImageUrl}
           accountId={data.accountId}
           agentPlan={data.agentPlan}
+          isSelected={selectedId === data.id}
+          onClick={() => onAccountClick(data.id)}
         />
       ))}
     </div>

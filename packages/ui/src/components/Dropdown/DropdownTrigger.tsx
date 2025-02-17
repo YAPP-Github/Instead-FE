@@ -12,7 +12,8 @@ export const DropdownTrigger = forwardRef<HTMLDivElement, DropdownTriggerProps>(
   ({ children, className = '', ...props }, ref) => {
     const { setIsOpen, value, placeholder, triggerRef } = useDropdownContext();
 
-    const handleClick = () => {
+    const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation();
       setIsOpen((prev) => !prev);
     };
 

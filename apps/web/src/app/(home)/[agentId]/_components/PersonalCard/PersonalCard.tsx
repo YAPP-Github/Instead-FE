@@ -12,6 +12,7 @@ import { motion } from 'motion/react';
 import { Chip } from '@repo/ui/Chip';
 import { AGENT_TONE, AgentPersonalSetting } from '@web/types/agent';
 import { Icon } from '@repo/ui/Icon';
+import { isNotNil } from '../../../../../../../../packages/ui/src/utils/isNotNil';
 
 export type PersonalCardPops = {
   text: string;
@@ -32,9 +33,11 @@ export function PersonalCard({ text, data, onIconClick }: PersonalCardPops) {
             {text}
           </Text>
           <div className={chipArea}>
-            <Chip className={chip} variant="grey">
-              {data.domain}
-            </Chip>
+            {data.domain.length > 0 && (
+              <Chip className={chip} variant="grey">
+                {data.domain}
+              </Chip>
+            )}
             <Chip className={chip} variant="grey">
               {data.tone === 'CUSTOM' ? data.customTone : AGENT_TONE[data.tone]}
             </Chip>

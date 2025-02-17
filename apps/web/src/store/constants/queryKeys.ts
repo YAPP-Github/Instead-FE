@@ -14,6 +14,7 @@ export const queryKeys = {
   },
   agents: {
     agents: ['agents'] as const,
-    detail: (agentId: AgentId) => ['agents', agentId] as const,
+    detail: (agentId: AgentId) => ['agents', 'detail', agentId] as const,
+    reserved: (agentId: AgentId) => ['agents', 'reserved', agentId] as const,
   },
 } as const;

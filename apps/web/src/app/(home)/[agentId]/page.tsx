@@ -4,8 +4,9 @@ import { getServerSideTokens } from '@web/shared/server/serverSideTokens';
 import { getAgentPostGroupsQueryOptions } from '@web/store/query/useGetAgentPostGroupsQuery';
 import { getAgentQueryOptions } from '@web/store/query/useGetAgentQuery';
 import { ServerFetchBoundary } from '@web/store/query/ServerFetchBoundary';
+import { HomePageProps } from './types';
 
-export default function HomePage() {
+export default function HomePage({ params }: HomePageProps) {
   const tokens = getServerSideTokens();
   const serverFetchOptions = [
     getAgentDetailQueryOptions({
@@ -21,7 +22,7 @@ export default function HomePage() {
 
   return (
     <ServerFetchBoundary fetchOptions={serverFetchOptions}>
-      <Home />
+      <Home params={params} />
     </ServerFetchBoundary>
   );
 }

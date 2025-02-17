@@ -31,22 +31,48 @@ import { Spacing } from '@repo/ui/Spacing';
 import { useGetAgentDetailQuery } from '@web/store/query/useGetAgentDetailQuery';
 import { useGetAgentPostGroupsQuery } from '@web/store/query/useGetAgentPostGroupsQuery';
 import { useGetAgentQuery } from '@web/store/query/useGetAgentQuery';
+import { useGetAgentUploadReservedQuery } from '@web/store/query/useGetAgentUploadReserved';
+import { HomePageProps } from './types';
+import { useRouter } from 'next/navigation';
+import { PostGroup, PostGroupId } from '@web/types';
+import { useModal } from '@repo/ui/hooks';
+import { Modal } from '@repo/ui/Modal';
 
-export default function Home() {
+export default function Home({ params }: HomePageProps) {
+  const router = useRouter();
+  const modal = useModal();
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({
     threshold: 100,
   });
   const { data: agentDetail, isLoading: isDetailLoading } =
     useGetAgentDetailQuery({
-      agentId: 1,
+      agentId: params.agentId,
     });
+  const { data: agentUploadReserved, isLoading: isReservedLoading } =
+    useGetAgentUploadReservedQuery({ agentId: params.agentId });
   const { data: agentPostGroups, isLoading: isPostGroupsLoading } =
     useGetAgentPostGroupsQuery({
-      agentId: 1,
+      agentId: params.agentId,
     });
   const { data: agentData, isLoading: isAgentLoading } = useGetAgentQuery();
 
   const agentDetailData = agentDetail?.agentPersonalSetting;
+  const agentUploadReservedData = agentUploadReserved?.posts.slice(0, 4);
+
+  const handleDeletePostGroup = (postGroupId: PostGroupId) => {
+    modal.confirm({
+      title: '정말 삭제하시겠어요?',
+      description: '삭제된 글은 복구할 수 없어요',
+      icon: <Modal.Icon name="notice" color="warning500" />,
+      confirmButton: '삭제하기',
+      cancelButton: '취소',
+      confirmButtonProps: {
+        onClick: () => {
+          // deletePost(postId);
+        },
+      },
+    });
+  };
 
   const profileImageUrl = '';
   return (
@@ -55,7 +81,7 @@ export default function Home() {
         leftAddon={
           <Breadcrumb>
             <Breadcrumb.Item>
-              <MainBreadcrumbItem href={ROUTES.HOME} />
+              <MainBreadcrumbItem href={ROUTES.HOME(params.agentId)} />
             </Breadcrumb.Item>
           </Breadcrumb>
         }
@@ -87,7 +113,11 @@ export default function Home() {
         isScrolled={isScrolled}
       />
       <div className={content}>
-        <AccountSidebar agentData={agentData.agents} />
+        <AccountSidebar
+          agentData={agentData.agents}
+          selectedId={Number(params.agentId)}
+          onAccountClick={(id: number) => router.push(ROUTES.HOME(id))}
+        />
         <div className={cardContent}>
           <GradientAnimatedText className={animatedText}>
             한 번의 설정으로 끝없이 흘러가는 콘텐츠
@@ -100,9 +130,7 @@ export default function Home() {
                 <CTACard
                   text={'자동으로 글을 만들어보세요'}
                   buttonText={'주제 생성하기'}
-                  onButtonClick={function (): void {
-                    throw new Error('Function not implemented.');
-                  }}
+                  onButtonClick={() => router.push(ROUTES.CREATE)}
                   imageSrc={CreateImage}
                 />
                 <Spacing size={16} />
@@ -110,57 +138,22 @@ export default function Home() {
                 <PersonalCard
                   text={'개인화 설정'}
                   data={agentDetailData}
-                  onIconClick={function (): void {
-                    throw new Error('Function not implemented.');
-                  }}
+                  onIconClick={() =>
+                    router.push(ROUTES.PERSONALIZE(params.agentId))
+                  }
                 />
               </div>
 
               {/* 업로드 예약 일정 카드 */}
               <UploadContentCard
                 text={'업로드 예약 일정'}
-                onMoreButtonClick={function (): void {
-                  throw new Error('Function not implemented.');
+                onMoreButtonClick={() =>
+                  router.push(ROUTES.SCHEDULE(params.agentId))
+                }
+                onItemClick={(post) => {
+                  // router.push(ROUTES.EDIT.DETAIL(params.agentId, post))
                 }}
-                onItemClick={(id) => {
-                  console.log('클릭한 아이템 id:', id);
-                }}
-                items={[
-                  {
-                    id: 1,
-                    createdAt: '2025-01-01T00:00:00.000Z',
-                    updatedAt: '2025-01-01T00:00:00.000Z',
-                    displayOrder: 1,
-                    summary: '오늘 점심 메뉴는 두부김치',
-                    content: '엄청나게 긴 본문',
-                    postImages: [
-                      {
-                        id: 1,
-                        postId: 1,
-                        url: 'https://~',
-                      },
-                    ],
-                    status: 'GENERATED',
-                    uploadTime: '2025-01-01T00:00:00.000Z',
-                  },
-                  {
-                    id: 2,
-                    createdAt: '2025-01-01T00:00:00.000Z',
-                    updatedAt: '2025-01-01T00:00:00.000Z',
-                    displayOrder: 2,
-                    summary: '오늘 점심 메뉴는 두부김치2',
-                    content: '엄청나게 긴 본문2',
-                    postImages: [
-                      {
-                        id: 2,
-                        postId: 2,
-                        url: 'https://~',
-                      },
-                    ],
-                    status: 'GENERATED',
-                    uploadTime: '2025-01-01T00:00:00.000Z',
-                  },
-                ]}
+                items={agentUploadReservedData}
               />
             </div>
 
@@ -168,11 +161,16 @@ export default function Home() {
             <ContentGroupCard
               text="생성된 주제"
               postGroups={agentPostGroups.postGroups}
-              onItemClick={function (id: number | string): void {
-                throw new Error('Function not implemented.');
-              }}
-              onItemRemove={function (id: number | string): void {
-                throw new Error('Function not implemented.');
+              onItemClick={(postGroup: PostGroup) =>
+                router.push(
+                  ROUTES.EDIT.ROOT({
+                    agentId: params.agentId,
+                    postGroupId: postGroup.id,
+                  })
+                )
+              }
+              onItemRemove={function (postGroup: PostGroup): void {
+                handleDeletePostGroup(1);
               }}
             />
           </div>
