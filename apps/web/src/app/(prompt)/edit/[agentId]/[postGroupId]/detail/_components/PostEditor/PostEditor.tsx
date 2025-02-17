@@ -20,14 +20,16 @@ import { isNotNil, mergeRefs } from '@repo/ui/utils';
 import { UploadedImages } from './UploadedImages';
 import { useParams, useSearchParams } from 'next/navigation';
 import { uploadImages } from '@web/shared/image-upload/ImageUpload';
-import { isEmptyStringOrNil } from '@web/utils';
+import { isEmptyStringOrNil, validateFiles } from '@web/utils';
 
 import { useUpdatePostMutation } from '@web/store/mutation/useUpdatePostMutation';
 import { Post } from '@web/types';
 import { DetailPageContext } from '../../EditDetail';
 import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
+import { useToast } from '@repo/ui/hooks';
 
 export function PostEditor() {
+  const toast = useToast();
   const { agentId, postGroupId } = useParams();
   const searchParams = useSearchParams();
   const postId = searchParams.get('postId');
@@ -129,7 +131,22 @@ export function PostEditor() {
 
   const handleFiles = async (files: FileList) => {
     // 최대 4개 파일만 처리 (필요에 따라 maxFiles 값을 조정하세요)
-    const fileArray = Array.from(files).slice(0, 4);
+    const maxFiles = 4;
+
+    if (files.length > maxFiles) {
+      toast.error(`이미지는 최대 ${maxFiles}장까지 업로드할 수 있어요.`, 3000);
+      return;
+    }
+
+    const fileArray = Array.from(files);
+
+    if (!validateFiles(fileArray)) {
+      toast.error(
+        '유효하지 않은 파일이 포함되어 있어요. 이미지 파일(최대 5MB)만 업로드 가능해요.'
+      );
+      return;
+    }
+
     const uploadedUrls = await uploadImages(fileArray);
     setValue('imageUrls', uploadedUrls);
   };
