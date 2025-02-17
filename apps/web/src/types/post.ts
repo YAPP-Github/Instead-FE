@@ -30,7 +30,9 @@ export const POST_LENGTH = {
 };
 
 export interface Post {
-  id: number;
+  id: PostId;
+  // TODO 고쳐 주시면 옵셔널 제거
+  postGroupId?: PostGroupId;
   createdAt: string;
   updatedAt: string;
   summary: string;
@@ -79,7 +81,7 @@ export type NewsCategory =
 export type PostGroupLength = 'SHORT' | 'MEDIUM' | 'LONG';
 
 export interface PostGroup {
-  id: number;
+  id: PostGroupId;
   topic: string;
   purpose: Purpose;
   reference: Reference;
