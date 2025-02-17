@@ -1,29 +1,28 @@
 'use client';
 
-import { ScheduleDetailProps } from './type';
 import * as style from './pageStyle.css';
 import { useScroll } from '@web/hooks';
 import { useRouter } from 'next/navigation';
 import { MainBreadcrumbItem, NavBar } from '@web/components/common';
 import { Badge, Breadcrumb, IconButton, Text } from '@repo/ui';
-import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
 import { useToast } from '@repo/ui/hooks';
 import Image from 'next/image';
-export default function ScheduleDetail({ params }: ScheduleDetailProps) {
+import { ScheduleDetailPageProps } from './type';
+import { useGetPostQuery } from '@web/store/query/useGetPostQuery';
+import { isNil } from '@repo/ui/utils';
+
+export default function ScheduleDetail({ params }: ScheduleDetailPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({ threshold: 100 });
   const router = useRouter();
   const toast = useToast();
-  const { data: posts } = useGetAllPostsQuery({
+  const { data: post } = useGetPostQuery({
     agentId: params.agentId,
     postGroupId: params.postGroupId,
+    postId: params.postId,
   });
 
-  const currentPost = posts.data.posts.find(
-    (post) => post.id === Number(params.id)
-  );
-
-  if (!currentPost) {
-    //TODO: error 페이지 사용하기
+  //TODO: 임시, error 페이지 사용하기
+  if (isNil(post)) {
     toast.error('존재하지 않는 포스트입니다.');
     return;
   }
@@ -34,9 +33,7 @@ export default function ScheduleDetail({ params }: ScheduleDetailProps) {
         leftAddon={
           <Breadcrumb>
             <MainBreadcrumbItem href="/" />
-            <Breadcrumb.Item active>
-              {posts.data.postGroup.topic}
-            </Breadcrumb.Item>
+            <Breadcrumb.Item active>{post.data.topic}</Breadcrumb.Item>
           </Breadcrumb>
         }
         rightAddon={
@@ -53,7 +50,7 @@ export default function ScheduleDetail({ params }: ScheduleDetailProps) {
       <div className={style.contentWrapperStyle}>
         <div className={style.titleSectionStyle}>
           <Text.H1 fontSize={28} fontWeight="bold" color="grey1000">
-            {currentPost.summary}
+            {post.data.summary}
           </Text.H1>
           <Badge size="large" variant="neutral" shape="square">
             요약
@@ -65,10 +62,10 @@ export default function ScheduleDetail({ params }: ScheduleDetailProps) {
           color="grey800"
           className={style.contentStyle}
         >
-          {currentPost.content}
+          {post.data.content}
         </Text.P>
-        {currentPost.postImages.length > 0 &&
-          currentPost.postImages.map((image) => (
+        {post.data.postImages.length > 0 &&
+          post.data.postImages.map((image) => (
             <div key={image.id} className={style.imageWrapperStyle}>
               <Image
                 src={image.url}
