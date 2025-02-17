@@ -56,13 +56,11 @@ export function DndControllerProvider({
     useSensor(MouseSensor, {
       activationConstraint: {
         distance: 5,
-        delay: 50,
       },
     }),
     useSensor(TouchSensor, {
       activationConstraint: {
         distance: 5,
-        delay: 50,
       },
     })
   );

@@ -11,6 +11,7 @@ import { useParams, useSearchParams } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { DetailPageContext } from '../../EditDetail';
 import { useGroupPostsQuery } from '@web/store/query/useGroupPostsQuery';
+import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
 
 export function EditPromptField() {
   const { register, watch, control, handleSubmit } = useForm<{
@@ -29,9 +30,13 @@ export function EditPromptField() {
   const { agentId, postGroupId } = useParams();
   const searchParams = useSearchParams();
   const postId = searchParams.get('postId');
-  const { data } = useGroupPostsQuery(Number(agentId), Number(postGroupId));
+  const { data } = useGetAllPostsQuery({
+    agentId: Number(agentId),
+    postGroupId: Number(postGroupId),
+  });
   const posts = data?.data.posts ?? [];
-  const editingPosts = posts
+  const editingPosts = Object.values(posts)
+    .flat()
     .filter((post) => post.status === 'EDITING')
     .map((post) => post.id);
 

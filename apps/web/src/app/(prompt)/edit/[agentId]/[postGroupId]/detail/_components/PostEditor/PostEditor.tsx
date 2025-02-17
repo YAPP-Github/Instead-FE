@@ -26,13 +26,19 @@ import { isEmptyStringOrNil } from '@web/utils';
 import { useModifyPostMutation } from '@web/store/mutation/useModifyPostMutation';
 import { Post } from '@web/types';
 import { DetailPageContext } from '../../EditDetail';
+import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
 
 export function PostEditor() {
   const { agentId, postGroupId } = useParams();
   const searchParams = useSearchParams();
   const postId = searchParams.get('postId');
-  const { data } = useGroupPostsQuery(1, Number(postGroupId));
-  const post = data?.data?.posts.find((post) => post.id === Number(postId));
+  const { data: posts } = useGetAllPostsQuery({
+    agentId: Number(agentId),
+    postGroupId: Number(postGroupId),
+  });
+  const post = Object.values(posts?.data?.posts)
+    .flat()
+    .find((post) => post.id === Number(postId));
   const { register, handleSubmit, setValue, watch } = useForm<{
     content: string;
     imageUrls: string[];

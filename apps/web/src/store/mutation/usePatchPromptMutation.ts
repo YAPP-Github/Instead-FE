@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { PATCH } from '@web/shared/server';
 import { useGroupPostsQuery } from '../query/useGroupPostsQuery';
 import { queryClient } from '../query/QueryClientProvider';
+import { useGetAllPostsQuery } from '../query/useGetAllPostsQuery';
 
 export interface MutationPatchPrompt {
   agentId: number;
@@ -21,8 +22,13 @@ export function usePatchPromptMutation({
   postId,
 }: MutationPatchPrompt) {
   const toast = useToast();
-  const { data } = useGroupPostsQuery(Number(agentId), Number(postGroupId));
-  const postsId = data?.data.posts
+
+  const { data } = useGetAllPostsQuery({
+    agentId: Number(agentId),
+    postGroupId: Number(postGroupId),
+  });
+  const postsId = Object.values(data?.data.posts)
+    .flat()
     .filter((post) => post.status === 'EDITING')
     .map((post) => post.id);
 
