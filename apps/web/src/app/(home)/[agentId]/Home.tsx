@@ -37,6 +37,7 @@ import { useRouter } from 'next/navigation';
 import { PostGroup, PostGroupId } from '@web/types';
 import { useModal } from '@repo/ui/hooks';
 import { Modal } from '@repo/ui/Modal';
+import { useDeletePostGroupMutation } from '@web/store/mutation/useDeletePostGroupMutation';
 
 export default function Home({ params }: HomePageProps) {
   const router = useRouter();
@@ -54,6 +55,9 @@ export default function Home({ params }: HomePageProps) {
     useGetAgentPostGroupsQuery({
       agentId: params.agentId,
     });
+  const { mutate: deletePostGroups } = useDeletePostGroupMutation({
+    agentId: params.agentId,
+  });
   const { data: agentData, isLoading: isAgentLoading } = useGetAgentQuery();
 
   const agentDetailData = agentDetail?.agentPersonalSetting;
@@ -68,7 +72,7 @@ export default function Home({ params }: HomePageProps) {
       cancelButton: '취소',
       confirmButtonProps: {
         onClick: () => {
-          // deletePost(postId);
+          deletePostGroups(postGroupId);
         },
       },
     });
@@ -170,7 +174,7 @@ export default function Home({ params }: HomePageProps) {
                 )
               }
               onItemRemove={function (postGroup: PostGroup): void {
-                handleDeletePostGroup(1);
+                handleDeletePostGroup(postGroup.id);
               }}
             />
           </div>

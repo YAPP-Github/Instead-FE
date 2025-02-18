@@ -1,7 +1,11 @@
 import { GET } from '@web/shared/server';
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import {
+  queryOptions,
+  useSuspenseQuery,
+  UseSuspenseQueryOptions,
+} from '@tanstack/react-query';
 import type { IdParams, PostGroup, PostsByStatus } from '@web/types';
-import { Tokens } from '@web/shared/server/types';
+import { ApiResponse, Tokens } from '@web/shared/server/types';
 import { queryKeys } from '../constants';
 
 const STALE_TIME = 1000 * 60 * 1;
@@ -25,8 +29,10 @@ export function getAllPostsQueryOptions({
   agentId,
   postGroupId,
   tokens,
-}: GetAllPostsParams) {
-  return queryOptions({
+}: GetAllPostsParams): UseSuspenseQueryOptions<
+  ApiResponse<GetAllPostsResponse>
+> {
+  return {
     queryKey: queryKeys.posts.all(agentId, postGroupId),
     queryFn: () =>
       GET<GetAllPostsResponse>(
@@ -36,7 +42,7 @@ export function getAllPostsQueryOptions({
       ),
     staleTime: STALE_TIME,
     gcTime: GC_TIME,
-  });
+  };
 }
 
 export function useGetAllPostsQuery(params: GetAllPostsParams) {

@@ -21,11 +21,11 @@ import { ROUTES } from '@web/routes';
 import { Dropdown } from '@repo/ui/Dropdown';
 import { Icon } from '@repo/ui/Icon';
 import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation';
-import { useModal } from '@repo/ui/hooks';
+import { useModal, useToast } from '@repo/ui/hooks';
 import { Modal } from '@repo/ui/Modal';
 import { Chip } from '@repo/ui/Chip';
 import { PostStatus } from '@web/types';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
 
 const CHIP_DROPDOWN: Partial<Record<PostStatus, ReactNode>> = {
@@ -55,6 +55,7 @@ const CHIP_DROPDOWN: Partial<Record<PostStatus, ReactNode>> = {
 export function EditPost() {
   const router = useRouter();
   const modal = useModal();
+  const toast = useToast();
   const methods = useForm();
   const { agentId, postGroupId } = useParams();
   const searchParams = useSearchParams();
@@ -70,7 +71,7 @@ export function EditPost() {
   const { routePreviousPost, routeNextPost, canMoveUp, canMoveDown } =
     useAdjacentPosts(posts?.data?.posts, post);
 
-  const { mutate: deletePost } = useDeletePostMutation({
+  const { mutateAsync: deletePost, isSuccess } = useDeletePostMutation({
     agentId: Number(agentId),
     postGroupId: Number(postGroupId),
   });
@@ -83,12 +84,24 @@ export function EditPost() {
       confirmButton: '삭제하기',
       cancelButton: '취소',
       confirmButtonProps: {
-        onClick: () => {
-          deletePost(Number(postId));
+        onClick: async () => {
+          try {
+            await deletePost(Number(postId));
+            router.push(ROUTES.CREATE);
+          } catch (error) {
+            toast.error('삭제하지 못했어요.');
+          }
         },
       },
     });
   };
+
+  // TODO
+  useEffect(() => {
+    if (isSuccess) {
+      router.push(ROUTES.CREATE);
+    }
+  }, [isSuccess, router]);
 
   const { mutate: modifyPost, isPending } = useUpdatePostsMutation({
     agentId: Number(agentId),

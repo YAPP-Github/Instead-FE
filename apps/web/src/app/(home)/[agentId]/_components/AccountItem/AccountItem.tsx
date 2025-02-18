@@ -10,11 +10,11 @@ import DNDImage from '@web/assets/images/dndImage.webp';
 import { AgentPlan } from '@web/types/agent';
 import { Text } from '@repo/ui/Text';
 import { Icon } from '@repo/ui/Icon';
-import { ColorsType, vars } from '@repo/theme';
+import { vars } from '@repo/theme';
 import { isNil } from '@repo/ui/utils';
 
 export type AccountItemProps = {
-  accountId: string;
+  accountName: string;
   profileImageUrl?: string;
   agentPlan: AgentPlan;
   isSelected?: boolean;
@@ -22,7 +22,7 @@ export type AccountItemProps = {
 };
 
 export function AccountItem({
-  accountId,
+  accountName,
   profileImageUrl,
   agentPlan,
   isSelected = false,
@@ -47,7 +47,7 @@ export function AccountItem({
           fontWeight={isSelected ? 'semibold' : 'medium'}
           color={isSelected ? 'primary700' : 'grey800'}
         >
-          {accountId}
+          {accountName}
         </Text>
         <AgentPlanBadge agentPlan={agentPlan} />
       </div>

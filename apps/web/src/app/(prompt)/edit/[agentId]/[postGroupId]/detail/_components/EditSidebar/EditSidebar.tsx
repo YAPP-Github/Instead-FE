@@ -22,7 +22,7 @@ import { IconButton } from '@repo/ui/IconButton';
 import { useContext, useEffect, useState } from 'react';
 import { useCreateMorePostsMutation } from '@web/store/mutation/useCreateMorePostsMutation';
 import { SkeletonContentItem } from '../ContentItem/SkeletonContentItem';
-import { useModal } from '@repo/ui/hooks';
+import { useModal, useToast } from '@repo/ui/hooks';
 import { Modal } from '@repo/ui/Modal';
 import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation';
 import { DetailPageContext } from '../../EditDetail';
@@ -35,6 +35,7 @@ import { PostId } from '@web/types';
 
 function EditSidebarContent() {
   const modal = useModal();
+  const toast = useToast();
   const { loadingPosts } = useContext(DetailPageContext);
   const { agentId, postGroupId } = useParams();
   const router = useRouter();
@@ -53,7 +54,7 @@ function EditSidebarContent() {
       postGroupId: Number(postGroupId),
     });
 
-  const { mutate: deletePost } = useDeletePostMutation({
+  const { mutateAsync: deletePost } = useDeletePostMutation({
     agentId: Number(agentId),
     postGroupId: Number(postGroupId),
   });
@@ -93,8 +94,13 @@ function EditSidebarContent() {
       confirmButton: '삭제하기',
       cancelButton: '취소',
       confirmButtonProps: {
-        onClick: () => {
-          deletePost(postId);
+        onClick: async () => {
+          try {
+            await deletePost(postId);
+            router.push(ROUTES.CREATE);
+          } catch (error) {
+            toast.error('삭제하지 못했어요.');
+          }
         },
       },
     });

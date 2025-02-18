@@ -1,6 +1,10 @@
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import {
+  queryOptions,
+  useSuspenseQuery,
+  UseSuspenseQueryOptions,
+} from '@tanstack/react-query';
 import { GET } from '@web/shared/server';
-import { Tokens } from '@web/shared/server/types';
+import { ApiResponse, Tokens } from '@web/shared/server/types';
 import { queryKeys } from '../constants';
 import { IdParams } from '@web/types';
 
@@ -22,8 +26,10 @@ export function PostHistoryQueryQueryOptions({
   postGroupId,
   postId,
   tokens,
-}: PostHistoryQueryParams) {
-  return queryOptions({
+}: PostHistoryQueryParams): UseSuspenseQueryOptions<
+  ApiResponse<PostHistoryQuery>
+> {
+  return {
     queryKey: queryKeys.postHistory.detail(postId),
     queryFn: () =>
       GET<PostHistoryQuery>(
@@ -34,7 +40,7 @@ export function PostHistoryQueryQueryOptions({
 
     staleTime: Infinity,
     gcTime: Infinity,
-  });
+  };
 }
 
 export function usePostHistoryQuery(params: PostHistoryQueryParams) {

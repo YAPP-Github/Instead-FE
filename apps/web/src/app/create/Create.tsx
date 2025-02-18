@@ -103,7 +103,8 @@ export default function Create() {
       cancelButton: '취소',
       confirmButtonProps: {
         onClick: () => {
-          router.push(ROUTES.HOME);
+          // TODO
+          router.push(ROUTES.HOME(1));
         },
       },
     });

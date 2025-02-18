@@ -21,9 +21,9 @@ export function AccountSidebar({
       </Text>
       {agentData?.map((data) => (
         <AccountItem
-          key={data.accountId}
+          key={data.accountName}
           profileImageUrl={data.profileImageUrl}
-          accountId={data.accountId}
+          accountName={data.accountName}
           agentPlan={data.agentPlan}
           isSelected={selectedId === data.id}
           onClick={() => onAccountClick(data.id)}

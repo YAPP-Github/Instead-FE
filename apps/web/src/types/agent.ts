@@ -20,7 +20,7 @@ export interface Agent {
   id: number;
   createdAt: string;
   platform: 'X' | 'THREADS' | 'INSTAGRAM';
-  accountId: string;
+  accountName: string;
   bio: string;
   profileImageUrl: string;
   agentPlan: AgentPlan;
