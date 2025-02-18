@@ -1,6 +1,6 @@
 import { GET } from '@web/shared/server';
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
-import type { IdParams, Post, PostGroup } from '@web/types';
+import type { IdParams, Post } from '@web/types';
 import { Tokens } from '@web/shared/server/types';
 import { queryKeys } from '../constants';
 
@@ -12,15 +12,12 @@ export type GetPostParams = IdParams &
     tokens?: Tokens;
   };
 
-export type GetPostResponse = {
-  postGroup: PostGroup;
-  post: Post;
-};
+export type GetPostResponse = Post;
 
 /**
  * 개별 게시물 상세 조회 API
  *
- * 특정 게시물의 상세 정보를 조회합니다.
+ * 게시물 클릭 시 단건 게시물에 대한 상세정보를 조회합니다.
  */
 export function getPostQueryOptions({
   agentId,
