@@ -45,3 +45,14 @@ export const uploadContentSummary = style({
   textOverflow: 'ellipsis',
   wordBreak: 'break-all',
 });
+
+export const content = style({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+});
+
+export const emptyImage = style({
+  width: '17.2rem',
+  height: '9rem',
+});

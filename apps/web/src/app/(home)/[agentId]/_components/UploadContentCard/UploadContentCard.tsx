@@ -2,6 +2,8 @@ import { Text } from '@repo/ui/Text';
 import {
   card,
   cardText,
+  content,
+  emptyImage,
   leftText,
   uploadContentItem,
   uploadContentSummary,
@@ -9,6 +11,8 @@ import {
 import { Button } from '@repo/ui/Button';
 import { Post } from '@web/types';
 import { getFormattedDatetime } from '@web/utils';
+import uploadEmptyImage from '@web/assets/images/uploadEmptyImage.png';
+import Image from 'next/image';
 
 export type UploadContentCardProps = {
   text: string;
@@ -39,13 +43,23 @@ export function UploadContentCard({
         </Button>
       </div>
       <div>
-        {items.map((item) => (
-          <UploadContentItem
-            key={item.id}
-            item={item}
-            onItemClick={() => onItemClick(item)}
-          />
-        ))}
+        {items.length > 0 ? (
+          items.map((item) => (
+            <UploadContentItem
+              key={item.id}
+              item={item}
+              onItemClick={() => onItemClick(item)}
+            />
+          ))
+        ) : (
+          <div className={content}>
+            <Image
+              src={uploadEmptyImage}
+              alt="empty image"
+              className={emptyImage}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
