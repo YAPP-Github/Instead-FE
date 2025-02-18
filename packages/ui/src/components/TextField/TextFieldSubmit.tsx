@@ -26,7 +26,7 @@ export const TextFieldSubmit = forwardRef<
     >
       <Icon
         name="send"
-        size={32}
+        size="3.2rem"
         color={isError || disabled ? 'grey200' : 'grey950'}
       />
     </button>

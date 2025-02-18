@@ -21,6 +21,7 @@ export default function Schedule({ params }: EditPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({ threshold: 100 });
   const { data: posts } = useGetAllPostsQuery(params);
   const { mutate: updatePosts } = useUpdatePostsMutation(params);
+  const readyToUploadPosts = posts.data.posts.READY_TO_UPLOAD;
   const router = useRouter();
 
   const columns: Column[] = [
@@ -52,7 +53,9 @@ export default function Schedule({ params }: EditPageProps) {
         leftAddon={
           <Breadcrumb>
             <MainBreadcrumbItem href="/" />
-            <Breadcrumb.Item active>기초 경제 지식</Breadcrumb.Item>
+            <Breadcrumb.Item active>
+              {posts.data.postGroup.topic}
+            </Breadcrumb.Item>
           </Breadcrumb>
         }
         rightAddon={
@@ -108,6 +111,7 @@ export default function Schedule({ params }: EditPageProps) {
         <div className={style.dndSectionStyle}>
           <TitleWithDescription
             title="업로드 예약 일정"
+            rightTitle={readyToUploadPosts.length.toString()}
             description="개별 글의 업로드 날짜와 순서를 변경할 수 있어요"
           />
           <DndController
@@ -133,7 +137,7 @@ export default function Schedule({ params }: EditPageProps) {
               <TableRow columns={columns} {...activeItem} />
             )}
           >
-            <ScheduleTable params={params} columns={columns} />
+            <ScheduleTable columns={columns} params={params} />
           </DndController>
         </div>
       </div>

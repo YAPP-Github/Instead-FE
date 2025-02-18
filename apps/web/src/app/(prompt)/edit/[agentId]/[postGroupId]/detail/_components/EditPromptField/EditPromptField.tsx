@@ -10,7 +10,8 @@ import { useParams, useSearchParams } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { DetailPageContext } from '../../EditDetail';
 import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
-import { useUpdatePromptMutation } from '@web/store/mutation/useUpdatePromptMutation';
+import { useUpdateMultiplePromptMutation } from '@web/store/mutation/useUpdateMultiplePromptMutation';
+import { useUpdateSinglePostPromptMutation } from '@web/store/mutation/useUpdateSinglePostPromptMutation';
 
 export function EditPromptField() {
   const { register, watch, control, handleSubmit } = useForm<{
@@ -39,8 +40,14 @@ export function EditPromptField() {
     .filter((post) => post.status === 'EDITING')
     .map((post) => post.id);
 
-  const { mutate: updatePrompt, isPending: isUpdatePromptPending } =
-    useUpdatePromptMutation({
+  const { mutate: updateMultiplePrompt, isPending: isUpdatePromptPending } =
+    useUpdateMultiplePromptMutation({
+      agentId: Number(agentId),
+      postGroupId: Number(postGroupId),
+    });
+
+  const { mutate: updateSinglePrompt, isPending: isUpdateSinglePromptPending } =
+    useUpdateSinglePostPromptMutation({
       agentId: Number(agentId),
       postGroupId: Number(postGroupId),
       postId: Number(postId),
@@ -48,7 +55,7 @@ export function EditPromptField() {
 
   // TODO 제거 예정
   useEffect(() => {
-    if (isUpdatePromptPending) {
+    if (isUpdatePromptPending || isUpdateSinglePromptPending) {
       // 요청이 진행 중이면
       if (isEntire) {
         setLoadingPosts(editingPosts);
@@ -70,9 +77,9 @@ export function EditPromptField() {
     const editingPostIds = posts.EDITING.map((item) => item.id);
 
     if (isEntire) {
-      updatePrompt({ ...data, postsId: editingPostIds });
+      updateMultiplePrompt({ ...data, postsId: editingPostIds });
     } else {
-      updatePrompt({ ...data });
+      updateSinglePrompt({ ...data });
     }
   };
 

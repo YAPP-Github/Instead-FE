@@ -2,11 +2,12 @@ import { style } from '@vanilla-extract/css';
 import { vars } from '@repo/theme';
 
 export const contentStyle = style({
-  position: 'relative',
-  width: '100%',
+  display: 'flex',
   padding: `${vars.space[80]} ${vars.space[24]}`,
   margin: '0 auto',
-  overflowX: 'auto',
+  minWidth: 'min-content',
+  width: 'auto',
+  justifyContent: 'center',
 });
 
 export const submitButtonStyle = style({
@@ -20,6 +21,8 @@ export const accordionStyle = style({
   height: 'fit-content',
   minWidth: 'min-content',
   padding: `0 ${vars.space[32]}`,
+  margin: '0 auto',
+  width: 'fit-content',
 });
 
 export const accordionTriggerStyle = style({
