@@ -1,3 +1,5 @@
+'use client';
+
 import React, { ReactNode } from 'react';
 import { createContext, useContext } from 'react';
 import {
@@ -7,20 +9,24 @@ import {
   TouchSensor,
   useSensor,
   useSensors,
-  closestCorners,
+  closestCenter,
   MeasuringStrategy,
 } from '@dnd-kit/core';
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 import { useDragAndDrop } from '../hooks';
-import { Post } from '@web/types';
+import { Post, PostStatus } from '@web/types';
 
 export type DndItemData = Post;
 
 type DndControllerProviderProps = {
-  initialItems: DndItemData[];
+  initialItems: Record<PostStatus, Post[]>;
   children: ReactNode;
-  onDragEnd?: (items: DndItemData[]) => void;
+  onDragEnd?: (items: Record<PostStatus, Post[]>) => void;
   disabled?: boolean;
-  renderDragOverlay?: (activeItem: DndItemData) => ReactNode;
+  renderDragOverlay?: (activeItem: Post) => ReactNode;
 };
 
 type DndControllerContextType = ReturnType<typeof useDragAndDrop>;
@@ -47,8 +53,16 @@ export function DndControllerProvider({
   renderDragOverlay,
 }: DndControllerProviderProps) {
   const sensors = useSensors(
-    useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
-    useSensor(TouchSensor, { activationConstraint: { distance: 5 } })
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    })
   );
 
   const dnd = useDragAndDrop({
@@ -57,13 +71,15 @@ export function DndControllerProvider({
   });
 
   const activeItem = dnd.activeId
-    ? dnd.items.find((item) => item.id === dnd.activeId)
+    ? Object.values(dnd.items)
+        .flat()
+        .find((item) => item.id === dnd.activeId)
     : null;
 
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCorners}
+      collisionDetection={closestCenter}
       onDragStart={
         disabled
           ? undefined
@@ -80,13 +96,27 @@ export function DndControllerProvider({
             }
       }
       measuring={{
-        droppable: { strategy: MeasuringStrategy.Always },
+        droppable: {
+          strategy: MeasuringStrategy.Always,
+        },
       }}
     >
-      <DndControllerContext.Provider value={dnd}>
-        {children}
-      </DndControllerContext.Provider>
-      <DragOverlay>
+      <SortableContext
+        items={Object.values(dnd.items)
+          .flat()
+          .map((item) => item.id)}
+        strategy={verticalListSortingStrategy}
+      >
+        <DndControllerContext.Provider value={dnd}>
+          {children}
+        </DndControllerContext.Provider>
+      </SortableContext>
+      <DragOverlay
+        dropAnimation={{
+          duration: 300,
+          easing: 'cubic-bezier(0.18, 0.67, 0.6, 1.22)',
+        }}
+      >
         {activeItem && renderDragOverlay && renderDragOverlay(activeItem)}
       </DragOverlay>
     </DndContext>

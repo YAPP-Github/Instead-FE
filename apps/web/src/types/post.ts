@@ -50,6 +50,10 @@ export interface CreatedPost {
   posts: Post[];
 }
 
+export type PostsByStatus = {
+  [K in PostStatus]: Post[];
+};
+
 export type Purpose = 'INFORMATION' | 'OPINION' | 'HUMOR' | 'MARKETING';
 
 export const POST_PURPOSE = {

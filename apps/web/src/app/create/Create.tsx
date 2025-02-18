@@ -9,8 +9,8 @@ import {
   Icon,
   Button,
   Modal,
-  GradientAnimatedText,
 } from '@repo/ui';
+import { AnimatedTitle } from './_components/AnimatedTitle/AnimatedTitle';
 import { ImageManager, MainBreadcrumbItem } from '@web/components/common';
 import { KeywordChipGroup } from './_components/KeywordChip/KeywordChipGroup';
 import { AnimatedContainer } from './_components/AnimatedContainer/AnimatedContainer';
@@ -144,9 +144,7 @@ export default function Create() {
 
       <Spacing size={80} />
 
-      <GradientAnimatedText className={styles.titleStyle}>
-        어떤 글을 생성할까요?
-      </GradientAnimatedText>
+      <AnimatedTitle>어떤 글을 생성할까요?</AnimatedTitle>
 
       <AnimatedContainer>
         <form className={styles.contentStyle}>

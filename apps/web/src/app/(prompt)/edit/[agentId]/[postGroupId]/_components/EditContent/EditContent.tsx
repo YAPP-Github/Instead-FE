@@ -161,9 +161,9 @@ export function EditContent({ params }: EditPageProps) {
           <Accordion.Content id={POST_STATUS.EDITING}>
             <DndController.Droppable id={POST_STATUS.EDITING}>
               <DndController.SortableList
-                items={getItemsByStatus(POST_STATUS.EDITING)
-                  .sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0))
-                  .map((item) => item.id)}
+                items={getItemsByStatus(POST_STATUS.EDITING).map(
+                  (item) => item.id
+                )}
               >
                 {isExistEditingPost && (
                   <FormProvider {...methods}>

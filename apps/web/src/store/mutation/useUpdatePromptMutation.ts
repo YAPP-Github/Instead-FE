@@ -5,11 +5,16 @@ import { getAllPostsQueryOptions } from '../query/useGetAllPostsQuery';
 import { IdParams, Post } from '@web/types';
 
 export interface UpdatePromptRequest {
+  isEntire?: boolean;
   prompt: string;
-  postsId: Post['id'][];
+  postsId?: Post['id'][];
 }
 
-export type MutationUpdatePrompt = Omit<IdParams, 'postId'>;
+export type MutationUpdatePrompt = {
+  agentId: IdParams['agentId'];
+  postGroupId: IdParams['postGroupId'];
+  postId?: IdParams['postId'];
+};
 
 /**
  * 게시물 프롬프트 기반 일괄 수정
@@ -19,13 +24,21 @@ export type MutationUpdatePrompt = Omit<IdParams, 'postId'>;
 export function useUpdatePromptMutation({
   agentId,
   postGroupId,
+  postId,
 }: MutationUpdatePrompt) {
   const queryClient = useQueryClient();
   const toast = useToast();
 
   return useMutation({
-    mutationFn: (data: UpdatePromptRequest) =>
-      PATCH(`agents/${agentId}/post-groups/${postGroupId}/posts/prompt`, data),
+    mutationFn: ({ isEntire = true, prompt, postsId }: UpdatePromptRequest) => {
+      const endpoint = isEntire
+        ? `agents/${agentId}/post-groups/${postGroupId}/posts/prompt`
+        : `agents/${agentId}/post-groups/${postGroupId}/posts/${postId}/prompt`;
+
+      const body = isEntire ? { prompt, postsId } : { prompt };
+
+      return PATCH(endpoint, body);
+    },
     onSuccess: () => {
       toast.success('프롬프트가 적용되었어요!');
       queryClient.invalidateQueries(

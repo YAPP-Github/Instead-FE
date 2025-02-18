@@ -26,12 +26,8 @@ export default function Edit({ params }: EditPageProps) {
   });
   const router = useRouter();
 
-  /**
-   * READY_TO_UPLOAD 상태인 게시물이 있는지 확인
-   */
-  const hasReadyToUploadPosts = posts.data.posts.some(
-    (post) => post.status === POST_STATUS.READY_TO_UPLOAD
-  );
+  const hasReadyToUploadPosts =
+    posts.data.posts[POST_STATUS.READY_TO_UPLOAD].length > 0;
 
   return (
     <div className={style.mainStyle} ref={scrollRef}>
@@ -40,7 +36,7 @@ export default function Edit({ params }: EditPageProps) {
           <Breadcrumb>
             <MainBreadcrumbItem href="/" />
             <Breadcrumb.Item active>
-              {posts?.data?.postGroup.topic}
+              {posts.data.postGroup.topic}
             </Breadcrumb.Item>
           </Breadcrumb>
         }
@@ -66,17 +62,23 @@ export default function Edit({ params }: EditPageProps) {
         }
         isScrolled={isScrolled}
       />
+
       <DndController
         initialItems={posts.data.posts}
-        key={posts.data.posts.map((p) => p.id).join(',')}
+        key={Object.values(posts.data.posts)
+          .flat()
+          .map((item) => `${item.id}-${item.displayOrder}-${item.status}`)
+          .join(',')}
         onDragEnd={(updatedItems) => {
           const updatePayload = {
-            posts: updatedItems.map((item) => ({
-              postId: item.id,
-              status: item.status,
-              displayOrder: item.displayOrder,
-              uploadTime: item.uploadTime,
-            })),
+            posts: Object.values(updatedItems)
+              .flat()
+              .map((item) => ({
+                postId: item.id,
+                status: item.status,
+                displayOrder: item.displayOrder,
+                uploadTime: item.uploadTime,
+              })),
           };
           updatePosts(updatePayload);
         }}

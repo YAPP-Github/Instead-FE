@@ -2,15 +2,15 @@
 
 import { Checkbox } from '@repo/ui/Checkbox';
 import { TextField } from '@repo/ui/TextField';
-import { Controller, useForm, useFormContext } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { wrapper } from './EditPromptField.css';
 import { Spacing } from '@repo/ui/Spacing';
 import { isEmptyStringOrNil } from '@web/utils';
-import { usePatchPromptMutation } from '@web/store/mutation/usePatchPromptMutation';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { DetailPageContext } from '../../EditDetail';
-import { useGroupPostsQuery } from '@web/store/query/useGroupPostsQuery';
+import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
+import { useUpdatePromptMutation } from '@web/store/mutation/useUpdatePromptMutation';
 
 export function EditPromptField() {
   const { register, watch, control, handleSubmit } = useForm<{
@@ -22,28 +22,33 @@ export function EditPromptField() {
       prompt: '',
     },
   });
-  const { loadingPosts, setLoadingPosts } = useContext(DetailPageContext);
+  const { setLoadingPosts } = useContext(DetailPageContext);
   const isEntire = watch('isEntire');
   const prompt = watch('prompt');
   const isSubmitDisabled = isEmptyStringOrNil(prompt);
   const { agentId, postGroupId } = useParams();
   const searchParams = useSearchParams();
   const postId = searchParams.get('postId');
-  const { data } = useGroupPostsQuery(Number(agentId), Number(postGroupId));
+  const { data } = useGetAllPostsQuery({
+    agentId: Number(agentId),
+    postGroupId: Number(postGroupId),
+  });
   const posts = data?.data.posts ?? [];
-  const editingPosts = posts
+  const editingPosts = Object.values(posts)
+    .flat()
     .filter((post) => post.status === 'EDITING')
     .map((post) => post.id);
 
-  const { mutate: patchPrompt, isPending } = usePatchPromptMutation({
-    agentId: Number(agentId),
-    postGroupId: Number(postGroupId),
-    postId: Number(postId),
-  });
+  const { mutate: updatePrompt, isPending: isUpdatePromptPending } =
+    useUpdatePromptMutation({
+      agentId: Number(agentId),
+      postGroupId: Number(postGroupId),
+      postId: Number(postId),
+    });
 
   // TODO 제거 예정
   useEffect(() => {
-    if (isPending) {
+    if (isUpdatePromptPending) {
       // 요청이 진행 중이면
       if (isEntire) {
         setLoadingPosts(editingPosts);
@@ -59,10 +64,16 @@ export function EditPromptField() {
         setLoadingPosts((prev) => prev.filter((id) => id !== Number(postId)));
       }
     }
-  }, [isPending]);
+  }, [isUpdatePromptPending]);
 
   const onSubmit = async (data: { isEntire: boolean; prompt: string }) => {
-    patchPrompt({ ...data });
+    const editingPostIds = posts.EDITING.map((item) => item.id);
+
+    if (isEntire) {
+      updatePrompt({ ...data, postsId: editingPostIds });
+    } else {
+      updatePrompt({ ...data });
+    }
   };
 
   return (

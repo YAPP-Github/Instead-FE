@@ -3,7 +3,7 @@
 import { createContext, Dispatch, SetStateAction } from 'react';
 import { EditPost } from './_components/EditPost/EditPost';
 import { EditSidebar } from './_components/EditSidebar/EditSidebar';
-import { editDetailPage, flexColumn } from './EditDetail.css';
+import { editDetailPage, flexColumn } from './page.css';
 import { useState } from 'react';
 import { Post } from '@web/types';
 
