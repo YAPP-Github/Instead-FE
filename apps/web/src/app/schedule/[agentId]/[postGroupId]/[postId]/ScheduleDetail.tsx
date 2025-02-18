@@ -10,6 +10,7 @@ import { ScheduleDetailPageProps } from './type';
 import { useGetPostQuery } from '@web/store/query/useGetPostQuery';
 import { isNil } from '@repo/ui/utils';
 import { ROUTES } from '@web/routes';
+import { useGetTopicQuery } from '@web/store/query/useGetTopicQuery';
 
 export default function ScheduleDetail({ params }: ScheduleDetailPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({ threshold: 100 });
@@ -18,6 +19,11 @@ export default function ScheduleDetail({ params }: ScheduleDetailPageProps) {
     agentId: params.agentId,
     postGroupId: params.postGroupId,
     postId: params.postId,
+  });
+
+  const { data: topic } = useGetTopicQuery({
+    agentId: params.agentId,
+    postGroupId: params.postGroupId,
   });
 
   if (isNil(post)) {
@@ -31,9 +37,7 @@ export default function ScheduleDetail({ params }: ScheduleDetailPageProps) {
         leftAddon={
           <Breadcrumb>
             <MainBreadcrumbItem href="/" />
-            <Breadcrumb.Item active>
-              {post.data.postGroup.topic}
-            </Breadcrumb.Item>
+            <Breadcrumb.Item active>{topic.data.topic}</Breadcrumb.Item>
           </Breadcrumb>
         }
         rightAddon={
@@ -50,7 +54,7 @@ export default function ScheduleDetail({ params }: ScheduleDetailPageProps) {
       <div className={style.contentWrapperStyle}>
         <div className={style.titleSectionStyle}>
           <Text.H1 fontSize={28} fontWeight="bold" color="grey1000">
-            {post.data.post.summary}
+            {post.data.summary}
           </Text.H1>
           <Badge size="large" variant="neutral" shape="square">
             요약
@@ -62,10 +66,10 @@ export default function ScheduleDetail({ params }: ScheduleDetailPageProps) {
           color="grey800"
           className={style.contentStyle}
         >
-          {post.data.post.content}
+          {post.data.content}
         </Text.P>
-        {post.data.post.postImages.length > 0 &&
-          post.data.post.postImages.map((image) => (
+        {post.data.postImages.length > 0 &&
+          post.data.postImages.map((image) => (
             <div key={image.id} className={style.imageWrapperStyle}>
               <Image
                 src={image.url}
