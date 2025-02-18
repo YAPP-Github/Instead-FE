@@ -10,11 +10,11 @@ export default function HomePage({ params }: HomePageProps) {
   const tokens = getServerSideTokens();
   const serverFetchOptions = [
     getAgentDetailQueryOptions({
-      agentId: 1,
+      agentId: params.agentId,
       tokens,
     }),
     getAgentPostGroupsQueryOptions({
-      agentId: 1,
+      agentId: params.agentId,
       tokens,
     }),
     getAgentQueryOptions(tokens),
