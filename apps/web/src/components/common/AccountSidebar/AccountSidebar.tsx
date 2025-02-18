@@ -1,6 +1,6 @@
 import { Text } from '@repo/ui/Text';
 import { wrapper, title } from './AccountSidebar.css';
-import { AccountItem } from '../AccountItem/AccountItem';
+import { AccountItem } from './AccountItem/AccountItem';
 import { Agent } from '@web/types';
 
 export type AccountSidebarProps = {

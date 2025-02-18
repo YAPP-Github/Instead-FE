@@ -1,7 +1,7 @@
 'use client';
 
 import { MainBreadcrumbItem, NavBar } from '@web/components/common';
-import { AccountSidebar } from './_components/AccountSidebar/AccountSidebar';
+import { AccountSidebar } from '../../../components/common/AccountSidebar/AccountSidebar';
 import { useScroll } from '@web/hooks';
 import { ROUTES } from '@web/routes';
 import { Breadcrumb } from '@repo/ui/Breadcrumb';
@@ -152,10 +152,16 @@ export default function Home({ params }: HomePageProps) {
               <UploadContentCard
                 text={'업로드 예약 일정'}
                 onMoreButtonClick={() =>
-                  router.push(ROUTES.SCHEDULE(params.agentId))
+                  router.push(ROUTES.SCHEDULE.ROOT(params.agentId))
                 }
                 onItemClick={(post) => {
-                  // router.push(ROUTES.EDIT.DETAIL(params.agentId, post))
+                  router.push(
+                    ROUTES.SCHEDULE.DETAIL({
+                      agentId: params.agentId,
+                      postGroupId: post.postGroupId,
+                      postId: post.id,
+                    })
+                  );
                 }}
                 items={agentUploadReservedData}
               />

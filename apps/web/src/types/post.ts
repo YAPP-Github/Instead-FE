@@ -31,8 +31,7 @@ export const POST_LENGTH = {
 
 export interface Post {
   id: PostId;
-  // TODO 고쳐 주시면 옵셔널 제거
-  postGroupId?: PostGroupId;
+  postGroupId: PostGroupId;
   createdAt: string;
   updatedAt: string;
   summary: string;
