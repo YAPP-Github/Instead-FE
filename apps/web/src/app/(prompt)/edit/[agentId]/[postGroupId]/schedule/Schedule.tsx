@@ -8,7 +8,7 @@ import { DndController } from '@web/components/common';
 import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
 import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
 import { SideBar } from './_components/SideBar/SideBar';
-import { TitleWithDescription } from './_components/TitleWithDescription/TitleWithDescription';
+import { TitleWithDescription } from '@web/components/common/TitleWithDescription/TitleWithDescription';
 import { useRouter } from 'next/navigation';
 import { ScheduleTable } from './_components/ScheduleTable/ScheduleTable';
 import { TableRow } from './_components/TableRow/TableRow';
