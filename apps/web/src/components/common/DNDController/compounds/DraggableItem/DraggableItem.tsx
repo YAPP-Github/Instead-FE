@@ -2,7 +2,7 @@
 
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { ComponentPropsWithoutRef } from 'react';
+import { ComponentPropsWithoutRef, CSSProperties } from 'react';
 
 type DraggableItemProps = {
   id: number | string;
@@ -32,7 +32,7 @@ export function DraggableItem({
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0 : 1,
-  };
+  } as CSSProperties;
 
   return (
     <div

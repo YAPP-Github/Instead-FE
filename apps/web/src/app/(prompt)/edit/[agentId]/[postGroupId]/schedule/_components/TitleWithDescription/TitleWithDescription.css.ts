@@ -7,3 +7,9 @@ export const textWrapperStyle = style({
   gap: vars.space[8],
   padding: `${vars.space[24]} 0`,
 });
+
+export const titleWrapperStyle = style({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: vars.space[8],
+});

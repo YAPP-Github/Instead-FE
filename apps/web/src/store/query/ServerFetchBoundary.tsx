@@ -11,7 +11,7 @@ export type FetchOptions<
   TQueryKey extends QueryKey = QueryKey,
 > = Pick<
   FetchQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
-  'queryKey' | 'queryFn'
+  'queryKey' | 'queryFn' | 'staleTime' | 'gcTime'
 >;
 
 type Props<
