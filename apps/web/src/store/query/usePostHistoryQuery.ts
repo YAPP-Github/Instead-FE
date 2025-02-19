@@ -4,6 +4,9 @@ import { Tokens } from '@web/shared/server/types';
 import { queryKeys } from '../constants';
 import { IdParams } from '@web/types';
 
+const STALE_TIME = 1000 * 60 * 1;
+const GC_TIME = 1000 * 60 * 2;
+
 export interface PostHistoryQuery {
   id: number;
   createdAt: Date | string;
@@ -32,8 +35,8 @@ export function PostHistoryQueryQueryOptions({
         tokens
       ),
 
-    staleTime: Infinity,
-    gcTime: Infinity,
+    staleTime: STALE_TIME,
+    gcTime: GC_TIME,
   });
 }
 

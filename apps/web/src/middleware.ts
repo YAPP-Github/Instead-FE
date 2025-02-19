@@ -5,7 +5,14 @@ import { ROUTES } from './routes';
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (pathname.startsWith(ROUTES.JOIN)) {
+  if (pathname.startsWith('/_next') || pathname === '/favicon.ico') {
+    return NextResponse.next();
+  }
+
+  if (
+    pathname.startsWith(ROUTES.JOIN) ||
+    pathname.startsWith(ROUTES.GOOGLE.CALLBACK)
+  ) {
     return NextResponse.next();
   }
 

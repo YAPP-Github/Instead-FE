@@ -6,15 +6,14 @@ import {
   textWrapper,
   wrapper,
 } from './AccountItem.css';
-import DNDImage from '@web/assets/images/dndImage.webp';
 import { AgentPlan } from '@web/types/agent';
 import { Text } from '@repo/ui/Text';
 import { Icon } from '@repo/ui/Icon';
-import { ColorsType, vars } from '@repo/theme';
+import { vars } from '@repo/theme';
 import { isNil } from '@repo/ui/utils';
 
 export type AccountItemProps = {
-  accountId: string;
+  accountName: string;
   profileImageUrl?: string;
   agentPlan: AgentPlan;
   isSelected?: boolean;
@@ -22,7 +21,7 @@ export type AccountItemProps = {
 };
 
 export function AccountItem({
-  accountId,
+  accountName,
   profileImageUrl,
   agentPlan,
   isSelected = false,
@@ -37,7 +36,7 @@ export function AccountItem({
           className={image}
           width={60}
           height={60}
-          src={DNDImage}
+          src={profileImageUrl}
           alt={''}
         />
       )}
@@ -47,7 +46,7 @@ export function AccountItem({
           fontWeight={isSelected ? 'semibold' : 'medium'}
           color={isSelected ? 'primary700' : 'grey800'}
         >
-          {accountId}
+          {accountName}
         </Text>
         <AgentPlanBadge agentPlan={agentPlan} />
       </div>
@@ -57,13 +56,17 @@ export function AccountItem({
 
 function AgentPlanBadge({ agentPlan }: { agentPlan: AgentPlan }) {
   const color: Record<AgentPlan, keyof typeof vars.colors> = {
+    FREE: 'grey300',
     BASIC: 'grey300',
     PREMIUM: 'primary600',
+    PREMIUM_PLUS: 'primary600',
   };
 
   const plan: Record<AgentPlan, string> = {
-    BASIC: '무료',
-    PREMIUM: '프리미엄 플러스',
+    FREE: '무료',
+    BASIC: '베이직',
+    PREMIUM: '프리미엄',
+    PREMIUM_PLUS: '프리미엄 플러스',
   };
   return (
     <div className={agentPlanBadge}>

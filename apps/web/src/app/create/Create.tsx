@@ -103,7 +103,9 @@ export default function Create() {
       cancelButton: '취소',
       confirmButtonProps: {
         onClick: () => {
-          router.push(ROUTES.HOME);
+          // TODO: 현재 선택된 에이전트의 ID를 동적으로 가져와서 사용
+          // const currentAgentId = getCurrentAgentId(); // 적절한 함수 구현 필요
+          // router.push(ROUTES.HOME.DETAIL(currentAgentId));
         },
       },
     });
