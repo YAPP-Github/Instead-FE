@@ -33,7 +33,8 @@ export const contentWrapperStyle = style({
   overflow: 'auto',
   display: 'flex',
   flexDirection: 'column',
-  maxWidth: '144rem',
+  //marginLeft: '44rem', // TODO: 사이드바가 fixed로 수정되면 주석 해제
+  //maxWidth: '144rem',
 });
 
 export const formSectionStyle = style({
