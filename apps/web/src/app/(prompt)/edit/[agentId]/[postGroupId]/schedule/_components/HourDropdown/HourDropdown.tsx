@@ -8,11 +8,11 @@ type HourDropdownProps = {
   onChange?: (value: string) => void;
 };
 
-export function HourDropdown({ value = '00', onChange }: HourDropdownProps) {
-  const hours = Array.from({ length: 24 }, (_, i) =>
-    i.toString().padStart(2, '0')
-  );
+const hours = Array.from({ length: 24 }, (_, i) =>
+  i.toString().padStart(2, '0')
+);
 
+export function HourDropdown({ value = '00', onChange }: HourDropdownProps) {
   return (
     <Dropdown value={value} onValueChange={onChange}>
       <Dropdown.Trigger className={styles.trigger}>{value}시</Dropdown.Trigger>
