@@ -30,4 +30,7 @@ export const ROUTES = {
       `/schedule/${agentId}/${postGroupId}/${postId}`,
   },
   ERROR: '/error',
+  GOOGLE: {
+    CALLBACK: '/api/auth/google/callback',
+  },
 } as const;
