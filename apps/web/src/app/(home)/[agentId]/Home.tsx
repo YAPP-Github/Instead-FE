@@ -157,7 +157,9 @@ export default function Home({ params }: HomePageProps) {
                 <CTACard
                   text={'자동으로 글을 만들어보세요'}
                   buttonText={'주제 생성하기'}
-                  onButtonClick={() => router.push(ROUTES.CREATE)}
+                  onButtonClick={() =>
+                    router.push(ROUTES.CREATE.DETAIL(params.agentId))
+                  }
                   imageSrc={CreateImage}
                 />
                 <Spacing size={16} />
