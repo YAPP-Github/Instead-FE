@@ -1,29 +1,26 @@
-import {
-  useSuspenseQuery,
-  UseSuspenseQueryOptions,
-} from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
 import { GET } from '@web/shared/server/fetch';
 import { Tokens } from '@web/shared/server/types';
 import { queryKeys } from '../constants';
 import { Agent } from '@web/types';
 
+const STALE_TIME = 1000 * 60 * 1;
+const GC_TIME = 1000 * 60 * 2;
+
 export interface GetAgentResponse {
   agents: Agent[];
 }
 
-export function getAgentQueryOptions(
-  tokens?: Tokens
-): UseSuspenseQueryOptions<GetAgentResponse> {
-  return {
+export function getAgentQueryOptions(tokens?: Tokens) {
+  return queryOptions({
     queryKey: queryKeys.agents.agents,
     queryFn: async () => {
       const response = await GET<GetAgentResponse>(`agents`, undefined, tokens);
       return response.data;
     },
-    // NOTE: 항상 fresh 상태로 유지
-    staleTime: Infinity,
-    gcTime: Infinity,
-  };
+    staleTime: STALE_TIME,
+    gcTime: GC_TIME,
+  });
 }
 
 export function useGetAgentQuery(tokens?: Tokens) {

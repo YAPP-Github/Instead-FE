@@ -17,12 +17,13 @@ import { motion } from 'motion/react';
 import { Dropdown } from '@repo/ui/Dropdown';
 import { Icon } from '@repo/ui/Icon';
 import { IconButton } from '@repo/ui/IconButton';
+import { PostGroupId } from '../../../../../types/id';
 
 export type ContentGroupCardProps = {
   text: string;
   postGroups: PostGroup[];
-  onItemClick: (postGroup: PostGroup) => void;
-  onItemRemove: (postGroup: PostGroup) => void;
+  onItemClick: (PostGroupId: PostGroupId) => void;
+  onItemRemove: (PostGroupId: PostGroupId) => void;
 };
 
 export function ContentGroupCard({
@@ -45,8 +46,8 @@ export function ContentGroupCard({
         {postGroups.map((item) => (
           <ContentGroupItem
             key={item.id}
-            onItemClick={() => onItemClick(item)}
-            onItemRemove={() => onItemRemove(item)}
+            onItemClick={() => onItemClick(item.id)}
+            onItemRemove={() => onItemRemove(item.id)}
             item={item}
           />
         ))}

@@ -1,11 +1,11 @@
-import {
-  useSuspenseQuery,
-  UseSuspenseQueryOptions,
-} from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
 import { GET } from '@web/shared/server/fetch';
 import { Tokens } from '@web/shared/server/types';
 import { queryKeys } from '../constants';
 import { IdParams, PostGroup } from '@web/types';
+
+const STALE_TIME = 1000 * 60 * 1;
+const GC_TIME = 1000 * 60 * 2;
 
 export type GetAgentPostGroupsParams = {
   agentId: IdParams['agentId'];
@@ -19,8 +19,8 @@ export interface GetAgentPostGroupsResponse {
 export function getAgentPostGroupsQueryOptions({
   agentId,
   tokens,
-}: GetAgentPostGroupsParams): UseSuspenseQueryOptions<GetAgentPostGroupsResponse> {
-  return {
+}: GetAgentPostGroupsParams) {
+  return queryOptions({
     queryKey: queryKeys.posts.postGroups(agentId),
     queryFn: async () => {
       const response = await GET<GetAgentPostGroupsResponse>(
@@ -30,10 +30,9 @@ export function getAgentPostGroupsQueryOptions({
       );
       return response.data;
     },
-    // NOTE: 항상 fresh 상태로 유지
-    staleTime: Infinity,
-    gcTime: Infinity,
-  };
+    staleTime: STALE_TIME,
+    gcTime: GC_TIME,
+  });
 }
 
 export function useGetAgentPostGroupsQuery(params: GetAgentPostGroupsParams) {

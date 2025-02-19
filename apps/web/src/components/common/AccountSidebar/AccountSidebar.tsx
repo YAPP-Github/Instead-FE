@@ -5,13 +5,13 @@ import { wrapper, titleWrapper } from './AccountSidebar.css';
 import { AccountItem } from './AccountItem/AccountItem';
 import { Agent } from '@web/types';
 import { useGetXLoginQuery } from '@web/store/query/useGetXLogin';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { IconButton } from '@repo/ui/IconButton';
 
 export type AccountSidebarProps = {
   agentData: Agent[];
   selectedId: number;
-  onAccountClick: (id: number) => void;
+  onAccountClick: (id: Agent['id']) => void;
 };
 
 export function AccountSidebar({

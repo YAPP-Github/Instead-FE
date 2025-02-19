@@ -21,11 +21,11 @@ import { ROUTES } from '@web/routes';
 import { Dropdown } from '@repo/ui/Dropdown';
 import { Icon } from '@repo/ui/Icon';
 import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation';
-import { useModal, useToast } from '@repo/ui/hooks';
+import { useModal } from '@repo/ui/hooks';
 import { Modal } from '@repo/ui/Modal';
 import { Chip } from '@repo/ui/Chip';
 import { PostStatus } from '@web/types';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
 
 const CHIP_DROPDOWN: Partial<Record<PostStatus, ReactNode>> = {
@@ -55,7 +55,6 @@ const CHIP_DROPDOWN: Partial<Record<PostStatus, ReactNode>> = {
 export function EditPost() {
   const router = useRouter();
   const modal = useModal();
-  const toast = useToast();
   const methods = useForm();
   const { agentId, postGroupId } = useParams();
   const searchParams = useSearchParams();
@@ -64,14 +63,14 @@ export function EditPost() {
     agentId: Number(agentId),
     postGroupId: Number(postGroupId),
   });
-  const post = Object.values(posts?.data?.posts)
+  const post = Object.values(posts.data.posts)
     .flat()
     .find((post) => String(post.id) === postId);
 
   const { routePreviousPost, routeNextPost, canMoveUp, canMoveDown } =
-    useAdjacentPosts(posts?.data?.posts, post);
+    useAdjacentPosts(posts.data.posts, post);
 
-  const { mutateAsync: deletePost, isSuccess } = useDeletePostMutation({
+  const { mutate: deletePost } = useDeletePostMutation({
     agentId: Number(agentId),
     postGroupId: Number(postGroupId),
   });
@@ -85,25 +84,15 @@ export function EditPost() {
       cancelButton: '취소',
       confirmButtonProps: {
         onClick: async () => {
-          try {
-            await deletePost(Number(postId));
-            router.push(ROUTES.CREATE);
-          } catch (error) {
-            toast.error('삭제하지 못했어요.');
-          }
+          deletePost(Number(postId), {
+            onSuccess: () => router.push(ROUTES.CREATE),
+          });
         },
       },
     });
   };
 
-  // TODO
-  useEffect(() => {
-    if (isSuccess) {
-      router.push(ROUTES.CREATE);
-    }
-  }, [isSuccess, router]);
-
-  const { mutate: modifyPost, isPending } = useUpdatePostsMutation({
+  const { mutate: modifyPost } = useUpdatePostsMutation({
     agentId: Number(agentId),
     postGroupId: Number(postGroupId),
   });

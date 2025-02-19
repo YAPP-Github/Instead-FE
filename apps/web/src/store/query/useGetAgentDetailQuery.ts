@@ -1,11 +1,11 @@
-import {
-  useSuspenseQuery,
-  UseSuspenseQueryOptions,
-} from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
 import { GET } from '@web/shared/server/fetch';
 import { Tokens } from '@web/shared/server/types';
 import { queryKeys } from '../constants';
 import { Agent, AgentPersonalSetting, IdParams } from '@web/types';
+
+const STALE_TIME = 1000 * 60 * 1;
+const GC_TIME = 1000 * 60 * 2;
 
 export type GetAgentDetailParams = {
   agentId: IdParams['agentId'];
@@ -21,8 +21,8 @@ export interface GetAgentDetailResponse {
 export function getAgentDetailQueryOptions({
   agentId,
   tokens,
-}: GetAgentDetailParams): UseSuspenseQueryOptions<GetAgentDetailResponse> {
-  return {
+}: GetAgentDetailParams) {
+  return queryOptions({
     queryKey: queryKeys.agents.detail(agentId),
     queryFn: async () => {
       const response = await GET<GetAgentDetailResponse>(
@@ -32,10 +32,9 @@ export function getAgentDetailQueryOptions({
       );
       return response.data;
     },
-    // NOTE: 항상 fresh 상태로 유지
-    staleTime: Infinity,
-    gcTime: Infinity,
-  };
+    staleTime: STALE_TIME,
+    gcTime: GC_TIME,
+  });
 }
 
 export function useGetAgentDetailQuery(params: GetAgentDetailParams) {

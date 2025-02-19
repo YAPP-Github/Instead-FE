@@ -34,7 +34,7 @@ import { useGetAgentQuery } from '@web/store/query/useGetAgentQuery';
 import { useGetAgentUploadReservedQuery } from '@web/store/query/useGetAgentUploadReserved';
 import { HomePageProps } from './types';
 import { useRouter } from 'next/navigation';
-import { PostGroup, PostGroupId } from '@web/types';
+import { Agent, PostGroup, PostGroupId } from '@web/types';
 import { useModal } from '@repo/ui/hooks';
 import { Modal } from '@repo/ui/Modal';
 import { useDeletePostGroupMutation } from '@web/store/mutation/useDeletePostGroupMutation';
@@ -45,23 +45,22 @@ export default function Home({ params }: HomePageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({
     threshold: 100,
   });
-  const { data: agentDetail, isLoading: isDetailLoading } =
-    useGetAgentDetailQuery({
-      agentId: params.agentId,
-    });
-  const { data: agentUploadReserved, isLoading: isReservedLoading } =
-    useGetAgentUploadReservedQuery({ agentId: params.agentId });
-  const { data: agentPostGroups, isLoading: isPostGroupsLoading } =
-    useGetAgentPostGroupsQuery({
-      agentId: params.agentId,
-    });
+  const { data: agentDetail } = useGetAgentDetailQuery({
+    agentId: params.agentId,
+  });
+  const { data: agentUploadReserved } = useGetAgentUploadReservedQuery({
+    agentId: params.agentId,
+  });
+  const { data: agentPostGroups } = useGetAgentPostGroupsQuery({
+    agentId: params.agentId,
+  });
   const { mutate: deletePostGroups } = useDeletePostGroupMutation({
     agentId: params.agentId,
   });
-  const { data: agentData, isLoading: isAgentLoading } = useGetAgentQuery();
+  const { data: agentData } = useGetAgentQuery();
 
-  const agentDetailData = agentDetail?.agentPersonalSetting;
-  const agentUploadReservedData = agentUploadReserved?.posts.slice(0, 4);
+  const agentDetailData = agentDetail.agentPersonalSetting;
+  const agentUploadReservedData = agentUploadReserved.posts.slice(0, 4);
 
   const handleDeletePostGroup = (postGroupId: PostGroupId) => {
     modal.confirm({
@@ -119,8 +118,10 @@ export default function Home({ params }: HomePageProps) {
       <div className={content}>
         <AccountSidebar
           agentData={agentData.agents}
-          selectedId={Number(params.agentId)}
-          onAccountClick={(id: number) => router.push(ROUTES.HOME.DETAIL(id))}
+          selectedId={params.agentId}
+          onAccountClick={(id: Agent['id']) =>
+            router.push(ROUTES.HOME.DETAIL(id))
+          }
         />
         <div className={cardContent}>
           <GradientAnimatedText className={animatedText}>
@@ -171,16 +172,16 @@ export default function Home({ params }: HomePageProps) {
             <ContentGroupCard
               text="생성된 주제"
               postGroups={agentPostGroups.postGroups}
-              onItemClick={(postGroup: PostGroup) =>
+              onItemClick={(postGroupId) =>
                 router.push(
                   ROUTES.EDIT.ROOT({
                     agentId: params.agentId,
-                    postGroupId: postGroup.id,
+                    postGroupId,
                   })
                 )
               }
-              onItemRemove={function (postGroup: PostGroup): void {
-                handleDeletePostGroup(postGroup.id);
+              onItemRemove={(id) => {
+                handleDeletePostGroup(id);
               }}
             />
           </div>

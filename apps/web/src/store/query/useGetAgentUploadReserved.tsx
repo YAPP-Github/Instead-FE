@@ -1,11 +1,11 @@
-import {
-  useSuspenseQuery,
-  UseSuspenseQueryOptions,
-} from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
 import { GET } from '@web/shared/server/fetch';
 import { Tokens } from '@web/shared/server/types';
 import { queryKeys } from '../constants';
 import { IdParams, Post } from '@web/types';
+
+const STALE_TIME = 1000 * 60 * 1;
+const GC_TIME = 1000 * 60 * 2;
 
 export type GetAgentUploadReservedParams = {
   agentId: IdParams['agentId'];
@@ -19,8 +19,8 @@ export interface GetAgentUploadReservedResponse {
 export function getAgentUploadReservedQueryOptions({
   agentId,
   tokens,
-}: GetAgentUploadReservedParams): UseSuspenseQueryOptions<GetAgentUploadReservedResponse> {
-  return {
+}: GetAgentUploadReservedParams) {
+  return queryOptions({
     queryKey: queryKeys.agents.reserved(agentId),
     queryFn: async () => {
       const response = await GET<GetAgentUploadReservedResponse>(
@@ -30,10 +30,9 @@ export function getAgentUploadReservedQueryOptions({
       );
       return response.data;
     },
-    // NOTE: 항상 fresh 상태로 유지
-    staleTime: Infinity,
-    gcTime: Infinity,
-  };
+    staleTime: STALE_TIME,
+    gcTime: GC_TIME,
+  });
 }
 
 export function useGetAgentUploadReservedQuery(

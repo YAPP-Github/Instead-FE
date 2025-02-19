@@ -12,7 +12,6 @@ import { motion } from 'motion/react';
 import { Chip } from '@repo/ui/Chip';
 import { AGENT_TONE, AgentPersonalSetting } from '@web/types/agent';
 import { Icon } from '@repo/ui/Icon';
-import { isNotNil } from '../../../../../../../../packages/ui/src/utils/isNotNil';
 
 export type PersonalCardPops = {
   text: string;
@@ -57,7 +56,7 @@ export function PersonalCard({ text, data, onIconClick }: PersonalCardPops) {
         fontWeight="medium"
         color="grey400"
       >
-        {data.introduction ? (
+        {data.introduction.length > 0 ? (
           data.introduction
         ) : (
           <>

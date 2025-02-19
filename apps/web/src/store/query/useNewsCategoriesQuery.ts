@@ -1,10 +1,6 @@
-import {
-  queryOptions,
-  useSuspenseQuery,
-  UseSuspenseQueryOptions,
-} from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
 import { GET } from '@web/shared/server/fetch';
-import { ApiResponse, Tokens } from '@web/shared/server/types';
+import { Tokens } from '@web/shared/server/types';
 import { queryKeys } from '../constants';
 
 export interface NewsCategory {
@@ -20,17 +16,15 @@ export interface NewsCategory {
 
 type NewsCategoriesQuery = NewsCategory[];
 
-export function newsCategoriesQueryOptions(
-  tokens?: Tokens
-): UseSuspenseQueryOptions<ApiResponse<NewsCategoriesQuery>> {
-  return {
+export function newsCategoriesQueryOptions(tokens?: Tokens) {
+  return queryOptions({
     queryKey: queryKeys.news.categories,
     queryFn: () =>
       GET<NewsCategoriesQuery>(`news-categories`, undefined, tokens),
     // NOTE: 항상 fresh 상태로 유지
     staleTime: Infinity,
     gcTime: Infinity,
-  };
+  });
 }
 
 export function useNewsCategoriesQuery() {
