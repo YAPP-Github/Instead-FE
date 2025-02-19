@@ -1,10 +1,7 @@
 import { DELETE } from '@web/shared/server';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@repo/ui/hooks';
-import { getAllPostsQueryOptions } from '../query/useGetAllPostsQuery';
 import { IdParams, Post } from '@web/types';
-import { getAgentPostGroupsQueryOptions } from '../query/useGetAgentPostGroupsQuery';
-import { getAgentUploadReservedQueryOptions } from '../query/useGetAgentUploadReserved';
 import { queryKeys } from '../constants';
 
 export type MutationDeletePost = Pick<IdParams, 'agentId'>;

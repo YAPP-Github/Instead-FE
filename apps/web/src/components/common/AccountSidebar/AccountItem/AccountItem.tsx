@@ -6,7 +6,6 @@ import {
   textWrapper,
   wrapper,
 } from './AccountItem.css';
-import DNDImage from '@web/assets/images/dndImage.webp';
 import { AgentPlan } from '@web/types/agent';
 import { Text } from '@repo/ui/Text';
 import { Icon } from '@repo/ui/Icon';
@@ -37,7 +36,7 @@ export function AccountItem({
           className={image}
           width={60}
           height={60}
-          src={DNDImage}
+          src={profileImageUrl}
           alt={''}
         />
       )}

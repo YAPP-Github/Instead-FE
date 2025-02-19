@@ -13,12 +13,14 @@ import { Post } from '@web/types';
 import { getFormattedDatetime } from '@web/utils';
 import uploadEmptyImage from '@web/assets/images/uploadEmptyImage.png';
 import Image from 'next/image';
+import { Spacing } from '@repo/ui/Spacing';
+import { isNotNil } from '@repo/ui/utils';
 
 export type UploadContentCardProps = {
   text: string;
-  onMoreButtonClick: () => void;
-  items: Post[];
-  onItemClick: (post: Post) => void;
+  onMoreButtonClick?: () => void;
+  items?: Post[];
+  onItemClick?: (post: Post) => void;
 };
 
 export function UploadContentCard({
@@ -38,17 +40,19 @@ export function UploadContentCard({
             {items?.length}
           </Text>
         </div>
-        <Button onClick={onMoreButtonClick} variant="text" size="small">
-          더보기
-        </Button>
+        {isNotNil(items) && (
+          <Button onClick={onMoreButtonClick} variant="text" size="small">
+            더보기
+          </Button>
+        )}
       </div>
       <div>
-        {items.length > 0 ? (
+        {isNotNil(items) && items.length > 0 ? (
           items.map((item) => (
             <UploadContentItem
               key={item.id}
               item={item}
-              onItemClick={() => onItemClick(item)}
+              onItemClick={() => onItemClick && onItemClick(item)}
             />
           ))
         ) : (
@@ -58,6 +62,13 @@ export function UploadContentCard({
               alt="empty image"
               className={emptyImage}
             />
+            <Spacing size={24} />
+            <Text color="grey600" fontWeight="bold" fontSize={22}>
+              아직 업로드 예정된 글이 없어요
+            </Text>
+            <Text color="grey400" fontWeight="medium" fontSize={16}>
+              글을 생성하고 업로드를 예약해보세요
+            </Text>
           </div>
         )}
       </div>

@@ -1,6 +1,7 @@
 import { AgentId, PostGroupId, PostId } from '@web/types';
 
 export const queryKeys = {
+  user: ['user'] as const,
   posts: {
     all: (agentId: AgentId, postGroupId: PostGroupId) =>
       ['posts', agentId, postGroupId] as const,

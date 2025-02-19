@@ -12,11 +12,12 @@ import { motion } from 'motion/react';
 import { Chip } from '@repo/ui/Chip';
 import { AGENT_TONE, AgentPersonalSetting } from '@web/types/agent';
 import { Icon } from '@repo/ui/Icon';
+import { isNotNil } from '@repo/ui/utils';
 
 export type PersonalCardPops = {
   text: string;
-  data: AgentPersonalSetting;
-  onIconClick: () => void;
+  data?: AgentPersonalSetting;
+  onIconClick?: () => void;
 };
 
 export function PersonalCard({ text, data, onIconClick }: PersonalCardPops) {
@@ -32,23 +33,41 @@ export function PersonalCard({ text, data, onIconClick }: PersonalCardPops) {
             {text}
           </Text>
           <div className={chipArea}>
-            {data.domain.length > 0 && (
-              <Chip className={chip} variant="grey">
-                {data.domain}
-              </Chip>
+            {isNotNil(data) ? (
+              <>
+                {data.domain.length > 0 && (
+                  <Chip className={chip} variant="grey">
+                    {data.domain}
+                  </Chip>
+                )}
+                <Chip className={chip} variant="grey">
+                  {data.tone === 'CUSTOM'
+                    ? data.customTone
+                    : AGENT_TONE[data.tone]}
+                </Chip>
+              </>
+            ) : (
+              <>
+                <Chip className={chip} variant="grey">
+                  활동 분야
+                </Chip>
+
+                <Chip className={chip} variant="grey">
+                  말투
+                </Chip>
+              </>
             )}
-            <Chip className={chip} variant="grey">
-              {data.tone === 'CUSTOM' ? data.customTone : AGENT_TONE[data.tone]}
-            </Chip>
           </div>
         </div>
-        <Icon
-          className={cursorPointer}
-          name="pencil"
-          size="2.4rem"
-          color="grey300"
-          onClick={onIconClick}
-        />
+        {isNotNil(data) && (
+          <Icon
+            className={cursorPointer}
+            name="pencil"
+            size="2.4rem"
+            color="grey300"
+            onClick={onIconClick}
+          />
+        )}
       </div>
       <Text
         className={introductionText}
@@ -56,7 +75,7 @@ export function PersonalCard({ text, data, onIconClick }: PersonalCardPops) {
         fontWeight="medium"
         color="grey400"
       >
-        {data.introduction.length > 0 ? (
+        {isNotNil(data) && data.introduction.length > 0 ? (
           data.introduction
         ) : (
           <>

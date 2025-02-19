@@ -7,6 +7,8 @@ import {
   contentGroupText,
   dropdownItem,
   dropdownWrapper,
+  emptyContent,
+  emptyImage,
   items,
   leftText,
 } from './ContentGroupCard.css';
@@ -17,13 +19,16 @@ import { motion } from 'motion/react';
 import { Dropdown } from '@repo/ui/Dropdown';
 import { Icon } from '@repo/ui/Icon';
 import { IconButton } from '@repo/ui/IconButton';
-import { PostGroupId } from '../../../../../types/id';
+import { PostGroupId } from '@web/types';
+import postGroupEmptyImage from '@web/assets/images/postGroupEmptyImage.png';
+import { Spacing } from '@repo/ui/Spacing';
+import { isNotNil } from '@repo/ui/utils';
 
 export type ContentGroupCardProps = {
   text: string;
-  postGroups: PostGroup[];
-  onItemClick: (PostGroupId: PostGroupId) => void;
-  onItemRemove: (PostGroupId: PostGroupId) => void;
+  postGroups?: PostGroup[];
+  onItemClick?: (PostGroupId: PostGroupId) => void;
+  onItemRemove?: (PostGroupId: PostGroupId) => void;
 };
 
 export function ContentGroupCard({
@@ -42,16 +47,33 @@ export function ContentGroupCard({
           {postGroups?.length || 0}
         </Text>
       </div>
-      <div className={items}>
-        {postGroups.map((item) => (
-          <ContentGroupItem
-            key={item.id}
-            onItemClick={() => onItemClick(item.id)}
-            onItemRemove={() => onItemRemove(item.id)}
-            item={item}
+      {isNotNil(postGroups) && postGroups.length > 0 ? (
+        <div className={items}>
+          {postGroups.map((item) => (
+            <ContentGroupItem
+              key={item.id}
+              onItemClick={() => onItemClick && onItemClick(item.id)}
+              onItemRemove={() => onItemRemove && onItemRemove(item.id)}
+              item={item}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className={emptyContent}>
+          <Image
+            src={postGroupEmptyImage}
+            alt="empty image"
+            className={emptyImage}
           />
-        ))}
-      </div>
+          <Spacing size={24} />
+          <Text color="grey600" fontWeight="bold" fontSize={22}>
+            아직 생성된 주제가 없어요
+          </Text>
+          <Text color="grey400" fontWeight="medium" fontSize={16}>
+            자동으로 글을 만들어보세요
+          </Text>
+        </div>
+      )}
     </div>
   );
 }

@@ -7,10 +7,11 @@ import { Agent } from '@web/types';
 import { useGetXLoginQuery } from '@web/store/query/useGetXLogin';
 import { useRouter } from 'next/navigation';
 import { IconButton } from '@repo/ui/IconButton';
+import { isNotNil } from '@repo/ui/utils';
 
 export type AccountSidebarProps = {
   agentData: Agent[];
-  selectedId: number;
+  selectedId?: number;
   onAccountClick: (id: Agent['id']) => void;
 };
 
@@ -43,7 +44,9 @@ export function AccountSidebar({
           profileImageUrl={data.profileImageUrl}
           accountName={data.accountName}
           agentPlan={data.agentPlan}
-          isSelected={selectedId === data.id}
+          isSelected={
+            isNotNil(selectedId) ? Number(selectedId) === data.id : false
+          }
           onClick={() => onAccountClick(data.id)}
         />
       ))}

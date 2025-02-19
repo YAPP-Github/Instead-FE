@@ -1,7 +1,7 @@
 'use client';
 
 import { MainBreadcrumbItem, NavBar } from '@web/components/common';
-import { AccountSidebar } from '../../../components/common/AccountSidebar/AccountSidebar';
+import { AccountSidebar } from '@web/components/common/AccountSidebar/AccountSidebar';
 import { useScroll } from '@web/hooks';
 import { ROUTES } from '@web/routes';
 import { Breadcrumb } from '@repo/ui/Breadcrumb';
@@ -23,62 +23,28 @@ import { Text } from '@repo/ui/Text';
 import { isNil } from '@repo/ui/utils';
 import { GradientAnimatedText } from '@repo/ui/GradientAnimatedText';
 import CreateImage from '@web/assets/images/createImage.webp';
-import { CTACard } from './_components/CTACard/CTACard';
-import { PersonalCard } from './_components/PersonalCard/PersonalCard';
-import { UploadContentCard } from './_components/UploadContentCard/UploadContentCard';
-import { ContentGroupCard } from './_components/ContentGroupCard/ContentGroupCard';
+import { CTACard } from './[agentId]/_components/CTACard/CTACard';
+import { PersonalCard } from './[agentId]/_components/PersonalCard/PersonalCard';
+import { UploadContentCard } from './[agentId]/_components/UploadContentCard/UploadContentCard';
+import { ContentGroupCard } from './[agentId]/_components/ContentGroupCard/ContentGroupCard';
 import { Spacing } from '@repo/ui/Spacing';
-import { useGetAgentDetailQuery } from '@web/store/query/useGetAgentDetailQuery';
-import { useGetAgentPostGroupsQuery } from '@web/store/query/useGetAgentPostGroupsQuery';
 import { useGetAgentQuery } from '@web/store/query/useGetAgentQuery';
-import { useGetAgentUploadReservedQuery } from '@web/store/query/useGetAgentUploadReserved';
-import { HomePageProps } from './types';
 import { useRouter } from 'next/navigation';
 import { Agent, PostGroupId } from '@web/types';
 import { useModal } from '@repo/ui/hooks';
 import { Modal } from '@repo/ui/Modal';
-import { useDeletePostGroupMutation } from '@web/store/mutation/useDeletePostGroupMutation';
 import { useGetUserQuery } from '@web/store/query/useGetUserQuery';
 
-export default function Home({ params }: HomePageProps) {
+export default function Home() {
   const router = useRouter();
   const modal = useModal();
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({
     threshold: 100,
   });
   const { data: user } = useGetUserQuery();
-  const { data: agentDetail } = useGetAgentDetailQuery({
-    agentId: params.agentId,
-  });
-  const { data: agentUploadReserved } = useGetAgentUploadReservedQuery({
-    agentId: params.agentId,
-  });
-  const { data: agentPostGroups } = useGetAgentPostGroupsQuery({
-    agentId: params.agentId,
-  });
-  const { mutate: deletePostGroups } = useDeletePostGroupMutation({
-    agentId: params.agentId,
-  });
   const { data: agentData } = useGetAgentQuery();
 
   const userData = user.data.user;
-  const agentDetailData = agentDetail.agentPersonalSetting;
-  const agentUploadReservedData = agentUploadReserved.posts.slice(0, 4);
-
-  const handleDeletePostGroup = (postGroupId: PostGroupId) => {
-    modal.confirm({
-      title: '정말 삭제하시겠어요?',
-      description: '삭제된 글은 복구할 수 없어요',
-      icon: <Modal.Icon name="notice" color="warning500" />,
-      confirmButton: '삭제하기',
-      cancelButton: '취소',
-      confirmButtonProps: {
-        onClick: () => {
-          deletePostGroups(postGroupId);
-        },
-      },
-    });
-  };
 
   return (
     <div className={background} ref={scrollRef}>
@@ -86,7 +52,7 @@ export default function Home({ params }: HomePageProps) {
         leftAddon={
           <Breadcrumb>
             <Breadcrumb.Item>
-              <MainBreadcrumbItem href={ROUTES.HOME.DETAIL(params.agentId)} />
+              <MainBreadcrumbItem href={ROUTES.HOME.ROOT} />
             </Breadcrumb.Item>
           </Breadcrumb>
         }
@@ -120,7 +86,6 @@ export default function Home({ params }: HomePageProps) {
       <div className={content}>
         <AccountSidebar
           agentData={agentData.agents}
-          selectedId={params.agentId}
           onAccountClick={(id: Agent['id']) =>
             router.push(ROUTES.HOME.DETAIL(id))
           }
@@ -142,50 +107,15 @@ export default function Home({ params }: HomePageProps) {
                 />
                 <Spacing size={16} />
                 {/* 개인화 설정 카드 */}
-                <PersonalCard
-                  text={'개인화 설정'}
-                  data={agentDetailData}
-                  onIconClick={() =>
-                    router.push(ROUTES.PERSONALIZE(params.agentId))
-                  }
-                />
+                <PersonalCard text={'개인화 설정'} />
               </div>
 
               {/* 업로드 예약 일정 카드 */}
-              <UploadContentCard
-                text={'업로드 예약 일정'}
-                onMoreButtonClick={() =>
-                  router.push(ROUTES.SCHEDULE.ROOT(params.agentId))
-                }
-                onItemClick={(post) => {
-                  router.push(
-                    ROUTES.SCHEDULE.DETAIL({
-                      agentId: params.agentId,
-                      postGroupId: post.postGroupId,
-                      postId: post.id,
-                    })
-                  );
-                }}
-                items={agentUploadReservedData}
-              />
+              <UploadContentCard text={'업로드 예약 일정'} />
             </div>
 
             {/* 생성된 주제 카드 */}
-            <ContentGroupCard
-              text="생성된 주제"
-              postGroups={agentPostGroups.postGroups}
-              onItemClick={(postGroupId) =>
-                router.push(
-                  ROUTES.EDIT.ROOT({
-                    agentId: params.agentId,
-                    postGroupId,
-                  })
-                )
-              }
-              onItemRemove={(id) => {
-                handleDeletePostGroup(id);
-              }}
-            />
+            <ContentGroupCard text="생성된 주제" />
           </div>
         </div>
       </div>
