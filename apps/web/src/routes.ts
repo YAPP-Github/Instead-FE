@@ -18,4 +18,11 @@ export const ROUTES = {
     SCHEDULE: ({ agentId, postGroupId }: EditPagesParams) =>
       `/edit/${agentId}/${postGroupId}/schedule`,
   },
+  PERSONALIZE: (agentId: IdParams['agentId']) => `/personalize/${agentId}`,
+  SCHEDULE: {
+    ROOT: (agentId: IdParams['agentId']) => `/schedule/${agentId}`,
+    DETAIL: ({ agentId, postGroupId, postId }: IdParams) =>
+      `/schedule/${agentId}/${postGroupId}/${postId}`,
+  },
+  ERROR: '/error',
 } as const;

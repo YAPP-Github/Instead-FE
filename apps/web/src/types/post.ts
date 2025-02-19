@@ -40,6 +40,7 @@ export interface Post {
   uploadTime: string;
   displayOrder: number;
   isLoading?: boolean;
+  postGroupId: PostGroupId;
 }
 
 export interface CreatedPost {

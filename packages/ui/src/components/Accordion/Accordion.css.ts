@@ -16,16 +16,6 @@ export const accordionTrigger = style({
   gap: '0.8rem',
 });
 
-export const accordionContentItem = style({
-  borderBottom: `1px solid ${vars.colors.grey100}`,
-
-  selectors: {
-    '&:last-child': {
-      borderBottom: 'none',
-    },
-  },
-});
-
 export const accordionContentHidden = style({
   display: 'none',
 });
