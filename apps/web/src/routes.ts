@@ -3,7 +3,11 @@ import { IdParams } from './types';
 type EditPagesParams = Omit<IdParams, 'postId'>;
 
 export const ROUTES = {
-  HOME: (agentId: IdParams['agentId']) => `/${agentId}`,
+  HOME: {
+    ROOT: '/',
+    DETAIL: (agentId: IdParams['agentId']) => `/${agentId}`,
+  },
+  JOIN: '/join',
   CREATE: '/create',
   EDIT: {
     ROOT: ({ agentId, postGroupId }: EditPagesParams) =>

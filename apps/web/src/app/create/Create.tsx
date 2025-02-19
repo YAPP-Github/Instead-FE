@@ -42,7 +42,7 @@ const REQUIRED_FIELDS = {
 export default function Create() {
   const { data: newsCategories } = useNewsCategoriesQuery();
   const { mutate: createPosts, isPending } = useCreatePostsMutation({
-    agentId: 1, // TODO: 임시 값
+    agentId: 5, // TODO: 임시 값
   });
   const modal = useModal();
   const router = useRouter();
@@ -105,7 +105,7 @@ export default function Create() {
         onClick: () => {
           // TODO: 현재 선택된 에이전트의 ID를 동적으로 가져와서 사용
           // const currentAgentId = getCurrentAgentId(); // 적절한 함수 구현 필요
-          // router.push(ROUTES.HOME(currentAgentId));
+          // router.push(ROUTES.HOME.DETAIL(currentAgentId));
         },
       },
     });

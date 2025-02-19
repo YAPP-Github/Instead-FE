@@ -85,7 +85,7 @@ export default function Home({ params }: HomePageProps) {
         leftAddon={
           <Breadcrumb>
             <Breadcrumb.Item>
-              <MainBreadcrumbItem href={ROUTES.HOME(params.agentId)} />
+              <MainBreadcrumbItem href={ROUTES.HOME.DETAIL(params.agentId)} />
             </Breadcrumb.Item>
           </Breadcrumb>
         }
@@ -120,7 +120,7 @@ export default function Home({ params }: HomePageProps) {
         <AccountSidebar
           agentData={agentData.agents}
           selectedId={Number(params.agentId)}
-          onAccountClick={(id: number) => router.push(ROUTES.HOME(id))}
+          onAccountClick={(id: number) => router.push(ROUTES.HOME.DETAIL(id))}
         />
         <div className={cardContent}>
           <GradientAnimatedText className={animatedText}>
