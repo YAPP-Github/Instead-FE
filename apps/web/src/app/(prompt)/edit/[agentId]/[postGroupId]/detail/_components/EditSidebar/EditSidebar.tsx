@@ -96,7 +96,7 @@ function EditSidebarContent() {
       confirmButtonProps: {
         onClick: async () => {
           await deletePost(Number(postId), {
-            onSuccess: () => router.push(ROUTES.CREATE),
+            onSuccess: () => router.push(ROUTES.CREATE.DETAIL(Number(agentId))),
           });
         },
       },

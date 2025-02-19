@@ -8,8 +8,9 @@ import { motion } from 'motion/react';
 export type CTACardPops = {
   text: string;
   buttonText: string;
-  onButtonClick: () => void;
+  onButtonClick?: () => void;
   imageSrc: StaticImageData;
+  buttonDisabled?: boolean;
 };
 
 export function CTACard({
@@ -17,6 +18,7 @@ export function CTACard({
   buttonText,
   onButtonClick,
   imageSrc,
+  buttonDisabled = false,
 }: CTACardPops) {
   return (
     <motion.div
@@ -33,6 +35,7 @@ export function CTACard({
           size="large"
           leftAddon={<Icon name="twinkle" />}
           onClick={onButtonClick}
+          disabled={buttonDisabled}
         >
           {buttonText}
         </Button>

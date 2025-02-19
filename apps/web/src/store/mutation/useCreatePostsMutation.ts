@@ -1,7 +1,7 @@
 import { POST } from '@web/shared/server';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { CreateFormValues } from '@web/app/create/types';
+import { CreateFormValues } from '@web/app/create/[agentId]/types';
 import { useToast } from '@repo/ui/hooks';
 import { CreatedPost } from '@web/types/post';
 import { AgentId } from '@web/types';
