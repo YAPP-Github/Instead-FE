@@ -11,4 +11,5 @@ export const queryKeys = {
   postHistory: {
     detail: (postId: PostId) => ['postHistory', 'Post', postId] as const,
   },
+  x: ['x'] as const,
 } as const;

@@ -1,54 +1,47 @@
-// app/api/auth/google/callback/route.js
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { GET as get } from '@web/shared/server';
+import { ApiResponse } from '@web/shared/server/types';
+import { Agent } from '@web/types';
 
-export async function GET(req) {
-  // (1) 구글이 보낸 code 받아오기
-  const { searchParams } = new URL(req.url);
-  const code = searchParams.get('code');
-  if (!code) {
-    return NextResponse.json({ error: 'No code received' }, { status: 400 });
+interface GetAgentResponse {
+  agents: Agent[];
+}
+
+export async function GET(request: NextRequest) {
+  // 1) 쿼리 파라미터에서 token 추출
+  const { searchParams } = new URL(request.url);
+  const token = searchParams.get('token');
+
+  if (!token) {
+    // 토큰이 없으면 홈으로 리다이렉트
+    return NextResponse.redirect(new URL('/', request.url));
   }
 
+  // 2) /agents API 호출
+  let agentResponse: ApiResponse<GetAgentResponse>;
   try {
-    // (2) 이미 만들어둔 서버에 code 전달 (POST or GET, 서버 스펙에 맞게)
-    const serverEndpoint =
-      'https://hong-nuri.shop/yapp/oauth2/authorization/google';
-    // 예: code를 JSON 바디로 넘긴다고 가정
-    const response = await fetch(serverEndpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code }),
-      // 쿠키/세션을 사용한다면 credentials 관련 설정 필요할 수 있음
+    agentResponse = await get<GetAgentResponse>(`agents`, undefined, {
+      accessToken: token,
     });
-
-    if (!response.ok) {
-      return NextResponse.json(
-        { error: 'Failed to exchange code' },
-        { status: 500 }
-      );
-    }
-
-    // (3) 서버가 준 응답 (예: 사용자 정보 + JWT 등)
-    const data = await response.json();
-    // data 안에 { token, user, ... } 등의 정보가 있다고 가정
-
-    // (4) 여기서 Next.js에서 쿠키를 직접 설정할 수도 있음
-    //     - 예: JWT를 `Set-Cookie`로 설정
-    //     - NextResponse 쿠키 사용: NextResponse.cookies.set(...)
-    // 예시:
-    const redirectResponse = NextResponse.redirect(new URL('/', req.url));
-    redirectResponse.cookies.set({
-      name: 'my_auth_token',
-      value: data.token, // 서버가 준 JWT
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      path: '/',
-      maxAge: 60 * 60 * 24 * 7, // 7일
-    });
-
-    return redirectResponse;
   } catch (error) {
-    console.error('Callback Error: ', error);
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+    return NextResponse.redirect(new URL(`/join`, request.url));
   }
+
+  // 3) API 응답에서 id 추출
+  const agentData = agentResponse.data.agents;
+
+  const agentId = agentData[0]?.id;
+
+  // 4) 쿠키 세팅 & /[id]로 리다이렉트
+  const redirectUrl = agentData[0]?.id
+    ? new URL(`/${agentId}`, request.url)
+    : new URL('/', request.url);
+  const response = NextResponse.redirect(redirectUrl);
+
+  response.cookies.set('accessToken', token, {
+    // httpOnly: true,
+    path: '/',
+  });
+
+  return response;
 }

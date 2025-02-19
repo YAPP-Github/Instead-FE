@@ -4,6 +4,7 @@ type EditPagesParams = Omit<IdParams, 'postId'>;
 
 export const ROUTES = {
   HOME: '/',
+  JOIN: '/join',
   CREATE: '/create',
   EDIT: {
     ROOT: ({ agentId, postGroupId }: EditPagesParams) =>
