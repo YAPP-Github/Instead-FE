@@ -1,5 +1,5 @@
 import { GET } from '@web/shared/server';
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
 import { queryKeys } from '../constants';
 
 const STALE_TIME = 1000 * 60 * 1;
@@ -24,5 +24,5 @@ export function getXLoginQueryOptions() {
 }
 
 export function useGetXLoginQuery() {
-  return useSuspenseQuery(getXLoginQueryOptions());
+  return useQuery(getXLoginQueryOptions());
 }
