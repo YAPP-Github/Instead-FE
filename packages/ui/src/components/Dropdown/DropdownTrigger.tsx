@@ -1,5 +1,10 @@
 'use client';
-import { ComponentPropsWithoutRef, forwardRef, ReactNode } from 'react';
+import {
+  ComponentPropsWithoutRef,
+  forwardRef,
+  MouseEvent,
+  ReactNode,
+} from 'react';
 import { useDropdownContext } from './Dropdown.context';
 import { dropdownTrigger } from './Dropdown.css';
 import { mergeRefs } from '@repo/ui/utils';
@@ -12,7 +17,8 @@ export const DropdownTrigger = forwardRef<HTMLDivElement, DropdownTriggerProps>(
   ({ children, className = '', ...props }, ref) => {
     const { setIsOpen, value, placeholder, triggerRef } = useDropdownContext();
 
-    const handleClick = () => {
+    const handleClick = (e: MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation();
       setIsOpen((prev) => !prev);
     };
 

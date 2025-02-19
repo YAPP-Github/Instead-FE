@@ -1,8 +1,6 @@
 import { ApiResponse, STATUS, Tokens } from './types';
 import { api } from './api';
-import { isNotNil } from '@repo/ui/utils';
 import { HTTPError } from 'ky';
-import { redirect } from 'next/navigation';
 import { getClientSideTokens } from '@web/utils/getClientSideTokens';
 
 type FetchMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';

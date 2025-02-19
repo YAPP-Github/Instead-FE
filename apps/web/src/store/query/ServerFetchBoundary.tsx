@@ -1,8 +1,7 @@
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
-import type { FetchQueryOptions } from '@tanstack/react-query';
+import type { FetchQueryOptions, QueryKey } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
 import { getQueryClient } from './getQueryClient';
-import type { QueryKey } from '@tanstack/react-query';
 
 export type FetchOptions<
   TQueryFnData = unknown,

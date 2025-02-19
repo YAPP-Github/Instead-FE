@@ -15,7 +15,7 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ['instead-dev.s3.ap-northeast-2.amazonaws.com'],
+    domains: ['instead-dev.s3.ap-northeast-2.amazonaws.com', 'pbs.twimg.com'],
   },
 };
 

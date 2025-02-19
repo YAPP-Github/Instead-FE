@@ -9,12 +9,16 @@ export function middleware(request: NextRequest) {
   if (
     pathname.startsWith('/_next/') ||
     pathname.includes('/api/') ||
-    pathname.includes('.') // 파일 확장자를 가진 요청 제외
+    pathname.includes('.') ||
+    pathname === '/favicon.ico'
   ) {
     return NextResponse.next();
   }
 
-  if (pathname.startsWith(ROUTES.JOIN)) {
+  if (
+    pathname.startsWith(ROUTES.JOIN) ||
+    pathname.startsWith(ROUTES.GOOGLE.CALLBACK)
+  ) {
     return NextResponse.next();
   }
 

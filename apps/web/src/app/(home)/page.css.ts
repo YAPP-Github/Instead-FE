@@ -20,8 +20,7 @@ export const content = style({
 
 export const cardContent = style({
   display: 'flex',
-  minWidth: '128rem',
-  width: '100%',
+  minWidth: '129.6rem',
   alignItems: 'center',
   flexDirection: 'column',
   gap: '4.8rem',
@@ -57,6 +56,7 @@ export const cardRow = style({
 });
 
 export const cardColumn = style({
+  width: '100%',
   display: 'flex',
   flexDirection: 'column',
   gap: '2.4rem',
