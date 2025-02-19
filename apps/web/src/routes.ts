@@ -20,8 +20,6 @@ export const ROUTES = {
       `/edit/${agentId}/${postGroupId}/detail?postId=${postId}`,
     SCHEDULE: ({ agentId, postGroupId }: EditPagesParams) =>
       `/edit/${agentId}/${postGroupId}/schedule`,
-    SCHEDULE_DETAIL: ({ agentId, postGroupId, postId }: IdParams) =>
-      `/edit/${agentId}/${postGroupId}/schedule/${postId}`,
   },
   PERSONALIZE: (agentId: IdParams['agentId']) => `/personalize/${agentId}`,
   SCHEDULE: {

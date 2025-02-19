@@ -11,7 +11,7 @@ import { isNotNil } from '@repo/ui/utils';
 
 export type AccountSidebarProps = {
   agentData: Agent[];
-  selectedId?: number;
+  selectedId?: Agent['id'];
   onAccountClick: (id: Agent['id']) => void;
 };
 
@@ -38,18 +38,19 @@ export function AccountSidebar({
         </Text>
         <IconButton icon="plus" onClick={handleClick} />
       </div>
-      {agentData?.map((data) => (
-        <AccountItem
-          key={data.accountName}
-          profileImageUrl={data.profileImageUrl}
-          accountName={data.accountName}
-          agentPlan={data.agentPlan}
-          isSelected={
-            isNotNil(selectedId) ? Number(selectedId) === data.id : false
-          }
-          onClick={() => onAccountClick(data.id)}
-        />
-      ))}
+      {isNotNil(agentData) &&
+        agentData.map((data) => (
+          <AccountItem
+            key={data.accountName}
+            profileImageUrl={data.profileImageUrl}
+            accountName={data.accountName}
+            agentPlan={data.agentPlan}
+            isSelected={
+              isNotNil(selectedId) ? Number(selectedId) === data.id : false
+            }
+            onClick={() => onAccountClick(data.id)}
+          />
+        ))}
     </div>
   );
 }
