@@ -1,6 +1,6 @@
 import * as style from './TableRow.css';
-import { Column } from '../../../app/(prompt)/edit/[agentId]/[postGroupId]/schedule/_components/ScheduleTable/types';
 import { ComponentPropsWithoutRef, ReactNode } from 'react';
+import { Column } from './types';
 
 export type CellData = {
   id: string;
