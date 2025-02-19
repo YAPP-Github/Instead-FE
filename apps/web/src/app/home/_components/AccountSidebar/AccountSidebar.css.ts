@@ -8,6 +8,9 @@ export const wrapper = style({
   overflow: 'auto',
 });
 
-export const title = style({
+export const titleWrapper = style({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
   padding: '2.65rem 1.2rem 1.45rem 1.2rem',
 });

@@ -13,3 +13,14 @@ export const AGENT_TONE = {
   MORE_FORMAL: '~합니다',
   CUSTOM: '직접 입력할게요',
 } as const;
+
+export interface Agent {
+  id: number;
+  createdAt: string;
+  platform: 'X' | 'THREADS' | 'INSTAGRAM';
+  accountName: string;
+  bio: string;
+  profileImageUrl: string;
+  agentPlan: AgentPlan;
+  autoMode: boolean;
+}
