@@ -13,7 +13,8 @@ export function AccountSidebar() {
   const handleClick = async () => {
     await refetch();
     if (data?.data.redirectUrl) {
-      router.push(data?.data.redirectUrl);
+      // TODO
+      router.push('/');
     }
   };
 
