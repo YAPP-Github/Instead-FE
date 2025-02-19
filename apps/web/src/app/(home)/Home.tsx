@@ -30,19 +30,18 @@ import { ContentGroupCard } from './[agentId]/_components/ContentGroupCard/Conte
 import { Spacing } from '@repo/ui/Spacing';
 import { useGetAgentQuery } from '@web/store/query/useGetAgentQuery';
 import { useRouter } from 'next/navigation';
-import { Agent, PostGroupId } from '@web/types';
-import { useModal } from '@repo/ui/hooks';
-import { Modal } from '@repo/ui/Modal';
+import { Agent } from '@web/types';
 import { useGetUserQuery } from '@web/store/query/useGetUserQuery';
+import { useLogoutMutation } from '@web/store/mutation/useLogoutMutation';
 
 export default function Home() {
   const router = useRouter();
-  const modal = useModal();
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({
     threshold: 100,
   });
   const { data: user } = useGetUserQuery();
   const { data: agentData } = useGetAgentQuery();
+  const { mutate: logout } = useLogoutMutation();
 
   const userData = user.data.user;
 
@@ -72,10 +71,14 @@ export default function Home() {
               )}
             </Dropdown.Trigger>
             <Dropdown.Content align="right">
-              <Dropdown.Item value="option1" className={dropdownItem}>
-                <Icon name="clock" size="2.4rem" color="grey400" />
+              <Dropdown.Item
+                onClick={() => logout()}
+                value="option1"
+                className={dropdownItem}
+              >
+                <Icon name="logout" size="2.4rem" color="grey400" />
                 <Text fontSize={18} fontWeight="medium" color="grey1000">
-                  수정하기
+                  로그아웃
                 </Text>
               </Dropdown.Item>
             </Dropdown.Content>

@@ -10,7 +10,7 @@ import {
 import { HomePageProps } from './types';
 import { getUserQueryOptions } from '@web/store/query/useGetUserQuery';
 
-export default function HomePage({ params }: HomePageProps) {
+export default function HomeDetailPage({ params }: HomePageProps) {
   const tokens = getServerSideTokens();
   const serverFetchOptions = [
     getAgentDetailQueryOptions({

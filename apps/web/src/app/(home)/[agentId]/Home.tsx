@@ -39,6 +39,7 @@ import { useModal } from '@repo/ui/hooks';
 import { Modal } from '@repo/ui/Modal';
 import { useDeletePostGroupMutation } from '@web/store/mutation/useDeletePostGroupMutation';
 import { useGetUserQuery } from '@web/store/query/useGetUserQuery';
+import { useLogoutMutation } from '@web/store/mutation/useLogoutMutation';
 
 export default function Home({ params }: HomePageProps) {
   const router = useRouter();
@@ -60,6 +61,7 @@ export default function Home({ params }: HomePageProps) {
     agentId: params.agentId,
   });
   const { data: agentData } = useGetAgentQuery();
+  const { mutate: logout } = useLogoutMutation();
 
   const userData = user.data.user;
   const agentDetailData = agentDetail.agentPersonalSetting;
@@ -106,10 +108,14 @@ export default function Home({ params }: HomePageProps) {
               )}
             </Dropdown.Trigger>
             <Dropdown.Content align="right">
-              <Dropdown.Item value="option1" className={dropdownItem}>
-                <Icon name="clock" size="2.4rem" color="grey400" />
+              <Dropdown.Item
+                onClick={() => logout()}
+                value="option1"
+                className={dropdownItem}
+              >
+                <Icon name="logout" size="2.4rem" color="grey400" />
                 <Text fontSize={18} fontWeight="medium" color="grey1000">
-                  수정하기
+                  로그아웃
                 </Text>
               </Dropdown.Item>
             </Dropdown.Content>

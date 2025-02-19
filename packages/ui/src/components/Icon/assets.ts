@@ -17,6 +17,7 @@ import IconDocument from './assets/IconDocument';
 import IconDots from './assets/IconDots';
 import IconInstead from './assets/IconInstead';
 import IconLineThree from './assets/IconLineThree';
+import IconLogout from './assets/IconLogout';
 import IconNote from './assets/IconNote';
 import IconNotice from './assets/IconNotice';
 import IconPencil from './assets/IconPencil';
@@ -55,6 +56,7 @@ export const icons = {
   dots: IconDots,
   instead: IconInstead,
   lineThree: IconLineThree,
+  logout: IconLogout,
   note: IconNote,
   notice: IconNotice,
   pencil: IconPencil,
