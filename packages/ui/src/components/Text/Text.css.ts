@@ -10,5 +10,4 @@ export const textStyle = style({
   fontWeight: weightVar,
   color: colorVar,
   lineHeight: '150%', // TODO 추후 분리
-  whiteSpace: 'pre-line',
 });
