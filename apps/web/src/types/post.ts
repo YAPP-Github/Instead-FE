@@ -30,7 +30,8 @@ export const POST_LENGTH = {
 };
 
 export interface Post {
-  id: number;
+  id: PostId;
+  postGroupId: PostGroupId;
   createdAt: string;
   updatedAt: string;
   summary: string;
@@ -40,7 +41,6 @@ export interface Post {
   uploadTime: string;
   displayOrder: number;
   isLoading?: boolean;
-  postGroupId: PostGroupId;
 }
 
 export interface CreatedPost {
@@ -84,7 +84,7 @@ export type NewsCategory =
 export type PostGroupLength = 'SHORT' | 'MEDIUM' | 'LONG';
 
 export interface PostGroup {
-  id: number;
+  id: PostGroupId;
   topic: string;
   purpose: Purpose;
   reference: Reference;
@@ -93,9 +93,6 @@ export interface PostGroup {
   length: PostGroupLength;
   content: string;
   eof: boolean;
-}
-
-export type HomePostGroup = Omit<PostGroup, 'postGroupImages'> & {
-  thumbnailImageUrl: string;
+  thumbnailImage: string;
   createdAt: string;
-};
+}

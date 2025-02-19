@@ -3,7 +3,11 @@ import { IdParams } from './types';
 type EditPagesParams = Omit<IdParams, 'postId'>;
 
 export const ROUTES = {
-  HOME: '/', // TODO: 수정 필요
+  HOME: {
+    ROOT: '/',
+    DETAIL: (agentId: IdParams['agentId']) => `/${agentId}`,
+  },
+  JOIN: '/join',
   CREATE: '/create',
   EDIT: {
     ROOT: ({ agentId, postGroupId }: EditPagesParams) =>
@@ -24,4 +28,7 @@ export const ROUTES = {
       `/schedule/${agentId}/${postGroupId}/${postId}`,
   },
   ERROR: '/error',
+  GOOGLE: {
+    CALLBACK: '/api/auth/google/callback',
+  },
 } as const;

@@ -1,6 +1,7 @@
 import { ApiResponse, STATUS, Tokens } from './types';
 import { api } from './api';
-import { isNotNil } from '@repo/ui/utils';
+import { HTTPError } from 'ky';
+import { getClientSideTokens } from '@web/utils/getClientSideTokens';
 
 type FetchMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
 
@@ -15,18 +16,28 @@ async function fetchWrapperWithTokenHandler<Data>(
   options?: FetchOptions,
   tokens?: Tokens
 ): Promise<ApiResponse<Data>> {
-  const method = isNotNil(options?.method) ? options.method : 'get';
+  const method = options?.method ?? 'get';
+
+  if (!tokens && typeof window !== 'undefined') {
+    tokens = getClientSideTokens();
+  }
 
   try {
     const response = await api[method](uri, {
       json: options?.json,
       searchParams: options?.searchParams,
+      headers: {
+        Authorization: tokens ? `Bearer ${tokens.accessToken}` : '',
+      },
     }).json<ApiResponse<Data>>();
+
     return response;
   } catch (error) {
-    // error가 HTTPError인지 확인 후 처리
-    if (error instanceof Response) {
-      if (error.status === STATUS.UNAUTHORIZED && tokens) {
+    if (error instanceof HTTPError) {
+      const { status } = error.response;
+
+      // 인증 실패(401)인 경우
+      if (status === STATUS.UNAUTHORIZED && tokens) {
         return await fetchWrapperWithTokenHandler<Data>(uri, options, tokens);
       }
     }

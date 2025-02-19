@@ -15,4 +15,4 @@ export const STATUS = {
 
 export type Status = (typeof STATUS)[keyof typeof STATUS];
 
-export type Tokens = { accessToken: string; refreshToken: string };
+export type Tokens = { accessToken: string; refreshToken?: string };

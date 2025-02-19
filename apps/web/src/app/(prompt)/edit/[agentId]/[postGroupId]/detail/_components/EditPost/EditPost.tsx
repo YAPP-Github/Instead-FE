@@ -63,12 +63,12 @@ export function EditPost() {
     agentId: Number(agentId),
     postGroupId: Number(postGroupId),
   });
-  const post = Object.values(posts?.data?.posts)
+  const post = Object.values(posts.data.posts)
     .flat()
     .find((post) => String(post.id) === postId);
 
   const { routePreviousPost, routeNextPost, canMoveUp, canMoveDown } =
-    useAdjacentPosts(posts?.data?.posts, post);
+    useAdjacentPosts(posts.data.posts, post);
 
   const { mutate: deletePost } = useDeletePostMutation({
     agentId: Number(agentId),
@@ -83,14 +83,16 @@ export function EditPost() {
       confirmButton: '삭제하기',
       cancelButton: '취소',
       confirmButtonProps: {
-        onClick: () => {
-          deletePost(Number(postId));
+        onClick: async () => {
+          deletePost(Number(postId), {
+            onSuccess: () => router.push(ROUTES.CREATE),
+          });
         },
       },
     });
   };
 
-  const { mutate: modifyPost, isPending } = useUpdatePostsMutation({
+  const { mutate: modifyPost } = useUpdatePostsMutation({
     agentId: Number(agentId),
     postGroupId: Number(postGroupId),
   });
