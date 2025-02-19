@@ -20,6 +20,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { validateScheduleDate } from '@web/utils/validateScheduleDate';
 import { useToast } from '@repo/ui/hooks';
 import { isNotNil } from '@repo/ui/utils';
+import { getCurrentDateKo } from './utils/getCurrentDateKo';
 
 export default function Schedule({ params }: EditPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLFormElement>({
@@ -35,7 +36,7 @@ export default function Schedule({ params }: EditPageProps) {
     defaultValues: {
       schedules: readyToUploadPosts.map((post) => ({
         postId: post.id,
-        date: new Date().toISOString().split('T')[0],
+        date: getCurrentDateKo(),
         hour: '00',
         minute: '00',
       })),
@@ -68,11 +69,16 @@ export default function Schedule({ params }: EditPageProps) {
         postId: post.id,
         status: POST_STATUS.UPLOAD_RESERVED,
         displayOrder: post.displayOrder,
-        uploadTime: `${data.schedules[index]?.date}T${data.schedules[index]?.hour}:${data.schedules[index]?.minute}:00`,
+        uploadTime: `${data.schedules[index]?.date}T${data.schedules[index]?.hour}:${data.schedules[index]?.minute}:00`, // TODO: 임시 구현. 추후 타입 가드 필요
       })),
     };
 
-    updatePosts(updatePayload);
+    updatePosts(updatePayload, {
+      onSuccess: () => {
+        toast.success('예약이 완료되었어요');
+        router.push(ROUTES.HOME.DETAIL(params.agentId));
+      },
+    });
   });
 
   return (
