@@ -1,33 +1,67 @@
 'use client';
 
-import * as style from './pageStyle.css';
 import { useRouter } from 'next/navigation';
-import { Button, Label, RadioCards, Spacing, TextField } from '@repo/ui';
-import { PersonalizeFormValues, PersonalizePageProps } from './type';
+import {
+  Button,
+  Icon,
+  Label,
+  RadioCards,
+  Spacing,
+  TextField,
+  Text,
+  Breadcrumb,
+  Dropdown,
+  Modal,
+} from '@repo/ui';
+import {
+  PersonalizeFormValues,
+  PersonalizePageProps,
+  TONE_OPTIONS,
+} from './type';
 import { TitleWithDescription } from '@web/components/common/TitleWithDescription/TitleWithDescription';
 import { useForm } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
 import { isEmptyStringOrNil } from '@web/utils';
-import { useToast } from '@repo/ui/hooks';
+import { useModal, useToast } from '@repo/ui/hooks';
 import { useUpdatePersonalSettingMutation } from '@web/store/mutation/useUpdatePersonalSettingMutation';
+import { AccountSidebar } from '@web/components/common/AccountSidebar/AccountSidebar';
+import { ROUTES } from '@web/routes';
+import { useGetAgentQuery } from '@web/store/query/useGetAgentQuery';
+import { Agent } from '@web/types';
+import { useQueryClient } from '@tanstack/react-query';
+import { MainBreadcrumbItem, NavBar } from '@web/components/common';
+import image from 'next/image';
+import { isNil } from '@repo/ui/utils';
+import { useGetUserQuery } from '@web/store/query/useGetUserQuery';
+import { useScroll } from '@web/hooks';
+import * as style from './pageStyle.css';
+import { useLogoutMutation } from '@web/store/mutation/useLogoutMutation';
 
 export default function Personalize({ params }: PersonalizePageProps) {
   const router = useRouter();
   const toast = useToast();
+  const modal = useModal();
+  const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({
+    threshold: 100,
+  });
+  const { data: agentData } = useGetAgentQuery();
+  const { data: user } = useGetUserQuery();
+  const { mutate: updatePersonalSetting } = useUpdatePersonalSettingMutation({
+    agentId: params.agentId,
+  });
+  const { mutate: logout } = useLogoutMutation();
+  const queryClient = useQueryClient();
+
   const { register, watch, setValue, handleSubmit, control } =
     useForm<PersonalizeFormValues>({
       defaultValues: {
         domain: '',
         introduction: '',
-        tone: '~해요',
+        tone: TONE_OPTIONS.CASUAL,
         customTone: '',
       },
     });
   const toneValue = watch('tone');
-
-  const { mutate: updatePersonalSetting } = useUpdatePersonalSettingMutation({
-    agentId: params.agentId,
-  });
 
   const onSubmit = (data: PersonalizeFormValues) => {
     if (
@@ -38,7 +72,7 @@ export default function Personalize({ params }: PersonalizePageProps) {
       return toast.error('모든 필드를 입력해주세요');
     }
     if (
-      toneValue === '~직접 입력할게요' &&
+      toneValue === TONE_OPTIONS.CUSTOM &&
       isEmptyStringOrNil(data.customTone)
     ) {
       return toast.error('말투를 입력해주세요');
@@ -46,8 +80,70 @@ export default function Personalize({ params }: PersonalizePageProps) {
     updatePersonalSetting(data);
   };
 
+  const handleAccountClick = (id: Agent['id']) => {
+    queryClient.clear();
+    router.push(ROUTES.HOME.DETAIL(id));
+  };
+
+  const handleLogoutClick = () => {
+    modal.confirm({
+      title: '정말 로그아웃 하시겠어요??',
+      icon: <Modal.Icon name="notice" color="warning500" />,
+      confirmButton: '로그아웃',
+      cancelButton: '취소',
+      confirmButtonProps: {
+        onClick: () => {
+          logout();
+        },
+      },
+    });
+  };
+
   return (
-    <div className={style.mainStyle}>
+    <div className={style.mainStyle} ref={scrollRef}>
+      <NavBar
+        leftAddon={
+          <Breadcrumb>
+            <Breadcrumb.Item>
+              <MainBreadcrumbItem href={ROUTES.HOME.ROOT} />
+            </Breadcrumb.Item>
+          </Breadcrumb>
+        }
+        rightAddon={
+          <Dropdown>
+            <Dropdown.Trigger>
+              {isNil(user.data.user?.profileImage) ? (
+                <div className={style.image} />
+              ) : (
+                <Image
+                  className={style.image}
+                  width={40}
+                  height={40}
+                  src={user.data.user.profileImage}
+                  alt={''}
+                />
+              )}
+            </Dropdown.Trigger>
+            <Dropdown.Content align="right">
+              <Dropdown.Item
+                onClick={handleLogoutClick}
+                value="option1"
+                className={style.dropdownItem}
+              >
+                <Icon name="logout" size="2.4rem" color="grey400" />
+                <Text.P fontSize={18} fontWeight="medium" color="grey1000">
+                  로그아웃
+                </Text.P>
+              </Dropdown.Item>
+            </Dropdown.Content>
+          </Dropdown>
+        }
+        isScrolled={isScrolled}
+      />
+      <AccountSidebar
+        agentData={agentData.agents}
+        onAccountClick={handleAccountClick}
+      />
       <div className={style.contentWrapperStyle}>
         <form
           className={style.formSectionStyle}
@@ -89,21 +185,27 @@ export default function Personalize({ params }: PersonalizePageProps) {
                   value={value}
                   onChange={(newValue) => {
                     onChange(newValue);
-                    if (newValue !== '~직접 입력할게요') {
+                    if (newValue !== TONE_OPTIONS.CUSTOM) {
                       setValue('customTone', '');
                     }
                   }}
                 >
-                  <RadioCards.Item value="~해요">~해요</RadioCards.Item>
-                  <RadioCards.Item value="~합니다">~합니다</RadioCards.Item>
-                  <RadioCards.Item value="~해">~~해</RadioCards.Item>
-                  <RadioCards.Item value="~직접 입력할게요">
+                  <RadioCards.Item value={TONE_OPTIONS.CASUAL}>
+                    ~해요
+                  </RadioCards.Item>
+                  <RadioCards.Item value={TONE_OPTIONS.LESS_FORMAL}>
+                    ~합니다
+                  </RadioCards.Item>
+                  <RadioCards.Item value={TONE_OPTIONS.MORE_FORMAL}>
+                    ~해
+                  </RadioCards.Item>
+                  <RadioCards.Item value={TONE_OPTIONS.CUSTOM}>
                     직접 입력할게요
                   </RadioCards.Item>
                 </RadioCards>
               )}
             />
-            {toneValue === '~직접 입력할게요' && (
+            {toneValue === TONE_OPTIONS.CUSTOM && (
               <TextField variant="default">
                 <TextField.Input
                   {...register('customTone')}

@@ -10,9 +10,24 @@ export const mainStyle = style({
   backgroundColor: vars.colors.grey,
 });
 
+export const image = style({
+  borderRadius: '100%',
+  width: '4rem',
+  height: '4rem',
+  backgroundColor: vars.colors.grey25,
+  border: `0.1rem solid ${vars.colors.grey200}`,
+  objectFit: 'cover',
+});
+
+export const dropdownItem = style({
+  padding: '1.45rem 1.6rem',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '1rem',
+});
+
 export const contentWrapperStyle = style({
   position: 'relative',
-  marginLeft: '44rem',
   flex: 1,
   padding: `0 ${vars.space[40]}`,
   overflow: 'auto',
