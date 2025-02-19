@@ -95,12 +95,9 @@ function EditSidebarContent() {
       cancelButton: '취소',
       confirmButtonProps: {
         onClick: async () => {
-          try {
-            await deletePost(postId);
-            router.push(ROUTES.CREATE);
-          } catch (error) {
-            toast.error('삭제하지 못했어요.');
-          }
+          await deletePost(Number(postId), {
+            onSuccess: () => router.push(ROUTES.CREATE),
+          });
         },
       },
     });
