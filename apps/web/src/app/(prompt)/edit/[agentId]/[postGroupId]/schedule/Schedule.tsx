@@ -11,136 +11,188 @@ import { SideBar } from './_components/SideBar/SideBar';
 import { TitleWithDescription } from './_components/TitleWithDescription/TitleWithDescription';
 import { useRouter } from 'next/navigation';
 import { ScheduleTable } from './_components/ScheduleTable/ScheduleTable';
-import { TableRow } from './_components/TableRow/TableRow';
 import { Column } from './_components/ScheduleTable/types';
 import { EditPageProps } from '../types';
 import { ROUTES } from '@web/routes';
 import { POST_STATUS } from '@web/types';
+import { ContentItem } from '../_components/ContentItem/ContentItem';
+import { useForm, FormProvider } from 'react-hook-form';
+import { validateScheduleDate } from '@web/utils/validateScheduleDate';
+import { useToast } from '@repo/ui/hooks';
+import { isNotNil } from '@repo/ui/utils';
 
 export default function Schedule({ params }: EditPageProps) {
-  const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({ threshold: 100 });
+  const [scrollRef, isScrolled] = useScroll<HTMLFormElement>({
+    threshold: 100,
+  });
   const { data: posts } = useGetAllPostsQuery(params);
   const { mutate: updatePosts } = useUpdatePostsMutation(params);
   const readyToUploadPosts = posts.data.posts.READY_TO_UPLOAD;
   const router = useRouter();
+  const toast = useToast();
 
-  const columns: Column[] = [
-    {
-      id: 'date',
-      label: '날짜 변경',
-      width: '16.6rem',
+  const methods = useForm({
+    defaultValues: {
+      schedules: readyToUploadPosts.map((post) => ({
+        postId: post.id,
+        date: new Date().toISOString().split('T')[0],
+        hour: '00',
+        minute: '00',
+      })),
     },
-    {
-      id: 'time',
-      label: '시 단위',
-      width: '10.5rem',
-    },
-    {
-      id: 'summary',
-      label: '분 단위',
-      width: '16.5rem',
-    },
-    {
-      id: 'action',
-      label: '순서 변경',
-      width: '53.2rem',
-    },
-  ];
+  });
+
+  const onSubmit = methods.handleSubmit((data) => {
+    const isValidSchedules = data.schedules.every((schedule) => {
+      if (
+        isNotNil(schedule.date) &&
+        isNotNil(schedule.hour) &&
+        isNotNil(schedule.minute)
+      ) {
+        return validateScheduleDate(
+          schedule.date,
+          schedule.hour,
+          schedule.minute
+        );
+      }
+      return false;
+    });
+
+    if (!isValidSchedules) {
+      toast.error('예약 시간은 현재 시간 이후로 설정해주세요.');
+      return;
+    }
+
+    const updatePayload = {
+      posts: readyToUploadPosts.map((post, index) => ({
+        postId: post.id,
+        status: POST_STATUS.UPLOAD_RESERVED,
+        displayOrder: post.displayOrder,
+        uploadTime: `${data.schedules[index]?.date}T${data.schedules[index]?.hour}:${data.schedules[index]?.minute}:00`,
+      })),
+    };
+
+    updatePosts(updatePayload);
+  });
 
   return (
-    <div className={style.mainStyle} ref={scrollRef}>
-      <NavBar
-        leftAddon={
-          <Breadcrumb>
-            <MainBreadcrumbItem href="/" />
-            <Breadcrumb.Item active>
-              {posts.data.postGroup.topic}
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        }
-        rightAddon={
-          <div className={style.buttonWrapperStyle}>
-            <Button
-              type="button"
-              size="large"
-              variant="text"
-              onClick={() =>
-                router.push(
-                  ROUTES.EDIT.ROOT({
-                    agentId: Number(params.agentId),
-                    postGroupId: Number(params.postGroupId),
-                  })
-                )
-              }
+    <FormProvider {...methods}>
+      <form onSubmit={onSubmit} className={style.mainStyle} ref={scrollRef}>
+        <NavBar
+          leftAddon={
+            <Breadcrumb>
+              <MainBreadcrumbItem href="/" />
+              <Breadcrumb.Item active>
+                {posts.data.postGroup.topic}
+              </Breadcrumb.Item>
+            </Breadcrumb>
+          }
+          rightAddon={
+            <div className={style.buttonWrapperStyle}>
+              <Button
+                type="button"
+                size="large"
+                variant="text"
+                onClick={() =>
+                  router.push(
+                    ROUTES.EDIT.ROOT({
+                      agentId: Number(params.agentId),
+                      postGroupId: Number(params.postGroupId),
+                    })
+                  )
+                }
+              >
+                이전
+              </Button>
+              <Button
+                type="submit"
+                size="large"
+                variant="primary"
+                leftAddon={<Icon name="check" size={20} />}
+                className={style.submitButtonStyle}
+              >
+                예약 완료
+              </Button>
+            </div>
+          }
+          isScrolled={isScrolled}
+        />
+        <SideBar>
+          {/* TODO: 드롭다운 컴포넌트 추가 */}
+          <div className={style.sideBarContentWrapperStyle}>
+            <TitleWithDescription
+              title="전체 예약"
+              description="많은 글의 업로드 시간을 한꺼번에 설정해요"
+            />
+            <div className={style.dropdownWrapperStyle}>
+              <Label>하루에 몇 개씩 업로드할까요?</Label>
+            </div>
+            <div className={style.dropdownWrapperStyle}>
+              <Label>언제 처음으로 업로드할까요?</Label>
+            </div>
+            <div className={style.dropdownWrapperStyle}>
+              <Label>업로드를 원하는 시간대를 선택하세요</Label>
+            </div>
+          </div>
+        </SideBar>
+        <div className={style.contentWrapperStyle}>
+          <div className={style.dndSectionStyle}>
+            <TitleWithDescription
+              title="업로드 예약 일정"
+              rightTitle={readyToUploadPosts.length.toString()}
+              description="개별 글의 업로드 날짜와 순서를 변경할 수 있어요"
+            />
+            <DndController
+              initialItems={posts.data.posts}
+              key={Object.values(posts.data.posts)
+                .flat()
+                .map((item) => `${item.id}-${item.displayOrder}-${item.status}`)
+                .join(',')}
+              onDragEnd={(updatedItems) => {
+                const updatePayload = {
+                  posts: updatedItems[POST_STATUS.READY_TO_UPLOAD].map(
+                    (item) => ({
+                      postId: item.id,
+                      status: item.status,
+                      displayOrder: item.displayOrder,
+                      uploadTime: item.uploadTime,
+                    })
+                  ),
+                };
+                updatePosts(updatePayload);
+              }}
+              renderDragOverlay={(activeItem) => (
+                <ContentItem {...activeItem} />
+              )}
             >
-              이전
-            </Button>
-            <Button
-              type="submit"
-              size="large"
-              variant="primary"
-              leftAddon={<Icon name="check" size={20} />}
-              onClick={() => {}}
-              className={style.submitButtonStyle}
-            >
-              예약 완료
-            </Button>
-          </div>
-        }
-        isScrolled={isScrolled}
-      />
-      <SideBar>
-        {/* TODO: 드롭다운 컴포넌트 추가 */}
-        <div className={style.sideBarContentWrapperStyle}>
-          <TitleWithDescription
-            title="전체 예약"
-            description="많은 글의 업로드 시간을 한꺼번에 설정해요"
-          />
-          <div className={style.dropdownWrapperStyle}>
-            <Label>하루에 몇 개씩 업로드할까요?</Label>
-          </div>
-          <div className={style.dropdownWrapperStyle}>
-            <Label>언제 처음으로 업로드할까요?</Label>
-          </div>
-          <div className={style.dropdownWrapperStyle}>
-            <Label>업로드를 원하는 시간대를 선택하세요</Label>
+              <ScheduleTable columns={columns} params={params} />
+            </DndController>
           </div>
         </div>
-      </SideBar>
-      <div className={style.contentWrapperStyle}>
-        <div className={style.dndSectionStyle}>
-          <TitleWithDescription
-            title="업로드 예약 일정"
-            rightTitle={readyToUploadPosts.length.toString()}
-            description="개별 글의 업로드 날짜와 순서를 변경할 수 있어요"
-          />
-          <DndController
-            initialItems={posts.data.posts}
-            key={Object.values(posts.data.posts)
-              .flat()
-              .map((item) => `${item.id}-${item.displayOrder}-${item.status}`)
-              .join(',')}
-            onDragEnd={(updatedItems) => {
-              const updatePayload = {
-                posts: updatedItems[POST_STATUS.READY_TO_UPLOAD].map(
-                  (item) => ({
-                    postId: item.id,
-                    status: item.status,
-                    displayOrder: item.displayOrder,
-                    uploadTime: item.uploadTime,
-                  })
-                ),
-              };
-              updatePosts(updatePayload);
-            }}
-            renderDragOverlay={(activeItem) => (
-              <TableRow columns={columns} {...activeItem} />
-            )}
-          >
-            <ScheduleTable columns={columns} params={params} />
-          </DndController>
-        </div>
-      </div>
-    </div>
+      </form>
+    </FormProvider>
   );
 }
+
+const columns: Column[] = [
+  {
+    id: 'date',
+    label: '날짜 변경',
+    width: '16.6rem',
+  },
+  {
+    id: 'time',
+    label: '시 단위',
+    width: '10.5rem',
+  },
+  {
+    id: 'summary',
+    label: '분 단위',
+    width: '16.5rem',
+  },
+  {
+    id: 'action',
+    label: '순서 변경',
+    width: '53.2rem',
+  },
+];
