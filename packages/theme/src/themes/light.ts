@@ -7,7 +7,8 @@ export const lightTheme: ThemeContract = {
     primary400to200: tokens.colors.green400, // TODO: 삭제 예정
     primaryHover: tokens.colors.green200, // TODO: 삭제 예정
 
-    warning: tokens.colors.warning500,
+    warning300: tokens.colors.warning300,
+    warning500: tokens.colors.warning500,
 
     grey: tokens.colors.grey0,
     grey25: tokens.colors.grey25,
@@ -43,10 +44,12 @@ export const lightTheme: ThemeContract = {
     primary800: tokens.colors.primary800,
 
     shadow: tokens.colors.shadow,
+    hover: tokens.colors.hover,
     blue: tokens.colors.blue,
 
     pink200: tokens.colors.pink200,
     pink400: tokens.colors.pink400,
+    pink600: tokens.colors.pink600,
     pink800: tokens.colors.pink800,
 
     orange200: tokens.colors.orange200,
@@ -57,11 +60,24 @@ export const lightTheme: ThemeContract = {
     blue400: tokens.colors.blue400,
     blue800: tokens.colors.blue800,
 
+    //TODO 삭제 예정
+    green200: tokens.colors.green200,
+    green400: tokens.colors.green400,
+    green600: tokens.colors.green600,
+    green800: tokens.colors.green800,
+
     violet0: tokens.colors.violet0,
     violet100: tokens.colors.violet100,
     violet200: tokens.colors.violet200,
     violet400: tokens.colors.violet400,
     violet800: tokens.colors.violet800,
+
+    purple100: tokens.colors.purple100,
+    purple200: tokens.colors.purple200,
+    purple400: tokens.colors.purple400,
+    purple600: tokens.colors.purple600,
+    purple700: tokens.colors.purple700,
+    purple800: tokens.colors.purple800,
   },
   space: tokens.spacing,
   borderRadius: tokens.radius,

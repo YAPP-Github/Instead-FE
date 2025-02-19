@@ -1,4 +1,4 @@
-import { tokens } from '@repo/theme';
+import { vars } from '@repo/theme';
 import { keyframes, style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
@@ -72,13 +72,16 @@ export const circleRecipe = recipe({
   variants: {
     color: {
       black: {
-        stroke: `${tokens.colors.grey1000}`,
+        stroke: `${vars.colors.grey1000}`,
       },
       white: {
-        stroke: `${tokens.colors.grey0}`,
+        stroke: `${vars.colors.grey}`,
+      },
+      line: {
+        stroke: `${vars.colors.primary800}`,
       },
       icon: {
-        stroke: `${tokens.colors.grey300}`,
+        stroke: `${vars.colors.grey300}`,
       },
     },
   },

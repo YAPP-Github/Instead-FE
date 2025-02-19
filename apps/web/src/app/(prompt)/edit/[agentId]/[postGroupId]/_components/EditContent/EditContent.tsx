@@ -8,18 +8,20 @@ import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation
 import { useRouter } from 'next/navigation';
 import { useModal } from '@repo/ui/hooks';
 import { FormProvider, useForm } from 'react-hook-form';
-import { EditPageParams } from '../../types';
+import { EditPageProps } from '../../types';
 import * as style from './EditContent.css';
 import { DragGuide } from '../DragGuide/DragGuide';
 import {
   UpdatePromptRequest,
-  useUpdatePromptMutation,
-} from '@web/store/mutation/useUpdatePromptMutation';
+  useUpdateMultiplePromptMutation,
+} from '@web/store/mutation/useUpdateMultiplePromptMutation';
 import { useMemo } from 'react';
+import { ContentItem } from '@web/components/common/DNDController/compounds';
+import { ROUTES } from '@web/routes';
 
 type PromptForm = UpdatePromptRequest;
 
-export function EditContent({ agentId, postGroupId }: EditPageParams) {
+export function EditContent({ params }: EditPageProps) {
   const modal = useModal();
   const { getItemsByStatus } = useDndController();
   const isExistEditingPost = getItemsByStatus(POST_STATUS.EDITING).length > 0;
@@ -32,26 +34,23 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
   const promptValue = watch('prompt');
 
   const { mutate: createMorePosts, isPending: isCreateMorePostsPending } =
-    useCreateMorePostsMutation({
-      agentId,
-      postGroupId,
-    });
+    useCreateMorePostsMutation(params);
 
   const { mutate: updatePrompt, isPending: isUpdatePromptPending } =
-    useUpdatePromptMutation({
-      agentId,
-      postGroupId,
-    });
+    useUpdateMultiplePromptMutation(params);
 
-  const { mutate: deletePost } = useDeletePostMutation({
-    agentId,
-    postGroupId,
-  });
+  const { mutate: deletePost } = useDeletePostMutation(params);
 
   const router = useRouter();
 
   const handleModify = (postId: Post['id']) => {
-    router.push(`/edit/${agentId}/${postGroupId}/detail?postId=${postId}`);
+    router.push(
+      ROUTES.EDIT.DETAIL({
+        agentId: params.agentId,
+        postGroupId: params.postGroupId,
+        postId,
+      })
+    );
   };
 
   const handleDeletePost = (postId: Post['id']) => {
@@ -116,22 +115,27 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
           className={style.accordionItemStyle}
         >
           <Accordion.Trigger className={style.accordionTriggerStyle}>
-            <Chip variant="grey">생성된 글</Chip>
+            <Chip
+              variant="grey"
+              leftAddon={<Chip.Icon variant="grey" name="circle" size={12} />}
+            >
+              생성된 글
+            </Chip>
           </Accordion.Trigger>
           <Accordion.Content id={POST_STATUS.GENERATED}>
             <div className={style.contentInnerWrapper}>
               <DndController.Droppable id={POST_STATUS.GENERATED}>
                 <DndController.SortableList items={data.map((item) => item.id)}>
                   {data.map((item) => (
-                    <DndController.Item
-                      key={item.id}
-                      id={item.id}
-                      summary={item.summary}
-                      updatedAt={item.updatedAt}
-                      onRemove={() => handleDeletePost(item.id)}
-                      onModify={() => handleModify(item.id)}
-                      isLoading={item?.isLoading ?? false}
-                    />
+                    <DndController.Item id={item.id} key={item.id}>
+                      <ContentItem
+                        summary={item.summary}
+                        updatedAt={item.updatedAt}
+                        onRemove={() => handleDeletePost(item.id)}
+                        onModify={() => handleModify(item.id)}
+                        isLoading={item?.isLoading ?? false}
+                      />
+                    </DndController.Item>
                   ))}
                 </DndController.SortableList>
               </DndController.Droppable>
@@ -140,7 +144,7 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
               <Button
                 type="submit"
                 size="large"
-                variant="primary"
+                variant="line"
                 leftAddon={<Icon name="twinkle" size={20} color="primary800" />}
                 onClick={() => createMorePosts()}
                 isLoading={isCreateMorePostsPending}
@@ -157,14 +161,19 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
           className={style.accordionItemStyle}
         >
           <Accordion.Trigger className={style.accordionTriggerStyle}>
-            <Chip variant="purple">수정 중인 글</Chip>
+            <Chip
+              variant="purple"
+              leftAddon={<Chip.Icon variant="purple" name="circle" size={12} />}
+            >
+              수정 중인 글
+            </Chip>
           </Accordion.Trigger>
           <Accordion.Content id={POST_STATUS.EDITING}>
             <DndController.Droppable id={POST_STATUS.EDITING}>
               <DndController.SortableList
-                items={getItemsByStatus(POST_STATUS.EDITING)
-                  .sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0))
-                  .map((item) => item.id)}
+                items={getItemsByStatus(POST_STATUS.EDITING).map(
+                  (item) => item.id
+                )}
               >
                 {isExistEditingPost && (
                   <FormProvider {...methods}>
@@ -174,7 +183,7 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
                           {...register('prompt')}
                           value={promptValue}
                           onChange={(e) => setValue('prompt', e.target.value)}
-                          placeholder="AI에게 요청하여 글 업그레이드하기"
+                          placeholder="AI에게 요청하여 수정 중인 글 모두 업그레이드하기"
                           sumbitButton={
                             <TextField.Submit
                               type="submit"
@@ -189,15 +198,15 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
                 )}
                 {isExistEditingPost ? (
                   getItemsByStatus(POST_STATUS.EDITING).map((item) => (
-                    <DndController.Item
-                      key={item.id}
-                      id={item.id}
-                      summary={item.summary}
-                      updatedAt={item.updatedAt}
-                      onRemove={() => handleDeletePost(item.id)}
-                      onModify={() => handleModify(item.id)}
-                      isLoading={isUpdatePromptPending}
-                    />
+                    <DndController.Item id={item.id} key={item.id}>
+                      <ContentItem
+                        summary={item.summary}
+                        updatedAt={item.updatedAt}
+                        onRemove={() => handleDeletePost(item.id)}
+                        onModify={() => handleModify(item.id)}
+                        isLoading={isUpdatePromptPending}
+                      />
+                    </DndController.Item>
                   ))
                 ) : (
                   <DragGuide description="수정 중인 글을 끌어서 여기에 놓아주세요" />
@@ -213,7 +222,12 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
           className={style.accordionItemStyle}
         >
           <Accordion.Trigger className={style.accordionTriggerStyle}>
-            <Chip variant="green">업로드할 글</Chip>
+            <Chip
+              variant="green"
+              leftAddon={<Chip.Icon variant="green" name="circle" size={12} />}
+            >
+              업로드할 글
+            </Chip>
           </Accordion.Trigger>
           <Accordion.Content id={POST_STATUS.READY_TO_UPLOAD}>
             <DndController.Droppable id={POST_STATUS.READY_TO_UPLOAD}>
@@ -224,14 +238,14 @@ export function EditContent({ agentId, postGroupId }: EditPageParams) {
               >
                 {getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).length > 0 ? (
                   getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).map((item) => (
-                    <DndController.Item
-                      key={item.id}
-                      id={item.id}
-                      summary={item.summary}
-                      updatedAt={item.updatedAt}
-                      onRemove={() => handleDeletePost(item.id)}
-                      onModify={() => handleModify(item.id)}
-                    />
+                    <DndController.Item id={item.id} key={item.id}>
+                      <ContentItem
+                        summary={item.summary}
+                        updatedAt={item.updatedAt}
+                        onRemove={() => handleDeletePost(item.id)}
+                        onModify={() => handleModify(item.id)}
+                      />
+                    </DndController.Item>
                   ))
                 ) : (
                   <DragGuide description="업로드가 준비된 글을 끌어서 여기에 놓아주세요" />

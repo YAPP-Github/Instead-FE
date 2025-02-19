@@ -17,48 +17,51 @@ import {
 import { Text } from '@repo/ui/Text';
 import { Accordion } from '@repo/ui/Accordion';
 import { Chip } from '@repo/ui/Chip';
-import { useGroupPostsQuery } from '@web/store/query/useGroupPostsQuery';
 import { Post, POST_STATUS } from '@web/types/post';
-import {
-  MutationModifyPostsRequest,
-  useModifyPostsMutation,
-} from '@web/store/mutation/useModifyPostsMutation';
 import { IconButton } from '@repo/ui/IconButton';
 import { useContext, useEffect, useState } from 'react';
 import { useCreateMorePostsMutation } from '@web/store/mutation/useCreateMorePostsMutation';
 import { SkeletonContentItem } from '../ContentItem/SkeletonContentItem';
-import { useModal } from '@repo/ui/hooks';
+import { useModal, useToast } from '@repo/ui/hooks';
 import { Modal } from '@repo/ui/Modal';
 import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation';
 import { DetailPageContext } from '../../EditDetail';
 import { DragGuide } from '../DragGuide/DragGuide';
+import { ContentItem } from '@web/components/common/DNDController/compounds';
+import { ROUTES } from '@web/routes';
+import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
+import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
+import { PostId } from '@web/types';
 
 function EditSidebarContent() {
   const modal = useModal();
-  const { loadingPosts, setLoadingPosts } = useContext(DetailPageContext);
+  const toast = useToast();
+  const { loadingPosts } = useContext(DetailPageContext);
   const { agentId, postGroupId } = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
   const postParam = searchParams.get('postId');
+  const { data: posts } = useGetAllPostsQuery({
+    agentId: Number(agentId),
+    postGroupId: Number(postGroupId),
+  });
 
-  const { data } = useGroupPostsQuery(Number(agentId), Number(postGroupId));
-  const posts = data?.data.posts ?? [];
-  const { getItemsByStatus, handleRemove } = useDndController();
+  const { getItemsByStatus } = useDndController();
   // TODO: param 주입 방식 수정
   const { mutate: createMorePosts, isPending: isCreateMorePostsPending } =
     useCreateMorePostsMutation({
-      agentId: String(agentId),
-      postGroupId: String(postGroupId),
+      agentId: Number(agentId),
+      postGroupId: Number(postGroupId),
     });
 
-  const { mutate: deletePost } = useDeletePostMutation({
-    agentId: String(agentId),
-    postGroupId: String(postGroupId),
+  const { mutateAsync: deletePost } = useDeletePostMutation({
+    agentId: Number(agentId),
+    postGroupId: Number(postGroupId),
   });
 
-  const defaultValue = posts.find(
-    (post) => post.id === Number(postParam)
-  )?.status;
+  const defaultValue = Object.values(posts?.data.posts)
+    .flat()
+    .find((post) => post.id === Number(postParam))?.status;
 
   const [accordionValue, setAccordionValue] = useState<
     Post['status'] | undefined
@@ -68,8 +71,14 @@ function EditSidebarContent() {
     setAccordionValue(defaultValue);
   }, [defaultValue]);
 
-  const handleClick = (postId: number) => {
-    router.push(`?postId=${postId}`);
+  const handleClick = (id: PostId) => {
+    router.push(
+      ROUTES.EDIT.DETAIL({
+        agentId: Number(agentId),
+        postGroupId: Number(postGroupId),
+        postId: id,
+      })
+    );
   };
 
   const handlePlusClick = () => {
@@ -85,8 +94,10 @@ function EditSidebarContent() {
       confirmButton: '삭제하기',
       cancelButton: '취소',
       confirmButtonProps: {
-        onClick: () => {
-          deletePost(postId);
+        onClick: async () => {
+          await deletePost(Number(postId), {
+            onSuccess: () => router.push(ROUTES.CREATE),
+          });
         },
       },
     });
@@ -111,14 +122,13 @@ function EditSidebarContent() {
           </Breadcrumb.Item>
           <Breadcrumb.Item>
             <Text fontSize={22} fontWeight="bold" color="grey900">
-              {data?.data?.postGroup.topic}
+              {posts.data.postGroup.topic}
             </Text>
           </Breadcrumb.Item>
         </Breadcrumb>
       </div>
 
       <div className={contentWrapper}>
-        {/* TODO 제어 컴포넌트도 수정해야 함 */}
         <Accordion<Post['status']>
           type="single"
           value={accordionValue}
@@ -157,17 +167,16 @@ function EditSidebarContent() {
                         <SkeletonContentItem key={item.id} />
                       ))}
                     {getItemsByStatus(POST_STATUS.GENERATED).map((item) => (
-                      <DndController.Item
-                        key={item.id}
-                        id={item.id}
-                        summary={item.summary}
-                        updatedAt={item.updatedAt}
-                        onRemove={() => handleDeletePost(item.id)}
-                        onModify={() => {}}
-                        onClick={() => handleClick(item.id)}
-                        isSelected={Number(postParam) === item.id}
-                        isLoading={loadingPosts.includes(item.id)}
-                      />
+                      <DndController.Item id={item.id} key={item.id}>
+                        <ContentItem
+                          summary={item.summary}
+                          updatedAt={item.updatedAt}
+                          onRemove={() => handleDeletePost(item.id)}
+                          onModify={() => handleClick(item.id)}
+                          isSelected={Number(postParam) === item.id}
+                          isLoading={loadingPosts.includes(item.id)}
+                        />
+                      </DndController.Item>
                     ))}
                   </DndController.SortableList>
                 ) : (
@@ -197,17 +206,17 @@ function EditSidebarContent() {
                     )}
                   >
                     {getItemsByStatus(POST_STATUS.EDITING).map((item) => (
-                      <DndController.Item
-                        key={item.id}
-                        id={item.id}
-                        summary={item.summary}
-                        updatedAt={item.updatedAt}
-                        onRemove={() => handleDeletePost(item.id)}
-                        onModify={() => {}}
-                        onClick={() => handleClick(item.id)}
-                        isSelected={Number(postParam) === item.id}
-                        isLoading={loadingPosts.includes(item.id)}
-                      />
+                      <DndController.Item id={item.id} key={item.id}>
+                        <ContentItem
+                          summary={item.summary}
+                          updatedAt={item.updatedAt}
+                          onRemove={() => handleDeletePost(item.id)}
+                          onModify={() => handleClick(item.id)}
+                          onClick={() => handleClick(item.id)}
+                          isSelected={Number(postParam) === item.id}
+                          isLoading={loadingPosts.includes(item.id)}
+                        />
+                      </DndController.Item>
                     ))}
                   </DndController.SortableList>
                 ) : (
@@ -238,17 +247,16 @@ function EditSidebarContent() {
                   >
                     {getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).map(
                       (item) => (
-                        <DndController.Item
-                          key={item.id}
-                          id={item.id}
-                          summary={item.summary}
-                          updatedAt={item.updatedAt}
-                          onRemove={() => handleDeletePost(item.id)}
-                          onModify={() => {}}
-                          onClick={() => handleClick(item.id)}
-                          isSelected={Number(postParam) === item.id}
-                          isLoading={loadingPosts.includes(item.id)}
-                        />
+                        <DndController.Item id={item.id} key={item.id}>
+                          <ContentItem
+                            summary={item.summary}
+                            updatedAt={item.updatedAt}
+                            onRemove={() => handleDeletePost(item.id)}
+                            onModify={() => handleClick(item.id)}
+                            isSelected={Number(postParam) === item.id}
+                            isLoading={loadingPosts.includes(item.id)}
+                          />
+                        </DndController.Item>
                       )
                     )}
                   </DndController.SortableList>
@@ -266,56 +274,42 @@ function EditSidebarContent() {
 
 export function EditSidebar() {
   const { agentId, postGroupId } = useParams();
-  const { mutate: modifyPosts } = useModifyPostsMutation({
+  const { mutate: updatePosts } = useUpdatePostsMutation({
     agentId: Number(agentId),
     postGroupId: Number(postGroupId),
   });
 
-  const { data } = useGroupPostsQuery(Number(agentId), Number(postGroupId));
-  const posts = (data?.data.posts ?? []).sort(
-    (a, b) => a.displayOrder - b.displayOrder
-  );
+  const { data: posts } = useGetAllPostsQuery({
+    agentId: Number(agentId),
+    postGroupId: Number(postGroupId),
+  });
+
   return (
     <DndController
-      initialItems={posts}
-      onDragEnd={(items) => {
-        const itemsByStatus = {
-          GENERATED: items.filter((item) => item.status === 'GENERATED'),
-          EDITING: items.filter((item) => item.status === 'EDITING'),
-          READY_TO_UPLOAD: items.filter(
-            (item) => item.status === 'READY_TO_UPLOAD'
-          ),
+      initialItems={posts.data.posts}
+      key={Object.values(posts.data.posts)
+        .flat()
+        .map((item) => `${item.id}-${item.displayOrder}-${item.status}`)
+        .join(',')}
+      onDragEnd={(updatedItems) => {
+        const updatePayload = {
+          posts: Object.values(updatedItems)
+            .flat()
+            .map((item) => ({
+              postId: item.id,
+              status: item.status,
+              displayOrder: item.displayOrder,
+              uploadTime: item.uploadTime,
+            })),
         };
-
-        const updatedItems: MutationModifyPostsRequest[] = [
-          ...itemsByStatus.GENERATED.map((item, index) => {
-            const { id, ...rest } = item;
-            return {
-              ...rest,
-              postId: id,
-              displayOrder: index + 1,
-            };
-          }),
-          ...itemsByStatus.EDITING.map((item, index) => {
-            const { id, ...rest } = item;
-            return {
-              ...rest,
-              postId: id,
-              displayOrder: index + 1,
-            };
-          }),
-          ...itemsByStatus.READY_TO_UPLOAD.map((item, index) => {
-            const { id, ...rest } = item;
-            return {
-              ...rest,
-              postId: id,
-              displayOrder: index + 1,
-            };
-          }),
-        ];
-
-        modifyPosts(updatedItems);
+        updatePosts(updatePayload);
       }}
+      renderDragOverlay={(activeItem) => (
+        <ContentItem
+          summary={activeItem.summary}
+          updatedAt={activeItem.updatedAt}
+        />
+      )}
     >
       <EditSidebarContent />
     </DndController>

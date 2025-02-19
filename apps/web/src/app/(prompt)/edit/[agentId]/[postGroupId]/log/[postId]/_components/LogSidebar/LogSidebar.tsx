@@ -1,6 +1,7 @@
 import { IconButton } from '@repo/ui/IconButton';
 import { closeArea, sidebarWrapper } from './LogSidebar.css';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { ROUTES } from '@web/routes';
 
 export function LogSidebar() {
   const router = useRouter();
@@ -8,7 +9,13 @@ export function LogSidebar() {
   const searchParams = useSearchParams();
   const postId = searchParams.get('postId');
   const handleXClick = () => {
-    router.push(`/edit/${agentId}/${postGroupId}/detail?postId=${postId}`);
+    router.push(
+      ROUTES.EDIT.DETAIL({
+        agentId: Number(agentId),
+        postGroupId: Number(postGroupId),
+        postId: Number(postId),
+      })
+    );
   };
   return (
     <div className={sidebarWrapper}>

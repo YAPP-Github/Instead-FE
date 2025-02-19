@@ -10,9 +10,9 @@ import {
   Button,
   Modal,
 } from '@repo/ui';
+import { AnimatedTitle } from './_components/AnimatedTitle/AnimatedTitle';
 import { ImageManager, MainBreadcrumbItem } from '@web/components/common';
 import { KeywordChipGroup } from './_components/KeywordChip/KeywordChipGroup';
-import { GradientAnimatedTitle } from './_components/GradientAnimatedTitle/GradientAnimatedTitle';
 import { AnimatedContainer } from './_components/AnimatedContainer/AnimatedContainer';
 import { useForm, Controller } from 'react-hook-form';
 import { isEmptyStringOrNil } from '@web/utils';
@@ -33,6 +33,7 @@ import { NavBar } from '@web/components/common';
 import { useScroll } from '@web/hooks';
 import { useCreatePostsMutation } from '@web/store/mutation/useCreatePostsMutation';
 import { uploadImages } from '@web/shared/image-upload/ImageUpload';
+import { ROUTES } from '@web/routes';
 
 const REQUIRED_FIELDS = {
   TOPIC: 'topic',
@@ -41,7 +42,7 @@ const REQUIRED_FIELDS = {
 export default function Create() {
   const { data: newsCategories } = useNewsCategoriesQuery();
   const { mutate: createPosts, isPending } = useCreatePostsMutation({
-    agentId: '1',
+    agentId: 4, // TODO: 임시 값
   });
   const modal = useModal();
   const router = useRouter();
@@ -102,7 +103,9 @@ export default function Create() {
       cancelButton: '취소',
       confirmButtonProps: {
         onClick: () => {
-          router.push('/');
+          // TODO: 현재 선택된 에이전트의 ID를 동적으로 가져와서 사용
+          // const currentAgentId = getCurrentAgentId(); // 적절한 함수 구현 필요
+          // router.push(ROUTES.HOME.DETAIL(currentAgentId));
         },
       },
     });
@@ -143,7 +146,7 @@ export default function Create() {
 
       <Spacing size={80} />
 
-      <GradientAnimatedTitle>어떤 글을 생성할까요?</GradientAnimatedTitle>
+      <AnimatedTitle>어떤 글을 생성할까요?</AnimatedTitle>
 
       <AnimatedContainer>
         <form className={styles.contentStyle}>
@@ -252,23 +255,22 @@ export default function Create() {
 
           {/* 본문 길이 */}
           <section className={styles.sectionStyle}>
-            <Label>본문 길이</Label>
+            <Label description="3문장 이상의 긴 게시물을 업로드 하려면 X 유료 구독 플랜에 가입해주세요">
+              본문 길이
+            </Label>
             <Controller
               name="length"
               control={control}
               render={({ field: { onChange, value } }) => (
                 <RadioCards value={value} onChange={onChange} columns={3}>
-                  {LENGTH_OPTIONS.map(
-                    ({ value, label, description, badge }) => (
-                      <RadioCards.Item key={value} value={value}>
-                        <RadioCards.Badge>{badge}</RadioCards.Badge>
-                        <RadioCards.Label>{label}</RadioCards.Label>
-                        <RadioCards.Description>
-                          {description}
-                        </RadioCards.Description>
-                      </RadioCards.Item>
-                    )
-                  )}
+                  {LENGTH_OPTIONS.map(({ value, label, description }) => (
+                    <RadioCards.Item key={value} value={value}>
+                      <RadioCards.Label>{label}</RadioCards.Label>
+                      <RadioCards.Description>
+                        {description}
+                      </RadioCards.Description>
+                    </RadioCards.Item>
+                  ))}
                 </RadioCards>
               )}
             />

@@ -1,9 +1,9 @@
 import { PUT } from '@web/shared/server';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@repo/ui/hooks';
-import { EditPageParams } from '@web/app/(prompt)/edit/[agentId]/[postGroupId]/types';
 import { PostStatus } from '@web/types/post';
 import { getAllPostsQueryOptions } from '../query/useGetAllPostsQuery';
+import { IdParams } from '@web/types';
 
 interface UpdatePostPayload {
   postId?: number;
@@ -16,6 +16,7 @@ interface UpdatePostsRequest {
   posts: UpdatePostPayload[];
 }
 
+export type MutationUpdatePosts = Omit<IdParams, 'postId'>;
 /**
  *
  * 게시물 기타 정보 수정 API
@@ -25,7 +26,7 @@ interface UpdatePostsRequest {
 export function useUpdatePostsMutation({
   agentId,
   postGroupId,
-}: EditPageParams) {
+}: MutationUpdatePosts) {
   const queryClient = useQueryClient();
   const toast = useToast();
 

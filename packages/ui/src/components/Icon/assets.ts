@@ -12,9 +12,12 @@ import IconCheck from './assets/IconCheck';
 import IconCheckCalendar from './assets/IconCheckCalendar';
 import IconCheckbox from './assets/IconCheckbox';
 import IconCircle from './assets/IconCircle';
+import IconClock from './assets/IconClock';
 import IconDocument from './assets/IconDocument';
 import IconDots from './assets/IconDots';
+import IconInstead from './assets/IconInstead';
 import IconLineThree from './assets/IconLineThree';
+import IconLogout from './assets/IconLogout';
 import IconNote from './assets/IconNote';
 import IconNotice from './assets/IconNotice';
 import IconPencil from './assets/IconPencil';
@@ -48,9 +51,12 @@ export const icons = {
   checkCalendar: IconCheckCalendar,
   checkbox: IconCheckbox,
   circle: IconCircle,
+  clock: IconClock,
   document: IconDocument,
   dots: IconDots,
+  instead: IconInstead,
   lineThree: IconLineThree,
+  logout: IconLogout,
   note: IconNote,
   notice: IconNotice,
   pencil: IconPencil,

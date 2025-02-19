@@ -1,6 +1,8 @@
+import { PostGroupId, PostId } from './id';
+
 export interface PostImage {
   id: number;
-  postId: number;
+  postId: PostId;
   url: string;
 }
 
@@ -15,22 +17,11 @@ export const POST_STATUS = {
 
 export type PostStatus = (typeof POST_STATUS)[keyof typeof POST_STATUS];
 
-export const POST_PURPOSE = {
-  INFORMATION: 'INFORMATION',
-  OPINION: 'OPINION',
-  HUMOR: 'HUMOR',
-  MARKETING: 'MARKETING',
-} as const;
-
-type PostPurpose = (typeof POST_PURPOSE)[keyof typeof POST_PURPOSE];
-
 export const POST_REFERENCE = {
   NONE: 'NONE',
   NEWS: 'NEWS',
   IMAGE: 'IMAGE',
 } as const;
-
-type PostReference = (typeof POST_REFERENCE)[keyof typeof POST_REFERENCE];
 
 export const POST_LENGTH = {
   SHORT: 'SHORT',
@@ -38,10 +29,9 @@ export const POST_LENGTH = {
   LONG: 'LONG',
 };
 
-type PostLength = (typeof POST_LENGTH)[keyof typeof POST_LENGTH];
-
 export interface Post {
-  id: number;
+  id: PostId;
+  postGroupId: PostGroupId;
   createdAt: string;
   updatedAt: string;
   summary: string;
@@ -54,12 +44,23 @@ export interface Post {
 }
 
 export interface CreatedPost {
-  postGroupId: number;
+  postGroupId: PostGroupId;
   eof: boolean;
   posts: Post[];
 }
 
+export type PostsByStatus = {
+  [K in PostStatus]: Post[];
+};
+
 export type Purpose = 'INFORMATION' | 'OPINION' | 'HUMOR' | 'MARKETING';
+
+export const POST_PURPOSE = {
+  INFORMATION: { code: 'INFORMATION', label: '정보 제공' },
+  OPINION: { code: 'OPINION', label: '의견 표출' },
+  HUMOR: { code: 'HUMOR', label: '공감/유머' },
+  MARKETING: { code: 'MARKETING', label: '홍보/마케팅' },
+} as const;
 
 export type Reference = 'NONE' | 'NEWS' | 'IMAGE';
 
@@ -83,13 +84,15 @@ export type NewsCategory =
 export type PostGroupLength = 'SHORT' | 'MEDIUM' | 'LONG';
 
 export interface PostGroup {
-  id: number;
+  id: PostGroupId;
   topic: string;
   purpose: Purpose;
   reference: Reference;
-  newsCategory?: NewsCategory;
-  postGroupImages: PostImage[];
+  newsCategory: NewsCategory | null;
+  postGroupImages: PostImage[] | null;
   length: PostGroupLength;
   content: string;
   eof: boolean;
+  thumbnailImage: string;
+  createdAt: string;
 }

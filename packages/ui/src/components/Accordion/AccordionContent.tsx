@@ -7,7 +7,7 @@ import React, {
   isValidElement,
   ReactNode,
 } from 'react';
-import { accordionContentHidden, accordionContentItem } from './Accordion.css';
+import { accordionContentHidden } from './Accordion.css';
 import { useAccordionContext } from './Accordion.context';
 import { useAccordionItemContext } from './AccordionItem';
 
@@ -30,11 +30,7 @@ export const AccordionContent = forwardRef<
       return child;
     }
 
-    return (
-      <div key={index} className={accordionContentItem}>
-        {child}
-      </div>
-    );
+    return <div key={index}>{child}</div>;
   });
 
   return (

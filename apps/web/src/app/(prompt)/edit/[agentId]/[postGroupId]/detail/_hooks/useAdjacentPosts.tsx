@@ -1,8 +1,8 @@
-import { Post } from '@web/types';
+import { Post, PostsByStatus } from '@web/types';
 import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 
-export function useAdjacentPosts(posts: Post[], currentPost?: Post) {
+export function useAdjacentPosts(posts: PostsByStatus, currentPost?: Post) {
   const router = useRouter();
 
   // TODO 추후 PostStatusType에서 골라오도록
@@ -15,9 +15,13 @@ export function useAdjacentPosts(posts: Post[], currentPost?: Post) {
     UPLOAD_FAILED: -2,
   };
 
+  const allPosts = useMemo(() => {
+    return Object.values(posts).flat();
+  }, [posts]);
+
   const previousPost = useMemo(() => {
     if (!currentPost) return undefined;
-    const candidates = posts.filter((p) => {
+    const candidates = allPosts.filter((p) => {
       if (p.status === currentPost.status) {
         return p.displayOrder < currentPost.displayOrder;
       }
@@ -30,11 +34,11 @@ export function useAdjacentPosts(posts: Post[], currentPost?: Post) {
       return b.displayOrder - a.displayOrder;
     });
     return sorted[0];
-  }, [posts, currentPost]);
+  }, [allPosts, currentPost]);
 
   const nextPost = useMemo(() => {
     if (!currentPost) return undefined;
-    const candidates = posts.filter((p) => {
+    const candidates = allPosts.filter((p) => {
       if (p.status === currentPost.status) {
         return p.displayOrder > currentPost.displayOrder;
       }
@@ -47,15 +51,21 @@ export function useAdjacentPosts(posts: Post[], currentPost?: Post) {
       return a.displayOrder - b.displayOrder;
     });
     return sorted[0];
-  }, [posts, currentPost]);
+  }, [allPosts, currentPost]);
 
   const canMoveUp = Boolean(previousPost);
   const canMoveDown = Boolean(nextPost);
+
   const routePreviousPost = () => {
-    router.push(`?postId=${previousPost?.id}`);
+    if (previousPost) {
+      router.push(`?postId=${previousPost.id}`);
+    }
   };
+
   const routeNextPost = () => {
-    router.push(`?postId=${nextPost?.id}`);
+    if (nextPost) {
+      router.push(`?postId=${nextPost.id}`);
+    }
   };
 
   return {

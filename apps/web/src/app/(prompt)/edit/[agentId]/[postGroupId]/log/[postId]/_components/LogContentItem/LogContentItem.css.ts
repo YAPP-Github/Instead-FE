@@ -1,4 +1,4 @@
-import { tokens } from '@repo/theme';
+import { vars } from '@repo/theme';
 import { style } from '@vanilla-extract/css';
 
 export const wrapper = style({
@@ -8,9 +8,9 @@ export const wrapper = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '0.8rem',
-  borderRadius: `${tokens.radius[10]}`,
+  borderRadius: `${vars.borderRadius[10]}`,
   ':hover': {
-    backgroundColor: `${tokens.colors.grey25}`,
+    backgroundColor: `${vars.colors.grey25}`,
   },
 });
 

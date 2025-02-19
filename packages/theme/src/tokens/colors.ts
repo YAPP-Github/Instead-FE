@@ -8,6 +8,8 @@ export const colors = {
   warning300: '#FF724E',
   warning500: '#FF3300',
   shadow: 'rgba(74, 98, 139, 0.3)',
+  hover: 'rgba(94, 134, 176, 0.08)',
+
   blue: '#1662E3',
 
   pink200: '#FFD6D6',
@@ -23,6 +25,7 @@ export const colors = {
   blue400: '#7698E2',
   blue800: '#153C66',
 
+  purple100: '#F9F4FF',
   purple200: '#E5CEFF',
   purple400: '#B68AE7',
   purple600: '#9365C5',
