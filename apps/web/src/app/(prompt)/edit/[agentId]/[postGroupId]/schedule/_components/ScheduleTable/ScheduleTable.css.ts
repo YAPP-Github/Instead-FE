@@ -3,9 +3,6 @@ import { vars } from '@repo/theme';
 
 export const tableContainer = style({
   position: 'relative',
-  display: 'flex',
-  flexDirection: 'column',
-  flex: 1,
   width: '100%',
 });
 
@@ -21,7 +18,7 @@ export const table = style({
 
 export const headerRow = style({
   backgroundColor: vars.colors.grey25,
-  display: 'table-row',
+  height: '5.2rem',
 });
 
 export const headerCell = style({
@@ -37,12 +34,17 @@ export const headerCell = style({
     '&:first-child': {
       paddingLeft: vars.space[16],
     },
-    '&:last-child': {
-      paddingRight: vars.space[16],
-    },
   },
 });
 
+export const draggableOverlay = style({
+  position: 'absolute',
+  top: '5.2rem',
+  right: 0,
+  width: '55rem',
+});
+
 export const itemsContainer = style({
-  display: 'table-row-group',
+  display: 'flex',
+  flexDirection: 'column',
 });

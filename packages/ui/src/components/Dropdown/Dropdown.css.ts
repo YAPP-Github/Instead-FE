@@ -23,6 +23,8 @@ export const dropdownContent = style({
   display: 'flex',
   flexDirection: 'column',
   padding: '1rem 0.8rem',
+  maxHeight: '31.3rem',
+  overflowY: 'auto',
 
   // 기본은 아래에 표시
   top: '100%',
