@@ -82,6 +82,20 @@ export default function Home({ params }: HomePageProps) {
     });
   };
 
+  const handleLogoutClick = () => {
+    modal.confirm({
+      title: '정말 로그아웃 하시겠어요??',
+      icon: <Modal.Icon name="notice" color="warning500" />,
+      confirmButton: '로그아웃',
+      cancelButton: '취소',
+      confirmButtonProps: {
+        onClick: () => {
+          logout();
+        },
+      },
+    });
+  };
+
   return (
     <div className={background} ref={scrollRef}>
       <NavBar
@@ -109,7 +123,7 @@ export default function Home({ params }: HomePageProps) {
             </Dropdown.Trigger>
             <Dropdown.Content align="right">
               <Dropdown.Item
-                onClick={() => logout()}
+                onClick={handleLogoutClick}
                 value="option1"
                 className={dropdownItem}
               >

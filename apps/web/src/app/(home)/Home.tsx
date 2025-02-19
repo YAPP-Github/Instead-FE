@@ -33,15 +33,32 @@ import { useRouter } from 'next/navigation';
 import { Agent } from '@web/types';
 import { useGetUserQuery } from '@web/store/query/useGetUserQuery';
 import { useLogoutMutation } from '@web/store/mutation/useLogoutMutation';
+import { useModal } from '@repo/ui/hooks';
+import { Modal } from '@repo/ui/Modal';
 
 export default function Home() {
   const router = useRouter();
+  const modal = useModal();
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({
     threshold: 100,
   });
   const { data: user } = useGetUserQuery();
   const { data: agentData } = useGetAgentQuery();
   const { mutate: logout } = useLogoutMutation();
+
+  const handleLogoutClick = () => {
+    modal.confirm({
+      title: '정말 로그아웃 하시겠어요??',
+      icon: <Modal.Icon name="notice" color="warning500" />,
+      confirmButton: '로그아웃',
+      cancelButton: '취소',
+      confirmButtonProps: {
+        onClick: () => {
+          logout();
+        },
+      },
+    });
+  };
 
   const userData = user.data.user;
 
@@ -72,7 +89,7 @@ export default function Home() {
             </Dropdown.Trigger>
             <Dropdown.Content align="right">
               <Dropdown.Item
-                onClick={() => logout()}
+                onClick={handleLogoutClick}
                 value="option1"
                 className={dropdownItem}
               >
