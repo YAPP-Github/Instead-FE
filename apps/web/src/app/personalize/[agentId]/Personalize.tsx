@@ -30,7 +30,7 @@ import { useGetAgentQuery } from '@web/store/query/useGetAgentQuery';
 import { Agent } from '@web/types';
 import { useQueryClient } from '@tanstack/react-query';
 import { MainBreadcrumbItem, NavBar } from '@web/components/common';
-import image from 'next/image';
+import Image from 'next/image';
 import { isNil } from '@repo/ui/utils';
 import { useGetUserQuery } from '@web/store/query/useGetUserQuery';
 import { useScroll } from '@web/hooks';
@@ -120,7 +120,7 @@ export default function Personalize({ params }: PersonalizePageProps) {
                   width={40}
                   height={40}
                   src={user.data.user.profileImage}
-                  alt={''}
+                  alt="유저 프로필 이미지"
                 />
               )}
             </Dropdown.Trigger>
