@@ -13,6 +13,7 @@ import { Chip } from '@repo/ui/Chip';
 import { AGENT_TONE, AgentPersonalSetting } from '@web/types/agent';
 import { Icon } from '@repo/ui/Icon';
 import { isNotNil } from '@repo/ui/utils';
+import { isEmptyStringOrNil } from '@web/utils';
 
 export type PersonalCardPops = {
   text: string;
@@ -75,7 +76,7 @@ export function PersonalCard({ text, data, onIconClick }: PersonalCardPops) {
         fontWeight="medium"
         color="grey400"
       >
-        {isNotNil(data) && data.introduction.length > 0 ? (
+        {isNotNil(data) && isEmptyStringOrNil(data.introduction) ? (
           data.introduction
         ) : (
           <>
