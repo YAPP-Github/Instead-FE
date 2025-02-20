@@ -42,6 +42,7 @@ export const buttonWrapperStyle = style({
 });
 
 export const sideBarContentWrapperStyle = style({
+  position: 'fixed',
   display: 'flex',
   flexDirection: 'column',
   gap: vars.space[40],
