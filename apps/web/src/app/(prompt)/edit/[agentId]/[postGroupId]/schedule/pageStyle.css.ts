@@ -8,6 +8,7 @@ export const mainStyle = style({
   padding: '8rem 0 12rem',
   display: 'flex',
   overflowX: 'auto',
+  backgroundColor: vars.colors.grey,
 });
 
 export const contentWrapperStyle = style({
