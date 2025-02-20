@@ -10,7 +10,7 @@ import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutati
 import { SideBar } from './_components/SideBar/SideBar';
 import { TitleWithDescription } from '@web/components/common/TitleWithDescription/TitleWithDescription';
 import { useRouter } from 'next/navigation';
-import { ScheduleTable } from './_components/ScheduleTable/ScheduleTable';
+import { ScheduleTable } from '@web/components/schedule/ScheduleTable/ScheduleTable';
 import { EditPageProps } from '../types';
 import { ROUTES } from '@web/routes';
 import { POST_STATUS } from '@web/types';
@@ -20,7 +20,6 @@ import { validateScheduleDate } from '@web/utils/validateScheduleDate';
 import { useToast } from '@repo/ui/hooks';
 import { isNotNil } from '@repo/ui/utils';
 import { getCurrentDateKo } from './utils/getCurrentDateKo';
-import { Column } from '@web/components/common';
 
 export default function Schedule({ params }: EditPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLFormElement>({
@@ -155,13 +154,14 @@ export default function Schedule({ params }: EditPageProps) {
                 .map((item) => `${item.id}-${item.displayOrder}-${item.status}`)
                 .join(',')}
               onDragEnd={(updatedItems) => {
+                const formValues = methods.getValues('schedules');
                 const updatePayload = {
                   posts: updatedItems[POST_STATUS.READY_TO_UPLOAD].map(
-                    (item) => ({
+                    (item, index) => ({
                       postId: item.id,
                       status: item.status,
                       displayOrder: item.displayOrder,
-                      uploadTime: item.uploadTime,
+                      uploadTime: `${formValues?.[index]?.date ?? ''}T${formValues?.[index]?.hour ?? '00'}:${formValues?.[index]?.minute ?? '00'}:00.000Z`,
                     })
                   ),
                 };
@@ -171,7 +171,10 @@ export default function Schedule({ params }: EditPageProps) {
                 <ContentItem {...activeItem} />
               )}
             >
-              <ScheduleTable columns={columns} params={params} />
+              <ScheduleTable
+                agentId={params.agentId}
+                postStatus={POST_STATUS.READY_TO_UPLOAD}
+              />
             </DndController>
           </div>
         </div>
@@ -179,26 +182,3 @@ export default function Schedule({ params }: EditPageProps) {
     </FormProvider>
   );
 }
-
-const columns: Column[] = [
-  {
-    id: 'date',
-    label: '날짜 변경',
-    width: '16.6rem',
-  },
-  {
-    id: 'time',
-    label: '시 단위',
-    width: '10.5rem',
-  },
-  {
-    id: 'summary',
-    label: '분 단위',
-    width: '16.5rem',
-  },
-  {
-    id: 'action',
-    label: '순서 변경',
-    width: '53.2rem',
-  },
-];
