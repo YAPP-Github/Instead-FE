@@ -15,6 +15,9 @@ export type AccountSidebarProps = {
   onAccountClick: (id: Agent['id']) => void;
 };
 
+/**
+ * TODO: position fixed 적용 필요
+ */
 export function AccountSidebar({
   agentData,
   selectedId,

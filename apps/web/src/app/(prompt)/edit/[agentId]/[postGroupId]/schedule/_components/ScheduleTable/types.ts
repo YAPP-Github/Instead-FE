@@ -1,11 +1,6 @@
 import { ReactNode } from 'react';
 import { Post } from '@web/types';
-
-export type Column = {
-  id: string;
-  label: string;
-  width: string;
-};
+import { Column } from '@web/components/common/Table/types';
 
 export type ScheduleTableProps = {
   columns: Column[];

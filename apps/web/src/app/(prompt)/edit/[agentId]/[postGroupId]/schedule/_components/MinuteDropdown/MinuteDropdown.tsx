@@ -8,14 +8,14 @@ type MinuteDropdownProps = {
   onChange: (value: string) => void;
 };
 
+const minutes = Array.from({ length: 60 }, (_, i) =>
+  i.toString().padStart(2, '0')
+);
+
 export function MinuteDropdown({
   value = '00',
   onChange,
 }: MinuteDropdownProps) {
-  const minutes = Array.from({ length: 60 }, (_, i) =>
-    i.toString().padStart(2, '0')
-  );
-
   return (
     <Dropdown value={value} onValueChange={onChange}>
       <Dropdown.Trigger className={styles.trigger}>{value}분</Dropdown.Trigger>
