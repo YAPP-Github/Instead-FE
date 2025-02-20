@@ -8,7 +8,7 @@ import JoinImage from '@web/assets/images/join.png';
 import { useToast } from '@repo/ui/hooks';
 import { useEffect } from 'react';
 import { Text } from '@repo/ui/Text';
-import { GoogleLoginButton } from './_component/GoogleLoginButton/GoogleLoginButton';
+import { GoogleLoginButton } from './_components/GoogleLoginButton/GoogleLoginButton';
 
 export default function JoinPage() {
   const toast = useToast();

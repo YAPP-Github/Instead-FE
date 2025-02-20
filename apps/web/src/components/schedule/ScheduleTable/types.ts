@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Post } from '@web/types';
-import { Column } from '@web/components/common/Table/types';
+import { Column } from '@web/components/common';
 
 export type ScheduleTableProps = {
   columns: Column[];
