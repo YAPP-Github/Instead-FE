@@ -30,8 +30,8 @@ export const POST_LENGTH = {
 };
 
 export interface Post {
-  id: PostId;
-  postGroupId: PostGroupId;
+  id: number;
+  postGroupId: number;
   createdAt: string;
   updatedAt: string;
   summary: string;
