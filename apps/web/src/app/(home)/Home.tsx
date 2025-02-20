@@ -62,8 +62,8 @@ export default function Home() {
   };
 
   const handleCreateClick = () => {
-    toast.error('로그인이 필요해요.');
-    router.push(ROUTES.JOIN);
+    toast.error('SNS 계정 연동이 필요해요.');
+    //TODO: X 계정 연동 페이지로 이동
   };
 
   const userData = user.data.user;
