@@ -56,7 +56,7 @@ export const cardRow = style({
 });
 
 export const cardColumn = style({
-  width: '100%',
+  width: '128rem',
   display: 'flex',
   flexDirection: 'column',
   gap: '2.4rem',
