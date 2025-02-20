@@ -1,5 +1,5 @@
-import { Column } from '../../../app/(prompt)/edit/[agentId]/[postGroupId]/schedule/_components/ScheduleTable/types';
 import * as style from './TableHeader.css';
+import { Column } from './types';
 
 export type TableHeaderProps = {
   columns: Column[];

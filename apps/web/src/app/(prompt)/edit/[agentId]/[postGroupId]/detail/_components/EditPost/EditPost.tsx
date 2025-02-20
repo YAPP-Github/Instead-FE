@@ -85,7 +85,7 @@ export function EditPost() {
       confirmButtonProps: {
         onClick: async () => {
           deletePost(Number(postId), {
-            onSuccess: () => router.push(ROUTES.CREATE.DETAIL(Number(agentId))),
+            onSuccess: () => router.push(ROUTES.CREATE(Number(agentId))),
           });
         },
       },

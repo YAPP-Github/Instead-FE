@@ -3,11 +3,11 @@
 import { DndController, useDndController } from '@web/components/common';
 import * as style from './ScheduleTable.css';
 import { POST_STATUS } from '@web/types/post';
-import { Column } from './types';
 import { EditPageProps } from '../../../types';
 import { ScheduleRows } from './ScheduleRows';
 import { DraggableItems } from './DraggableItems';
 import { Table } from '@web/components/common/Table';
+import { Column } from '@web/components/common/Table/types';
 
 export type ScheduleTableProps = {
   columns: Column[];

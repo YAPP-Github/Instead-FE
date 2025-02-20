@@ -11,7 +11,7 @@ type MainBreadcrumbItemProps = {
 };
 
 export function MainBreadcrumbItem({
-  href = ROUTES.CREATE.ROOT,
+  href = ROUTES.HOME.ROOT,
   onClick,
 }: MainBreadcrumbItemProps) {
   const handleClick = (event: MouseEvent) => {

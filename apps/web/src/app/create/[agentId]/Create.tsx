@@ -116,7 +116,7 @@ export default function Create({ params }: CreatePageProps) {
           <Breadcrumb>
             <Breadcrumb.Item>
               <MainBreadcrumbItem
-                href="/"
+                href={ROUTES.HOME.DETAIL(params.agentId)}
                 onClick={
                   !isEmptyStringOrNil(topic)
                     ? handleHomeBreadcrumbClick

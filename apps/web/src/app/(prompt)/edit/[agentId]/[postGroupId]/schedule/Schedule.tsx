@@ -8,10 +8,9 @@ import { DndController } from '@web/components/common';
 import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
 import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
 import { SideBar } from './_components/SideBar/SideBar';
-import { TitleWithDescription } from './_components/TitleWithDescription/TitleWithDescription';
+import { TitleWithDescription } from '@web/components/common/TitleWithDescription/TitleWithDescription';
 import { useRouter } from 'next/navigation';
 import { ScheduleTable } from './_components/ScheduleTable/ScheduleTable';
-import { Column } from './_components/ScheduleTable/types';
 import { EditPageProps } from '../types';
 import { ROUTES } from '@web/routes';
 import { POST_STATUS } from '@web/types';
@@ -21,6 +20,7 @@ import { validateScheduleDate } from '@web/utils/validateScheduleDate';
 import { useToast } from '@repo/ui/hooks';
 import { isNotNil } from '@repo/ui/utils';
 import { getCurrentDateKo } from './utils/getCurrentDateKo';
+import { Column } from '@web/components/common/Table/types';
 
 export default function Schedule({ params }: EditPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLFormElement>({
@@ -87,7 +87,7 @@ export default function Schedule({ params }: EditPageProps) {
         <NavBar
           leftAddon={
             <Breadcrumb>
-              <MainBreadcrumbItem href="/" />
+              <MainBreadcrumbItem href={ROUTES.HOME.DETAIL(params.agentId)} />
               <Breadcrumb.Item active>
                 {posts.data.postGroup.topic}
               </Breadcrumb.Item>

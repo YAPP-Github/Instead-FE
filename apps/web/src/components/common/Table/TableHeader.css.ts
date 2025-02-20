@@ -3,7 +3,8 @@ import { vars } from '@repo/theme';
 
 export const headerRow = style({
   backgroundColor: vars.colors.grey25,
-  height: '5.2rem',
+  height: '4rem',
+  borderRadius: vars.borderRadius[8],
 });
 
 export const headerCell = style({

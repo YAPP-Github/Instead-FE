@@ -2,9 +2,9 @@ import { Table } from '@web/components/common/Table';
 import { DateDropdown } from '../DateDropdown/DateDropdown';
 import { HourDropdown } from '../HourDropdown/HourDropdown';
 import { MinuteDropdown } from '../MinuteDropdown/MinuteDropdown';
-import { Column } from './types';
 import { Post } from '@web/types';
 import { useFormContext, Controller } from 'react-hook-form';
+import { Column } from '@web/components/common/Table/types';
 
 export function ScheduleRows({
   columns,

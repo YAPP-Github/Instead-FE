@@ -33,11 +33,12 @@ import { useRouter } from 'next/navigation';
 import { Agent } from '@web/types';
 import { useGetUserQuery } from '@web/store/query/useGetUserQuery';
 import { useLogoutMutation } from '@web/store/mutation/useLogoutMutation';
-import { useModal } from '@repo/ui/hooks';
+import { useModal, useToast } from '@repo/ui/hooks';
 import { Modal } from '@repo/ui/Modal';
 
 export default function Home() {
   const router = useRouter();
+  const toast = useToast();
   const modal = useModal();
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({
     threshold: 100,
@@ -58,6 +59,11 @@ export default function Home() {
         },
       },
     });
+  };
+
+  const handleCreateClick = () => {
+    toast.error('로그인이 필요해요.');
+    router.push(ROUTES.JOIN);
   };
 
   const userData = user.data.user;
@@ -122,8 +128,8 @@ export default function Home() {
                 <CTACard
                   text={'자동으로 글을 만들어보세요'}
                   buttonText={'주제 생성하기'}
+                  onButtonClick={handleCreateClick}
                   imageSrc={CreateImage}
-                  buttonDisabled
                 />
                 <Spacing size={16} />
                 {/* 개인화 설정 카드 */}
