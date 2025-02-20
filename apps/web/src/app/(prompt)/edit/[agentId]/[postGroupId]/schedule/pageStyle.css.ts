@@ -5,7 +5,7 @@ export const mainStyle = style({
   position: 'relative',
   minWidth: '144rem', // 100rem + 44rem
   minHeight: '100vh',
-  paddingTop: '8rem',
+  padding: '8rem 0 12rem',
   display: 'flex',
   overflowX: 'auto',
 });
