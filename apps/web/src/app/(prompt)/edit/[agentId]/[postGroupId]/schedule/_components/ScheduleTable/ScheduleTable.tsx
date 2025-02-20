@@ -6,8 +6,8 @@ import { POST_STATUS } from '@web/types/post';
 import { EditPageProps } from '../../../types';
 import { ScheduleRows } from './ScheduleRows';
 import { DraggableItems } from './DraggableItems';
-import { Table } from '@web/components/common/Table';
-import { Column } from '@web/components/common/Table/types';
+import { Table } from '@web/components/common';
+import { Column } from '@web/components/common';
 
 export type ScheduleTableProps = {
   columns: Column[];

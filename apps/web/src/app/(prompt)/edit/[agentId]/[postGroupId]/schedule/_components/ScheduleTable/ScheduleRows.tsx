@@ -1,10 +1,10 @@
-import { Table } from '@web/components/common/Table';
+import { Table } from '@web/components/common';
 import { DateDropdown } from '../DateDropdown/DateDropdown';
 import { HourDropdown } from '../HourDropdown/HourDropdown';
 import { MinuteDropdown } from '../MinuteDropdown/MinuteDropdown';
 import { Post } from '@web/types';
 import { useFormContext, Controller } from 'react-hook-form';
-import { Column } from '@web/components/common/Table/types';
+import { Column } from '@web/components/common';
 
 export function ScheduleRows({
   columns,

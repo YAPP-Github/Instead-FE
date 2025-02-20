@@ -20,7 +20,7 @@ import { validateScheduleDate } from '@web/utils/validateScheduleDate';
 import { useToast } from '@repo/ui/hooks';
 import { isNotNil } from '@repo/ui/utils';
 import { getCurrentDateKo } from './utils/getCurrentDateKo';
-import { Column } from '@web/components/common/Table/types';
+import { Column } from '@web/components/common';
 
 export default function Schedule({ params }: EditPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLFormElement>({

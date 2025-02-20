@@ -2,13 +2,13 @@ import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
 import { GET } from '@web/shared/server/fetch';
 import { Tokens } from '@web/shared/server/types';
 import { queryKeys } from '../constants';
-import { IdParams, Post } from '@web/types';
+import { AgentId, Post } from '@web/types';
 
 const STALE_TIME = 1000 * 60 * 1;
 const GC_TIME = 1000 * 60 * 2;
 
 export type GetAgentUploadReservedParams = {
-  agentId: IdParams['agentId'];
+  agentId: AgentId;
   tokens?: Tokens;
 };
 
