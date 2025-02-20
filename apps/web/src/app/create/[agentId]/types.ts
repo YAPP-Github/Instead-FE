@@ -1,5 +1,12 @@
 import { IdParams } from '@web/types';
 import { PURPOSE_TYPE, REFERENCE_TYPE, LENGTH_TYPE } from './constants';
+import { IdParams } from '@web/types';
+
+export type CreatePageProps = {
+  params: {
+    agentId: IdParams['agentId'];
+  };
+};
 
 export type PurposeType = (typeof PURPOSE_TYPE)[keyof typeof PURPOSE_TYPE];
 

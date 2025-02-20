@@ -41,7 +41,7 @@ export function AccountSidebar({
         </Text>
         <IconButton icon="plus" onClick={handleClick} />
       </div>
-      {isNotNil(agentData) &&
+      {agentData.length > 0 ? (
         agentData.map((data) => (
           <AccountItem
             key={data.accountName}
@@ -53,7 +53,13 @@ export function AccountSidebar({
             }
             onClick={() => onAccountClick(data.id)}
           />
-        ))}
+        ))
+      ) : (
+        <AccountItem
+          accountName="SNS계정을 연동해 보세요"
+          agentPlan="아직 연동되지 않았어요"
+        />
+      )}
     </div>
   );
 }

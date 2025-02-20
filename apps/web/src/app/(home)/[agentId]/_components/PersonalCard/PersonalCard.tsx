@@ -76,7 +76,7 @@ export function PersonalCard({ text, data, onIconClick }: PersonalCardPops) {
         fontWeight="medium"
         color="grey400"
       >
-        {isNotNil(data) && isEmptyStringOrNil(data.introduction) ? (
+        {isNotNil(data) && !isEmptyStringOrNil(data.introduction) ? (
           data.introduction
         ) : (
           <>
