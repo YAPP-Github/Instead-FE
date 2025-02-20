@@ -1,3 +1,4 @@
+import { IdParams } from '@web/types';
 import { PURPOSE_TYPE, REFERENCE_TYPE, LENGTH_TYPE } from './constants';
 
 export type PurposeType = (typeof PURPOSE_TYPE)[keyof typeof PURPOSE_TYPE];
@@ -16,3 +17,7 @@ export interface CreateFormValues {
   length: LengthType;
   content: string;
 }
+
+export type CreatePageProps = {
+  params: Pick<IdParams, 'agentId'>;
+};

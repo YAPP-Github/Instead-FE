@@ -16,7 +16,7 @@ import { KeywordChipGroup } from './_components/KeywordChip/KeywordChipGroup';
 import { AnimatedContainer } from './_components/AnimatedContainer/AnimatedContainer';
 import { useForm, Controller } from 'react-hook-form';
 import { isEmptyStringOrNil } from '@web/utils';
-import { CreateFormValues } from './types';
+import { CreateFormValues, CreatePageProps } from './types';
 import {
   REFERENCE_TYPE,
   PURPOSE_OPTIONS,
@@ -39,10 +39,10 @@ const REQUIRED_FIELDS = {
   TOPIC: 'topic',
 } as const;
 
-export default function Create() {
+export default function Create({ params }: CreatePageProps) {
   const { data: newsCategories } = useNewsCategoriesQuery();
   const { mutate: createPosts, isPending } = useCreatePostsMutation({
-    agentId: 4, // TODO: 임시 값
+    agentId: params.agentId,
   });
   const modal = useModal();
   const router = useRouter();
@@ -103,9 +103,7 @@ export default function Create() {
       cancelButton: '취소',
       confirmButtonProps: {
         onClick: () => {
-          // TODO: 현재 선택된 에이전트의 ID를 동적으로 가져와서 사용
-          // const currentAgentId = getCurrentAgentId(); // 적절한 함수 구현 필요
-          // router.push(ROUTES.HOME.DETAIL(currentAgentId));
+          router.push(ROUTES.HOME.DETAIL(params.agentId));
         },
       },
     });
@@ -118,7 +116,7 @@ export default function Create() {
           <Breadcrumb>
             <Breadcrumb.Item>
               <MainBreadcrumbItem
-                href="/"
+                href={ROUTES.HOME.DETAIL(params.agentId)}
                 onClick={
                   !isEmptyStringOrNil(topic)
                     ? handleHomeBreadcrumbClick

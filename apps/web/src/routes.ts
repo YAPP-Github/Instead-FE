@@ -8,7 +8,7 @@ export const ROUTES = {
     DETAIL: (agentId: IdParams['agentId']) => `/${agentId}`,
   },
   JOIN: '/join',
-  CREATE: '/create',
+  CREATE: (agentId: IdParams['agentId']) => `/create/${agentId}`,
   EDIT: {
     ROOT: ({ agentId, postGroupId }: EditPagesParams) =>
       `/edit/${agentId}/${postGroupId}`,

@@ -122,7 +122,7 @@ export default function Home() {
                 <CTACard
                   text={'자동으로 글을 만들어보세요'}
                   buttonText={'주제 생성하기'}
-                  onButtonClick={() => router.push(ROUTES.CREATE)}
+                  onButtonClick={() => router.push(ROUTES.JOIN)}
                   imageSrc={CreateImage}
                 />
                 <Spacing size={16} />

@@ -96,7 +96,7 @@ function EditSidebarContent() {
       confirmButtonProps: {
         onClick: async () => {
           await deletePost(Number(postId), {
-            onSuccess: () => router.push(ROUTES.CREATE),
+            onSuccess: () => router.push(ROUTES.CREATE(Number(agentId))),
           });
         },
       },
@@ -118,7 +118,7 @@ function EditSidebarContent() {
       <div className={breadcrumbWrapper}>
         <Breadcrumb>
           <Breadcrumb.Item>
-            <MainBreadcrumbItem href="/create" />
+            <MainBreadcrumbItem href={ROUTES.HOME.DETAIL(Number(agentId))} />
           </Breadcrumb.Item>
           <Breadcrumb.Item>
             <Text fontSize={22} fontWeight="bold" color="grey900">
