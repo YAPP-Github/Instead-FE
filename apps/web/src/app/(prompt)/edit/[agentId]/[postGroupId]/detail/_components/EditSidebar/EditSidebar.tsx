@@ -5,6 +5,7 @@ import {
   accordionContent,
   accordionTrigger,
   breadcrumbItemStyle,
+  breadcrumbTextStyle,
   breadcrumbWrapper,
   contentWrapper,
   dndItem,
@@ -136,7 +137,12 @@ function EditSidebarContent() {
             <MainBreadcrumbItem href={ROUTES.HOME.DETAIL(Number(agentId))} />
           </Breadcrumb.Item>
           <Breadcrumb.Item className={breadcrumbItemStyle}>
-            <Text fontSize={22} fontWeight="bold" color="grey900">
+            <Text
+              className={breadcrumbTextStyle}
+              fontSize={22}
+              fontWeight="bold"
+              color="grey900"
+            >
               {posts.data.postGroup.topic}
             </Text>
           </Breadcrumb.Item>

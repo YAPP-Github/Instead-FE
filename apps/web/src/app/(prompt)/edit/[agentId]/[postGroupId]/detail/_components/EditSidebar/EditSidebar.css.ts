@@ -14,7 +14,6 @@ export const sidebarWrapper = style({
 export const breadcrumbWrapper = style({
   height: '8rem',
   padding: '2.4rem',
-  flexShrink: 0,
 });
 
 export const contentWrapper = style({
@@ -48,6 +47,13 @@ export const dndItem = style({
 });
 
 export const breadcrumbItemStyle = style({
+  maxWidth: '12rem',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
+
+export const breadcrumbTextStyle = style({
   maxWidth: '12rem',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
