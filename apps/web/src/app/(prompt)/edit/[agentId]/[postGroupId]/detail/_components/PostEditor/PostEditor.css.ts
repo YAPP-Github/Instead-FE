@@ -4,6 +4,7 @@ import { style } from '@vanilla-extract/css';
 export const wrapper = style({
   width: '100%',
   height: '100%',
+
   border: `0.2rem solid ${vars.colors.grey50}`,
   borderRadius: vars.borderRadius[16],
   display: 'flex',

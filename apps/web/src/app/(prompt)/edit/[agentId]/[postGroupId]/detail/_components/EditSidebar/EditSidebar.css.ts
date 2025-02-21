@@ -24,6 +24,7 @@ export const contentWrapper = style({
 export const accordionTrigger = style({
   padding: '1.2rem 1.6rem',
   height: 'fit-content',
+  gap: 0,
 });
 
 export const accordionContent = style({
@@ -34,4 +35,5 @@ export const accordionContent = style({
 export const generateTrigger = style({
   display: 'flex',
   justifyContent: 'space-between',
+  alignItems: 'center',
 });

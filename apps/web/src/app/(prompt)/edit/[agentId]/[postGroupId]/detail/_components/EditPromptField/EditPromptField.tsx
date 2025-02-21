@@ -7,6 +7,7 @@ import { useParams, useSearchParams } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { DetailPageContext } from '../../EditDetail';
 import { useUpdateSinglePostPromptMutation } from '@web/store/mutation/useUpdateSinglePostPromptMutation';
+import { TextFieldCounter } from '../../../../../../../../../../../packages/ui/src/components/TextField/TextFieldCounter';
 
 export function EditPromptField() {
   const { register, watch, handleSubmit } = useForm<{
