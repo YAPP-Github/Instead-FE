@@ -140,7 +140,9 @@ function EditSidebarContent() {
                 <Accordion.Trigger className={accordionTrigger}>
                   <Chip
                     variant="grey"
-                    leftAddon={<Chip.Icon variant="grey" name="circle" />}
+                    leftAddon={
+                      <Chip.Icon variant="grey" name="circle" size={12} />
+                    }
                   >
                     생성된 글
                   </Chip>
@@ -190,7 +192,9 @@ function EditSidebarContent() {
               <Accordion.Trigger className={accordionTrigger}>
                 <Chip
                   variant="purple"
-                  leftAddon={<Chip.Icon variant="purple" name="circle" />}
+                  leftAddon={
+                    <Chip.Icon variant="purple" name="circle" size={12} />
+                  }
                 >
                   수정 중인 글
                 </Chip>
@@ -230,7 +234,9 @@ function EditSidebarContent() {
               <Accordion.Trigger className={accordionTrigger}>
                 <Chip
                   variant="green"
-                  leftAddon={<Chip.Icon variant="green" name="circle" />}
+                  leftAddon={
+                    <Chip.Icon variant="green" name="circle" size={12} />
+                  }
                 >
                   업로드할 글
                 </Chip>
