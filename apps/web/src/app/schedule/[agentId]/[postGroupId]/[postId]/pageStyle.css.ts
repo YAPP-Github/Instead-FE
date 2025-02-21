@@ -49,3 +49,11 @@ export const buttonWrapperStyle = style({
   alignItems: 'center',
   gap: vars.space[8],
 });
+
+export const breadcrumbItemStyle = style({
+  maxWidth: '12rem',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  height: 'fit-content',
+});
