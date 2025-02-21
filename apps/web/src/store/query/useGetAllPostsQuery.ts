@@ -27,7 +27,7 @@ export function getAllPostsQueryOptions({
   tokens,
 }: GetAllPostsParams) {
   return queryOptions({
-    queryKey: queryKeys.posts.all(agentId, postGroupId),
+    queryKey: queryKeys.posts.all(Number(agentId), Number(postGroupId)),
     queryFn: () =>
       GET<GetAllPostsResponse>(
         `agents/${agentId}/post-groups/${postGroupId}/posts`,

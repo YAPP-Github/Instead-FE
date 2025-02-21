@@ -30,14 +30,17 @@ import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutati
 
 const CHIP_DROPDOWN: Partial<Record<PostStatus, ReactNode>> = {
   GENERATED: (
-    <Chip variant="grey" leftAddon={<Chip.Icon variant="grey" name="circle" />}>
+    <Chip
+      variant="grey"
+      leftAddon={<Chip.Icon variant="grey" name="circle" size={12} />}
+    >
       생성된 글
     </Chip>
   ),
   EDITING: (
     <Chip
       variant="purple"
-      leftAddon={<Chip.Icon variant="purple" name="circle" />}
+      leftAddon={<Chip.Icon variant="purple" name="circle" size={12} />}
     >
       수정 중인 글
     </Chip>
@@ -45,7 +48,7 @@ const CHIP_DROPDOWN: Partial<Record<PostStatus, ReactNode>> = {
   READY_TO_UPLOAD: (
     <Chip
       variant="green"
-      leftAddon={<Chip.Icon variant="green" name="circle" />}
+      leftAddon={<Chip.Icon variant="green" name="circle" size={12} />}
     >
       업로드할 글
     </Chip>
@@ -85,7 +88,13 @@ export function EditPost() {
       confirmButtonProps: {
         onClick: async () => {
           deletePost(Number(postId), {
-            onSuccess: () => router.push(ROUTES.CREATE(Number(agentId))),
+            onSuccess: () =>
+              router.push(
+                ROUTES.EDIT.ROOT({
+                  agentId: Number(agentId),
+                  postGroupId: Number(postGroupId),
+                })
+              ),
           });
         },
       },

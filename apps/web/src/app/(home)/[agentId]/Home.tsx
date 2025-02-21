@@ -63,7 +63,7 @@ export default function Home({ params }: HomePageProps) {
   const { data: agentData } = useGetAgentQuery();
   const { mutate: logout } = useLogoutMutation();
 
-  const userData = user.data.user;
+  const userData = user.data;
   const agentDetailData = agentDetail.agentPersonalSetting;
   const agentUploadReservedData = agentUploadReserved.posts.slice(0, 4);
 

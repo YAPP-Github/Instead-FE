@@ -11,10 +11,6 @@ export type GetUserParams = {
   tokens?: Tokens;
 };
 
-export type GetUserResponse = {
-  user: User;
-};
-
 /**
  * 유저 정보 조회 API
  *
@@ -23,7 +19,7 @@ export type GetUserResponse = {
 export function getUserQueryOptions(tokens?: Tokens) {
   return queryOptions({
     queryKey: queryKeys.user,
-    queryFn: () => GET<GetUserResponse>(`users`, undefined, tokens),
+    queryFn: () => GET<User>(`users`, undefined, tokens),
     staleTime: STALE_TIME,
     gcTime: GC_TIME,
   });
