@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import * as styles from './DragGuide.css';
 import { Text } from '@repo/ui';
 
@@ -6,6 +7,7 @@ type DragGuideProps = {
 };
 
 export function DragGuide({ description }: DragGuideProps) {
+  console.log(description.split('\n'));
   return (
     <div className={styles.container}>
       <Text.H2
@@ -14,15 +16,12 @@ export function DragGuide({ description }: DragGuideProps) {
         fontWeight="semibold"
         color="grey500"
       >
-        {description}
-      </Text.H2>
-      <Text.H2
-        className={styles.description}
-        fontSize={20}
-        fontWeight="semibold"
-        color="grey500"
-      >
-        끌어서 여기에 놓아주세요
+        {description.split('\\n').map((line, index) => (
+          <Fragment key={index}>
+            {line}
+            <br />
+          </Fragment>
+        ))}
       </Text.H2>
     </div>
   );

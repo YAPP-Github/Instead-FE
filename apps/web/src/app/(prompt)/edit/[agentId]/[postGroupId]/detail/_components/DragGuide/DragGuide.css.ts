@@ -16,5 +16,5 @@ export const container = style({
 
 export const description = style({
   textAlign: 'center',
-  whiteSpace: 'pre-wrap',
+  whiteSpace: 'pre-line',
 });
