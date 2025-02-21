@@ -44,3 +44,11 @@ export const buttonWrapperStyle = style({
   justifyContent: 'flex-end',
   marginTop: vars.space[10],
 });
+
+export const dndItem = style({
+  selectors: {
+    '&:not(:last-child)': {
+      borderBottom: `0.1rem solid ${vars.colors.grey100}`,
+    },
+  },
+});

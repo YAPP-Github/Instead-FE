@@ -18,6 +18,7 @@ import {
 import { useMemo } from 'react';
 import { ContentItem } from '@web/components/common/DNDController/compounds';
 import { ROUTES } from '@web/routes';
+import { dndItem } from './EditContent.css';
 
 type PromptForm = UpdatePromptRequest;
 
@@ -127,7 +128,11 @@ export function EditContent({ params }: EditPageProps) {
               <DndController.Droppable id={POST_STATUS.GENERATED}>
                 <DndController.SortableList items={data.map((item) => item.id)}>
                   {data.map((item) => (
-                    <DndController.Item id={item.id} key={item.id}>
+                    <DndController.Item
+                      className={dndItem}
+                      id={item.id}
+                      key={item.id}
+                    >
                       <ContentItem
                         summary={item.summary}
                         updatedAt={item.updatedAt}
@@ -198,7 +203,11 @@ export function EditContent({ params }: EditPageProps) {
                 )}
                 {isExistEditingPost ? (
                   getItemsByStatus(POST_STATUS.EDITING).map((item) => (
-                    <DndController.Item id={item.id} key={item.id}>
+                    <DndController.Item
+                      className={dndItem}
+                      id={item.id}
+                      key={item.id}
+                    >
                       <ContentItem
                         summary={item.summary}
                         updatedAt={item.updatedAt}
@@ -238,7 +247,11 @@ export function EditContent({ params }: EditPageProps) {
               >
                 {getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).length > 0 ? (
                   getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).map((item) => (
-                    <DndController.Item id={item.id} key={item.id}>
+                    <DndController.Item
+                      className={dndItem}
+                      id={item.id}
+                      key={item.id}
+                    >
                       <ContentItem
                         summary={item.summary}
                         updatedAt={item.updatedAt}

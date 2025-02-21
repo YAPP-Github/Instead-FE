@@ -6,6 +6,7 @@ import {
   accordionTrigger,
   breadcrumbWrapper,
   contentWrapper,
+  dndItem,
   generateTrigger,
   sidebarWrapper,
 } from './EditSidebar.css';
@@ -177,7 +178,11 @@ function EditSidebarContent() {
                     items={data.map((item) => item.id)}
                   >
                     {data.map((item) => (
-                      <DndController.Item id={item.id} key={item.id}>
+                      <DndController.Item
+                        className={dndItem}
+                        id={item.id}
+                        key={item.id}
+                      >
                         <ContentItem
                           summary={item.summary}
                           updatedAt={item.updatedAt}
@@ -225,7 +230,11 @@ function EditSidebarContent() {
                     )}
                   >
                     {getItemsByStatus(POST_STATUS.EDITING).map((item) => (
-                      <DndController.Item id={item.id} key={item.id}>
+                      <DndController.Item
+                        className={dndItem}
+                        id={item.id}
+                        key={item.id}
+                      >
                         <ContentItem
                           summary={item.summary}
                           updatedAt={item.updatedAt}
@@ -270,7 +279,11 @@ function EditSidebarContent() {
                   >
                     {getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).map(
                       (item) => (
-                        <DndController.Item id={item.id} key={item.id}>
+                        <DndController.Item
+                          className={dndItem}
+                          id={item.id}
+                          key={item.id}
+                        >
                           <ContentItem
                             summary={item.summary}
                             updatedAt={item.updatedAt}
