@@ -127,7 +127,7 @@ export function ContentGroupItem({
             <Dropdown.Trigger>
               <IconButton icon="dots" />
             </Dropdown.Trigger>
-            <Dropdown.Content align="right">
+            <Dropdown.Content position="above" align="right">
               <Dropdown.Item
                 value="option1"
                 className={dropdownItem}

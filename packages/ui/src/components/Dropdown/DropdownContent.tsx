@@ -19,10 +19,14 @@ import { mergeRefs } from '@repo/ui/utils';
 export type DropdownContentProps = {
   children: ReactNode;
   align?: 'left' | 'right';
+  position?: 'above' | 'below';
 } & ComponentPropsWithoutRef<'div'>;
 
 export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
-  ({ align = 'left', className = '', children, ...props }, ref) => {
+  (
+    { align = 'left', className = '', position = 'below', children, ...props },
+    ref
+  ) => {
     const { isOpen, triggerRef } = useDropdownContext();
     const contentRef = useRef<HTMLDivElement>(null);
     const [positionAbove, setPositionAbove] = useState(false);
@@ -37,10 +41,18 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
           const triggerRect = triggerRef.current.getBoundingClientRect();
           const contentRect = contentRef.current.getBoundingClientRect();
 
-          if (triggerRect.bottom + contentRect.height > window.innerHeight) {
-            setPositionAbove(true);
-          } else {
-            setPositionAbove(false);
+          if (position === 'below') {
+            if (triggerRect.bottom + contentRect.height > window.innerHeight) {
+              setPositionAbove(true);
+            } else {
+              setPositionAbove(false);
+            }
+          } else if (position === 'above') {
+            if (triggerRect.top - contentRect.height < 0) {
+              setPositionAbove(false);
+            } else {
+              setPositionAbove(true);
+            }
           }
         }
       }

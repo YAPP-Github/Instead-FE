@@ -25,7 +25,7 @@ export const cardContent = style({
   flexDirection: 'column',
   gap: '4.8rem',
   overflow: 'auto',
-  paddingLeft: '1.6rem',
+  marginLeft: '40rem',
 });
 
 export const image = style({
@@ -56,7 +56,7 @@ export const cardRow = style({
 });
 
 export const cardColumn = style({
-  width: '100%',
+  width: '128rem',
   display: 'flex',
   flexDirection: 'column',
   gap: '2.4rem',

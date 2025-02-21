@@ -112,7 +112,7 @@ queryClient.invalidateQueries(
           leftAddon={
             <Breadcrumb>
               <Breadcrumb.Item>
-                <MainBreadcrumbItem href={ROUTES.HOME.ROOT} />
+                <MainBreadcrumbItem href={ROUTES.HOME.DETAIL(params.agentId)} />
               </Breadcrumb.Item>
             </Breadcrumb>
           }
@@ -149,6 +149,7 @@ queryClient.invalidateQueries(
         />
         <AccountSidebar
           agentData={agentData.agents}
+          selectedId={params.agentId}
           onAccountClick={handleAccountClick}
         />
         <div className={style.contentWrapperStyle}>
