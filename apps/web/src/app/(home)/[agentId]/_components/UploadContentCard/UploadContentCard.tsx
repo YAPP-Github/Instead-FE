@@ -3,6 +3,7 @@ import {
   card,
   cardText,
   content,
+  contentWrapper,
   emptyImage,
   leftText,
   uploadContentItem,
@@ -48,7 +49,7 @@ export function UploadContentCard({
           </Button>
         )}
       </div>
-      <div>
+      <div className={contentWrapper}>
         {isNotNil(items) && items.length > 0 ? (
           items.map((item) => (
             <UploadContentItem
