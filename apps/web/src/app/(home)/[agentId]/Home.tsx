@@ -210,6 +210,7 @@ export default function Home({ params }: HomePageProps) {
               }}
             />
           </div>
+          <Spacing size={40} />
         </div>
       </div>
     </div>

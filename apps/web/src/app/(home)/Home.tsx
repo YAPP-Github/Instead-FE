@@ -144,6 +144,7 @@ export default function Home() {
             {/* 생성된 주제 카드 */}
             <ContentGroupCard text="생성된 주제" />
           </div>
+          <Spacing size={40} />
         </div>
       </div>
     </div>

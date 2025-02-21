@@ -60,6 +60,7 @@ export function ContentGroupCard({
         </div>
       ) : (
         <div className={emptyContent}>
+          <Spacing size={24} />
           <Image
             src={postGroupEmptyImage}
             alt="empty image"
@@ -72,6 +73,7 @@ export function ContentGroupCard({
           <Text color="grey400" fontWeight="medium" fontSize={16}>
             자동으로 글을 만들어보세요
           </Text>
+          <Spacing size={64} />
         </div>
       )}
     </div>
