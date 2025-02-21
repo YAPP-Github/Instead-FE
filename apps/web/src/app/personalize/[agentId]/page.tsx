@@ -7,6 +7,7 @@ import { PersonalizePageProps } from './type';
 import { getAgentQueryOptions } from '@web/store/query/useGetAgentQuery';
 import { getUserQueryOptions } from '@web/store/query/useGetUserQuery';
 import Personalize from './Personalize';
+import { getAgentDetailQueryOptions } from '@web/store/query/useGetAgentDetailQuery';
 
 export default function PersonalizePage({ params }: PersonalizePageProps) {
   const tokens = getServerSideTokens();
@@ -14,6 +15,7 @@ export default function PersonalizePage({ params }: PersonalizePageProps) {
   const serverFetchOptions = [
     getAgentQueryOptions(tokens),
     getUserQueryOptions(tokens),
+    getAgentDetailQueryOptions({ agentId: params.agentId, tokens }),
   ] as FetchOptions[];
 
   return (

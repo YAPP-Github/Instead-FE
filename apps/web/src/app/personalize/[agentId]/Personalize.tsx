@@ -36,6 +36,7 @@ import { useGetUserQuery } from '@web/store/query/useGetUserQuery';
 import { useScroll } from '@web/hooks';
 import * as style from './pageStyle.css';
 import { useLogoutMutation } from '@web/store/mutation/useLogoutMutation';
+import { useGetAgentDetailQuery } from '@web/store/query/useGetAgentDetailQuery';
 
 export default function Personalize({ params }: PersonalizePageProps) {
   const router = useRouter();
@@ -45,6 +46,9 @@ export default function Personalize({ params }: PersonalizePageProps) {
     threshold: 100,
   });
   const { data: agentData } = useGetAgentQuery();
+  const { data: agentDetail } = useGetAgentDetailQuery({
+    agentId: params.agentId,
+  });
   const { data: user } = useGetUserQuery();
   const { mutate: updatePersonalSetting } = useUpdatePersonalSettingMutation({
     agentId: params.agentId,
@@ -55,10 +59,10 @@ export default function Personalize({ params }: PersonalizePageProps) {
   const { register, watch, setValue, handleSubmit, control } =
     useForm<PersonalizeFormValues>({
       defaultValues: {
-        domain: '',
-        introduction: '',
-        tone: TONE_OPTIONS.CASUAL,
-        customTone: '',
+        domain: agentDetail.agentPersonalSetting.domain,
+        introduction: agentDetail.agentPersonalSetting.introduction,
+        tone: agentDetail.agentPersonalSetting.tone,
+        customTone: agentDetail.agentPersonalSetting.customTone,
       },
     });
   const toneValue = watch('tone');

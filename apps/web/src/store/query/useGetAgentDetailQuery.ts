@@ -18,6 +18,11 @@ export interface GetAgentDetailResponse {
   timestamp: string;
 }
 
+/**
+ * 계정 상세 조회 API
+ *
+ * 사용자가 연동한 SNS 계정의 상세 정보를 조회합니다.
+ */
 export function getAgentDetailQueryOptions({
   agentId,
   tokens,
