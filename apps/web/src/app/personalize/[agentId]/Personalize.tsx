@@ -56,9 +56,6 @@ export default function Personalize({ params }: PersonalizePageProps) {
   const { mutate: logout } = useLogoutMutation();
   const queryClient = useQueryClient();
 
-  console.log('user', user);
-  console.log('agentDetail', user.data.profileImage);
-
   const { register, watch, setValue, handleSubmit, control } =
     useForm<PersonalizeFormValues>({
       defaultValues: {
@@ -84,8 +81,18 @@ export default function Personalize({ params }: PersonalizePageProps) {
     ) {
       return toast.error('말투를 입력해주세요');
     }
+
+    const isFormValueChanged =
+      data.domain !== agentDetail.agentPersonalSetting.domain ||
+      data.introduction !== agentDetail.agentPersonalSetting.introduction ||
+      data.tone !== agentDetail.agentPersonalSetting.tone ||
+      data.customTone !== agentDetail.agentPersonalSetting.customTone;
+
+    if (!isFormValueChanged) {
+      return toast.success('저장되었어요');
+    }
+
     updatePersonalSetting(data);
-    toast.success('저장되었어요');
   };
 
   const handleAccountClick = (id: Agent['id']) => {
