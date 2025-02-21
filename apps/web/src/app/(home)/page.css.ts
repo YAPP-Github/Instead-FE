@@ -26,6 +26,7 @@ export const cardContent = style({
   gap: '4.8rem',
   overflow: 'auto',
   paddingLeft: '1.6rem',
+  marginLeft: '40rem',
 });
 
 export const image = style({
