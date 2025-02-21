@@ -5,7 +5,9 @@ export const colors = {
   primary700: '#2345EF',
   primary800: '#2739B2',
 
+  warning100: '#FFEBE8',
   warning300: '#FF724E',
+  warning400: '#FF4E4E',
   warning500: '#FF3300',
   shadow: 'rgba(74, 98, 139, 0.3)',
   hover: 'rgba(94, 134, 176, 0.08)',
@@ -17,9 +19,9 @@ export const colors = {
   pink600: '#BF5E5E',
   pink800: '#A63535',
 
-  orange200: '#FFEAD9',
-  orange400: '#E09366',
-  orange800: '#903F28',
+  orange200: '#FFE0CE',
+  orange400: '#EB8E67',
+  orange800: '#99421D',
 
   blue200: '#CDDFFF',
   blue400: '#7698E2',
@@ -27,7 +29,7 @@ export const colors = {
 
   purple100: '#F9F4FF',
   purple200: '#E5CEFF',
-  purple400: '#B68AE7',
+  purple400: '#A06ADB',
   purple600: '#9365C5',
   purple700: '#5A4AC5',
   purple800: '#412274',
@@ -44,11 +46,11 @@ export const colors = {
   green800: '#224C38',
 
   grey0: '#FFFFFF',
-  grey25: '#F7F9FB',
+  grey25: '#F1F4F7',
   grey50: '#EAEFF4',
   grey50B: '#E5EEF7',
   grey100: '#D8E3ED',
-  grey200: '#C2CDDE',
+  grey200: '#C1CEDA',
   grey300: '#A3ADBD',
   grey400: '#788391',
   grey500: '#5A6471',
