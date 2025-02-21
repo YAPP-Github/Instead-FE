@@ -130,6 +130,7 @@ export default function Home() {
                   buttonText={'주제 생성하기'}
                   onButtonClick={handleCreateClick}
                   imageSrc={CreateImage}
+                  buttonDisabled
                 />
                 <Spacing size={16} />
                 {/* 개인화 설정 카드 */}

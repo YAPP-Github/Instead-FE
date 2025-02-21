@@ -34,7 +34,7 @@ export default function Edit({ params }: EditPageProps) {
       <NavBar
         leftAddon={
           <Breadcrumb>
-            <MainBreadcrumbItem href="/" />
+            <MainBreadcrumbItem href={ROUTES.HOME.DETAIL(params.agentId)} />
             <Breadcrumb.Item active>
               {posts.data.postGroup.topic}
             </Breadcrumb.Item>

@@ -29,7 +29,6 @@ export const gradient = style({
   top: '-250%',
   left: '-250%',
   transform: 'translate(-50%, -50%)',
-  zIndex: -1,
   borderRadius: vars.borderRadius[12],
   backgroundImage: `linear-gradient(115deg, #B68AE7 44.22%, #3348D6 48.73%, #9290DC 51.48%, #F8B3EC 55.15%);`,
   backgroundOrigin: 'border-box',
