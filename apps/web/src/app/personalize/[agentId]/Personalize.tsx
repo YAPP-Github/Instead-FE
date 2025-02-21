@@ -85,6 +85,7 @@ export default function Personalize({ params }: PersonalizePageProps) {
       return toast.error('말투를 입력해주세요');
     }
     updatePersonalSetting(data);
+    toast.success('저장되었어요');
   };
 
   const handleAccountClick = (id: Agent['id']) => {
