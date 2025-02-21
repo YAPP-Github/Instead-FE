@@ -88,7 +88,13 @@ export function EditPost() {
       confirmButtonProps: {
         onClick: async () => {
           deletePost(Number(postId), {
-            onSuccess: () => router.push(ROUTES.CREATE(Number(agentId))),
+            onSuccess: () =>
+              router.push(
+                ROUTES.EDIT.ROOT({
+                  agentId: Number(agentId),
+                  postGroupId: Number(postGroupId),
+                })
+              ),
           });
         },
       },
