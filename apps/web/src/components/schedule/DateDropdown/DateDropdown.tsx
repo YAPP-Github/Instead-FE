@@ -1,34 +1,18 @@
 'use client';
 
 import { Dropdown } from '@repo/ui';
-import { DayPicker } from 'react-day-picker';
-import './dayPicker.css';
+import * as style from './DateDropdown.css';
+import { DatePicker } from '@web/components/common/DatePicker/DatePicker';
+import type { DatePickerProps } from '@web/components/common/DatePicker/DatePicker';
 
-type DateDropdownProps = {
-  value?: Date;
-  onChange?: (value: Date) => void;
-};
+type DateDropdownProps = DatePickerProps;
 
 export function DateDropdown({ value, onChange }: DateDropdownProps) {
-  // TODO: DatePicker 컴포넌트가 완성되면 교체
-  const handleSelect = (date: Date | undefined) => {
-    if (date && onChange) {
-      onChange(date);
-    }
-  };
-
   return (
     <Dropdown>
-      <Dropdown.Trigger>{value?.toString() || '날짜 선택'}</Dropdown.Trigger>
-      <Dropdown.Content>
-        <Dropdown.Item value="temp">
-          <DayPicker
-            required
-            selected={value}
-            onSelect={handleSelect}
-            mode="single"
-          />
-        </Dropdown.Item>
+      <Dropdown.Trigger>{value?.toString() ?? '날짜 선택'}</Dropdown.Trigger>
+      <Dropdown.Content className={style.contentStyle}>
+        <DatePicker value={value} onChange={onChange} />
       </Dropdown.Content>
     </Dropdown>
   );

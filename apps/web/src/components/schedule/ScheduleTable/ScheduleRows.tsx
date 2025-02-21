@@ -31,7 +31,21 @@ export function ScheduleRows({
                   render={({ field }) => (
                     <DateDropdown
                       value={field.value}
-                      onChange={field.onChange}
+                      onChange={(date) => {
+                        if (date) {
+                          const localDate = new Date(date);
+                          const utcDate = new Date(
+                            Date.UTC(
+                              localDate.getFullYear(),
+                              localDate.getMonth(),
+                              localDate.getDate()
+                            )
+                          );
+                          field.onChange(utcDate.toISOString().split('T')[0]); // YYYY-MM-DD 형식으로 변환하여 폼에 반영
+                        } else {
+                          field.onChange(null); // 날짜가 선택되지 않은 경우
+                        }
+                      }}
                     />
                   )}
                 />
