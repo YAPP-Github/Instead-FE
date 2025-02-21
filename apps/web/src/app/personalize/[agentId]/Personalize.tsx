@@ -105,7 +105,7 @@ export default function Personalize({ params }: PersonalizePageProps) {
         leftAddon={
           <Breadcrumb>
             <Breadcrumb.Item>
-              <MainBreadcrumbItem href={ROUTES.HOME.ROOT} />
+              <MainBreadcrumbItem href={ROUTES.HOME.DETAIL(params.agentId)} />
             </Breadcrumb.Item>
           </Breadcrumb>
         }
