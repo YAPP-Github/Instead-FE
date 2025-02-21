@@ -60,4 +60,5 @@ export const introductionText = style({
   WebkitBoxOrient: 'vertical',
   WebkitLineClamp: 2,
   wordBreak: 'keep-all',
+  lineHeight: '170%',
 });

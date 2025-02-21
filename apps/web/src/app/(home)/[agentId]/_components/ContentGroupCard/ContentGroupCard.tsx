@@ -5,6 +5,7 @@ import {
   contentGroupImage,
   contentGroupItem,
   contentGroupText,
+  contentGroupTopic,
   dropdownItem,
   dropdownWrapper,
   emptyContent,
@@ -117,7 +118,12 @@ export function ContentGroupItem({
           <Text fontSize={18} fontWeight="semibold" color="grey400">
             {POST_PURPOSE[item.purpose].label}
           </Text>
-          <Text fontSize={22} fontWeight="bold" color="grey600">
+          <Text
+            className={contentGroupTopic}
+            fontSize={22}
+            fontWeight="bold"
+            color="grey600"
+          >
             {item.topic}
           </Text>
           <Text fontSize={16} fontWeight="medium" color="grey400">

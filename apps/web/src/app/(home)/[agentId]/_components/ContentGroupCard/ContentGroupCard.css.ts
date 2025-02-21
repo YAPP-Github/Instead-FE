@@ -42,6 +42,14 @@ export const contentGroupText = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '0.4rem',
+  width: '100%',
+});
+
+export const contentGroupTopic = style({
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  wordBreak: 'break-all',
 });
 
 export const content = style({

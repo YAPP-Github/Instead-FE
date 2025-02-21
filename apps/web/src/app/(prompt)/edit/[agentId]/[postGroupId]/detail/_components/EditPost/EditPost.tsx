@@ -207,8 +207,8 @@ export function EditPost() {
           </Badge>
         </div>
         <FormProvider {...methods}>
-          <PostEditor />
           <EditPromptField />
+          <PostEditor />
         </FormProvider>
       </div>
     </div>

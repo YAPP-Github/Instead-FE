@@ -15,6 +15,7 @@ export const chipRecipe = recipe({
     borderRadius: '2.4rem',
     fontSize: vars.typography.fontSize[16],
     fontWeight: vars.typography.fontWeight.semibold,
+    lineHeight: '150%',
   },
 
   variants: {

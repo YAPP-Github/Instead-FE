@@ -117,6 +117,7 @@ export default function Home() {
           }
         />
         <div className={cardContent}>
+          <Spacing size={24} />
           <GradientAnimatedText className={animatedText}>
             한 번의 설정으로 끝없이 흘러가는 콘텐츠
           </GradientAnimatedText>

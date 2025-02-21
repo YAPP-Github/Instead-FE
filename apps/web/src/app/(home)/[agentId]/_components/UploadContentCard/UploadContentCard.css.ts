@@ -23,6 +23,7 @@ export const cardText = style({
 export const leftText = style({
   display: 'flex',
   gap: '1rem',
+  alignItems: 'center',
 });
 
 export const uploadContentItem = style({
