@@ -13,6 +13,8 @@ export const chipRecipe = recipe({
     width: 'fit-content',
     border: 'none',
     borderRadius: '2.4rem',
+    fontSize: vars.typography.fontSize[16],
+    fontWeight: vars.typography.fontWeight.semibold,
   },
 
   variants: {
