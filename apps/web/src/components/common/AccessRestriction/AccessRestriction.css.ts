@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 
 export const wrapper = style({
   textAlign: 'center',
@@ -14,11 +14,22 @@ export const wrapper = style({
     },
   },
 });
+export const logo = style({
+  '@media': {
+    'screen and (max-width: 360px)': {
+      width: '8.8rem',
+      height: 'auto',
+      marginBottom: '0.6rem',
+    },
+  },
+});
 
 export const nav = style({
   padding: '2rem 2.4rem',
   width: '100%',
   position: 'fixed',
+  display: 'flex',
+  justifyContent: 'flex-start',
   top: 0,
 });
 
@@ -26,4 +37,10 @@ export const image = style({
   marginTop: '6.4rem',
   width: '100%',
   height: 'auto',
+});
+
+export const logoOverride = style({
+  width: '100% !important',
+  height: 'auto !important',
+  display: 'block',
 });

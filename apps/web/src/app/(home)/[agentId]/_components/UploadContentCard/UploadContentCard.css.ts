@@ -32,6 +32,7 @@ export const uploadContentItem = style({
   borderRadius: vars.borderRadius[12],
   padding: '1.2rem 1.6rem 1.2rem 1.2rem',
   cursor: 'pointer',
+  transition: 'background-color 0.3s ease, padding 0.3s ease',
   ':hover': {
     backgroundColor: vars.colors.hover,
     padding: '1.2rem 1.6rem 1.2rem 2rem',

@@ -28,9 +28,9 @@ export const chipRecipe = recipe({
         backgroundColor: vars.colors.purple200,
         color: vars.colors.purple800,
       },
-      green: {
-        backgroundColor: vars.colors.blue200,
-        color: vars.colors.blue800,
+      orange: {
+        backgroundColor: vars.colors.orange200,
+        color: vars.colors.orange800,
       },
     },
   },

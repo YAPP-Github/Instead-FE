@@ -258,9 +258,9 @@ function EditSidebarContent() {
               <Accordion.Trigger className={accordionTrigger}>
                 <Spacing direction="row" size={8} />
                 <Chip
-                  variant="green"
+                  variant="orange"
                   leftAddon={
-                    <Chip.Icon variant="green" name="circle" size={'1.2rem'} />
+                    <Chip.Icon variant="orange" name="circle" size={'1.2rem'} />
                   }
                 >
                   업로드할 글

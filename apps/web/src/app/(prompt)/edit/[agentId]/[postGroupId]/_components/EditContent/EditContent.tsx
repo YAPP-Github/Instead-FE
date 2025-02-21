@@ -138,6 +138,7 @@ export function EditContent({ params }: EditPageProps) {
                         updatedAt={item.updatedAt}
                         onRemove={() => handleDeletePost(item.id)}
                         onModify={() => handleModify(item.id)}
+                        onClick={() => handleModify(item.id)}
                         isLoading={item?.isLoading ?? false}
                       />
                     </DndController.Item>
@@ -213,6 +214,7 @@ export function EditContent({ params }: EditPageProps) {
                         updatedAt={item.updatedAt}
                         onRemove={() => handleDeletePost(item.id)}
                         onModify={() => handleModify(item.id)}
+                        onClick={() => handleModify(item.id)}
                         isLoading={isUpdatePromptPending}
                       />
                     </DndController.Item>
@@ -232,8 +234,8 @@ export function EditContent({ params }: EditPageProps) {
         >
           <Accordion.Trigger className={style.accordionTriggerStyle}>
             <Chip
-              variant="green"
-              leftAddon={<Chip.Icon variant="green" name="circle" size={12} />}
+              variant="orange"
+              leftAddon={<Chip.Icon variant="orange" name="circle" size={12} />}
             >
               업로드할 글
             </Chip>
@@ -257,6 +259,7 @@ export function EditContent({ params }: EditPageProps) {
                         updatedAt={item.updatedAt}
                         onRemove={() => handleDeletePost(item.id)}
                         onModify={() => handleModify(item.id)}
+                        onClick={() => handleModify(item.id)}
                       />
                     </DndController.Item>
                   ))

@@ -47,8 +47,8 @@ const CHIP_DROPDOWN: Partial<Record<PostStatus, ReactNode>> = {
   ),
   READY_TO_UPLOAD: (
     <Chip
-      variant="green"
-      leftAddon={<Chip.Icon variant="green" name="circle" size={'1.2rem'} />}
+      variant="orange"
+      leftAddon={<Chip.Icon variant="orange" name="circle" size={'1.2rem'} />}
     >
       업로드할 글
     </Chip>

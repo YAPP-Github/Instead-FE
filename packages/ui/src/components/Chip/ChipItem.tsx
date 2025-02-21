@@ -1,10 +1,9 @@
 import { ComponentPropsWithoutRef, forwardRef, ReactElement } from 'react';
 import { chipCloseButtonRecipe, chipRecipe } from './Chip.css';
 import { Icon } from '../Icon/Icon';
-import { Text } from '../Text/Text';
 import { isNotNil } from '../../utils';
 
-export type ButtonVariant = 'grey' | 'purple' | 'green';
+export type ButtonVariant = 'grey' | 'purple' | 'orange';
 
 export type ChipProps = ComponentPropsWithoutRef<'span'> & {
   variant: ButtonVariant;
