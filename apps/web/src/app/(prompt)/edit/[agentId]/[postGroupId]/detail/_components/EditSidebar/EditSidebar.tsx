@@ -96,7 +96,13 @@ function EditSidebarContent() {
       confirmButtonProps: {
         onClick: async () => {
           await deletePost(Number(postId), {
-            onSuccess: () => router.push(ROUTES.CREATE(Number(agentId))),
+            onSuccess: () =>
+              router.push(
+                ROUTES.EDIT.ROOT({
+                  agentId: Number(agentId),
+                  postGroupId: Number(postGroupId),
+                })
+              ),
           });
         },
       },
@@ -140,7 +146,9 @@ function EditSidebarContent() {
                 <Accordion.Trigger className={accordionTrigger}>
                   <Chip
                     variant="grey"
-                    leftAddon={<Chip.Icon variant="grey" name="circle" />}
+                    leftAddon={
+                      <Chip.Icon variant="grey" name="circle" size={12} />
+                    }
                   >
                     생성된 글
                   </Chip>
@@ -190,7 +198,9 @@ function EditSidebarContent() {
               <Accordion.Trigger className={accordionTrigger}>
                 <Chip
                   variant="purple"
-                  leftAddon={<Chip.Icon variant="purple" name="circle" />}
+                  leftAddon={
+                    <Chip.Icon variant="purple" name="circle" size={12} />
+                  }
                 >
                   수정 중인 글
                 </Chip>
@@ -220,7 +230,7 @@ function EditSidebarContent() {
                     ))}
                   </DndController.SortableList>
                 ) : (
-                  <DragGuide description="수정하고 싶은 글을" />
+                  <DragGuide description="수정하고 싶은 글을\n끌어서 여기에 놓아주세요" />
                 )}
               </Accordion.Content>
             </Accordion.Item>
@@ -230,7 +240,9 @@ function EditSidebarContent() {
               <Accordion.Trigger className={accordionTrigger}>
                 <Chip
                   variant="green"
-                  leftAddon={<Chip.Icon variant="green" name="circle" />}
+                  leftAddon={
+                    <Chip.Icon variant="green" name="circle" size={12} />
+                  }
                 >
                   업로드할 글
                 </Chip>
@@ -261,7 +273,7 @@ function EditSidebarContent() {
                     )}
                   </DndController.SortableList>
                 ) : (
-                  <DragGuide description="업로드가 준비된 글을" />
+                  <DragGuide description="업로드가 준비된 글을\n끌어서 여기에 놓아주세요" />
                 )}
               </Accordion.Content>
             </Accordion.Item>

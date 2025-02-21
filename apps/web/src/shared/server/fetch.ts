@@ -2,6 +2,7 @@ import { ApiResponse, STATUS, Tokens } from './types';
 import { api } from './api';
 import { HTTPError } from 'ky';
 import { getClientSideTokens } from '@web/utils/getClientSideTokens';
+import { ROUTES } from '@web/routes';
 
 type FetchMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
 
@@ -14,7 +15,8 @@ type FetchOptions = {
 async function fetchWrapperWithTokenHandler<Data>(
   uri: string,
   options?: FetchOptions,
-  tokens?: Tokens
+  tokens?: Tokens,
+  hasRetried = false
 ): Promise<ApiResponse<Data>> {
   const method = options?.method ?? 'get';
 
@@ -38,7 +40,20 @@ async function fetchWrapperWithTokenHandler<Data>(
 
       // 인증 실패(401)인 경우
       if (status === STATUS.UNAUTHORIZED && tokens) {
-        return await fetchWrapperWithTokenHandler<Data>(uri, options, tokens);
+        if (!hasRetried && tokens) {
+          return await fetchWrapperWithTokenHandler<Data>(
+            uri,
+            options,
+            tokens,
+            true
+          );
+        } else {
+          if (typeof window !== 'undefined') {
+            window.location.replace(`${ROUTES.JOIN}?toast=401`);
+          }
+
+          throw new Error('로그인이 필요해요!');
+        }
       }
     }
 

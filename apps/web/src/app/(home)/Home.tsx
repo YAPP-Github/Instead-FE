@@ -66,7 +66,7 @@ export default function Home() {
     //TODO: 액션 필요
   };
 
-  const userData = user.data.user;
+  const userData = user.data;
 
   return (
     <div className={background} ref={scrollRef}>

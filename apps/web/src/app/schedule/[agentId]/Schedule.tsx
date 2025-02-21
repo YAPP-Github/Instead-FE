@@ -119,14 +119,14 @@ queryClient.invalidateQueries(
           rightAddon={
             <Dropdown>
               <Dropdown.Trigger>
-                {isNil(user.data.user?.profileImage) ? (
+                {isNil(user.data.profileImage) ? (
                   <div className={style.image} />
                 ) : (
                   <Image
                     className={style.image}
                     width={40}
                     height={40}
-                    src={user.data.user.profileImage}
+                    src={user.data.profileImage}
                     alt="유저 프로필 이미지"
                   />
                 )}
