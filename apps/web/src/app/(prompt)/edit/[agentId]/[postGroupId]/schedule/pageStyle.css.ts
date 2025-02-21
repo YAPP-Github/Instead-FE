@@ -54,3 +54,10 @@ export const dropdownWrapperStyle = style({
   flexDirection: 'column',
   gap: vars.space[16],
 });
+
+export const breadcrumbItemStyle = style({
+  maxWidth: '120px',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});

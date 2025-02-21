@@ -87,7 +87,7 @@ export default function Schedule({ params }: EditPageProps) {
           leftAddon={
             <Breadcrumb>
               <MainBreadcrumbItem href={ROUTES.HOME.DETAIL(params.agentId)} />
-              <Breadcrumb.Item active>
+              <Breadcrumb.Item active className={style.breadcrumbItemStyle}>
                 {posts.data.postGroup.topic}
               </Breadcrumb.Item>
             </Breadcrumb>

@@ -37,7 +37,9 @@ export default function ScheduleDetail({ params }: ScheduleDetailPageProps) {
         leftAddon={
           <Breadcrumb>
             <MainBreadcrumbItem href={ROUTES.HOME.DETAIL(params.agentId)} />
-            <Breadcrumb.Item active>{topic.data.topic}</Breadcrumb.Item>
+            <Breadcrumb.Item active className={style.breadcrumbItemStyle}>
+              {topic.data.topic}
+            </Breadcrumb.Item>
           </Breadcrumb>
         }
         rightAddon={

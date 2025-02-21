@@ -26,3 +26,10 @@ export const contentStyle = style({
 export const submitButtonStyle = style({
   fontSize: vars.typography.fontSize[18],
 });
+
+export const breadcrumbItemStyle = style({
+  maxWidth: '12rem',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});

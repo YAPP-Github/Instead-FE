@@ -69,13 +69,6 @@ export default function Personalize({ params }: PersonalizePageProps) {
 
   const onSubmit = (data: PersonalizeFormValues) => {
     if (
-      isEmptyStringOrNil(data.domain) ||
-      isEmptyStringOrNil(data.introduction) ||
-      isEmptyStringOrNil(data.tone)
-    ) {
-      return toast.error('모든 필드를 입력해주세요');
-    }
-    if (
       toneValue === TONE_OPTIONS.CUSTOM &&
       isEmptyStringOrNil(data.customTone)
     ) {
