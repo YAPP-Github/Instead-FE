@@ -5,9 +5,10 @@ export const mainStyle = style({
   position: 'relative',
   minWidth: '144rem', // 100rem + 44rem
   minHeight: '100vh',
-  paddingTop: '8rem',
+  padding: '8rem 0 12rem',
   display: 'flex',
   overflowX: 'auto',
+  backgroundColor: vars.colors.grey,
 });
 
 export const contentWrapperStyle = style({
@@ -42,6 +43,7 @@ export const buttonWrapperStyle = style({
 });
 
 export const sideBarContentWrapperStyle = style({
+  position: 'fixed',
   display: 'flex',
   flexDirection: 'column',
   gap: vars.space[40],
