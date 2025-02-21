@@ -28,9 +28,7 @@ export function AccessRestriction({ children }: AccessRestrictionProps) {
     return (
       <div className={wrapper}>
         <nav className={nav}>
-          <div style={{ width: '8.8rem' /* 원하는 너비 */, display: 'flex' }}>
-            <InsteadLogoImage className={logoOverride} />
-          </div>
+          <InsteadLogoImage className={logoOverride} />
         </nav>
         <Text.H1 fontWeight="bold" fontSize={30} color="grey700">
           더 큰 화면에서

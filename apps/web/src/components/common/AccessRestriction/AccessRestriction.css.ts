@@ -1,4 +1,4 @@
-import { globalStyle, style } from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 
 export const wrapper = style({
   textAlign: 'center',
@@ -7,10 +7,12 @@ export const wrapper = style({
   justifyContent: 'flex-end',
   flexDirection: 'column',
   height: '100vh',
-  background: 'radial-gradient(100% 100% at 51.8% 0%, #D7DAFF 0%, #FFF 79.28%)',
+  background: 'radial-gradient(260.22% 100% at 51.8% 0%, #CBCFFF 0%, #FFF 30%)',
   '@media': {
-    'screen and (max-width: 360px)': {
+    'screen and (max-width: 550px)': {
       justifyContent: 'center',
+      background:
+        'radial-gradient(260.22% 100% at 51.8% 0%, #CBCFFF 0%, #FFF 30%)',
     },
   },
 });
@@ -40,7 +42,15 @@ export const image = style({
 });
 
 export const logoOverride = style({
-  width: '100% !important',
-  height: 'auto !important',
-  display: 'block',
+  width: '12rem',
+  height: '3.8rem',
+  marginBottom: '0.6rem',
+
+  '@media': {
+    'screen and (max-width: 550px)': {
+      width: '8.8rem',
+      height: '2.347rem',
+      marginBottom: '0.453rem',
+    },
+  },
 });

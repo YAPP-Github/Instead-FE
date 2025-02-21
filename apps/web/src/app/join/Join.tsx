@@ -32,7 +32,7 @@ export default function JoinPage() {
       />
       <div className={styles.content}>
         <div className={styles.logo}>
-          <InsteadLogoImage />
+          <InsteadLogoImage width="15.1rem" height="4.027rem" />
         </div>
         <Spacing size={40} />
         <Text.H2
