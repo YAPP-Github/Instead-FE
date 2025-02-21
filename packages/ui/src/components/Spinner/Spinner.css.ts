@@ -26,6 +26,7 @@ export const spinner = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  position: 'relative',
 });
 
 export const spinnerRecipe = recipe({
@@ -58,6 +59,7 @@ export const svg = style({
   animation: `${rotate} 0.8s linear infinite`,
   width: '100%',
   height: '100%',
+  position: 'absolute',
 });
 
 export const circleRecipe = recipe({
