@@ -32,17 +32,14 @@ export const metadata = {
     type: 'website',
   },
   icons: {
-    // 라이트모드/다크모드 각각 다른 파비콘 적용
     icon: [
       { url: '/favicon-light.svg', media: '(prefers-color-scheme: light)' },
       { url: '/favicon-dark.svg', media: '(prefers-color-scheme: dark)' },
     ],
-    // 브라우저 단축 아이콘 (shortcut icon)도 동일하게 적용 가능
     shortcut: [
       { url: '/favicon-light.svg', media: '(prefers-color-scheme: light)' },
       { url: '/favicon-dark.svg', media: '(prefers-color-scheme: dark)' },
     ],
-    // iOS 터치 아이콘 (애플 아이콘)
     apple: '/apple-touch-icon.svg',
   },
 };
