@@ -6,7 +6,6 @@ import { breadcrumbItemStyle } from './Breadcrumb.css';
 export type BreadcrumbItemProps = {
   children: ReactNode;
   active?: boolean;
-  className?: string;
   asChild?: boolean;
 } & ComponentPropsWithoutRef<'span'>;
 
@@ -15,15 +14,12 @@ export const BreadcrumbItem = forwardRef<HTMLSpanElement, BreadcrumbItemProps>(
     const Component = asChild ? Slot : 'span';
 
     return (
-      <Component
-        ref={ref}
-        className={`${breadcrumbItemStyle} ${className}`}
-        {...props}
-      >
+      <Component ref={ref} className={`${breadcrumbItemStyle}`} {...props}>
         <Text
           fontSize={22}
           color={active ? 'grey900' : 'grey400'}
           fontWeight={active ? 'semibold' : 'medium'}
+          className={`${className}`}
         >
           {children}
         </Text>

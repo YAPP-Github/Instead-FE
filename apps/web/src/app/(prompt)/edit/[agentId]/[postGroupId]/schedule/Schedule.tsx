@@ -87,7 +87,7 @@ export default function Schedule({ params }: EditPageProps) {
           leftAddon={
             <Breadcrumb>
               <MainBreadcrumbItem href={ROUTES.HOME.DETAIL(params.agentId)} />
-              <Breadcrumb.Item active>
+              <Breadcrumb.Item active className={style.breadcrumbItemStyle}>
                 {posts.data.postGroup.topic}
               </Breadcrumb.Item>
             </Breadcrumb>
@@ -153,20 +153,6 @@ export default function Schedule({ params }: EditPageProps) {
                 .flat()
                 .map((item) => `${item.id}-${item.displayOrder}-${item.status}`)
                 .join(',')}
-              onDragEnd={(updatedItems) => {
-                const formValues = methods.getValues('schedules');
-                const updatePayload = {
-                  posts: updatedItems[POST_STATUS.READY_TO_UPLOAD].map(
-                    (item, index) => ({
-                      postId: item.id,
-                      status: item.status,
-                      displayOrder: item.displayOrder,
-                      uploadTime: `${formValues?.[index]?.date ?? ''}T${formValues?.[index]?.hour ?? '00'}:${formValues?.[index]?.minute ?? '00'}:00.000Z`,
-                    })
-                  ),
-                };
-                updatePosts(updatePayload);
-              }}
               renderDragOverlay={(activeItem) => (
                 <ContentItem {...activeItem} />
               )}

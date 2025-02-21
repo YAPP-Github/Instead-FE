@@ -60,3 +60,7 @@ export const emptyImage = style({
   width: '17.2rem',
   height: '9rem',
 });
+
+export const contentWrapper = style({
+  height: '100%',
+});

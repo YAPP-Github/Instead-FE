@@ -7,8 +7,11 @@ import Image from 'next/image';
 import { Text } from '@repo/ui/Text';
 import { Spacing } from '@repo/ui/Spacing';
 import { Button } from '@repo/ui/Button';
+import { useRouter } from 'next/navigation';
+import { ROUTES } from '@web/routes';
 
 export default function NotFound() {
+  const router = useRouter();
   return (
     <div className={wrapper}>
       <nav className={nav}>
@@ -32,7 +35,11 @@ export default function NotFound() {
         페이지 주소가 정확한지 확인해주세요
       </Text>
       <Spacing size={32} />
-      <Button variant="primary" size="large">
+      <Button
+        variant="primary"
+        size="large"
+        onClick={() => router.push(ROUTES.HOME.ROOT)}
+      >
         홈으로 가기
       </Button>
     </div>

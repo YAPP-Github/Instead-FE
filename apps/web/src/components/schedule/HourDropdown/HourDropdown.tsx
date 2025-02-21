@@ -8,10 +8,6 @@ type HourDropdownProps = {
   onChange?: (value: string) => void;
 };
 
-const hours = Array.from({ length: 24 }, (_, i) =>
-  i.toString().padStart(2, '0')
-);
-
 export function HourDropdown({ value = '00', onChange }: HourDropdownProps) {
   return (
     <Dropdown value={value} onValueChange={onChange}>
@@ -26,3 +22,30 @@ export function HourDropdown({ value = '00', onChange }: HourDropdownProps) {
     </Dropdown>
   );
 }
+
+const hours = [
+  '00',
+  '01',
+  '02',
+  '03',
+  '04',
+  '05',
+  '06',
+  '07',
+  '08',
+  '09',
+  '10',
+  '11',
+  '12',
+  '13',
+  '14',
+  '15',
+  '16',
+  '17',
+  '18',
+  '19',
+  '20',
+  '21',
+  '22',
+  '23',
+];

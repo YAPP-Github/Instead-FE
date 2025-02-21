@@ -117,6 +117,7 @@ export const buttonChildrenRecipe = recipe({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
   },
 
   variants: {
