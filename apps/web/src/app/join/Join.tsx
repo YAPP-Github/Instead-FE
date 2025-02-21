@@ -39,7 +39,7 @@ export default function JoinPage() {
           color="grey700"
           fontWeight="semibold"
           fontSize={44}
-          className={styles.textAlignCenter}
+          className={styles.text}
         >
           {`피드 생성부터 업로드까지,\n완전 자동화의 시작`}
         </Text.H2>
