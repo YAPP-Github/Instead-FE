@@ -75,7 +75,7 @@ export default function Schedule({ params }: EditPageProps) {
     updatePosts(updatePayload, {
       onSuccess: () => {
         toast.success('예약이 완료되었어요');
-        //router.push(ROUTES.HOME.DETAIL(params.agentId));
+        router.push(ROUTES.HOME.DETAIL(params.agentId));
       },
     });
   });
