@@ -124,7 +124,7 @@ export default function Personalize({ params }: PersonalizePageProps) {
                   width={40}
                   height={40}
                   src={user.data.profileImage}
-                  alt="유저 프로필 이미지"
+                  alt="프로필"
                 />
               )}
             </Dropdown.Trigger>
@@ -196,16 +196,16 @@ export default function Personalize({ params }: PersonalizePageProps) {
                   }}
                 >
                   <RadioCards.Item value={TONE_OPTIONS.CASUAL}>
-                    ~해요
+                    <RadioCards.Label>~해요</RadioCards.Label>
                   </RadioCards.Item>
                   <RadioCards.Item value={TONE_OPTIONS.LESS_FORMAL}>
-                    ~합니다
+                    <RadioCards.Label>~합니다</RadioCards.Label>
                   </RadioCards.Item>
                   <RadioCards.Item value={TONE_OPTIONS.MORE_FORMAL}>
-                    ~해
+                    <RadioCards.Label>~해</RadioCards.Label>
                   </RadioCards.Item>
                   <RadioCards.Item value={TONE_OPTIONS.CUSTOM}>
-                    직접 입력할게요
+                    <RadioCards.Label>직접 입력할게요</RadioCards.Label>
                   </RadioCards.Item>
                 </RadioCards>
               )}
