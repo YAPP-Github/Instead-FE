@@ -142,6 +142,7 @@ export default function Personalize({ params }: PersonalizePageProps) {
       />
       <AccountSidebar
         agentData={agentData.agents}
+        selectedId={params.agentId}
         onAccountClick={handleAccountClick}
       />
       <div className={style.contentWrapperStyle}>
