@@ -8,14 +8,14 @@ export const background = style({
   paddingTop: '8rem',
   background:
     'linear-gradient(0deg, #F6F7FC 0%, #F6F7FC 100%), linear-gradient(180deg, #F8F8FF 0%, #F4F5F9 48.16%, #E9F0FA 84.19%)',
-  overflow: 'hidden',
+  overflow: 'auto',
 });
 
 export const content = style({
   display: 'flex',
   width: '100%',
   height: 'calc(100vh - 8rem)',
-  margin: '0 auto',
+  paddingLeft: '40rem',
 });
 
 export const cardContent = style({
@@ -24,8 +24,8 @@ export const cardContent = style({
   alignItems: 'center',
   flexDirection: 'column',
   gap: '4.8rem',
-  overflow: 'auto',
-  marginLeft: '40rem',
+  overflow: 'visible',
+  margin: '0 auto',
 });
 
 export const image = style({

@@ -30,7 +30,7 @@ export const gradient = style({
   left: '-250%',
   transform: 'translate(-50%, -50%)',
   borderRadius: vars.borderRadius[12],
-  backgroundImage: `linear-gradient(115deg, #B68AE7 44.22%, #3348D6 48.73%, #9290DC 51.48%, ##9290DC 55.15%);`,
+  backgroundImage: `linear-gradient(115deg, #B68AE7 44.22%, #3348D6 48.73%, #9290DC 51.48%, #9290DC 55.15%);`,
   backgroundOrigin: 'border-box',
   backgroundClip: 'padding-box, border-box',
   overflow: 'visible',
