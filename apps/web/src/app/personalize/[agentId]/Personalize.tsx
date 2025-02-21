@@ -56,6 +56,9 @@ export default function Personalize({ params }: PersonalizePageProps) {
   const { mutate: logout } = useLogoutMutation();
   const queryClient = useQueryClient();
 
+  console.log('user', user);
+  console.log('agentDetail', user.data.profileImage);
+
   const { register, watch, setValue, handleSubmit, control } =
     useForm<PersonalizeFormValues>({
       defaultValues: {
@@ -198,10 +201,10 @@ export default function Personalize({ params }: PersonalizePageProps) {
                   <RadioCards.Item value={TONE_OPTIONS.CASUAL}>
                     <RadioCards.Label>~해요</RadioCards.Label>
                   </RadioCards.Item>
-                  <RadioCards.Item value={TONE_OPTIONS.LESS_FORMAL}>
+                  <RadioCards.Item value={TONE_OPTIONS.MORE_FORMAL}>
                     <RadioCards.Label>~합니다</RadioCards.Label>
                   </RadioCards.Item>
-                  <RadioCards.Item value={TONE_OPTIONS.MORE_FORMAL}>
+                  <RadioCards.Item value={TONE_OPTIONS.LESS_FORMAL}>
                     <RadioCards.Label>~해</RadioCards.Label>
                   </RadioCards.Item>
                   <RadioCards.Item value={TONE_OPTIONS.CUSTOM}>
