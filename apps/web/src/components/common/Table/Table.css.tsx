@@ -7,6 +7,6 @@ export const table = style({
   borderSpacing: 0,
   backgroundColor: 'transparent',
   borderRadius: vars.borderRadius[8],
-  overflow: 'hidden',
+  overflow: 'visible',
   tableLayout: 'fixed',
 });
