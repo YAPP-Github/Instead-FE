@@ -25,7 +25,6 @@ export const cardContent = style({
   flexDirection: 'column',
   gap: '4.8rem',
   overflow: 'auto',
-  paddingLeft: '1.6rem',
   marginLeft: '40rem',
 });
 
