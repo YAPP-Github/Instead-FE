@@ -49,7 +49,7 @@ export const chip = style({
   whiteSpace: 'nowrap',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
-  wordBreak: 'break-all',
+  wordBreak: 'keep-all',
 });
 
 export const introductionText = style({

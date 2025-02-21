@@ -3,6 +3,7 @@ import { api } from './api';
 import { HTTPError } from 'ky';
 import { getClientSideTokens } from '@web/utils/getClientSideTokens';
 import { ROUTES } from '@web/routes';
+import { notFound } from 'next/navigation';
 
 type FetchMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
 
@@ -54,6 +55,9 @@ async function fetchWrapperWithTokenHandler<Data>(
 
           throw new Error('로그인이 필요해요!');
         }
+      }
+      if (status === STATUS.NOT_FOUND) {
+        notFound();
       }
     }
 

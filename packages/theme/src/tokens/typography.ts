@@ -7,6 +7,8 @@ export const typography = {
     22: '2.2rem',
     24: '2.4rem',
     28: '2.8rem',
+    30: '3rem',
+    36: '3.6rem',
     44: '4.4rem',
   },
   fontWeight: {

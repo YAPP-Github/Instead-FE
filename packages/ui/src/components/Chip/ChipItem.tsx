@@ -28,9 +28,7 @@ export const ChipItem = forwardRef<HTMLSpanElement, ChipProps>(
     return (
       <span className={`${chipRecipe({ variant })} ${className}`} {...rest}>
         {isNotNil(leftAddon) && leftAddon}
-        <Text fontSize={16} fontWeight="semibold">
-          {children}
-        </Text>
+        {children}
         {isNotNil(rightAddon) && rightAddon}
         {closable && (
           <button
