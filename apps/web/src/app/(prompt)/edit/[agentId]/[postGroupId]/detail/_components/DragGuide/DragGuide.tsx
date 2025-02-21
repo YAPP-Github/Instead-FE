@@ -7,7 +7,6 @@ type DragGuideProps = {
 };
 
 export function DragGuide({ description }: DragGuideProps) {
-  console.log(description.split('\n'));
   return (
     <div className={styles.container}>
       <Text.H2

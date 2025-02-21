@@ -49,7 +49,7 @@ async function fetchWrapperWithTokenHandler<Data>(
           );
         } else {
           if (typeof window !== 'undefined') {
-            window.location.replace(`${ROUTES.JOIN}?=401`);
+            window.location.replace(`${ROUTES.JOIN}?toast=401`);
           }
 
           throw new Error('로그인이 필요해요!');
