@@ -5,7 +5,6 @@ import { wrapper, titleWrapper } from './AccountSidebar.css';
 import { AccountItem } from './AccountItem/AccountItem';
 import { Agent } from '@web/types';
 import { useGetXLoginQuery } from '@web/store/query/useGetXLogin';
-import { useRouter } from 'next/navigation';
 import { IconButton } from '@repo/ui/IconButton';
 import { isNotNil } from '@repo/ui/utils';
 
@@ -23,16 +22,15 @@ export function AccountSidebar({
   selectedId,
   onAccountClick,
 }: AccountSidebarProps) {
-  const { data, refetch } = useGetXLoginQuery();
-  const router = useRouter();
+  const { refetch } = useGetXLoginQuery();
 
   const handleClick = async () => {
-    await refetch();
-    if (data?.data.redirectUrl) {
-      // TODO redirect url 변경
-      router.push('/');
+    const result = await refetch();
+    if (result.data?.data.redirectUrl) {
+      window.location.href = result.data.data.redirectUrl;
     }
   };
+
   return (
     <div className={wrapper}>
       <div className={titleWrapper}>
