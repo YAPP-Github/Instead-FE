@@ -6,6 +6,7 @@ import {
   accordionTrigger,
   breadcrumbWrapper,
   contentWrapper,
+  dndItem,
   generateTrigger,
   sidebarWrapper,
 } from './EditSidebar.css';
@@ -19,7 +20,7 @@ import { Accordion } from '@repo/ui/Accordion';
 import { Chip } from '@repo/ui/Chip';
 import { Post, POST_STATUS } from '@web/types/post';
 import { IconButton } from '@repo/ui/IconButton';
-import { useContext, useEffect, useState } from 'react';
+import { MouseEvent, useContext, useEffect, useMemo, useState } from 'react';
 import { useCreateMorePostsMutation } from '@web/store/mutation/useCreateMorePostsMutation';
 import { SkeletonContentItem } from '../ContentItem/SkeletonContentItem';
 import { useModal, useToast } from '@repo/ui/hooks';
@@ -32,6 +33,7 @@ import { ROUTES } from '@web/routes';
 import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
 import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
 import { PostId } from '@web/types';
+import { Spacing } from '@repo/ui';
 
 function EditSidebarContent() {
   const modal = useModal();
@@ -82,7 +84,6 @@ function EditSidebarContent() {
   };
 
   const handlePlusClick = () => {
-    setAccordionValue('EDITING');
     createMorePosts();
   };
 
@@ -118,6 +119,13 @@ function EditSidebarContent() {
     isLoading: true,
   }));
 
+  const data = useMemo(() => {
+    if (isCreateMorePostsPending) {
+      return [...getItemsByStatus(POST_STATUS.GENERATED), ...skeletonData];
+    }
+    return getItemsByStatus(POST_STATUS.GENERATED);
+  }, [isCreateMorePostsPending, getItemsByStatus, skeletonData]);
+
   return (
     // TODO 중복되는 로직 컴포넌트화 할 예정
     <div className={sidebarWrapper}>
@@ -144,14 +152,16 @@ function EditSidebarContent() {
             <Accordion.Item value={POST_STATUS.GENERATED}>
               <div className={generateTrigger}>
                 <Accordion.Trigger className={accordionTrigger}>
+                  <Spacing direction="row" size={8} />
                   <Chip
                     variant="grey"
                     leftAddon={
-                      <Chip.Icon variant="grey" name="circle" size={12} />
+                      <Chip.Icon variant="grey" name="circle" size={'1.2rem'} />
                     }
                   >
                     생성된 글
                   </Chip>
+                  <Spacing direction="row" size={12} />
                   <Text color="grey300" fontSize={16} fontWeight="semibold">
                     {getItemsByStatus(POST_STATUS.GENERATED).length}
                   </Text>
@@ -165,24 +175,26 @@ function EditSidebarContent() {
               <Accordion.Content className={accordionContent}>
                 {getItemsByStatus(POST_STATUS.GENERATED).length > 0 ? (
                   <DndController.SortableList
-                    items={getItemsByStatus(POST_STATUS.GENERATED).map(
-                      (item) => item.id
-                    )}
+                    items={data.map((item) => item.id)}
                   >
-                    {/* TODO FIXME */}
-                    {isCreateMorePostsPending &&
-                      skeletonData.map((item) => (
-                        <SkeletonContentItem key={item.id} />
-                      ))}
-                    {getItemsByStatus(POST_STATUS.GENERATED).map((item) => (
-                      <DndController.Item id={item.id} key={item.id}>
+                    {data.map((item) => (
+                      <DndController.Item
+                        className={dndItem}
+                        id={item.id}
+                        key={item.id}
+                      >
                         <ContentItem
                           summary={item.summary}
                           updatedAt={item.updatedAt}
                           onRemove={() => handleDeletePost(item.id)}
                           onModify={() => handleClick(item.id)}
+                          onClick={() => handleClick(item.id)}
                           isSelected={Number(postParam) === item.id}
-                          isLoading={loadingPosts.includes(item.id)}
+                          isLoading={
+                            (loadingPosts.includes(item.id) ||
+                              item?.isLoading) ??
+                            false
+                          }
                         />
                       </DndController.Item>
                     ))}
@@ -196,14 +208,16 @@ function EditSidebarContent() {
           <DndController.Droppable id={POST_STATUS.EDITING}>
             <Accordion.Item value={POST_STATUS.EDITING}>
               <Accordion.Trigger className={accordionTrigger}>
+                <Spacing direction="row" size={8} />
                 <Chip
                   variant="purple"
                   leftAddon={
-                    <Chip.Icon variant="purple" name="circle" size={12} />
+                    <Chip.Icon variant="purple" name="circle" size={'1.2rem'} />
                   }
                 >
                   수정 중인 글
                 </Chip>
+                <Spacing direction="row" size={12} />
                 <Text color="grey300" fontSize={16} fontWeight="semibold">
                   {getItemsByStatus(POST_STATUS.EDITING).length}
                 </Text>
@@ -216,7 +230,11 @@ function EditSidebarContent() {
                     )}
                   >
                     {getItemsByStatus(POST_STATUS.EDITING).map((item) => (
-                      <DndController.Item id={item.id} key={item.id}>
+                      <DndController.Item
+                        className={dndItem}
+                        id={item.id}
+                        key={item.id}
+                      >
                         <ContentItem
                           summary={item.summary}
                           updatedAt={item.updatedAt}
@@ -238,14 +256,16 @@ function EditSidebarContent() {
           <DndController.Droppable id={POST_STATUS.READY_TO_UPLOAD}>
             <Accordion.Item value={POST_STATUS.READY_TO_UPLOAD}>
               <Accordion.Trigger className={accordionTrigger}>
+                <Spacing direction="row" size={8} />
                 <Chip
-                  variant="green"
+                  variant="orange"
                   leftAddon={
-                    <Chip.Icon variant="green" name="circle" size={12} />
+                    <Chip.Icon variant="orange" name="circle" size={'1.2rem'} />
                   }
                 >
                   업로드할 글
                 </Chip>
+                <Spacing direction="row" size={12} />
                 <Text color="grey300" fontSize={16} fontWeight="semibold">
                   {getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).length}
                 </Text>
@@ -259,12 +279,17 @@ function EditSidebarContent() {
                   >
                     {getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).map(
                       (item) => (
-                        <DndController.Item id={item.id} key={item.id}>
+                        <DndController.Item
+                          className={dndItem}
+                          id={item.id}
+                          key={item.id}
+                        >
                           <ContentItem
                             summary={item.summary}
                             updatedAt={item.updatedAt}
                             onRemove={() => handleDeletePost(item.id)}
                             onModify={() => handleClick(item.id)}
+                            onClick={() => handleClick(item.id)}
                             isSelected={Number(postParam) === item.id}
                             isLoading={loadingPosts.includes(item.id)}
                           />

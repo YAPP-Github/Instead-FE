@@ -2,13 +2,12 @@
 
 import { ReactNode, useEffect, useState } from 'react';
 import { isNotNil } from '@repo/ui/utils';
-import { image, nav, wrapper } from './AccessRestriction.css';
+import { image, logoOverride, nav, wrapper } from './AccessRestriction.css';
 import { Text } from '@repo/ui/Text';
-import { Breadcrumb } from '@repo/ui/Breadcrumb';
-import { MainBreadcrumbItem } from '../MainBreadcrumbItem/MainBreadcrumbItem';
 import AccessRestrictionImage from '@web/assets/images/accessRestriction.png';
 import Image from 'next/image';
 import { Spacing } from '@repo/ui';
+import InsteadLogoImage from '@web/assets/images/instead.svg';
 
 type AccessRestrictionProps = {
   children: ReactNode;
@@ -29,11 +28,7 @@ export function AccessRestriction({ children }: AccessRestrictionProps) {
     return (
       <div className={wrapper}>
         <nav className={nav}>
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <MainBreadcrumbItem />
-            </Breadcrumb.Item>
-          </Breadcrumb>
+          <InsteadLogoImage className={logoOverride} />
         </nav>
         <Text.H1 fontWeight="bold" fontSize={30} color="grey700">
           더 큰 화면에서

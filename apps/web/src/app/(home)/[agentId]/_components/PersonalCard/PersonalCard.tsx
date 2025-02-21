@@ -27,6 +27,7 @@ export function PersonalCard({ text, data, onIconClick }: PersonalCardPops) {
       className={card}
       whileHover={{ y: -8 }}
       transition={{ duration: 0.3 }}
+      onClick={onIconClick}
     >
       <div className={cardText}>
         <div className={leftText}>
@@ -66,7 +67,6 @@ export function PersonalCard({ text, data, onIconClick }: PersonalCardPops) {
             name="pencil"
             size="2.4rem"
             color="grey300"
-            onClick={onIconClick}
           />
         )}
       </div>

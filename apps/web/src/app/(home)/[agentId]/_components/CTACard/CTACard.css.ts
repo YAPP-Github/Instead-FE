@@ -8,6 +8,7 @@ export const card = style({
   justifyContent: 'space-between',
   borderRadius: vars.borderRadius[24],
   backgroundColor: vars.colors.grey,
+  cursor: 'pointer',
 
   ':hover': {
     boxShadow: '0rem 1.6rem 1.6rem 0rem rgba(74, 98, 139, 0.10)',

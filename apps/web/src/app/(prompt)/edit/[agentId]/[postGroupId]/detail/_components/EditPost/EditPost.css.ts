@@ -1,5 +1,5 @@
 import { vars } from '@repo/theme';
-import { globalStyle, style } from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 
 export const wrapper = style({
   width: '100%',
@@ -50,4 +50,5 @@ export const dropdownItem = style({
   display: 'flex',
   alignItems: 'center',
   gap: '1rem',
+  padding: '1.2rem 1.6rem',
 });

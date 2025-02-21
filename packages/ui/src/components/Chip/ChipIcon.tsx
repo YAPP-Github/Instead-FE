@@ -9,9 +9,9 @@ export type ChipIconProps = {
 } & Omit<IconProps, 'color' | 'name' | 'type'>;
 
 const color: Record<ButtonVariant, keyof typeof vars.colors> = {
-  grey: 'grey600',
-  purple: 'purple800',
-  green: 'green800',
+  grey: 'grey400',
+  purple: 'purple400',
+  orange: 'orange400',
 };
 
 export function ChipIcon({

@@ -10,6 +10,7 @@ export const card = style({
   borderRadius: vars.borderRadius[24],
   backgroundColor: vars.colors.grey,
   padding: '2.8rem 3.2rem',
+  cursor: 'pointer',
 
   ':hover': {
     boxShadow: '0rem 1.6rem 1.6rem 0rem rgba(74, 98, 139, 0.10)',
@@ -60,4 +61,5 @@ export const introductionText = style({
   WebkitBoxOrient: 'vertical',
   WebkitLineClamp: 2,
   wordBreak: 'keep-all',
+  lineHeight: '170%',
 });

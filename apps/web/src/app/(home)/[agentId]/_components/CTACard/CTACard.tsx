@@ -22,6 +22,7 @@ export function CTACard({
 }: CTACardPops) {
   return (
     <motion.div
+      onClick={onButtonClick}
       className={card}
       whileHover={{ y: -8 }}
       transition={{ duration: 0.3 }}
@@ -34,7 +35,6 @@ export function CTACard({
           variant="primary"
           size="large"
           leftAddon={<Icon name="twinkle" />}
-          onClick={onButtonClick}
           disabled={buttonDisabled}
         >
           {buttonText}

@@ -28,7 +28,7 @@ export function MainBreadcrumbItem({
         className={styles.insteadTextWrapperStyle}
         onClick={handleClick}
       >
-        <InsteadLogoImage />
+        <InsteadLogoImage width="12rem" height="3.2rem" />
       </Link>
     </Breadcrumb.Item>
   );

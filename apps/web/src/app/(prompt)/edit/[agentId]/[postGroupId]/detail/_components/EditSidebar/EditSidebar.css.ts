@@ -1,3 +1,4 @@
+import { vars } from '@repo/theme';
 import { style } from '@vanilla-extract/css';
 
 export const sidebarWrapper = style({
@@ -24,6 +25,7 @@ export const contentWrapper = style({
 export const accordionTrigger = style({
   padding: '1.2rem 1.6rem',
   height: 'fit-content',
+  gap: 0,
 });
 
 export const accordionContent = style({
@@ -34,4 +36,13 @@ export const accordionContent = style({
 export const generateTrigger = style({
   display: 'flex',
   justifyContent: 'space-between',
+  alignItems: 'center',
+});
+
+export const dndItem = style({
+  selectors: {
+    '&:not(:last-child)': {
+      borderBottom: `0.1rem solid ${vars.colors.grey100}`,
+    },
+  },
 });

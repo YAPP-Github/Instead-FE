@@ -32,7 +32,7 @@ const CHIP_DROPDOWN: Partial<Record<PostStatus, ReactNode>> = {
   GENERATED: (
     <Chip
       variant="grey"
-      leftAddon={<Chip.Icon variant="grey" name="circle" size={12} />}
+      leftAddon={<Chip.Icon variant="grey" name="circle" size={'1.2rem'} />}
     >
       생성된 글
     </Chip>
@@ -40,15 +40,15 @@ const CHIP_DROPDOWN: Partial<Record<PostStatus, ReactNode>> = {
   EDITING: (
     <Chip
       variant="purple"
-      leftAddon={<Chip.Icon variant="purple" name="circle" size={12} />}
+      leftAddon={<Chip.Icon variant="purple" name="circle" size={'1.2rem'} />}
     >
       수정 중인 글
     </Chip>
   ),
   READY_TO_UPLOAD: (
     <Chip
-      variant="green"
-      leftAddon={<Chip.Icon variant="green" name="circle" size={12} />}
+      variant="orange"
+      leftAddon={<Chip.Icon variant="orange" name="circle" size={'1.2rem'} />}
     >
       업로드할 글
     </Chip>
@@ -207,8 +207,8 @@ export function EditPost() {
           </Badge>
         </div>
         <FormProvider {...methods}>
-          <PostEditor />
           <EditPromptField />
+          <PostEditor />
         </FormProvider>
       </div>
     </div>

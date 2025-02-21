@@ -15,6 +15,7 @@ export const chipRecipe = recipe({
     borderRadius: '2.4rem',
     fontSize: vars.typography.fontSize[16],
     fontWeight: vars.typography.fontWeight.semibold,
+    lineHeight: '150%',
   },
 
   variants: {
@@ -27,9 +28,9 @@ export const chipRecipe = recipe({
         backgroundColor: vars.colors.purple200,
         color: vars.colors.purple800,
       },
-      green: {
-        backgroundColor: vars.colors.blue200,
-        color: vars.colors.blue800,
+      orange: {
+        backgroundColor: vars.colors.orange200,
+        color: vars.colors.orange800,
       },
     },
   },
