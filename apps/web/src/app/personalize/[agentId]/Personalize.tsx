@@ -36,6 +36,7 @@ import { useGetUserQuery } from '@web/store/query/useGetUserQuery';
 import { useScroll } from '@web/hooks';
 import * as style from './pageStyle.css';
 import { useLogoutMutation } from '@web/store/mutation/useLogoutMutation';
+import { useGetAgentDetailQuery } from '@web/store/query/useGetAgentDetailQuery';
 
 export default function Personalize({ params }: PersonalizePageProps) {
   const router = useRouter();
@@ -45,6 +46,9 @@ export default function Personalize({ params }: PersonalizePageProps) {
     threshold: 100,
   });
   const { data: agentData } = useGetAgentQuery();
+  const { data: agentDetail } = useGetAgentDetailQuery({
+    agentId: params.agentId,
+  });
   const { data: user } = useGetUserQuery();
   const { mutate: updatePersonalSetting } = useUpdatePersonalSettingMutation({
     agentId: params.agentId,
@@ -55,10 +59,10 @@ export default function Personalize({ params }: PersonalizePageProps) {
   const { register, watch, setValue, handleSubmit, control } =
     useForm<PersonalizeFormValues>({
       defaultValues: {
-        domain: '',
-        introduction: '',
-        tone: TONE_OPTIONS.CASUAL,
-        customTone: '',
+        domain: agentDetail.agentPersonalSetting.domain,
+        introduction: agentDetail.agentPersonalSetting.introduction,
+        tone: agentDetail.agentPersonalSetting.tone,
+        customTone: agentDetail.agentPersonalSetting.customTone,
       },
     });
   const toneValue = watch('tone');
@@ -77,6 +81,17 @@ export default function Personalize({ params }: PersonalizePageProps) {
     ) {
       return toast.error('말투를 입력해주세요');
     }
+
+    const isFormValueChanged =
+      data.domain !== agentDetail.agentPersonalSetting.domain ||
+      data.introduction !== agentDetail.agentPersonalSetting.introduction ||
+      data.tone !== agentDetail.agentPersonalSetting.tone ||
+      data.customTone !== agentDetail.agentPersonalSetting.customTone;
+
+    if (!isFormValueChanged) {
+      return toast.success('저장되었어요');
+    }
+
     updatePersonalSetting(data);
   };
 
@@ -120,7 +135,7 @@ export default function Personalize({ params }: PersonalizePageProps) {
                   width={40}
                   height={40}
                   src={user.data.profileImage}
-                  alt="유저 프로필 이미지"
+                  alt="프로필"
                 />
               )}
             </Dropdown.Trigger>
@@ -192,16 +207,16 @@ export default function Personalize({ params }: PersonalizePageProps) {
                   }}
                 >
                   <RadioCards.Item value={TONE_OPTIONS.CASUAL}>
-                    ~해요
-                  </RadioCards.Item>
-                  <RadioCards.Item value={TONE_OPTIONS.LESS_FORMAL}>
-                    ~합니다
+                    <RadioCards.Label>~해요</RadioCards.Label>
                   </RadioCards.Item>
                   <RadioCards.Item value={TONE_OPTIONS.MORE_FORMAL}>
-                    ~해
+                    <RadioCards.Label>~합니다</RadioCards.Label>
+                  </RadioCards.Item>
+                  <RadioCards.Item value={TONE_OPTIONS.LESS_FORMAL}>
+                    <RadioCards.Label>~해</RadioCards.Label>
                   </RadioCards.Item>
                   <RadioCards.Item value={TONE_OPTIONS.CUSTOM}>
-                    직접 입력할게요
+                    <RadioCards.Label>직접 입력할게요</RadioCards.Label>
                   </RadioCards.Item>
                 </RadioCards>
               )}

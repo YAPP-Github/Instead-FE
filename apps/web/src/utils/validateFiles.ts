@@ -7,11 +7,5 @@ export function validateFiles(files: File[]) {
     return isImage && isValidSize;
   });
 
-  if (!isValidFiles) {
-    throw new Error(
-      '유효하지 않은 파일이 포함되어 있어요. 이미지 파일(최대 5MB)만 업로드 가능해요.'
-    );
-  }
-
   return isValidFiles;
 }
