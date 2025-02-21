@@ -3,7 +3,7 @@ import { style } from '@vanilla-extract/css';
 
 export const gradientButton = style({
   margin: '5rem 0rem',
-  padding: '2.82rem 9.785rem',
+  padding: '2.4rem 9.8rem',
   border: '0.2rem solid transparent',
   borderRadius: '7.05rem',
   background: `

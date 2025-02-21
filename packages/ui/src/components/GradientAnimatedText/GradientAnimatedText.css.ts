@@ -19,4 +19,13 @@ export const gradientTitleStyle = style({
   WebkitTextFillColor: 'transparent',
   animation: `${flowingGradient} 4s linear infinite`,
   backgroundRepeat: 'repeat',
+  fontSize: '2.9952rem',
+  '@media': {
+    'screen and (min-width: 1440px) and (max-width: 1919px)': {
+      fontSize: '2.08vw',
+    },
+    'screen and (min-width: 1920px)': {
+      fontSize: '4rem',
+    },
+  },
 });

@@ -32,14 +32,14 @@ export default function JoinPage() {
       />
       <div className={styles.content}>
         <div className={styles.logo}>
-          <InsteadLogoImage />
+          <InsteadLogoImage width="15.1rem" height="4.027rem" />
         </div>
         <Spacing size={40} />
         <Text.H2
           color="grey700"
           fontWeight="semibold"
           fontSize={44}
-          className={styles.textAlignCenter}
+          className={styles.text}
         >
           {`피드 생성부터 업로드까지,\n완전 자동화의 시작`}
         </Text.H2>

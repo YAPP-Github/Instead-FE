@@ -31,6 +31,7 @@ export const spinner = style({
 
 export const spinnerRecipe = recipe({
   base: {
+    position: 'relative',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

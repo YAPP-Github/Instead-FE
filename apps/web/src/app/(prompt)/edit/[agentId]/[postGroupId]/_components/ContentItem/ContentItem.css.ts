@@ -1,5 +1,4 @@
 import { style } from '@vanilla-extract/css';
-import { vars } from '@repo/theme';
 
 export const contentItemStyle = style({
   display: 'inline-flex',
@@ -10,7 +9,6 @@ export const contentItemStyle = style({
   width: '100%',
   padding: '1.6rem 0.8rem 1.2rem 1.2rem',
   cursor: 'grab',
-  borderBottom: `0.1rem solid ${vars.colors.grey100}`,
 });
 
 export const summaryStyle = style({

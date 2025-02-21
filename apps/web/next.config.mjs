@@ -8,10 +8,25 @@ const nextConfig = {
     scrollRestoration: true,
   },
   webpack: (config) => {
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ['@svgr/webpack'],
-    });
+    const fileLoaderRule = config.module.rules.find((rule) =>
+      rule.test?.test?.('.svg')
+    );
+
+    config.module.rules.push(
+      {
+        ...fileLoaderRule,
+        test: /\.svg$/,
+        resourceQuery: /url/,
+      },
+      {
+        test: /\.svg$/i,
+        issuer: fileLoaderRule.issuer,
+        resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] }, // *.svg?url 제외
+        use: ['@svgr/webpack'],
+      }
+    );
+    fileLoaderRule.exclude = /\.svg$/i;
+
     return config;
   },
   images: {

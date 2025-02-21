@@ -9,8 +9,6 @@ type UploadedImagesProps = {
   onRemove: (url: string) => void;
 };
 
-const IMAGE_SIZE = 64;
-
 export const UploadedImages = ({ images, onRemove }: UploadedImagesProps) => {
   return (
     <div className={styles.container}>
@@ -23,9 +21,9 @@ export const UploadedImages = ({ images, onRemove }: UploadedImagesProps) => {
           <Image
             src={image}
             alt={`업로드된 이미지 ${image}`}
-            width={IMAGE_SIZE}
-            height={IMAGE_SIZE}
+            layout="fill"
             className={styles.image}
+            quality={100}
           />
           <button
             type="button"
