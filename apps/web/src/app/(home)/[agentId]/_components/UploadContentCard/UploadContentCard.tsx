@@ -21,6 +21,7 @@ export type UploadContentCardProps = {
   onMoreButtonClick?: () => void;
   items?: Post[];
   onItemClick?: (post: Post) => void;
+  itemLength?: number;
 };
 
 export function UploadContentCard({
@@ -28,6 +29,7 @@ export function UploadContentCard({
   onMoreButtonClick,
   items,
   onItemClick,
+  itemLength,
 }: UploadContentCardProps) {
   return (
     <div className={card}>
@@ -37,7 +39,7 @@ export function UploadContentCard({
             {text}
           </Text>
           <Text fontSize={22} fontWeight="medium" color="primary700">
-            {items?.length}
+            {itemLength ?? 0}
           </Text>
         </div>
         {isNotNil(items) && (

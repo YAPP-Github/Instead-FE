@@ -4,6 +4,7 @@ import './globals.css';
 import '@repo/theme/styles';
 import '@repo/ui/styles';
 import { Providers } from '../components/providers/Providers';
+import { AccessRestriction } from '@web/components/common/AccessRestriction/AccessRestriction';
 
 const pretendard = localFont({
   src: './fonts/PretendardVariable.woff2',
@@ -24,7 +25,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${pretendard.variable}`}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <AccessRestriction>{children}</AccessRestriction>
+        </Providers>
       </body>
     </html>
   );

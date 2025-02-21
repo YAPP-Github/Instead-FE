@@ -65,7 +65,7 @@ export default function Home({ params }: HomePageProps) {
 
   const userData = user.data;
   const agentDetailData = agentDetail.agentPersonalSetting;
-  const agentUploadReservedData = agentUploadReserved.posts.slice(0, 4);
+  const agentUploadReservedData = agentUploadReserved.posts.slice(0, 5);
 
   const handleDeletePostGroup = (postGroupId: PostGroupId) => {
     modal.confirm({
@@ -189,6 +189,7 @@ export default function Home({ params }: HomePageProps) {
                   );
                 }}
                 items={agentUploadReservedData}
+                itemLength={agentUploadReserved.posts.length}
               />
             </div>
 
