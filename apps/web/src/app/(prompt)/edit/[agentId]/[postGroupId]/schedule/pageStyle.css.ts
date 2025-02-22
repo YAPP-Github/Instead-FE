@@ -13,7 +13,7 @@ export const mainStyle = style({
 
 export const contentWrapperStyle = style({
   position: 'relative',
-  marginLeft: '44rem',
+  //marginLeft: '44rem',
   flex: 1,
   padding: `0 ${vars.space[40]}`,
   overflow: 'auto',
