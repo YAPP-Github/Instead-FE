@@ -20,6 +20,9 @@ import { validateScheduleDate } from '@web/utils/validateScheduleDate';
 import { useToast } from '@repo/ui/hooks';
 import { isNotNil } from '@repo/ui/utils';
 import { getCurrentDateKo } from './utils/getCurrentDateKo';
+import { CountDropdown } from './_components/CountDropdown/CountDropdown';
+import { StartDateDropdown } from './_components/StartDateDropdown/StartDateDropdown';
+import { WhenDropdown } from './_components/WhenDropdown/WhenDropdown';
 
 export default function Schedule({ params }: EditPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLFormElement>({
@@ -122,8 +125,7 @@ export default function Schedule({ params }: EditPageProps) {
           }
           isScrolled={isScrolled}
         />
-        <SideBar>
-          {/* TODO: 드롭다운 컴포넌트 추가 */}
+        {/* <SideBar>
           <div className={style.sideBarContentWrapperStyle}>
             <TitleWithDescription
               title="전체 예약"
@@ -131,15 +133,21 @@ export default function Schedule({ params }: EditPageProps) {
             />
             <div className={style.dropdownWrapperStyle}>
               <Label>하루에 몇 개씩 업로드할까요?</Label>
+              <CountDropdown value="1" onChange={() => {}} />
             </div>
             <div className={style.dropdownWrapperStyle}>
               <Label>언제 처음으로 업로드할까요?</Label>
+              <StartDateDropdown
+                value={getCurrentDateKo()}
+                onChange={() => {}}
+              />
             </div>
             <div className={style.dropdownWrapperStyle}>
               <Label>업로드를 원하는 시간대를 선택하세요</Label>
+              <WhenDropdown value="1" onChange={() => {}} />
             </div>
           </div>
-        </SideBar>
+        </SideBar> */}
         <div className={style.contentWrapperStyle}>
           <div className={style.dndSectionStyle}>
             <TitleWithDescription

@@ -23,8 +23,8 @@
   --rdp-months-gap: 2rem; /* The gap between the months in the multi-month view. */
   
   --rdp-nav_button-disabled-opacity: 0.5; /* The opacity of the disabled navigation buttons. */
-  --rdp-nav_button-height: 2.25rem; /* The height of the navigation buttons. */
-  --rdp-nav_button-width: 2.25rem; /* The width of the navigation buttons. */
+  --rdp-nav_button-height: 2.4rem; /* The height of the navigation buttons. */
+  --rdp-nav_button-width: 2.4rem; /* The width of the navigation buttons. */
   --rdp-nav-height: 2.75rem; /* The height of the navigation bar. */
   
   --rdp-range_middle-background-color: var(--rdp-accent-background-color); /* The color of the background for days in the middle of a range. */
@@ -88,8 +88,8 @@
   align-items: center;
   display: flex;
 
-  width: 100%;
-  height: 100%;
+  width: var(--rdp-day_button-width);
+  height: var(--rdp-day_button-height);
   border: none;
   border-radius: 0.4rem;
 }

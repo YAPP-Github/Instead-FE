@@ -53,13 +53,6 @@ export default function Schedule({ params }: SchedulePageProps) {
     router.push(ROUTES.HOME.DETAIL(id));
   };
 
-  /*
-queryClient.invalidateQueries(
-        getAgentUploadReservedQueryOptions({ agentId })
-      );
-
-  */
-
   const handleLogoutClick = () => {
     modal.confirm({
       title: '정말 로그아웃 하시겠어요??',

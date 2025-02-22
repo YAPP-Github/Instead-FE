@@ -1,17 +1,18 @@
 'use client';
 
-import { Dropdown } from '@repo/ui';
-import * as style from './DateDropdown.css';
+import { Dropdown, IconButton } from '@repo/ui';
+import * as style from './StartDateDropdown.css';
 import { DatePicker } from '@web/components/common/DatePicker/DatePicker';
 import type { DatePickerProps } from '@web/components/common/DatePicker/DatePicker';
 
-type DateDropdownProps = DatePickerProps;
+type StartDateDropdownProps = DatePickerProps;
 
-export function DateDropdown({ value, onChange }: DateDropdownProps) {
+export function StartDateDropdown({ value, onChange }: StartDateDropdownProps) {
   return (
     <Dropdown>
-      <Dropdown.Trigger>
+      <Dropdown.Trigger className={style.triggerStyle}>
         {value ? new Date(value).toLocaleDateString() : '날짜 선택'}
+        <IconButton icon="calendar" color="grey300" />
       </Dropdown.Trigger>
       <Dropdown.Content className={style.contentStyle}>
         <DatePicker value={value} onChange={onChange} />

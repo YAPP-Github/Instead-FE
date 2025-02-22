@@ -12,7 +12,7 @@ import { dropdownRoot } from './Dropdown.css';
 export type DropdownProps = {
   value?: string;
   onValueChange?: (newValue: string) => void;
-  placeholder?: React.ReactNode;
+  placeholder?: ReactNode;
   children: ReactNode;
 } & ComponentPropsWithoutRef<'div'>;
 
