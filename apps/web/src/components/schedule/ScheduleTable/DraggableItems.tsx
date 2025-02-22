@@ -3,6 +3,7 @@ import { DndController } from '@web/components/common';
 import { ContentItem } from '@web/components/common/DNDController/compounds';
 import { ROUTES } from '@web/routes';
 import { AgentId, Post } from '@web/types';
+import * as style from './DraggableItems.css';
 
 type DraggableItemsProps = {
   data: Post[];
@@ -17,6 +18,7 @@ export function DraggableItems({ data, agentId }: DraggableItemsProps) {
       {data.map((item) => (
         <DndController.Item id={item.id} key={item.id}>
           <ContentItem
+            className={style.contentItem}
             onClick={() => {
               router.push(
                 ROUTES.SCHEDULE.DETAIL({
