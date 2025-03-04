@@ -1,6 +1,12 @@
 'use client';
 
-import { ComponentPropsWithoutRef, forwardRef, useEffect, useRef } from 'react';
+import {
+  ComponentPropsWithoutRef,
+  forwardRef,
+  MouseEvent,
+  useEffect,
+  useRef,
+} from 'react';
 import { getTimeAgo } from '@web/utils';
 import {
   contentItemStyle,
@@ -67,6 +73,16 @@ export const ContentItem = forwardRef<HTMLDivElement, ContentItemProps>(
   ) => {
     const itemRef = useRef<HTMLDivElement>(null);
 
+    const handleRemove = (event: MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      onRemove?.();
+    };
+
+    const handleModify = (event: MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      onModify?.();
+    };
+
     useEffect(() => {
       if (isSelected && itemRef.current) {
         itemRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -114,8 +130,8 @@ export const ContentItem = forwardRef<HTMLDivElement, ContentItemProps>(
         )}
         {!isLoading && (
           <div className={iconHoverStyle}>
-            {onRemove && <IconButton icon="trash" onClick={onRemove} />}
-            {onModify && <IconButton icon="pencil" onClick={onModify} />}
+            {onRemove && <IconButton icon="trash" onClick={handleRemove} />}
+            {onModify && <IconButton icon="pencil" onClick={handleModify} />}
             <IconButton icon="sixDots" />
           </div>
         )}

@@ -99,13 +99,16 @@ function EditSidebarContent() {
       confirmButtonProps: {
         onClick: async () => {
           await deletePost(Number(postId), {
-            onSuccess: () =>
-              router.push(
-                ROUTES.EDIT.ROOT({
-                  agentId: Number(agentId),
-                  postGroupId: Number(postGroupId),
-                })
-              ),
+            onSuccess: () => {
+              if (Number(postId) === Number(postParam)) {
+                router.push(
+                  ROUTES.EDIT.ROOT({
+                    agentId: Number(agentId),
+                    postGroupId: Number(postGroupId),
+                  })
+                );
+              }
+            },
           });
         },
       },
