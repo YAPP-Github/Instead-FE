@@ -4,7 +4,6 @@ import { Breadcrumb } from '@repo/ui/Breadcrumb';
 import {
   accordionContent,
   accordionTrigger,
-  breadcrumbItemStyle,
   breadcrumbTextStyle,
   breadcrumbWrapper,
   contentWrapper,
@@ -139,7 +138,7 @@ function EditSidebarContent() {
           <Breadcrumb.Item>
             <MainBreadcrumbItem href={ROUTES.HOME.DETAIL(Number(agentId))} />
           </Breadcrumb.Item>
-          <Breadcrumb.Item className={breadcrumbItemStyle}>
+          <Breadcrumb.Item className={breadcrumbTextStyle}>
             <Text
               className={breadcrumbTextStyle}
               fontSize={22}
