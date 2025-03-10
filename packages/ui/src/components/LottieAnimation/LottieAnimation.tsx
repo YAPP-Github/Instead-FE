@@ -14,7 +14,7 @@ export type LottieAnimationProps = Omit<
   LottieComponentProps,
   'animationData'
 > & {
-  animationData: keyof typeof lotties;
+  animationData: keyof typeof lotties | Record<string, unknown>;
   loop?: boolean;
   autoplay?: boolean;
   width?: CSSProperties['width'];
@@ -24,7 +24,7 @@ export type LottieAnimationProps = Omit<
 };
 
 /**
- * @property {keyof typeof lotties} animationData - 사용할 로티 애니메이션
+ * @property {keyof typeof lotties | Record<string, unknown>} animationData - 사용할 로티 애니메이션
  * @property {boolean} [loop=true] - 애니메이션을 반복할지 여부
  * @property {boolean} [autoplay=true] - 자동으로 애니메이션 재생을 시작할지 여부
  * @property {string} [width='auto'] - 너비
@@ -42,9 +42,12 @@ export function LottieAnimation({
   'aria-label': ariaLabel,
   ...rest
 }: LottieAnimationProps) {
+  const resolvedAnimationData =
+    typeof animationData === 'string' ? lotties[animationData] : animationData;
+
   return (
     <Lottie
-      animationData={lotties[animationData]}
+      animationData={resolvedAnimationData}
       loop={loop}
       autoplay={autoplay}
       className={`${lottieAnimationStyles} ${className}`}
