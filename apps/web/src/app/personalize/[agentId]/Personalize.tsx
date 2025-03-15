@@ -82,7 +82,9 @@ export default function Personalize({ params }: PersonalizePageProps) {
       data.customTone !== agentDetail.agentPersonalSetting.customTone;
 
     if (!isFormValueChanged) {
-      return toast.success('저장되었어요');
+      toast.success('저장되었어요');
+      router.push(ROUTES.HOME.DETAIL(params.agentId));
+      return;
     }
 
     updatePersonalSetting(data);
