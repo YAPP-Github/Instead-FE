@@ -57,3 +57,10 @@ export const breadcrumbItemStyle = style({
   whiteSpace: 'nowrap',
   height: 'fit-content',
 });
+
+export const dropdownItem = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '1rem',
+  padding: '1.2rem 1.6rem',
+});
