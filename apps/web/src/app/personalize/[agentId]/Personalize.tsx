@@ -165,28 +165,37 @@ export default function Personalize({ params }: PersonalizePageProps) {
             />
           </div>
           <Spacing size={16} />
-          <TextField variant="default" isError={watch('domain').length >= 20}>
-            <TextField.Label>활동 분야</TextField.Label>
-            <TextField.Input
-              {...register('domain')}
-              placeholder="20자 이내로 입력해주세요"
-              maxLength={20}
-              showCounter
-            />
-          </TextField>
+          <Controller
+            name="domain"
+            control={control}
+            render={({ field }) => (
+              <TextField variant="default" isError={field.value.length >= 20}>
+                <TextField.Label>활동 분야</TextField.Label>
+                <TextField.Input
+                  {...field}
+                  placeholder="20자 이내로 입력해주세요"
+                  maxLength={20}
+                  showCounter
+                />
+              </TextField>
+            )}
+          />
           <Spacing size={32} />
-          <TextField
-            variant="default"
-            isError={watch('introduction').length >= 500}
-          >
-            <TextField.Label>계정 소개</TextField.Label>
-            <TextField.Input
-              {...register('introduction')}
-              placeholder="계정과 관련된 업데이트나 소식을 추가하세요"
-              maxLength={500}
-              showCounter
-            />
-          </TextField>
+          <Controller
+            name="introduction"
+            control={control}
+            render={({ field }) => (
+              <TextField variant="default" isError={field.value.length >= 500}>
+                <TextField.Label>계정 소개</TextField.Label>
+                <TextField.Input
+                  {...field}
+                  placeholder="계정과 관련된 업데이트나 소식을 추가하세요"
+                  maxLength={500}
+                  showCounter
+                />
+              </TextField>
+            )}
+          />
           <Spacing size={32} />
           <div className={style.utteranceWrapperStyle}>
             <Label>말투</Label>
