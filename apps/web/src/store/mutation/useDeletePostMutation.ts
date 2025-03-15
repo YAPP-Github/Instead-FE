@@ -27,7 +27,10 @@ export function useDeletePostMutation({
     onSuccess: () => {
       toast.success('게시글이 삭제되었어요.');
       queryClient.invalidateQueries(
-        getAllPostsQueryOptions({ agentId, postGroupId })
+        getAllPostsQueryOptions({
+          agentId: Number(agentId),
+          postGroupId: Number(postGroupId),
+        })
       );
     },
     onError: (error) => {

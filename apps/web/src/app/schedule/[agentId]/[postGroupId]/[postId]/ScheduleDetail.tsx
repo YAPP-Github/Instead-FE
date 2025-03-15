@@ -4,32 +4,72 @@ import * as style from './pageStyle.css';
 import { useScroll } from '@web/hooks';
 import { useRouter } from 'next/navigation';
 import { MainBreadcrumbItem, NavBar } from '@web/components/common';
-import { Badge, Breadcrumb, IconButton, Text } from '@repo/ui';
+import {
+  Badge,
+  Breadcrumb,
+  Dropdown,
+  Icon,
+  IconButton,
+  Modal,
+  Text,
+} from '@repo/ui';
 import Image from 'next/image';
 import { ScheduleDetailPageProps } from './type';
 import { useGetPostQuery } from '@web/store/query/useGetPostQuery';
 import { isNil } from '@repo/ui/utils';
 import { ROUTES } from '@web/routes';
 import { useGetTopicQuery } from '@web/store/query/useGetTopicQuery';
+import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation';
+import { useModal } from '@repo/ui/hooks';
 
 export default function ScheduleDetail({ params }: ScheduleDetailPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({ threshold: 100 });
   const router = useRouter();
+  const modal = useModal();
+
   const { data: post } = useGetPostQuery({
-    agentId: params.agentId,
-    postGroupId: params.postGroupId,
-    postId: params.postId,
+    agentId: Number(params.agentId),
+    postGroupId: Number(params.postGroupId),
+    postId: Number(params.postId),
   });
 
   const { data: topic } = useGetTopicQuery({
-    agentId: params.agentId,
-    postGroupId: params.postGroupId,
+    agentId: Number(params.agentId),
+    postGroupId: Number(params.postGroupId),
+  });
+
+  const { mutate: deletePost } = useDeletePostMutation({
+    agentId: Number(params.agentId),
+    postGroupId: Number(params.postGroupId),
   });
 
   if (isNil(post)) {
     router.push(ROUTES.ERROR);
     return;
   }
+
+  const handleDeletePost = () => {
+    modal.confirm({
+      title: '정말 삭제하시겠어요?',
+      description: '삭제된 글은 복구할 수 없어요',
+      icon: <Modal.Icon name="notice" color="warning500" />,
+      confirmButton: '삭제하기',
+      cancelButton: '취소',
+      confirmButtonProps: {
+        onClick: async () => {
+          deletePost(Number(params.postId), {
+            onSuccess: () =>
+              router.push(
+                ROUTES.EDIT.ROOT({
+                  agentId: params.agentId,
+                  postGroupId: params.postGroupId,
+                })
+              ),
+          });
+        },
+      },
+    });
+  };
 
   return (
     <div className={style.mainStyle} ref={scrollRef}>
@@ -44,10 +84,27 @@ export default function ScheduleDetail({ params }: ScheduleDetailPageProps) {
         }
         rightAddon={
           <div className={style.buttonWrapperStyle}>
+            <Dropdown>
+              <Dropdown.Trigger>
+                <IconButton icon="dots" />
+              </Dropdown.Trigger>
+              <Dropdown.Content align="right">
+                <Dropdown.Item
+                  value="option1"
+                  className={style.dropdownItem}
+                  onClick={handleDeletePost}
+                >
+                  <Icon name="trash" size="2.4rem" color="grey400" />
+                  <Text fontSize={18} fontWeight="medium" color="grey1000">
+                    삭제하기
+                  </Text>
+                </Dropdown.Item>
+              </Dropdown.Content>
+            </Dropdown>
             <IconButton
               icon="x"
               iconType="stroke"
-              onClick={() => router.back()}
+              onClick={() => router.push(ROUTES.HOME.DETAIL(params.agentId))}
             />
           </div>
         }
