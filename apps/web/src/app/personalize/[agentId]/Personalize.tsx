@@ -165,21 +165,26 @@ export default function Personalize({ params }: PersonalizePageProps) {
             />
           </div>
           <Spacing size={16} />
-          <TextField variant="default">
+          <TextField variant="default" isError={watch('domain').length >= 20}>
             <TextField.Label>활동 분야</TextField.Label>
             <TextField.Input
               {...register('domain')}
               placeholder="20자 이내로 입력해주세요"
               maxLength={20}
+              showCounter
             />
           </TextField>
           <Spacing size={32} />
-          <TextField variant="default">
+          <TextField
+            variant="default"
+            isError={watch('introduction').length >= 500}
+          >
             <TextField.Label>계정 소개</TextField.Label>
             <TextField.Input
               {...register('introduction')}
               placeholder="계정과 관련된 업데이트나 소식을 추가하세요"
               maxLength={500}
+              showCounter
             />
           </TextField>
           <Spacing size={32} />
@@ -215,11 +220,15 @@ export default function Personalize({ params }: PersonalizePageProps) {
               )}
             />
             {toneValue === TONE_OPTIONS.CUSTOM && (
-              <TextField variant="default">
+              <TextField
+                variant="default"
+                isError={watch('customTone').length >= 50}
+              >
                 <TextField.Input
                   {...register('customTone')}
                   placeholder="예시: 아저씨 같은 말투, ~했습니다"
                   maxLength={50}
+                  showCounter
                 />
               </TextField>
             )}
