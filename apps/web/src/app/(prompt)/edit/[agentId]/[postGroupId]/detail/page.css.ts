@@ -11,6 +11,5 @@ export const flexColumn = style({
   display: 'flex',
   width: '100%',
   justifyContent: 'center',
-  overflow: 'scroll',
   paddingBottom: '6.4rem',
 });

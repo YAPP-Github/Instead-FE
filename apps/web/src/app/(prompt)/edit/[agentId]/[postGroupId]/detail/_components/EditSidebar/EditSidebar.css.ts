@@ -46,15 +46,8 @@ export const dndItem = style({
   },
 });
 
-export const breadcrumbItemStyle = style({
-  maxWidth: '12rem',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-});
-
 export const breadcrumbTextStyle = style({
-  maxWidth: '12rem',
+  maxWidth: '31.2rem',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',

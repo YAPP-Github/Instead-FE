@@ -15,18 +15,23 @@ import { Text } from '@repo/ui/Text';
 import { Button } from '@repo/ui/Button';
 import EmojiPicker from 'emoji-picker-react';
 import { useForm } from 'react-hook-form';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { isNotNil, mergeRefs } from '@repo/ui/utils';
 import { UploadedImages } from './UploadedImages';
 import { useParams, useSearchParams } from 'next/navigation';
 import { uploadImages } from '@web/shared/image-upload/ImageUpload';
-import { isEmptyStringOrNil, validateFiles } from '@web/utils';
+import { validateFiles } from '@web/utils';
 
 import { useUpdatePostMutation } from '@web/store/mutation/useUpdatePostMutation';
-import { Post } from '@web/types';
-import { DetailPageContext } from '../../EditDetail';
+import { Post, PostGroupLength } from '@web/types';
 import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
 import { useToast } from '@repo/ui/hooks';
+
+const POST_LENGTH: Record<PostGroupLength, number> = {
+  LONG: 1000,
+  MEDIUM: 300,
+  SHORT: 140,
+};
 
 export function PostEditor() {
   const toast = useToast();
@@ -37,21 +42,29 @@ export function PostEditor() {
     agentId: Number(agentId),
     postGroupId: Number(postGroupId),
   });
-  const post = Object.values(posts?.data?.posts)
+  const maxLength = POST_LENGTH[posts.data.postGroup.length];
+  const post = Object.values(posts.data.posts)
     .flat()
     .find((post) => post.id === Number(postId));
-  const { register, handleSubmit, setValue, watch } = useForm<{
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<{
     content: string;
     imageUrls: string[];
   }>({
+    mode: 'onChange',
+    reValidateMode: 'onChange',
     defaultValues: {
       imageUrls: [],
       content: '',
     },
   });
-  const { setLoadingPosts } = useContext(DetailPageContext);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null); // 파일 탐색기용 ref
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const { mutate: modifyPost, isPending } = useUpdatePostMutation({
     agentId: Number(agentId),
@@ -60,7 +73,6 @@ export function PostEditor() {
   });
   const content = watch('content');
   const imageUrls = watch('imageUrls');
-  const isSubmitDisabled = isEmptyStringOrNil(content);
 
   const handleResizeHeight = () => {
     const textarea = textareaRef.current;
@@ -73,10 +85,6 @@ export function PostEditor() {
   useEffect(() => {
     handleResizeHeight();
   }, [watch('content')]);
-
-  useEffect(() => {
-    console.log('imageUrl', watch('imageUrls'));
-  }, [watch('imageUrls')]);
 
   useEffect(() => {
     setValue('content', post?.content ?? '');
@@ -133,7 +141,9 @@ export function PostEditor() {
     // 최대 4개 파일만 처리 (필요에 따라 maxFiles 값을 조정하세요)
     const maxFiles = 4;
 
-    if (files.length > maxFiles) {
+    const existingImageUrls = watch('imageUrls') || [];
+
+    if (existingImageUrls.length + files.length > maxFiles) {
       toast.error(`이미지는 최대 ${maxFiles}장까지 업로드할 수 있어요.`, 3000);
       return;
     }
@@ -148,7 +158,7 @@ export function PostEditor() {
     }
 
     const uploadedUrls = await uploadImages(fileArray);
-    setValue('imageUrls', uploadedUrls);
+    setValue('imageUrls', [...existingImageUrls, ...uploadedUrls]);
   };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -203,13 +213,13 @@ export function PostEditor() {
             color="grey400"
             fontSize={16}
             fontWeight="medium"
-          >{`${content.length}/1000`}</Text>
+          >{`${content.length}/${maxLength}`}</Text>
           <Button
             variant="neutral"
             size="small"
             onClick={handleSubmit(onSubmit)}
             isLoading={isPending}
-            disabled={isSubmitDisabled}
+            disabled={isNotNil(errors.content?.type)}
           >
             저장
           </Button>
@@ -224,7 +234,7 @@ export function PostEditor() {
           rows={1}
           className={textarea}
           placeholder="메시지를 입력하세요"
-          {...register('content')}
+          {...register('content', { required: true, maxLength: maxLength })}
           ref={mergeRefs(register('content').ref, textareaRef)}
         />
       </div>
