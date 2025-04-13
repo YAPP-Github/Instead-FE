@@ -63,3 +63,11 @@ export const editArea = style({
   overflow: 'scroll',
   flex: 1,
 });
+
+export const skeletonEditArea = style({
+  display: 'flex',
+  flexDirection: 'column',
+  padding: '2.4rem',
+  gap: '0.8rem',
+  flex: 1,
+});
