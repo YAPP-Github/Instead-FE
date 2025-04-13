@@ -153,9 +153,12 @@ function EditSidebarContent() {
 
       <div className={contentWrapper}>
         <Accordion<Post['status']>
-          type="single"
-          value={accordionValue}
-          onValueChange={(newValue) => setAccordionValue(newValue)}
+          type="multiple"
+          defaultValue={[
+            POST_STATUS.GENERATED,
+            POST_STATUS.EDITING,
+            POST_STATUS.READY_TO_UPLOAD,
+          ]}
         >
           <DndController.Droppable id={POST_STATUS.GENERATED}>
             <Accordion.Item value={POST_STATUS.GENERATED}>
