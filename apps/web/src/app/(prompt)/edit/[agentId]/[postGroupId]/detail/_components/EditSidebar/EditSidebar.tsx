@@ -225,9 +225,11 @@ function EditSidebarContent() {
               <Accordion.Content className={accordionContent}>
                 {getItemsByStatus(POST_STATUS.GENERATED).length > 0 ? (
                   <DndController.SortableList
-                    items={data.map((item) => item.id)}
+                    items={getItemsByStatus(POST_STATUS.GENERATED).map(
+                      (item) => item.id
+                    )}
                   >
-                    {data.map((item) => (
+                    {getItemsByStatus(POST_STATUS.GENERATED).map((item) => (
                       <DndController.Item
                         className={dndItem}
                         id={item.id}
@@ -236,6 +238,7 @@ function EditSidebarContent() {
                         <ContentItem
                           summary={item.summary}
                           updatedAt={item.updatedAt}
+                          image={item.postImages[0]}
                           onRemove={() => handleDeletePost(item.id)}
                           onModify={() => handleClick(item.id)}
                           onClick={() => handleClick(item.id)}
@@ -272,8 +275,8 @@ function EditSidebarContent() {
                   {getItemsByStatus(POST_STATUS.EDITING).length}
                 </Text>
               </Accordion.Trigger>
-              <Accordion.Content className={accordionContent}>
-                {getItemsByStatus(POST_STATUS.EDITING).length > 0 && (
+              {getItemsByStatus(POST_STATUS.EDITING).length > 0 && (
+                <>
                   <TextField variant="white">
                     <TextField.Input
                       {...register('prompt')}
@@ -291,7 +294,10 @@ function EditSidebarContent() {
                       }
                     />
                   </TextField>
-                )}
+                  <Spacing size={8} />
+                </>
+              )}
+              <Accordion.Content className={accordionContent}>
                 {getItemsByStatus(POST_STATUS.EDITING).length > 0 ? (
                   <DndController.SortableList
                     items={getItemsByStatus(POST_STATUS.EDITING).map(
@@ -307,6 +313,7 @@ function EditSidebarContent() {
                         <ContentItem
                           summary={item.summary}
                           updatedAt={item.updatedAt}
+                          image={item.postImages[0]}
                           onRemove={() => handleDeletePost(item.id)}
                           onModify={() => handleClick(item.id)}
                           onClick={() => handleClick(item.id)}
@@ -359,6 +366,7 @@ function EditSidebarContent() {
                           <ContentItem
                             summary={item.summary}
                             updatedAt={item.updatedAt}
+                            image={item.postImages[0]}
                             onRemove={() => handleDeletePost(item.id)}
                             onModify={() => handleClick(item.id)}
                             onClick={() => handleClick(item.id)}

@@ -23,6 +23,8 @@ export const darkTheme: ThemeContract = {
     grey950: tokens.colors.grey25,
     grey1000: tokens.colors.grey0,
 
+    greyA08: tokens.colors.greyA08,
+
     grey0to950: tokens.colors.grey950,
     grey0to800: tokens.colors.grey800,
     grey0to700: tokens.colors.grey700,
