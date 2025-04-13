@@ -4,6 +4,7 @@ export const radius = {
   10: '1rem',
   12: '1.2rem',
   16: '1.6rem',
+  20: '2rem',
   24: '2.4rem',
 } as const;
 
