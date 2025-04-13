@@ -257,7 +257,7 @@ function EditSidebarContent() {
                     ))}
                   </DndController.SortableList>
                 ) : (
-                  <DragGuide description="수정하고 싶은 글을\n끌어서 여기에 놓아주세요" />
+                  <DragGuide description="수정하고 싶은 글을 여기로 옮겨주세요" />
                 )}
               </Accordion.Content>
             </Accordion.Item>
@@ -307,7 +307,7 @@ function EditSidebarContent() {
                     )}
                   </DndController.SortableList>
                 ) : (
-                  <DragGuide description="업로드가 준비된 글을\n끌어서 여기에 놓아주세요" />
+                  <DragGuide description="업로드가 준비된 글을 여기로 옮겨주세요" />
                 )}
               </Accordion.Content>
             </Accordion.Item>

@@ -11,9 +11,9 @@ export function DragGuide({ description }: DragGuideProps) {
     <div className={styles.container}>
       <Text.H2
         className={styles.description}
-        fontSize={20}
-        fontWeight="semibold"
-        color="grey500"
+        fontSize={18}
+        fontWeight="medium"
+        color="grey400"
       >
         {description.split('\\n').map((line, index) => (
           <Fragment key={index}>
