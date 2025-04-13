@@ -15,7 +15,7 @@ export default function PersonalizePage({ params }: PersonalizePageProps) {
   const serverFetchOptions = [
     getAgentQueryOptions(tokens),
     getUserQueryOptions(tokens),
-    getAgentDetailQueryOptions({ agentId: params.agentId, tokens }),
+    getAgentDetailQueryOptions({ agentId: Number(params.agentId), tokens }),
   ] as FetchOptions[];
 
   return (

@@ -1,8 +1,9 @@
 import { useToast } from '@repo/ui/hooks';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { PersonalizeFormValues } from '@web/app/personalize/[agentId]/type';
 import { PUT } from '@web/shared/server';
 import { IdParams } from '@web/types';
+import { getAgentDetailQueryOptions } from '../query/useGetAgentDetailQuery';
 
 type MutationUpdatePersonalSetting = Pick<IdParams, 'agentId'>;
 
@@ -20,12 +21,18 @@ export function useUpdatePersonalSettingMutation({
   agentId,
 }: MutationUpdatePersonalSetting) {
   const toast = useToast();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (data: UpdatePersonalRequest) =>
       PUT(`agents/${agentId}/personal-setting`, data),
     onSuccess: () => {
       toast.success('저장되었어요.');
+      queryClient.invalidateQueries(
+        getAgentDetailQueryOptions({
+          agentId: Number(agentId),
+        })
+      );
     },
     onError: (error) => {
       if (error instanceof Error) {
