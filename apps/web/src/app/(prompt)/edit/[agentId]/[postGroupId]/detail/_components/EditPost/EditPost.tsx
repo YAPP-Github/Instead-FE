@@ -208,12 +208,12 @@ export function EditPost() {
             <Skeleton width="48rem" height="4.2rem" radius={24} />
           ) : (
             <>
+              <Text color="grey400" fontSize={22} fontWeight="semibold">
+                요약
+              </Text>
               <Text color="grey1000" fontSize={28} fontWeight="bold">
                 {post?.summary}
               </Text>
-              <Badge size="large" variant="neutral" shape="square">
-                요약
-              </Badge>
             </>
           )}
         </div>
