@@ -35,7 +35,7 @@ export async function ServerFetchBoundary<
 
   const options = Array.isArray(fetchOptions) ? fetchOptions : [fetchOptions];
 
-  await Promise.all(options.map((option) => queryClient.fetchQuery(option)));
+  Promise.all(options.map((option) => queryClient.fetchQuery(option)));
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
