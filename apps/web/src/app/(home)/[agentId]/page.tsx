@@ -9,11 +9,18 @@ import {
 } from '@web/store/query/ServerFetchBoundary';
 import { HomePageProps } from './types';
 import { getUserQueryOptions } from '@web/store/query/useGetUserQuery';
+import { getAgentUploadReservedQueryOptions } from '@web/store/query/useGetAgentUploadReserved';
+import { Suspense } from 'react';
+import Loading from '@web/app/loading';
 
 export default function HomeDetailPage({ params }: HomePageProps) {
   const tokens = getServerSideTokens();
   const serverFetchOptions = [
     getAgentDetailQueryOptions({
+      agentId: params.agentId,
+      tokens,
+    }),
+    getAgentUploadReservedQueryOptions({
       agentId: params.agentId,
       tokens,
     }),
@@ -26,9 +33,10 @@ export default function HomeDetailPage({ params }: HomePageProps) {
   ];
 
   return (
-    // TODO 임시 타입 단언
     <ServerFetchBoundary fetchOptions={serverFetchOptions as FetchOptions[]}>
-      <Home params={params} />
+      <Suspense fallback={<Loading />}>
+        <Home params={params} />
+      </Suspense>
     </ServerFetchBoundary>
   );
 }
