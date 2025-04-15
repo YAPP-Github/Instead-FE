@@ -25,8 +25,11 @@ import { useModal } from '@repo/ui/hooks';
 import { Modal } from '@repo/ui/Modal';
 import { Chip } from '@repo/ui/Chip';
 import { PostStatus } from '@web/types';
-import { ReactNode } from 'react';
+import { ReactNode, useContext } from 'react';
 import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
+import { DetailPageContext } from '../../EditDetail';
+import { Skeleton } from '@repo/ui';
+import { SkeletonEditor } from '../PostEditor/SkeletonEditor';
 
 const CHIP_DROPDOWN: Partial<Record<PostStatus, ReactNode>> = {
   GENERATED: (
@@ -61,14 +64,16 @@ export function EditPost() {
   const methods = useForm();
   const { agentId, postGroupId } = useParams();
   const searchParams = useSearchParams();
-  const postId = searchParams.get('postId');
+  const postId = Number(searchParams.get('postId'));
+  const { loadingPosts } = useContext(DetailPageContext);
+  const isPostLoading = loadingPosts.includes(postId);
   const { data: posts } = useGetAllPostsQuery({
     agentId: Number(agentId),
     postGroupId: Number(postGroupId),
   });
   const post = Object.values(posts.data.posts)
     .flat()
-    .find((post) => String(post.id) === postId);
+    .find((post) => post.id === postId);
 
   const { routePreviousPost, routeNextPost, canMoveUp, canMoveDown } =
     useAdjacentPosts(posts.data.posts, post);
@@ -87,7 +92,7 @@ export function EditPost() {
       cancelButton: '취소',
       confirmButtonProps: {
         onClick: async () => {
-          deletePost(Number(postId), {
+          deletePost(postId, {
             onSuccess: () =>
               router.push(
                 ROUTES.EDIT.ROOT({
@@ -111,7 +116,7 @@ export function EditPost() {
     modifyPost({
       posts: [
         {
-          postId: Number(postId),
+          postId: postId,
           status: status,
         },
       ],
@@ -199,16 +204,22 @@ export function EditPost() {
           </Dropdown.Content>
         </Dropdown>
         <div className={titleWrapper}>
-          <Text color="grey1000" fontSize={28} fontWeight="bold">
-            {post?.summary}
-          </Text>
-          <Badge size="large" variant="neutral" shape="square">
-            요약
-          </Badge>
+          {isPostLoading ? (
+            <Skeleton width="48rem" height="4.2rem" radius={24} />
+          ) : (
+            <>
+              <Text color="grey400" fontSize={22} fontWeight="semibold">
+                요약
+              </Text>
+              <Text color="grey1000" fontSize={28} fontWeight="bold">
+                {post?.summary}
+              </Text>
+            </>
+          )}
         </div>
         <FormProvider {...methods}>
           <EditPromptField />
-          <PostEditor />
+          {isPostLoading ? <SkeletonEditor /> : <PostEditor />}
         </FormProvider>
       </div>
     </div>

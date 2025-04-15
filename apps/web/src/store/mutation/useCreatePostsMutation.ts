@@ -43,10 +43,12 @@ export function useCreatePostsMutation({ agentId }: MutationCreatePostsType) {
       ),
     onSuccess: (response) => {
       const postGroupId = response.data.postGroupId;
+      const postId = response.data.posts[0]!.id;
       router.push(
-        ROUTES.EDIT.ROOT({
+        ROUTES.EDIT.DETAIL({
           agentId: Number(agentId),
           postGroupId: Number(postGroupId),
+          postId,
         })
       );
     },

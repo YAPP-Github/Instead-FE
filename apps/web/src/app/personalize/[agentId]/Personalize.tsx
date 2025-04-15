@@ -244,16 +244,20 @@ export default function Personalize({ params }: PersonalizePageProps) {
               </TextField>
             )}
           </div>
-          <Spacing size={80} />
-          <Button
-            size="large"
-            variant="neutral"
-            className={style.submitButtonStyle}
-            type="submit"
-          >
-            저장하기
-          </Button>
+          <Spacing size={128} />
         </form>
+      </div>
+      {/* TODO 따로 컴포넌트로 뺄 예정 */}
+      <div className={style.buttonWrapperStyle}>
+        <Button
+          size="large"
+          variant="primary"
+          type="submit"
+          onClick={handleSubmit(onSubmit)}
+          leftAddon={<Icon name="check" />}
+        >
+          저장하기
+        </Button>
       </div>
     </div>
   );

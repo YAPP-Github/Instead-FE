@@ -7,7 +7,6 @@ import { useParams, useSearchParams } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { DetailPageContext } from '../../EditDetail';
 import { useUpdateSinglePostPromptMutation } from '@web/store/mutation/useUpdateSinglePostPromptMutation';
-import { TextFieldCounter } from '../../../../../../../../../../../packages/ui/src/components/TextField/TextFieldCounter';
 
 export function EditPromptField() {
   const { register, watch, handleSubmit } = useForm<{
@@ -17,26 +16,26 @@ export function EditPromptField() {
       prompt: '',
     },
   });
-  const { setLoadingPosts } = useContext(DetailPageContext);
+  const { loadingPosts, setLoadingPosts } = useContext(DetailPageContext);
   const prompt = watch('prompt');
   const isSubmitDisabled = isEmptyStringOrNil(prompt);
   const { agentId, postGroupId } = useParams();
   const searchParams = useSearchParams();
-  const postId = searchParams.get('postId');
+  const postId = Number(searchParams.get('postId'));
 
   const { mutate: updateSinglePrompt, isPending: isUpdateSinglePromptPending } =
     useUpdateSinglePostPromptMutation({
       agentId: Number(agentId),
       postGroupId: Number(postGroupId),
-      postId: Number(postId),
+      postId: postId,
     });
 
   // TODO 제거 예정
   useEffect(() => {
     if (isUpdateSinglePromptPending) {
-      setLoadingPosts([Number(postId)]);
+      setLoadingPosts([postId]);
     } else {
-      setLoadingPosts((prev) => prev.filter((id) => id !== Number(postId)));
+      setLoadingPosts((prev) => prev.filter((id) => id !== postId));
     }
   }, [isUpdateSinglePromptPending]);
 
@@ -52,7 +51,7 @@ export function EditPromptField() {
             <TextField.Submit
               type="submit"
               onClick={handleSubmit(onSubmit)}
-              disabled={isSubmitDisabled}
+              disabled={isSubmitDisabled || loadingPosts.includes(postId)}
             />
           }
           placeholder="AI에게 요청하여 글 업그레이드하기"
