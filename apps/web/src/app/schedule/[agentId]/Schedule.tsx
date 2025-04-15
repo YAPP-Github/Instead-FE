@@ -1,10 +1,10 @@
 'use client';
 
 import { SchedulePageProps } from './type';
-import { useGetAgentUploadReservedQuery } from '@web/store/query/useGetAgentUploadReserved';
-import { useGetAgentQuery } from '@web/store/query/useGetAgentQuery';
-import { useGetUserQuery } from '@web/store/query/useGetUserQuery';
-import { useQueryClient } from '@tanstack/react-query';
+import { getAgentUploadReservedQueryOptions } from '@web/store/query/useGetAgentUploadReserved';
+import { getAgentQueryOptions } from '@web/store/query/useGetAgentQuery';
+import { getUserQueryOptions } from '@web/store/query/useGetUserQuery';
+import { useQueryClient, useSuspenseQueries } from '@tanstack/react-query';
 import * as style from './pageStyle.css';
 import {
   NavBar,
@@ -31,11 +31,15 @@ import { parseTime } from '@web/utils';
 import { useUpdateReservedPostsMutation } from '@web/store/mutation/useUpdateReservedPostsMutation';
 
 export default function Schedule({ params }: SchedulePageProps) {
-  const { data: agentData } = useGetAgentQuery();
-  const { data: user } = useGetUserQuery();
-  const { data: reservedPosts } = useGetAgentUploadReservedQuery({
-    agentId: params.agentId,
-  });
+  const [{ data: agentData }, { data: user }, { data: reservedPosts }] =
+    useSuspenseQueries({
+      queries: [
+        getAgentQueryOptions(),
+        getUserQueryOptions(),
+        getAgentUploadReservedQueryOptions({ agentId: params.agentId }),
+      ],
+    });
+
   const { mutate: updateReservedPosts } = useUpdateReservedPostsMutation(
     params.agentId
   );

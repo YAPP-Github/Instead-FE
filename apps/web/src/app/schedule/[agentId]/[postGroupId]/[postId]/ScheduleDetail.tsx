@@ -15,27 +15,31 @@ import {
 } from '@repo/ui';
 import Image from 'next/image';
 import { ScheduleDetailPageProps } from './type';
-import { useGetPostQuery } from '@web/store/query/useGetPostQuery';
+import { getPostQueryOptions } from '@web/store/query/useGetPostQuery';
 import { isNil } from '@repo/ui/utils';
 import { ROUTES } from '@web/routes';
-import { useGetTopicQuery } from '@web/store/query/useGetTopicQuery';
+import { getTopicQueryOptions } from '@web/store/query/useGetTopicQuery';
 import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation';
 import { useModal } from '@repo/ui/hooks';
+import { useSuspenseQueries } from '@tanstack/react-query';
 
 export default function ScheduleDetail({ params }: ScheduleDetailPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({ threshold: 100 });
   const router = useRouter();
   const modal = useModal();
 
-  const { data: post } = useGetPostQuery({
-    agentId: Number(params.agentId),
-    postGroupId: Number(params.postGroupId),
-    postId: Number(params.postId),
-  });
-
-  const { data: topic } = useGetTopicQuery({
-    agentId: Number(params.agentId),
-    postGroupId: Number(params.postGroupId),
+  const [{ data: post }, { data: topic }] = useSuspenseQueries({
+    queries: [
+      getPostQueryOptions({
+        agentId: Number(params.agentId),
+        postGroupId: Number(params.postGroupId),
+        postId: Number(params.postId),
+      }),
+      getTopicQueryOptions({
+        agentId: Number(params.agentId),
+        postGroupId: Number(params.postGroupId),
+      }),
+    ],
   });
 
   const { mutate: deletePost } = useDeletePostMutation({

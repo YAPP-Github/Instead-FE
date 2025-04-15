@@ -6,7 +6,7 @@ import { EditSidebar } from './_components/EditSidebar/EditSidebar';
 import { editDetailPage, flexColumn } from './page.css';
 import { useState } from 'react';
 import { Post } from '@web/types';
-
+import { Suspense } from 'react';
 // TODO 추후 Jotai, 또는 react-query 사용으로 수정할 예정
 interface DetailPageContextType {
   loadingPosts: Post['id'][];
@@ -27,9 +27,13 @@ export function EditDetail() {
   return (
     <DetailPageContext.Provider value={{ loadingPosts, setLoadingPosts }}>
       <div className={editDetailPage}>
-        <EditSidebar />
+        <Suspense>
+          <EditSidebar />
+        </Suspense>
         <div className={flexColumn}>
-          <EditPost />
+          <Suspense>
+            <EditPost />
+          </Suspense>
         </div>
       </div>
     </DetailPageContext.Provider>
