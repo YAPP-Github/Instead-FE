@@ -28,13 +28,14 @@ import { PersonalCard } from './[agentId]/_components/PersonalCard/PersonalCard'
 import { UploadContentCard } from './[agentId]/_components/UploadContentCard/UploadContentCard';
 import { ContentGroupCard } from './[agentId]/_components/ContentGroupCard/ContentGroupCard';
 import { Spacing } from '@repo/ui/Spacing';
-import { useGetAgentQuery } from '@web/store/query/useGetAgentQuery';
+import { getAgentQueryOptions } from '@web/store/query/useGetAgentQuery';
 import { useRouter } from 'next/navigation';
 import { Agent } from '@web/types';
-import { useGetUserQuery } from '@web/store/query/useGetUserQuery';
+import { getUserQueryOptions } from '@web/store/query/useGetUserQuery';
 import { useLogoutMutation } from '@web/store/mutation/useLogoutMutation';
 import { useModal, useToast } from '@repo/ui/hooks';
 import { Modal } from '@repo/ui/Modal';
+import { useSuspenseQueries } from '@tanstack/react-query';
 
 export default function Home() {
   const router = useRouter();
@@ -43,8 +44,11 @@ export default function Home() {
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({
     threshold: 100,
   });
-  const { data: user } = useGetUserQuery();
-  const { data: agentData } = useGetAgentQuery();
+
+  const [{ data: user }, { data: agentData }] = useSuspenseQueries({
+    queries: [getUserQueryOptions(), getAgentQueryOptions()],
+  });
+
   const { mutate: logout } = useLogoutMutation();
 
   const handleLogoutClick = () => {

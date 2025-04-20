@@ -21,9 +21,8 @@ import { Accordion } from '@repo/ui/Accordion';
 import { Chip } from '@repo/ui/Chip';
 import { Post, POST_STATUS } from '@web/types/post';
 import { IconButton } from '@repo/ui/IconButton';
-import { MouseEvent, useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useCreateMorePostsMutation } from '@web/store/mutation/useCreateMorePostsMutation';
-import { SkeletonContentItem } from '../ContentItem/SkeletonContentItem';
 import { useModal, useToast } from '@repo/ui/hooks';
 import { Modal } from '@repo/ui/Modal';
 import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation';
@@ -34,12 +33,18 @@ import { ROUTES } from '@web/routes';
 import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
 import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
 import { PostId } from '@web/types';
-import { Spacing } from '@repo/ui';
+import { Spacing, TextField } from '@repo/ui';
+import { useForm } from 'react-hook-form';
+import {
+  UpdatePromptRequest,
+  useUpdateMultiplePromptMutation,
+} from '@web/store/mutation/useUpdateMultiplePromptMutation';
+import { isEmptyStringOrNil } from '@web/utils';
 
 function EditSidebarContent() {
   const modal = useModal();
   const toast = useToast();
-  const { loadingPosts } = useContext(DetailPageContext);
+  const { loadingPosts, setLoadingPosts } = useContext(DetailPageContext);
   const { agentId, postGroupId } = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -48,11 +53,23 @@ function EditSidebarContent() {
     agentId: Number(agentId),
     postGroupId: Number(postGroupId),
   });
+  const { register, watch, setValue, handleSubmit } =
+    useForm<UpdatePromptRequest>({
+      defaultValues: {
+        prompt: '',
+      },
+    });
 
   const { getItemsByStatus } = useDndController();
   // TODO: param 주입 방식 수정
   const { mutate: createMorePosts, isPending: isCreateMorePostsPending } =
     useCreateMorePostsMutation({
+      agentId: Number(agentId),
+      postGroupId: Number(postGroupId),
+    });
+
+  const { mutateAsync: updatePrompt, isPending: isUpdatePromptPending } =
+    useUpdateMultiplePromptMutation({
       agentId: Number(agentId),
       postGroupId: Number(postGroupId),
     });
@@ -86,6 +103,27 @@ function EditSidebarContent() {
 
   const handlePlusClick = () => {
     createMorePosts();
+  };
+
+  const handleUpdateClick = async (data: UpdatePromptRequest) => {
+    const editingPostIds = getItemsByStatus(POST_STATUS.EDITING).map(
+      (item) => item.id
+    );
+
+    setLoadingPosts(editingPostIds);
+
+    await updatePrompt(
+      {
+        prompt: data.prompt,
+        postsId: editingPostIds,
+      },
+      {
+        onSettled: () => {
+          setLoadingPosts([]);
+          setValue('prompt', '');
+        },
+      }
+    );
   };
 
   const handleDeletePost = (postId: Post['id']) => {
@@ -153,9 +191,12 @@ function EditSidebarContent() {
 
       <div className={contentWrapper}>
         <Accordion<Post['status']>
-          type="single"
-          value={accordionValue}
-          onValueChange={(newValue) => setAccordionValue(newValue)}
+          type="multiple"
+          defaultValue={[
+            POST_STATUS.GENERATED,
+            POST_STATUS.EDITING,
+            POST_STATUS.READY_TO_UPLOAD,
+          ]}
         >
           <DndController.Droppable id={POST_STATUS.GENERATED}>
             <Accordion.Item value={POST_STATUS.GENERATED}>
@@ -184,9 +225,11 @@ function EditSidebarContent() {
               <Accordion.Content className={accordionContent}>
                 {getItemsByStatus(POST_STATUS.GENERATED).length > 0 ? (
                   <DndController.SortableList
-                    items={data.map((item) => item.id)}
+                    items={getItemsByStatus(POST_STATUS.GENERATED).map(
+                      (item) => item.id
+                    )}
                   >
-                    {data.map((item) => (
+                    {getItemsByStatus(POST_STATUS.GENERATED).map((item) => (
                       <DndController.Item
                         className={dndItem}
                         id={item.id}
@@ -195,6 +238,7 @@ function EditSidebarContent() {
                         <ContentItem
                           summary={item.summary}
                           updatedAt={item.updatedAt}
+                          image={item.postImages[0]}
                           onRemove={() => handleDeletePost(item.id)}
                           onModify={() => handleClick(item.id)}
                           onClick={() => handleClick(item.id)}
@@ -231,6 +275,28 @@ function EditSidebarContent() {
                   {getItemsByStatus(POST_STATUS.EDITING).length}
                 </Text>
               </Accordion.Trigger>
+              {getItemsByStatus(POST_STATUS.EDITING).length > 0 && (
+                <>
+                  <TextField variant="white">
+                    <TextField.Input
+                      {...register('prompt')}
+                      value={watch('prompt')}
+                      placeholder="수정 중인 글만 모두 업그레이드하기"
+                      sumbitButton={
+                        <TextField.Submit
+                          type="submit"
+                          onClick={handleSubmit(handleUpdateClick)}
+                          disabled={
+                            isUpdatePromptPending ||
+                            isEmptyStringOrNil(watch('prompt'))
+                          }
+                        />
+                      }
+                    />
+                  </TextField>
+                  <Spacing size={8} />
+                </>
+              )}
               <Accordion.Content className={accordionContent}>
                 {getItemsByStatus(POST_STATUS.EDITING).length > 0 ? (
                   <DndController.SortableList
@@ -247,17 +313,21 @@ function EditSidebarContent() {
                         <ContentItem
                           summary={item.summary}
                           updatedAt={item.updatedAt}
+                          image={item.postImages[0]}
                           onRemove={() => handleDeletePost(item.id)}
                           onModify={() => handleClick(item.id)}
                           onClick={() => handleClick(item.id)}
                           isSelected={Number(postParam) === item.id}
-                          isLoading={loadingPosts.includes(item.id)}
+                          isLoading={
+                            loadingPosts.includes(item.id) ||
+                            isUpdatePromptPending
+                          }
                         />
                       </DndController.Item>
                     ))}
                   </DndController.SortableList>
                 ) : (
-                  <DragGuide description="수정하고 싶은 글을\n끌어서 여기에 놓아주세요" />
+                  <DragGuide description="수정하고 싶은 글을 여기로 옮겨주세요" />
                 )}
               </Accordion.Content>
             </Accordion.Item>
@@ -296,6 +366,7 @@ function EditSidebarContent() {
                           <ContentItem
                             summary={item.summary}
                             updatedAt={item.updatedAt}
+                            image={item.postImages[0]}
                             onRemove={() => handleDeletePost(item.id)}
                             onModify={() => handleClick(item.id)}
                             onClick={() => handleClick(item.id)}
@@ -307,7 +378,7 @@ function EditSidebarContent() {
                     )}
                   </DndController.SortableList>
                 ) : (
-                  <DragGuide description="업로드가 준비된 글을\n끌어서 여기에 놓아주세요" />
+                  <DragGuide description="업로드가 준비된 글을 여기로 옮겨주세요" />
                 )}
               </Accordion.Content>
             </Accordion.Item>

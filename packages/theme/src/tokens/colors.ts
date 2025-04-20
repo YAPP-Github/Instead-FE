@@ -60,6 +60,8 @@ export const colors = {
   grey900: '#14181F',
   grey950: '#0E0F15',
   grey1000: '#000000',
+
+  greyA08: 'rgba(94, 134, 176, 0.08)',
 } as const;
 
 export type ColorsType = typeof colors;

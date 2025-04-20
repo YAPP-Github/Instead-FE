@@ -8,6 +8,8 @@ import { getAgentQueryOptions } from '@web/store/query/useGetAgentQuery';
 import { getUserQueryOptions } from '@web/store/query/useGetUserQuery';
 import Personalize from './Personalize';
 import { getAgentDetailQueryOptions } from '@web/store/query/useGetAgentDetailQuery';
+import { Suspense } from 'react';
+import Loading from '@web/app/loading';
 
 export default function PersonalizePage({ params }: PersonalizePageProps) {
   const tokens = getServerSideTokens();
@@ -15,12 +17,14 @@ export default function PersonalizePage({ params }: PersonalizePageProps) {
   const serverFetchOptions = [
     getAgentQueryOptions(tokens),
     getUserQueryOptions(tokens),
-    getAgentDetailQueryOptions({ agentId: params.agentId, tokens }),
+    getAgentDetailQueryOptions({ agentId: Number(params.agentId), tokens }),
   ] as FetchOptions[];
 
   return (
     <ServerFetchBoundary fetchOptions={serverFetchOptions}>
-      <Personalize params={params} />
+      <Suspense fallback={<Loading />}>
+        <Personalize params={params} />
+      </Suspense>
     </ServerFetchBoundary>
   );
 }

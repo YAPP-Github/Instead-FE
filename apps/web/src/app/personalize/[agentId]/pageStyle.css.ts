@@ -49,13 +49,24 @@ export const titleSectionStyle = style({
   marginBottom: vars.space[32],
 });
 
-export const submitButtonStyle = style({
-  width: '100%',
-  height: '7.2rem',
-});
-
 export const utteranceWrapperStyle = style({
   display: 'flex',
   flexDirection: 'column',
   gap: vars.space[16],
+});
+
+export const buttonWrapperStyle = style({
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'flex-end',
+  position: 'fixed',
+  bottom: 0,
+  padding: '2rem 2.4rem',
+  borderTop: `0.1rem solid ${vars.colors.grey100}`,
+  background: 'rgba(255, 255, 255, 0.01)',
+  backdropFilter: 'blur(50px)',
+});
+
+export const buttonStyle = style({
+  padding: '1.6rem 4.85rem',
 });

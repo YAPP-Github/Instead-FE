@@ -14,18 +14,24 @@ import {
   noShrinkStyle,
   timeStyle,
   summaryStyle,
+  backgroundVar,
+  imageStyle,
 } from './ContentItem.css';
 import { Icon } from '@repo/ui/Icon';
 import { IconButton } from '@repo/ui/IconButton';
 import { Text } from '@repo/ui/Text';
 import { Skeleton } from '@repo/ui/Skeleton';
 import { mergeRefs } from '@repo/ui/utils';
+import { assignInlineVars } from '@vanilla-extract/dynamic';
+import { vars } from '@repo/theme';
+import { PostImage } from '@web/types';
+import Image from 'next/image';
 
 export type ContentItemProps = {
   /**
    * 이미지 URL. 제공되지 않으면 기본 아이콘이 표시됩니다.
    */
-  image?: string;
+  image?: PostImage | undefined;
   /**
    * 표시할 제목 텍스트.
    */
@@ -92,10 +98,21 @@ export const ContentItem = forwardRef<HTMLDivElement, ContentItemProps>(
       <div
         ref={mergeRefs(ref, itemRef)}
         className={`${contentItemStyle} ${className ?? ''}`}
+        style={{
+          ...assignInlineVars({
+            [backgroundVar]: isSelected ? vars.colors.greyA08 : 'transparent',
+          }),
+        }}
         {...props}
       >
         {image ? (
-          <div>x</div>
+          <Image
+            className={imageStyle}
+            src={image.url}
+            alt="post"
+            width={32}
+            height={32}
+          />
         ) : (
           <Icon
             className={noShrinkStyle}
@@ -113,7 +130,7 @@ export const ContentItem = forwardRef<HTMLDivElement, ContentItemProps>(
               className={summaryStyle}
               fontSize={18}
               fontWeight={isSelected ? 'bold' : 'semibold'}
-              color={isSelected ? 'purple800' : 'grey600'}
+              color={isSelected ? 'grey900' : 'grey600'}
             >
               {summary}
             </Text>

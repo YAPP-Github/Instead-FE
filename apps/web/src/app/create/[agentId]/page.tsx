@@ -3,6 +3,7 @@ import { newsCategoriesQueryOptions } from '@web/store/query/useNewsCategoriesQu
 import { ServerFetchBoundary } from '@web/store/query/ServerFetchBoundary';
 import { getServerSideTokens } from '@web/shared/server/serverSideTokens';
 import { CreatePageProps } from './types';
+import { Suspense } from 'react';
 
 export default function CreatePage({ params }: CreatePageProps) {
   const tokens = getServerSideTokens();
@@ -10,7 +11,9 @@ export default function CreatePage({ params }: CreatePageProps) {
 
   return (
     <ServerFetchBoundary fetchOptions={serverFetchOptions}>
-      <Create params={params} />
+      <Suspense>
+        <Create params={params} />
+      </Suspense>
     </ServerFetchBoundary>
   );
 }

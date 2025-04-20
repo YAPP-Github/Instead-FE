@@ -28,7 +28,7 @@ export const accordionTrigger = style({
 });
 
 export const accordionContent = style({
-  maxHeight: 'calc(100vh - 24.8rem)',
+  maxHeight: 'calc((100vh - 8rem) / 4.5)',
   overflowY: 'scroll',
 });
 

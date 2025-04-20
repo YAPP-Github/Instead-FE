@@ -45,6 +45,7 @@ export function AccountSidebar({
             key={data.accountName}
             profileImageUrl={data.profileImageUrl}
             accountName={data.accountName}
+            agentPlatform={data.platform}
             agentPlan={data.agentPlan}
             isSelected={
               isNotNil(selectedId) ? Number(selectedId) === data.id : false
@@ -53,10 +54,7 @@ export function AccountSidebar({
           />
         ))
       ) : (
-        <AccountItem
-          accountName="SNS계정을 연동해 보세요"
-          agentPlan="아직 연동되지 않았어요"
-        />
+        <AccountItem accountName="SNS계정을 연동해 보세요" />
       )}
     </div>
   );

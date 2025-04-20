@@ -1,4 +1,7 @@
-import { style } from '@vanilla-extract/css';
+import { vars } from '@repo/theme';
+import { createVar, style } from '@vanilla-extract/css';
+
+export const backgroundVar = createVar();
 
 export const contentItemStyle = style({
   display: 'inline-flex',
@@ -9,6 +12,13 @@ export const contentItemStyle = style({
   width: '100%',
   padding: '1.6rem 0.8rem 1.2rem 1.2rem',
   cursor: 'grab',
+  backgroundColor: backgroundVar,
+});
+
+export const imageStyle = style({
+  width: '3.2rem',
+  height: '3.2rem',
+  borderRadius: vars.borderRadius[4],
 });
 
 export const summaryStyle = style({

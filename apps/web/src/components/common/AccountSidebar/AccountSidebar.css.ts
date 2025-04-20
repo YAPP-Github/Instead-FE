@@ -2,6 +2,7 @@ import { style } from '@vanilla-extract/css';
 
 export const wrapper = style({
   position: 'fixed',
+  zIndex: 100,
   top: 0,
   left: 0,
   width: '36.8rem',

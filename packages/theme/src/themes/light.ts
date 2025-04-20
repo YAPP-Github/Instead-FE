@@ -26,6 +26,8 @@ export const lightTheme: ThemeContract = {
     grey950: tokens.colors.grey950,
     grey1000: tokens.colors.grey1000,
 
+    greyA08: tokens.colors.greyA08,
+
     grey0to950: tokens.colors.grey0,
     grey0to800: tokens.colors.grey0,
     grey0to700: tokens.colors.grey0,

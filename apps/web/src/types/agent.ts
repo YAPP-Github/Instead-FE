@@ -7,6 +7,14 @@ export const AGENT_PLAN: Record<AgentPlan, string> = {
   PREMIUM_PLUS: '프리미엄 플러스',
 };
 
+export type AgentPlatform = 'X' | 'THREADS' | 'INSTAGRAM';
+
+export const AGENT_PLATFORM: Record<AgentPlatform, string> = {
+  X: '트위터(X)',
+  THREADS: '스레드',
+  INSTAGRAM: '인스타그램',
+};
+
 export type AgentTone = 'CASUAL' | 'LESS_FORMAL' | 'MORE_FORMAL' | 'CUSTOM';
 
 export const AGENT_TONE = {
@@ -19,7 +27,7 @@ export const AGENT_TONE = {
 export interface Agent {
   id: number;
   createdAt: string;
-  platform: 'X' | 'THREADS' | 'INSTAGRAM';
+  platform: AgentPlatform;
   accountName: string;
   bio: string;
   profileImageUrl: string;

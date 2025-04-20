@@ -28,18 +28,19 @@ import { PersonalCard } from './_components/PersonalCard/PersonalCard';
 import { UploadContentCard } from './_components/UploadContentCard/UploadContentCard';
 import { ContentGroupCard } from './_components/ContentGroupCard/ContentGroupCard';
 import { Spacing } from '@repo/ui/Spacing';
-import { useGetAgentDetailQuery } from '@web/store/query/useGetAgentDetailQuery';
-import { useGetAgentPostGroupsQuery } from '@web/store/query/useGetAgentPostGroupsQuery';
-import { useGetAgentQuery } from '@web/store/query/useGetAgentQuery';
-import { useGetAgentUploadReservedQuery } from '@web/store/query/useGetAgentUploadReserved';
+import { getAgentDetailQueryOptions } from '@web/store/query/useGetAgentDetailQuery';
+import { getAgentPostGroupsQueryOptions } from '@web/store/query/useGetAgentPostGroupsQuery';
+import { getAgentQueryOptions } from '@web/store/query/useGetAgentQuery';
+import { getAgentUploadReservedQueryOptions } from '@web/store/query/useGetAgentUploadReserved';
+import { getUserQueryOptions } from '@web/store/query/useGetUserQuery';
 import { HomePageProps } from './types';
 import { useRouter } from 'next/navigation';
 import { Agent, PostGroupId } from '@web/types';
 import { useModal } from '@repo/ui/hooks';
 import { Modal } from '@repo/ui/Modal';
 import { useDeletePostGroupMutation } from '@web/store/mutation/useDeletePostGroupMutation';
-import { useGetUserQuery } from '@web/store/query/useGetUserQuery';
 import { useLogoutMutation } from '@web/store/mutation/useLogoutMutation';
+import { useSuspenseQueries } from '@tanstack/react-query';
 
 export default function Home({ params }: HomePageProps) {
   const router = useRouter();
@@ -47,20 +48,26 @@ export default function Home({ params }: HomePageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({
     threshold: 100,
   });
-  const { data: user } = useGetUserQuery();
-  const { data: agentDetail } = useGetAgentDetailQuery({
-    agentId: params.agentId,
+
+  const [
+    { data: user },
+    { data: agentDetail },
+    { data: agentUploadReserved },
+    { data: agentPostGroups },
+    { data: agentData },
+  ] = useSuspenseQueries({
+    queries: [
+      getUserQueryOptions(),
+      getAgentDetailQueryOptions({ agentId: params.agentId }),
+      getAgentUploadReservedQueryOptions({ agentId: params.agentId }),
+      getAgentPostGroupsQueryOptions({ agentId: params.agentId }),
+      getAgentQueryOptions(),
+    ],
   });
-  const { data: agentUploadReserved } = useGetAgentUploadReservedQuery({
-    agentId: params.agentId,
-  });
-  const { data: agentPostGroups } = useGetAgentPostGroupsQuery({
-    agentId: params.agentId,
-  });
+
   const { mutate: deletePostGroups } = useDeletePostGroupMutation({
     agentId: params.agentId,
   });
-  const { data: agentData } = useGetAgentQuery();
   const { mutate: logout } = useLogoutMutation();
 
   const userData = user.data;

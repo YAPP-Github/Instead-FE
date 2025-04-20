@@ -3,6 +3,8 @@ import Edit from './Edit';
 import type { EditPageProps } from './types';
 import { getAllPostsQueryOptions } from '@web/store/query/useGetAllPostsQuery';
 import { getServerSideTokens } from '@web/shared/server/serverSideTokens';
+import { Suspense } from 'react';
+import Loading from '@web/app/loading';
 
 export default function EditPage({ params }: EditPageProps) {
   const tokens = getServerSideTokens();
@@ -14,7 +16,9 @@ export default function EditPage({ params }: EditPageProps) {
 
   return (
     <ServerFetchBoundary fetchOptions={serverFetchOptions}>
-      <Edit params={params} />
+      <Suspense fallback={<Loading />}>
+        <Edit params={params} />
+      </Suspense>
     </ServerFetchBoundary>
   );
 }

@@ -22,6 +22,7 @@ export type ThemeContract = {
     grey900: string;
     grey950: string;
     grey1000: string;
+    greyA08: string;
     grey0to950: string;
     grey0to800: string;
     grey0to700: string;

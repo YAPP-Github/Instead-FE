@@ -10,12 +10,13 @@ import { Text } from '@repo/ui/Text';
 import { Icon } from '@repo/ui/Icon';
 import { vars } from '@repo/theme';
 import { isNil } from '@repo/ui/utils';
-import { AgentPlan } from '@web/types';
+import { Agent, AGENT_PLAN, AGENT_PLATFORM, AgentPlan } from '@web/types';
 
 export type AccountItemProps = {
-  accountName: string;
+  accountName?: string;
   profileImageUrl?: string;
-  agentPlan: AgentPlan | string;
+  agentPlan?: Agent['agentPlan'];
+  agentPlatform?: Agent['platform'];
   isSelected?: boolean;
   onClick?: () => void;
 };
@@ -24,6 +25,7 @@ export function AccountItem({
   accountName,
   profileImageUrl,
   agentPlan,
+  agentPlatform,
   isSelected = false,
   onClick,
 }: AccountItemProps) {
@@ -46,19 +48,20 @@ export function AccountItem({
           fontWeight={isSelected ? 'semibold' : 'medium'}
           color={isSelected ? 'primary700' : 'grey800'}
         >
-          {accountName}
+          {accountName ?? '아직 연동되지 않았어요'}
         </Text>
-        <AgentPlanBadge agentPlan={agentPlan} />
+        <AgentPlanBadge agentPlan={agentPlan} agentPlatform={agentPlatform} />
       </div>
     </div>
   );
 }
 
 interface AgentPlanBadgeProps {
-  agentPlan?: AgentPlan | string;
+  agentPlatform?: Agent['platform'];
+  agentPlan?: Agent['agentPlan'];
 }
 
-function AgentPlanBadge({ agentPlan }: AgentPlanBadgeProps) {
+function AgentPlanBadge({ agentPlan, agentPlatform }: AgentPlanBadgeProps) {
   const colors: Record<AgentPlan, keyof typeof vars.colors> = {
     FREE: 'grey300',
     BASIC: 'grey300',
@@ -66,26 +69,11 @@ function AgentPlanBadge({ agentPlan }: AgentPlanBadgeProps) {
     PREMIUM_PLUS: 'primary600',
   };
 
-  const plans: Record<AgentPlan, string> = {
-    FREE: '무료',
-    BASIC: '베이직',
-    PREMIUM: '프리미엄',
-    PREMIUM_PLUS: '프리미엄 플러스',
-  };
-
-  let displayColor: keyof typeof vars.colors;
-  let displayText: string;
-
-  if (!agentPlan || agentPlan === '') {
-    displayColor = 'grey300';
-    displayText = '아직 연동되지 않았어요';
-  } else if (Object.keys(plans).includes(agentPlan)) {
-    displayColor = colors[agentPlan as AgentPlan];
-    displayText = plans[agentPlan as AgentPlan];
-  } else {
-    displayColor = 'grey300';
-    displayText = '아직 연동되지 않았어요';
-  }
+  const displayText =
+    agentPlan && agentPlatform
+      ? `${AGENT_PLATFORM[agentPlatform]} / ${AGENT_PLAN[agentPlan]}`
+      : '아직 연동되지 않았어요';
+  const displayColor = agentPlan ? colors[agentPlan] : 'grey300';
 
   return (
     <div className={agentPlanBadge}>

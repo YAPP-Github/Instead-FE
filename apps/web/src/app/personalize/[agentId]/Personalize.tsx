@@ -26,17 +26,17 @@ import { useModal, useToast } from '@repo/ui/hooks';
 import { useUpdatePersonalSettingMutation } from '@web/store/mutation/useUpdatePersonalSettingMutation';
 import { AccountSidebar } from '@web/components/common/AccountSidebar/AccountSidebar';
 import { ROUTES } from '@web/routes';
-import { useGetAgentQuery } from '@web/store/query/useGetAgentQuery';
+import { getAgentQueryOptions } from '@web/store/query/useGetAgentQuery';
 import { Agent } from '@web/types';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient, useSuspenseQueries } from '@tanstack/react-query';
 import { MainBreadcrumbItem, NavBar } from '@web/components/common';
 import Image from 'next/image';
 import { isNil } from '@repo/ui/utils';
-import { useGetUserQuery } from '@web/store/query/useGetUserQuery';
+import { getUserQueryOptions } from '@web/store/query/useGetUserQuery';
 import { useScroll } from '@web/hooks';
 import * as style from './pageStyle.css';
 import { useLogoutMutation } from '@web/store/mutation/useLogoutMutation';
-import { useGetAgentDetailQuery } from '@web/store/query/useGetAgentDetailQuery';
+import { getAgentDetailQueryOptions } from '@web/store/query/useGetAgentDetailQuery';
 
 export default function Personalize({ params }: PersonalizePageProps) {
   const router = useRouter();
@@ -45,11 +45,15 @@ export default function Personalize({ params }: PersonalizePageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({
     threshold: 100,
   });
-  const { data: agentData } = useGetAgentQuery();
-  const { data: agentDetail } = useGetAgentDetailQuery({
-    agentId: params.agentId,
-  });
-  const { data: user } = useGetUserQuery();
+
+  const [{ data: agentData }, { data: agentDetail }, { data: user }] =
+    useSuspenseQueries({
+      queries: [
+        getAgentQueryOptions(),
+        getAgentDetailQueryOptions({ agentId: params.agentId }),
+        getUserQueryOptions(),
+      ],
+    });
   const { mutate: updatePersonalSetting } = useUpdatePersonalSettingMutation({
     agentId: params.agentId,
   });
@@ -244,16 +248,20 @@ export default function Personalize({ params }: PersonalizePageProps) {
               </TextField>
             )}
           </div>
-          <Spacing size={80} />
-          <Button
-            size="large"
-            variant="neutral"
-            className={style.submitButtonStyle}
-            type="submit"
-          >
-            저장하기
-          </Button>
+          <Spacing size={128} />
         </form>
+      </div>
+      {/* TODO 따로 컴포넌트로 뺄 예정 */}
+      <div className={style.buttonWrapperStyle}>
+        <Button
+          size="large"
+          variant="primary"
+          type="submit"
+          onClick={handleSubmit(onSubmit)}
+          leftAddon={<Icon name="check" />}
+        >
+          저장하기
+        </Button>
       </div>
     </div>
   );
