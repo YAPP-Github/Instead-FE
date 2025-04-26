@@ -4,7 +4,7 @@ import { vars } from '@repo/theme';
 export const headerRow = style({
   backgroundColor: vars.colors.grey25,
   height: '4rem',
-  borderRadius: vars.borderRadius[8],
+  display: 'table-row',
 });
 
 export const headerCell = style({
@@ -19,6 +19,12 @@ export const headerCell = style({
   selectors: {
     '&:first-child': {
       paddingLeft: vars.space[16],
+      borderTopLeftRadius: vars.borderRadius[8],
+      borderBottomLeftRadius: vars.borderRadius[8],
+    },
+    '&:last-child': {
+      borderTopRightRadius: vars.borderRadius[8],
+      borderBottomRightRadius: vars.borderRadius[8],
     },
   },
 });

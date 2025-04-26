@@ -14,6 +14,7 @@ export function TableHeader({ columns }: TableHeaderProps) {
             key={column.id}
             className={style.headerCell}
             style={{ width: column.width }}
+            scope="col"
           >
             {column.label}
           </th>
