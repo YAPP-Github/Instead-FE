@@ -1,7 +1,7 @@
 'use client';
 
 import { Dropdown } from '@repo/ui';
-import * as styles from './HourDropdown.css';
+import { DropdownTriggerWithArrow } from '../DropdownTriggerWithArrow/DropdownTriggerWithArrow';
 
 type HourDropdownProps = {
   value?: string;
@@ -11,7 +11,7 @@ type HourDropdownProps = {
 export function HourDropdown({ value = '00', onChange }: HourDropdownProps) {
   return (
     <Dropdown value={value} onValueChange={onChange}>
-      <Dropdown.Trigger className={styles.trigger}>{value}시</Dropdown.Trigger>
+      <DropdownTriggerWithArrow>{value}시</DropdownTriggerWithArrow>
       <Dropdown.Content>
         {hours.map((hour) => (
           <Dropdown.Item key={hour} value={hour}>
@@ -48,4 +48,4 @@ const hours = [
   '21',
   '22',
   '23',
-];
+] as const;
