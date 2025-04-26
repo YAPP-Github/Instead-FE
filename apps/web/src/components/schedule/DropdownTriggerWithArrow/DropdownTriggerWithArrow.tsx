@@ -10,16 +10,14 @@ export function DropdownTriggerWithArrow({
   children,
 }: DropdownTriggerWithArrowProps) {
   return (
-    <div className={styles.container}>
-      <Dropdown.Trigger className={styles.triggerStyle}>
-        {children}
-      </Dropdown.Trigger>
+    <Dropdown.Trigger className={styles.triggerStyle}>
+      {children}
       <Icon
         name="arrowBottom"
         color="grey300"
         size={20}
         className={styles.iconStyle}
       />
-    </div>
+    </Dropdown.Trigger>
   );
 }
