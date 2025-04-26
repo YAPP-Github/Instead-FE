@@ -147,7 +147,9 @@ export function PostEditor() {
     const existingImageUrls = watch('imageUrls') || [];
 
     if (existingImageUrls.length + files.length > maxFiles) {
-      toast.error(`이미지는 최대 ${maxFiles}장까지 업로드할 수 있어요.`, 3000);
+      toast.error(`이미지는 최대 ${maxFiles}장까지 업로드할 수 있어요.`, {
+        duration: 3000,
+      });
       return;
     }
 

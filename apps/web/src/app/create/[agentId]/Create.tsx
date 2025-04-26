@@ -24,7 +24,7 @@ import {
   LENGTH_OPTIONS,
 } from './constants';
 import * as styles from './pageStyle.css';
-import { useModal } from '@repo/ui/hooks';
+import { useModal, useToast } from '@repo/ui/hooks';
 import { useRouter } from 'next/navigation';
 import { useNewsCategoriesQuery } from '@web/store/query/useNewsCategoriesQuery';
 import { isNotNil } from '@repo/ui/utils';
@@ -45,6 +45,7 @@ export default function Create({ params }: CreatePageProps) {
     agentId: params.agentId,
   });
   const modal = useModal();
+  const toast = useToast();
   const router = useRouter();
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({
     threshold: 100,
@@ -145,7 +146,13 @@ export default function Create({ params }: CreatePageProps) {
       <Spacing size={80} />
 
       <AnimatedTitle>어떤 글을 생성할까요?</AnimatedTitle>
-
+      <button
+        onClick={() =>
+          toast.success('안녕하세요', { duration: 3000, toastPosition: 'top' })
+        }
+      >
+        토스트 띄우기
+      </button>
       <AnimatedContainer>
         <form className={styles.contentStyle}>
           {/* 주제 */}
