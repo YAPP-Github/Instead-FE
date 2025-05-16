@@ -21,14 +21,12 @@ import {
   REFERENCE_TYPE,
   PURPOSE_OPTIONS,
   REFERENCE_OPTIONS,
-  LENGTH_OPTIONS,
 } from './constants';
 import * as styles from './pageStyle.css';
 import { useModal } from '@repo/ui/hooks';
 import { useRouter } from 'next/navigation';
 import { useNewsCategoriesQuery } from '@web/store/query/useNewsCategoriesQuery';
 import { isNotNil } from '@repo/ui/utils';
-import { Suspense } from 'react';
 import { NavBar } from '@web/components/common';
 import { useScroll } from '@web/hooks';
 import { useCreatePostsMutation } from '@web/store/mutation/useCreatePostsMutation';
@@ -55,9 +53,7 @@ export default function Create({ params }: CreatePageProps) {
       topic: '',
       purpose: 'INFORMATION',
       reference: 'NONE',
-      newsCategory: isNotNil(newsCategories.data[0]?.category)
-        ? newsCategories.data[0].category
-        : undefined,
+      newsCategory: newsCategories.data[0]?.category ?? undefined,
       imageUrls: [],
       length: 'SHORT',
       content: '',
@@ -148,46 +144,6 @@ export default function Create({ params }: CreatePageProps) {
 
       <AnimatedContainer>
         <form className={styles.contentStyle}>
-          {/* 주제 */}
-          <section className={styles.sectionStyle}>
-            <TextField id="topic">
-              <TextField.Label variant="required">주제</TextField.Label>
-              <Controller
-                name="topic"
-                control={control}
-                render={({ field }) => (
-                  <TextField.Input
-                    {...field}
-                    placeholder="주제를 적어주세요"
-                    maxLength={5000}
-                  />
-                )}
-              />
-            </TextField>
-          </section>
-
-          {/* 목적 */}
-          <section className={styles.sectionStyle}>
-            <Label variant="default">목적</Label>
-            <Controller
-              name="purpose"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <RadioCards value={value} onChange={onChange} columns={4}>
-                  {PURPOSE_OPTIONS.map(({ value, icon, label }) => (
-                    <RadioCards.Item
-                      key={value}
-                      value={value}
-                      leftAddon={<RadioCards.Icon name={icon} size={24} />}
-                    >
-                      <RadioCards.Label>{label}</RadioCards.Label>
-                    </RadioCards.Item>
-                  ))}
-                </RadioCards>
-              )}
-            />
-          </section>
-
           {/* 생성 방식 */}
           <section className={styles.sectionStyle}>
             <Label>생성 방식</Label>
@@ -228,45 +184,64 @@ export default function Create({ params }: CreatePageProps) {
             )}
           </section>
 
-          {/* 조건부 렌더링 섹션들 */}
+          {/* 뉴스 카테고리 */}
           {reference === REFERENCE_TYPE.NEWS && (
             <section className={styles.sectionStyle}>
               <Label variant="required">뉴스 카테고리</Label>
-              <Suspense>
-                <Controller
-                  name="newsCategory"
-                  control={control}
-                  render={({ field: { value, onChange } }) => (
-                    <KeywordChipGroup
-                      items={newsCategories.data.map((category) => ({
-                        key: category.category,
-                        label: category.name,
-                      }))}
-                      value={value}
-                      onChange={(value) => onChange(value)}
-                    />
-                  )}
-                />
-              </Suspense>
+              <Controller
+                name="newsCategory"
+                control={control}
+                render={({ field: { value, onChange } }) => (
+                  <KeywordChipGroup
+                    items={newsCategories.data.map((category) => ({
+                      key: category.category,
+                      label: category.name,
+                    }))}
+                    value={value}
+                    onChange={(value) => onChange(value)}
+                  />
+                )}
+              />
             </section>
           )}
 
-          {/* 본문 길이 */}
+          {/* 주제 */}
           <section className={styles.sectionStyle}>
-            <Label description="3문장 이상의 긴 게시물을 업로드 하려면 X 유료 구독 플랜에 가입해주세요">
-              본문 길이
-            </Label>
+            <TextField id="topic">
+              <TextField.Label variant="required">주제</TextField.Label>
+              <Controller
+                name="topic"
+                control={control}
+                render={({ field }) => (
+                  <TextField.Input
+                    {...field}
+                    placeholder="주제를 적어주세요"
+                    maxLength={5000}
+                  />
+                )}
+              />
+            </TextField>
+          </section>
+
+          {/* 목적 */}
+          <section className={styles.sectionStyle}>
+            <Label variant="default">목적</Label>
             <Controller
-              name="length"
+              name="purpose"
               control={control}
               render={({ field: { onChange, value } }) => (
-                <RadioCards value={value} onChange={onChange} columns={3}>
-                  {LENGTH_OPTIONS.map(({ value, label, description }) => (
-                    <RadioCards.Item key={value} value={value}>
+                <RadioCards
+                  value={value}
+                  onChange={onChange}
+                  columns={PURPOSE_OPTIONS.length}
+                >
+                  {PURPOSE_OPTIONS.map(({ value, icon, label }) => (
+                    <RadioCards.Item
+                      key={value}
+                      value={value}
+                      leftAddon={<RadioCards.Icon name={icon} size={24} />}
+                    >
                       <RadioCards.Label>{label}</RadioCards.Label>
-                      <RadioCards.Description>
-                        {description}
-                      </RadioCards.Description>
                     </RadioCards.Item>
                   ))}
                 </RadioCards>
