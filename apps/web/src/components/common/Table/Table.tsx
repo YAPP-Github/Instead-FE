@@ -9,10 +9,10 @@ type TableRootProps = PropsWithChildren & {
 
 function TableRoot({ children, header }: TableRootProps) {
   return (
-    <table className={styles.table}>
+    <div className={styles.table}>
       {header}
-      {children}
-    </table>
+      <div>{children}</div>
+    </div>
   );
 }
 

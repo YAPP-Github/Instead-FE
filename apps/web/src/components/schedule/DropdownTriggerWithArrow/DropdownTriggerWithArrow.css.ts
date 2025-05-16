@@ -2,7 +2,7 @@ import { style } from '@vanilla-extract/css';
 import { vars } from '@repo/theme';
 
 export const triggerStyle = style({
-  padding: `0 ${vars.space[12]}`,
+  padding: `0 ${vars.space[12]} 0 0`,
   display: 'flex',
   alignItems: 'center',
   cursor: 'pointer',

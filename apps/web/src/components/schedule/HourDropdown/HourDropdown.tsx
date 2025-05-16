@@ -13,7 +13,7 @@ export function HourDropdown({ value = '00', onChange }: HourDropdownProps) {
     <Dropdown value={value} onValueChange={onChange}>
       <DropdownTriggerWithArrow>{value}시</DropdownTriggerWithArrow>
       <Dropdown.Content>
-        {hours.map((hour) => (
+        {HOURS.map((hour) => (
           <Dropdown.Item key={hour} value={hour}>
             {hour}시
           </Dropdown.Item>
@@ -23,7 +23,7 @@ export function HourDropdown({ value = '00', onChange }: HourDropdownProps) {
   );
 }
 
-const hours = [
+const HOURS = [
   '00',
   '01',
   '02',

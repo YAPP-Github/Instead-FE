@@ -16,7 +16,7 @@ export function MinuteDropdown({
     <Dropdown value={value} onValueChange={onChange}>
       <DropdownTriggerWithArrow>{value}분</DropdownTriggerWithArrow>
       <Dropdown.Content>
-        {minutes.map((minute) => (
+        {MINUTES.map((minute) => (
           <Dropdown.Item key={minute} value={minute}>
             {minute}분
           </Dropdown.Item>
@@ -26,4 +26,4 @@ export function MinuteDropdown({
   );
 }
 
-const minutes = ['00', '30'] as const;
+const MINUTES = ['00', '30'] as const;
