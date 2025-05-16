@@ -23,10 +23,6 @@ export const contentStyle = style({
   minWidth: 'min-content',
 });
 
-export const submitButtonStyle = style({
-  fontSize: vars.typography.fontSize[18],
-});
-
 export const breadcrumbItemStyle = style({
   maxWidth: '12rem',
   overflow: 'hidden',

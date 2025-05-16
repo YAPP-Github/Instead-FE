@@ -9,6 +9,7 @@ import {
   Icon,
   Button,
   Modal,
+  FixedBottomCTA,
 } from '@repo/ui';
 import { AnimatedTitle } from './_components/AnimatedTitle/AnimatedTitle';
 import { ImageManager, MainBreadcrumbItem } from '@web/components/common';
@@ -106,168 +107,166 @@ export default function Create({ params }: CreatePageProps) {
   };
 
   return (
-    <div className={styles.mainStyle} ref={scrollRef}>
-      <NavBar
-        leftAddon={
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <MainBreadcrumbItem
-                href={ROUTES.HOME.DETAIL(params.agentId)}
-                onClick={
-                  !isEmptyStringOrNil(topic)
-                    ? handleHomeBreadcrumbClick
-                    : undefined
-                }
+    <>
+      <div className={styles.mainStyle} ref={scrollRef}>
+        <NavBar
+          leftAddon={
+            <Breadcrumb>
+              <Breadcrumb.Item>
+                <MainBreadcrumbItem
+                  href={ROUTES.HOME.DETAIL(params.agentId)}
+                  onClick={
+                    !isEmptyStringOrNil(topic)
+                      ? handleHomeBreadcrumbClick
+                      : undefined
+                  }
+                />
+              </Breadcrumb.Item>
+            </Breadcrumb>
+          }
+          isScrolled={isScrolled}
+        />
+
+        <Spacing size={80} />
+
+        <AnimatedTitle>어떤 글을 생성할까요?</AnimatedTitle>
+
+        <AnimatedContainer>
+          <form className={styles.contentStyle}>
+            {/* 생성 방식 */}
+            <section className={styles.sectionStyle}>
+              <Label>생성 방식</Label>
+              <Controller
+                name="reference"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <RadioCards value={value} onChange={onChange} columns={3}>
+                    {REFERENCE_OPTIONS.map(
+                      ({ value, icon, label, description }) => (
+                        <RadioCards.Item
+                          key={value}
+                          value={value}
+                          leftAddon={<RadioCards.Icon name={icon} size={24} />}
+                        >
+                          <RadioCards.Label>{label}</RadioCards.Label>
+                          <RadioCards.Description>
+                            {description}
+                          </RadioCards.Description>
+                        </RadioCards.Item>
+                      )
+                    )}
+                  </RadioCards>
+                )}
               />
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        }
-        rightAddon={
-          <Button
-            type="submit"
-            size="large"
-            variant="primary"
-            leftAddon={<Icon name="twinkle" />}
-            onClick={handleSubmit(onSubmit)}
-            disabled={isSubmitDisabled}
-            isLoading={isPending}
-          >
-            생성하기
-          </Button>
-        }
-        isScrolled={isScrolled}
-      />
+              {reference === REFERENCE_TYPE.IMAGE && (
+                <Controller
+                  name="imageUrls"
+                  control={control}
+                  render={({ field: { value } }) => (
+                    <ImageManager
+                      value={value}
+                      onUpload={handleImageUpload}
+                      onRemove={handleImageRemove}
+                    />
+                  )}
+                />
+              )}
+            </section>
 
-      <Spacing size={80} />
+            {/* 뉴스 카테고리 */}
+            {reference === REFERENCE_TYPE.NEWS && (
+              <section className={styles.sectionStyle}>
+                <Label variant="required">뉴스 카테고리</Label>
+                <Controller
+                  name="newsCategory"
+                  control={control}
+                  render={({ field: { value, onChange } }) => (
+                    <KeywordChipGroup
+                      items={newsCategories.data.map((category) => ({
+                        key: category.category,
+                        label: category.name,
+                      }))}
+                      value={value}
+                      onChange={(value) => onChange(value)}
+                    />
+                  )}
+                />
+              </section>
+            )}
 
-      <AnimatedTitle>어떤 글을 생성할까요?</AnimatedTitle>
+            {/* 주제 */}
+            <section className={styles.sectionStyle}>
+              <TextField id="topic">
+                <TextField.Label variant="required">주제</TextField.Label>
+                <Controller
+                  name="topic"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField.Input
+                      {...field}
+                      placeholder="주제를 적어주세요"
+                      maxLength={5000}
+                    />
+                  )}
+                />
+              </TextField>
+            </section>
 
-      <AnimatedContainer>
-        <form className={styles.contentStyle}>
-          {/* 생성 방식 */}
-          <section className={styles.sectionStyle}>
-            <Label>생성 방식</Label>
-            <Controller
-              name="reference"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <RadioCards value={value} onChange={onChange} columns={3}>
-                  {REFERENCE_OPTIONS.map(
-                    ({ value, icon, label, description }) => (
+            {/* 목적 */}
+            <section className={styles.sectionStyle}>
+              <Label variant="default">목적</Label>
+              <Controller
+                name="purpose"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <RadioCards
+                    value={value}
+                    onChange={onChange}
+                    columns={PURPOSE_OPTIONS.length}
+                  >
+                    {PURPOSE_OPTIONS.map(({ value, icon, label }) => (
                       <RadioCards.Item
                         key={value}
                         value={value}
                         leftAddon={<RadioCards.Icon name={icon} size={24} />}
                       >
                         <RadioCards.Label>{label}</RadioCards.Label>
-                        <RadioCards.Description>
-                          {description}
-                        </RadioCards.Description>
                       </RadioCards.Item>
-                    )
-                  )}
-                </RadioCards>
-              )}
-            />
-            {reference === REFERENCE_TYPE.IMAGE && (
-              <Controller
-                name="imageUrls"
-                control={control}
-                render={({ field: { value } }) => (
-                  <ImageManager
-                    value={value}
-                    onUpload={handleImageUpload}
-                    onRemove={handleImageRemove}
-                  />
-                )}
-              />
-            )}
-          </section>
-
-          {/* 뉴스 카테고리 */}
-          {reference === REFERENCE_TYPE.NEWS && (
-            <section className={styles.sectionStyle}>
-              <Label variant="required">뉴스 카테고리</Label>
-              <Controller
-                name="newsCategory"
-                control={control}
-                render={({ field: { value, onChange } }) => (
-                  <KeywordChipGroup
-                    items={newsCategories.data.map((category) => ({
-                      key: category.category,
-                      label: category.name,
-                    }))}
-                    value={value}
-                    onChange={(value) => onChange(value)}
-                  />
+                    ))}
+                  </RadioCards>
                 )}
               />
             </section>
-          )}
 
-          {/* 주제 */}
-          <section className={styles.sectionStyle}>
-            <TextField id="topic">
-              <TextField.Label variant="required">주제</TextField.Label>
-              <Controller
-                name="topic"
-                control={control}
-                render={({ field }) => (
-                  <TextField.Input
-                    {...field}
-                    placeholder="주제를 적어주세요"
-                    maxLength={5000}
-                  />
-                )}
-              />
-            </TextField>
-          </section>
-
-          {/* 목적 */}
-          <section className={styles.sectionStyle}>
-            <Label variant="default">목적</Label>
-            <Controller
-              name="purpose"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <RadioCards
-                  value={value}
-                  onChange={onChange}
-                  columns={PURPOSE_OPTIONS.length}
-                >
-                  {PURPOSE_OPTIONS.map(({ value, icon, label }) => (
-                    <RadioCards.Item
-                      key={value}
-                      value={value}
-                      leftAddon={<RadioCards.Icon name={icon} size={24} />}
-                    >
-                      <RadioCards.Label>{label}</RadioCards.Label>
-                    </RadioCards.Item>
-                  ))}
-                </RadioCards>
-              )}
-            />
-          </section>
-
-          {/* 핵심 내용 */}
-          <section className={styles.sectionStyle}>
-            <TextField id="content">
-              <TextField.Label variant="optional">핵심 내용</TextField.Label>
-              <Controller
-                name="content"
-                control={control}
-                render={({ field }) => (
-                  <TextField.Input
-                    {...field}
-                    placeholder="본문에 꼭 포함되어야 하는 문구나 요구 사항을 적어주세요"
-                    maxLength={5000}
-                  />
-                )}
-              />
-            </TextField>
-          </section>
-        </form>
-      </AnimatedContainer>
-    </div>
+            {/* 핵심 내용 */}
+            <section className={styles.sectionStyle}>
+              <TextField id="content">
+                <TextField.Label variant="optional">핵심 내용</TextField.Label>
+                <Controller
+                  name="content"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField.Input
+                      {...field}
+                      placeholder="본문에 꼭 포함되어야 하는 문구나 요구 사항을 적어주세요"
+                      maxLength={5000}
+                    />
+                  )}
+                />
+              </TextField>
+            </section>
+          </form>
+        </AnimatedContainer>
+      </div>
+      <FixedBottomCTA
+        type="submit"
+        leftAddon={<Icon name="twinkle" />}
+        onClick={handleSubmit(onSubmit)}
+        disabled={isSubmitDisabled}
+        isLoading={isPending}
+      >
+        생성하기
+      </FixedBottomCTA>
+    </>
   );
 }

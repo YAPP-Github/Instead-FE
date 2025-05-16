@@ -3,7 +3,7 @@
 import { useScroll } from '@web/hooks';
 import * as style from './pageStyle.css';
 import { NavBar, MainBreadcrumbItem } from '@web/components/common';
-import { Breadcrumb, Button, Icon, Label } from '@repo/ui';
+import { Breadcrumb, Button, FixedBottomCTA, Icon, Label } from '@repo/ui';
 import { DndController } from '@web/components/common';
 import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
 import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
@@ -84,48 +84,40 @@ export default function Schedule({ params }: EditPageProps) {
   });
 
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={onSubmit} className={style.mainStyle} ref={scrollRef}>
-        <NavBar
-          leftAddon={
-            <Breadcrumb>
-              <MainBreadcrumbItem href={ROUTES.HOME.DETAIL(params.agentId)} />
-              <Breadcrumb.Item active className={style.breadcrumbItemStyle}>
-                {posts.data.postGroup.topic}
-              </Breadcrumb.Item>
-            </Breadcrumb>
-          }
-          rightAddon={
-            <div className={style.buttonWrapperStyle}>
-              <Button
-                type="button"
-                size="large"
-                variant="text"
-                onClick={() =>
-                  router.push(
-                    ROUTES.EDIT.ROOT({
-                      agentId: Number(params.agentId),
-                      postGroupId: Number(params.postGroupId),
-                    })
-                  )
-                }
-              >
-                이전
-              </Button>
-              <Button
-                type="submit"
-                size="large"
-                variant="primary"
-                leftAddon={<Icon name="check" size={20} />}
-                className={style.submitButtonStyle}
-              >
-                예약 완료
-              </Button>
-            </div>
-          }
-          isScrolled={isScrolled}
-        />
-        {/* <SideBar>
+    <>
+      <FormProvider {...methods}>
+        <form onSubmit={onSubmit} className={style.mainStyle} ref={scrollRef}>
+          <NavBar
+            leftAddon={
+              <Breadcrumb>
+                <MainBreadcrumbItem href={ROUTES.HOME.DETAIL(params.agentId)} />
+                <Breadcrumb.Item active className={style.breadcrumbItemStyle}>
+                  {posts.data.postGroup.topic}
+                </Breadcrumb.Item>
+              </Breadcrumb>
+            }
+            rightAddon={
+              <div className={style.buttonWrapperStyle}>
+                <Button
+                  type="button"
+                  size="large"
+                  variant="text"
+                  onClick={() =>
+                    router.push(
+                      ROUTES.EDIT.ROOT({
+                        agentId: Number(params.agentId),
+                        postGroupId: Number(params.postGroupId),
+                      })
+                    )
+                  }
+                >
+                  이전
+                </Button>
+              </div>
+            }
+            isScrolled={isScrolled}
+          />
+          {/* <SideBar>
           <div className={style.sideBarContentWrapperStyle}>
             <TitleWithDescription
               title="전체 예약"
@@ -148,31 +140,37 @@ export default function Schedule({ params }: EditPageProps) {
             </div>
           </div>
         </SideBar> */}
-        <div className={style.contentWrapperStyle}>
-          <div className={style.dndSectionStyle}>
-            <TitleWithDescription
-              title="업로드 예약 일정"
-              rightTitle={readyToUploadPosts.length.toString()}
-              description="개별 글의 업로드 날짜와 순서를 변경할 수 있어요"
-            />
-            <DndController
-              initialItems={posts.data.posts}
-              key={Object.values(posts.data.posts)
-                .flat()
-                .map((item) => `${item.id}-${item.displayOrder}-${item.status}`)
-                .join(',')}
-              renderDragOverlay={(activeItem) => (
-                <ContentItem {...activeItem} />
-              )}
-            >
-              <ScheduleTable
-                agentId={params.agentId}
-                postStatus={POST_STATUS.READY_TO_UPLOAD}
+          <div className={style.contentWrapperStyle}>
+            <div className={style.dndSectionStyle}>
+              <TitleWithDescription
+                title="업로드 예약 일정"
+                rightTitle={readyToUploadPosts.length.toString()}
+                description="개별 글의 업로드 날짜와 순서를 변경할 수 있어요"
               />
-            </DndController>
+              <DndController
+                initialItems={posts.data.posts}
+                key={Object.values(posts.data.posts)
+                  .flat()
+                  .map(
+                    (item) => `${item.id}-${item.displayOrder}-${item.status}`
+                  )
+                  .join(',')}
+                renderDragOverlay={(activeItem) => (
+                  <ContentItem {...activeItem} />
+                )}
+              >
+                <ScheduleTable
+                  agentId={params.agentId}
+                  postStatus={POST_STATUS.READY_TO_UPLOAD}
+                />
+              </DndController>
+            </div>
           </div>
-        </div>
-      </form>
-    </FormProvider>
+        </form>
+      </FormProvider>
+      <FixedBottomCTA type="submit" leftAddon={<Icon name="check" size={20} />}>
+        예약 완료
+      </FixedBottomCTA>
+    </>
   );
 }
