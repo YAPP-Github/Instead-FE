@@ -8,7 +8,7 @@ type HourDropdownProps = {
   onChange?: (value: string) => void;
 };
 
-export function HourDropdown({ value = '00', onChange }: HourDropdownProps) {
+export function HourDropdown({ value = '12', onChange }: HourDropdownProps) {
   return (
     <Dropdown value={value} onValueChange={onChange}>
       <DropdownTriggerWithArrow>{value}시</DropdownTriggerWithArrow>
