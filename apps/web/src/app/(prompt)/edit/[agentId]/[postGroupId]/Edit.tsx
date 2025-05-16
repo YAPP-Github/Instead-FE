@@ -3,7 +3,7 @@
 import { useScroll } from '@web/hooks';
 import * as style from './pageStyle.css';
 import { NavBar, MainBreadcrumbItem } from '@web/components/common';
-import { Breadcrumb, Button, Icon } from '@repo/ui';
+import { Breadcrumb, Button, FixedBottomCTA, Icon } from '@repo/ui';
 import { POST_STATUS } from '@web/types/post';
 import { DndController } from '@web/components/common';
 import { EditPageProps } from './types';
@@ -30,67 +30,64 @@ export default function Edit({ params }: EditPageProps) {
     posts.data.posts[POST_STATUS.READY_TO_UPLOAD].length > 0;
 
   return (
-    <div className={style.mainStyle} ref={scrollRef}>
-      <NavBar
-        leftAddon={
-          <Breadcrumb>
-            <MainBreadcrumbItem href={ROUTES.HOME.DETAIL(params.agentId)} />
-            <Breadcrumb.Item active className={style.breadcrumbItemStyle}>
-              {posts.data.postGroup.topic}
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        }
-        rightAddon={
-          <Button
-            type="submit"
-            size="large"
-            variant="primary"
-            leftAddon={<Icon name="checkCalendar" size={20} />}
-            onClick={() =>
-              router.push(
-                ROUTES.EDIT.SCHEDULE({
-                  agentId: params.agentId,
-                  postGroupId: params.postGroupId,
-                })
-              )
-            }
-            disabled={!hasReadyToUploadPosts}
-            className={style.submitButtonStyle}
-          >
-            예약하러 가기
-          </Button>
-        }
-        isScrolled={isScrolled}
-      />
+    <>
+      <div className={style.mainStyle} ref={scrollRef}>
+        <NavBar
+          leftAddon={
+            <Breadcrumb>
+              <MainBreadcrumbItem href={ROUTES.HOME.DETAIL(params.agentId)} />
+              <Breadcrumb.Item active className={style.breadcrumbItemStyle}>
+                {posts.data.postGroup.topic}
+              </Breadcrumb.Item>
+            </Breadcrumb>
+          }
+          isScrolled={isScrolled}
+        />
 
-      <DndController
-        initialItems={posts.data.posts}
-        key={Object.values(posts.data.posts)
-          .flat()
-          .map((item) => `${item.id}-${item.displayOrder}-${item.status}`)
-          .join(',')}
-        onDragEnd={(updatedItems) => {
-          const updatePayload = {
-            posts: Object.values(updatedItems)
-              .flat()
-              .map((item) => ({
-                postId: item.id,
-                status: item.status,
-                displayOrder: item.displayOrder,
-                uploadTime: item.uploadTime,
-              })),
-          };
-          updatePosts(updatePayload);
-        }}
-        renderDragOverlay={(activeItem) => (
-          <ContentItem
-            summary={activeItem.summary}
-            updatedAt={activeItem.updatedAt}
-          />
-        )}
+        <DndController
+          initialItems={posts.data.posts}
+          key={Object.values(posts.data.posts)
+            .flat()
+            .map((item) => `${item.id}-${item.displayOrder}-${item.status}`)
+            .join(',')}
+          onDragEnd={(updatedItems) => {
+            const updatePayload = {
+              posts: Object.values(updatedItems)
+                .flat()
+                .map((item) => ({
+                  postId: item.id,
+                  status: item.status,
+                  displayOrder: item.displayOrder,
+                  uploadTime: item.uploadTime,
+                })),
+            };
+            updatePosts(updatePayload);
+          }}
+          renderDragOverlay={(activeItem) => (
+            <ContentItem
+              summary={activeItem.summary}
+              updatedAt={activeItem.updatedAt}
+            />
+          )}
+        >
+          <EditContent params={params} />
+        </DndController>
+      </div>
+      <FixedBottomCTA
+        type="submit"
+        leftAddon={<Icon name="checkCalendar" size={20} />}
+        onClick={() =>
+          router.push(
+            ROUTES.EDIT.SCHEDULE({
+              agentId: params.agentId,
+              postGroupId: params.postGroupId,
+            })
+          )
+        }
+        disabled={!hasReadyToUploadPosts}
       >
-        <EditContent params={params} />
-      </DndController>
-    </div>
+        예약하러 가기
+      </FixedBottomCTA>
+    </>
   );
 }
