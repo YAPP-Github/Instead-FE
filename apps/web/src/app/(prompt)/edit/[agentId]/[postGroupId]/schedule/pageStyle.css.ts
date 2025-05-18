@@ -32,10 +32,6 @@ export const dndSectionStyle = style({
   margin: '0 auto',
 });
 
-export const submitButtonStyle = style({
-  fontSize: vars.typography.fontSize[18],
-});
-
 export const buttonWrapperStyle = style({
   display: 'flex',
   alignItems: 'center',

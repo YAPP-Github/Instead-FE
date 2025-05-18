@@ -29,11 +29,6 @@ export const PURPOSE_OPTIONS = [
     label: '의견 표출',
   },
   {
-    value: PURPOSE_TYPE.HUMOR,
-    icon: 'smile',
-    label: '공감/유머',
-  },
-  {
     value: PURPOSE_TYPE.MARKETING,
     icon: 'shopping',
     label: '홍보/마케팅',
@@ -58,23 +53,5 @@ export const REFERENCE_OPTIONS = [
     icon: 'picture',
     label: '이미지를 참고해 글 생성',
     description: '첨부한 이미지 기반',
-  },
-] as const;
-
-export const LENGTH_OPTIONS = [
-  {
-    value: LENGTH_TYPE.SHORT,
-    label: '짧은 게시물',
-    description: '약 1~2문장, 최대 140자',
-  },
-  {
-    value: LENGTH_TYPE.MEDIUM,
-    label: '보통 게시물',
-    description: '약 3~4문장, 최대 300자',
-  },
-  {
-    value: LENGTH_TYPE.LONG,
-    label: '긴 게시물',
-    description: '약 7~8문장, 최대 1000자',
   },
 ] as const;

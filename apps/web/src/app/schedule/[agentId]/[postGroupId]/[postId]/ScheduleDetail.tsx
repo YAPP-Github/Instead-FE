@@ -62,13 +62,7 @@ export default function ScheduleDetail({ params }: ScheduleDetailPageProps) {
       confirmButtonProps: {
         onClick: async () => {
           deletePost(Number(params.postId), {
-            onSuccess: () =>
-              router.push(
-                ROUTES.EDIT.ROOT({
-                  agentId: params.agentId,
-                  postGroupId: params.postGroupId,
-                })
-              ),
+            onSuccess: () => router.back(),
           });
         },
       },
@@ -108,7 +102,7 @@ export default function ScheduleDetail({ params }: ScheduleDetailPageProps) {
             <IconButton
               icon="x"
               iconType="stroke"
-              onClick={() => router.push(ROUTES.HOME.DETAIL(params.agentId))}
+              onClick={() => router.back()}
             />
           </div>
         }

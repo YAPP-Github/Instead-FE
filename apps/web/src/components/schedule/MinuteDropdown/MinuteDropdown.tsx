@@ -1,23 +1,22 @@
 'use client';
 
 import { Dropdown } from '@repo/ui';
-import * as styles from './MinuteDropdown.css';
+import { DropdownTriggerWithArrow } from '../DropdownTriggerWithArrow/DropdownTriggerWithArrow';
 
 type MinuteDropdownProps = {
   value?: string;
   onChange: (value: string) => void;
 };
 
-const minutes = ['00', '30'];
 export function MinuteDropdown({
   value = '00',
   onChange,
 }: MinuteDropdownProps) {
   return (
     <Dropdown value={value} onValueChange={onChange}>
-      <Dropdown.Trigger className={styles.trigger}>{value}분</Dropdown.Trigger>
+      <DropdownTriggerWithArrow>{value}분</DropdownTriggerWithArrow>
       <Dropdown.Content>
-        {minutes.map((minute) => (
+        {MINUTES.map((minute) => (
           <Dropdown.Item key={minute} value={minute}>
             {minute}분
           </Dropdown.Item>
@@ -26,3 +25,5 @@ export function MinuteDropdown({
     </Dropdown>
   );
 }
+
+const MINUTES = ['00', '30'] as const;

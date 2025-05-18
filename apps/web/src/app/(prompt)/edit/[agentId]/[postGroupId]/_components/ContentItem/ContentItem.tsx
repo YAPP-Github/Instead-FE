@@ -31,7 +31,7 @@ export type ContentItemProps = {
   /**
    * 이미지 URL. 제공되지 않으면 기본 아이콘이 표시됩니다.
    */
-  image?: PostImage | undefined;
+  image?: PostImage;
   /**
    * 표시할 제목 텍스트.
    */
@@ -141,7 +141,7 @@ export const ContentItem = forwardRef<HTMLDivElement, ContentItemProps>(
               fontWeight="medium"
               color="grey400"
             >
-              {`${getTimeAgo(updatedAt)}`}
+              {getTimeAgo(updatedAt)}
             </Text>
           </>
         )}

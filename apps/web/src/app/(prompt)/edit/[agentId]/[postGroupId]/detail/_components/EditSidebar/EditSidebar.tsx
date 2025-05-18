@@ -23,7 +23,7 @@ import { Post, POST_STATUS } from '@web/types/post';
 import { IconButton } from '@repo/ui/IconButton';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useCreateMorePostsMutation } from '@web/store/mutation/useCreateMorePostsMutation';
-import { useModal, useToast } from '@repo/ui/hooks';
+import { useModal } from '@repo/ui/hooks';
 import { Modal } from '@repo/ui/Modal';
 import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation';
 import { DetailPageContext } from '../../EditDetail';
@@ -43,7 +43,6 @@ import { isEmptyStringOrNil } from '@web/utils';
 
 function EditSidebarContent() {
   const modal = useModal();
-  const toast = useToast();
   const { loadingPosts, setLoadingPosts } = useContext(DetailPageContext);
   const { agentId, postGroupId } = useParams();
   const router = useRouter();
