@@ -5,6 +5,8 @@ import { MinuteDropdown } from '../MinuteDropdown/MinuteDropdown';
 import { Post } from '@web/types';
 import { useFormContext, Controller } from 'react-hook-form';
 import { Column } from '@web/components/common';
+import { isNil } from '@repo/ui/utils';
+import { AMPMDropdown } from '../AMPMDropdown/AMPMDropdown';
 
 export function ScheduleRows({
   columns,
@@ -16,7 +18,7 @@ export function ScheduleRows({
   const { control } = useFormContext();
 
   return (
-    <tbody>
+    <div>
       {data.map((_, index) => (
         <Table.Row
           key={`row-${index}`}
@@ -32,20 +34,36 @@ export function ScheduleRows({
                     <DateDropdown
                       value={field.value}
                       onChange={(date) => {
-                        if (date) {
-                          const localDate = new Date(date);
-                          const utcDate = new Date(
-                            Date.UTC(
-                              localDate.getFullYear(),
-                              localDate.getMonth(),
-                              localDate.getDate()
-                            )
-                          );
-                          field.onChange(utcDate.toISOString().split('T')[0]); // YYYY-MM-DD 형식으로 변환하여 폼에 반영
-                        } else {
-                          field.onChange(null); // 날짜가 선택되지 않은 경우
+                        // 날짜가 선택되지 않은 경우
+                        if (isNil(date)) {
+                          field.onChange(null);
                         }
+
+                        const localDate = new Date(date);
+                        const utcDate = new Date(
+                          Date.UTC(
+                            localDate.getFullYear(),
+                            localDate.getMonth(),
+                            localDate.getDate()
+                          )
+                        );
+                        field.onChange(utcDate.toISOString().split('T')[0]); // YYYY-MM-DD 형식으로 변환하여 폼에 반영
                       }}
+                    />
+                  )}
+                />
+              ),
+            },
+            {
+              id: 'amPm',
+              component: (
+                <Controller
+                  control={control}
+                  name={`schedules.${index}.amPm`}
+                  render={({ field }) => (
+                    <AMPMDropdown
+                      value={field.value}
+                      onChange={field.onChange}
                     />
                   )}
                 />
@@ -81,9 +99,10 @@ export function ScheduleRows({
                 />
               ),
             },
+            { id: 'action', component: null },
           ]}
         />
       ))}
-    </tbody>
+    </div>
   );
 }

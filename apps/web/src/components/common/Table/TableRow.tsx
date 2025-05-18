@@ -10,7 +10,7 @@ export type CellData = {
 export type TableRowProps = {
   columns: Column[];
   cells: CellData[];
-} & ComponentPropsWithoutRef<'tr'>;
+} & ComponentPropsWithoutRef<'div'>;
 
 export function TableRow({
   columns,
@@ -18,19 +18,20 @@ export function TableRow({
   className,
   ...restProps
 }: TableRowProps) {
+  const gridTemplateColumns = columns.map((c) => c.width).join(' ');
+
   return (
-    <tr className={`${style.tableRowStyle} ${className}`} {...restProps}>
-      {cells.map((cell, index) => (
-        <td
-          key={cell.id}
-          className={style.tableRowCellStyle}
-          style={{
-            width: columns[index]?.width,
-          }}
-        >
+    <div
+      className={`${style.tableRowStyle} ${className}`}
+      style={{ display: 'grid', gridTemplateColumns }}
+      role="row"
+      {...restProps}
+    >
+      {cells.map((cell) => (
+        <div key={cell.id} className={style.tableRowCellStyle} role="cell">
           {cell.component}
-        </td>
+        </div>
       ))}
-    </tr>
+    </div>
   );
 }

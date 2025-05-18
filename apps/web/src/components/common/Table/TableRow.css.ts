@@ -6,6 +6,8 @@ export const tableRowStyle = style({
 });
 
 export const tableRowCellStyle = style({
+  display: 'flex',
+  alignItems: 'center',
   borderBottom: `0.1rem solid ${vars.colors.grey100}`,
   padding: `${vars.space[16]} 0`,
   selectors: {
