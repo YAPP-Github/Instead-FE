@@ -3,7 +3,7 @@
 import { useScroll } from '@web/hooks';
 import * as style from './pageStyle.css';
 import { NavBar, MainBreadcrumbItem } from '@web/components/common';
-import { Breadcrumb, Button, FixedBottomCTA, Icon } from '@repo/ui';
+import { Breadcrumb, FixedBottomCTA, Icon } from '@repo/ui';
 import { POST_STATUS } from '@web/types/post';
 import { DndController } from '@web/components/common';
 import { EditPageProps } from './types';
