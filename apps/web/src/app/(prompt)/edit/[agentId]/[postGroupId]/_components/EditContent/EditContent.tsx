@@ -25,7 +25,12 @@ type PromptForm = UpdatePromptRequest;
 export function EditContent({ params }: EditPageProps) {
   const modal = useModal();
   const { getItemsByStatus } = useDndController();
-  const isExistEditingPost = getItemsByStatus(POST_STATUS.EDITING).length > 0;
+
+  const editingItems = getItemsByStatus(POST_STATUS.EDITING);
+  const generatedItems = getItemsByStatus(POST_STATUS.GENERATED);
+  const readyToUploadItems = getItemsByStatus(POST_STATUS.READY_TO_UPLOAD);
+
+  const isExistEditingPost = editingItems.length > 0;
   const methods = useForm<PromptForm>({
     defaultValues: {
       prompt: '',
@@ -70,9 +75,7 @@ export function EditContent({ params }: EditPageProps) {
   };
 
   const onSubmit = (data: PromptForm) => {
-    const editingPostIds = getItemsByStatus(POST_STATUS.EDITING).map(
-      (item) => item.id
-    );
+    const editingPostIds = editingItems.map((item) => item.id);
 
     updatePrompt({
       prompt: data.prompt,
@@ -111,11 +114,9 @@ export function EditContent({ params }: EditPageProps) {
             <div className={style.contentInnerWrapper}>
               <DndController.Droppable id={POST_STATUS.GENERATED}>
                 <DndController.SortableList
-                  items={getItemsByStatus(POST_STATUS.GENERATED).map(
-                    (item) => item.id
-                  )}
+                  items={generatedItems.map((item) => item.id)}
                 >
-                  {getItemsByStatus(POST_STATUS.GENERATED).map((item) => (
+                  {generatedItems.map((item) => (
                     <DndController.Item
                       className={dndItem}
                       id={item.id}
@@ -167,15 +168,11 @@ export function EditContent({ params }: EditPageProps) {
           </Accordion.Trigger>
           <Accordion.Content id={POST_STATUS.EDITING}>
             {isUpdatePromptPending ? (
-              <SkeletonContentItem
-                length={getItemsByStatus(POST_STATUS.EDITING).length}
-              />
+              <SkeletonContentItem length={editingItems.length} />
             ) : (
               <DndController.Droppable id={POST_STATUS.EDITING}>
                 <DndController.SortableList
-                  items={getItemsByStatus(POST_STATUS.EDITING).map(
-                    (item) => item.id
-                  )}
+                  items={editingItems.map((item) => item.id)}
                 >
                   {isExistEditingPost && (
                     <FormProvider {...methods}>
@@ -199,7 +196,7 @@ export function EditContent({ params }: EditPageProps) {
                     </FormProvider>
                   )}
                   {isExistEditingPost ? (
-                    getItemsByStatus(POST_STATUS.EDITING).map((item) => (
+                    editingItems.map((item) => (
                       <DndController.Item
                         className={dndItem}
                         id={item.id}
@@ -241,12 +238,11 @@ export function EditContent({ params }: EditPageProps) {
           <Accordion.Content id={POST_STATUS.READY_TO_UPLOAD}>
             <DndController.Droppable id={POST_STATUS.READY_TO_UPLOAD}>
               <DndController.SortableList
-                items={getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).map(
-                  (item) => item.id
-                )}
+                items={readyToUploadItems.map((item) => item.id)}
               >
-                {getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).length > 0 ? (
-                  getItemsByStatus(POST_STATUS.READY_TO_UPLOAD).map((item) => (
+                readyToUploadItems
+                {readyToUploadItems.length > 0 ? (
+                  readyToUploadItems.map((item) => (
                     <DndController.Item
                       className={dndItem}
                       id={item.id}
