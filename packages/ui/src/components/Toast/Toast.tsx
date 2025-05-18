@@ -21,6 +21,11 @@ export type ToastProps = {
    */
   toastType?: ToastType;
   /**
+   * 토스트 위치
+   * @default 'bottom'
+   */
+  toastPosition?: 'top' | 'bottom';
+  /**
    * 왼쪽 추가 요소 (아이콘 등)
    */
   leftAddon?: ReactNode;
@@ -55,6 +60,7 @@ const ToastComponent = forwardRef<HTMLDivElement, ToastProps>(
   (
     {
       toastType = 'default',
+      toastPosition = 'top',
       leftAddon,
       duration = 2000,
       children,
@@ -92,10 +98,16 @@ const ToastComponent = forwardRef<HTMLDivElement, ToastProps>(
         {open && (
           <motion.div
             ref={mergeRefs(ref, toastRef)}
-            className={styles.container}
-            initial={{ y: '120%', opacity: 0 }}
+            className={styles.container({ toastPosition })}
+            initial={{
+              y: toastPosition === 'top' ? '-120%' : '120%',
+              opacity: 0,
+            }}
             animate={{ y: 0, opacity: 1 }}
-            exit={{ y: '120%', opacity: 0 }}
+            exit={{
+              y: toastPosition === 'top' ? '-120%' : '120%',
+              opacity: 0,
+            }}
             transition={{
               type: 'spring',
               damping: 25,

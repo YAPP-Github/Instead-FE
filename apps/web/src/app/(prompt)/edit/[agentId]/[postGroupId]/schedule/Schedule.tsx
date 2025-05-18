@@ -7,7 +7,6 @@ import { Breadcrumb, Button, FixedBottomCTA, Icon, Label } from '@repo/ui';
 import { DndController } from '@web/components/common';
 import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
 import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
-import { SideBar } from './_components/SideBar/SideBar';
 import { TitleWithDescription } from '@web/components/common/TitleWithDescription/TitleWithDescription';
 import { useRouter } from 'next/navigation';
 import { ScheduleTable } from '@web/components/schedule/ScheduleTable/ScheduleTable';
@@ -20,9 +19,7 @@ import { validateScheduleDate } from '@web/utils/validateScheduleDate';
 import { useToast } from '@repo/ui/hooks';
 import { isNotNil } from '@repo/ui/utils';
 import { getCurrentDateKo } from './utils/getCurrentDateKo';
-import { CountDropdown } from './_components/CountDropdown/CountDropdown';
-import { StartDateDropdown } from './_components/StartDateDropdown/StartDateDropdown';
-import { WhenDropdown } from './_components/WhenDropdown/WhenDropdown';
+import { getFormattedHourByAMPM } from '@web/utils';
 
 export default function Schedule({ params }: EditPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLFormElement>({
@@ -38,8 +35,9 @@ export default function Schedule({ params }: EditPageProps) {
     defaultValues: {
       schedules: readyToUploadPosts.map((post) => ({
         postId: post.id,
+        amPm: '오전',
         date: getCurrentDateKo(),
-        hour: '00',
+        hour: '12',
         minute: '00',
       })),
     },
@@ -50,11 +48,16 @@ export default function Schedule({ params }: EditPageProps) {
       if (
         isNotNil(schedule.date) &&
         isNotNil(schedule.hour) &&
-        isNotNil(schedule.minute)
+        isNotNil(schedule.minute) &&
+        isNotNil(schedule.amPm)
       ) {
+        const formattedHour = getFormattedHourByAMPM(
+          schedule.hour,
+          schedule.amPm
+        );
         return validateScheduleDate(
           schedule.date,
-          schedule.hour,
+          formattedHour,
           schedule.minute
         );
       }
@@ -67,12 +70,19 @@ export default function Schedule({ params }: EditPageProps) {
     }
 
     const updatePayload = {
-      posts: readyToUploadPosts.map((post, index) => ({
-        postId: post.id,
-        status: POST_STATUS.UPLOAD_RESERVED,
-        displayOrder: post.displayOrder,
-        uploadTime: `${data.schedules[index]?.date}T${data.schedules[index]?.hour}:${data.schedules[index]?.minute}:00`, // TODO: 임시 구현. 추후 타입 가드 필요
-      })),
+      posts: readyToUploadPosts.map((post, index) => {
+        const hour = data.schedules[index]?.hour ?? '00';
+        const amPm = data.schedules[index]?.amPm ?? '오전';
+        const date = data.schedules[index]?.date ?? getCurrentDateKo();
+        const minute = data.schedules[index]?.minute ?? '00';
+
+        return {
+          postId: post.id,
+          status: POST_STATUS.UPLOAD_RESERVED,
+          displayOrder: post.displayOrder,
+          uploadTime: `${date}T${getFormattedHourByAMPM(hour, amPm)}:${minute}:00`,
+        };
+      }),
     };
 
     updatePosts(updatePayload, {

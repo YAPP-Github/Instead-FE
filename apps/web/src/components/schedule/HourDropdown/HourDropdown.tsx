@@ -1,19 +1,19 @@
 'use client';
 
 import { Dropdown } from '@repo/ui';
-import * as styles from './HourDropdown.css';
+import { DropdownTriggerWithArrow } from '../DropdownTriggerWithArrow/DropdownTriggerWithArrow';
 
 type HourDropdownProps = {
   value?: string;
   onChange?: (value: string) => void;
 };
 
-export function HourDropdown({ value = '00', onChange }: HourDropdownProps) {
+export function HourDropdown({ value = '12', onChange }: HourDropdownProps) {
   return (
     <Dropdown value={value} onValueChange={onChange}>
-      <Dropdown.Trigger className={styles.trigger}>{value}시</Dropdown.Trigger>
+      <DropdownTriggerWithArrow>{value}시</DropdownTriggerWithArrow>
       <Dropdown.Content>
-        {hours.map((hour) => (
+        {HOURS.map((hour) => (
           <Dropdown.Item key={hour} value={hour}>
             {hour}시
           </Dropdown.Item>
@@ -23,8 +23,7 @@ export function HourDropdown({ value = '00', onChange }: HourDropdownProps) {
   );
 }
 
-const hours = [
-  '00',
+const HOURS = [
   '01',
   '02',
   '03',
@@ -37,15 +36,4 @@ const hours = [
   '10',
   '11',
   '12',
-  '13',
-  '14',
-  '15',
-  '16',
-  '17',
-  '18',
-  '19',
-  '20',
-  '21',
-  '22',
-  '23',
-];
+] as const;
