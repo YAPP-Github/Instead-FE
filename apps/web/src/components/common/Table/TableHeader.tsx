@@ -6,19 +6,19 @@ export type TableHeaderProps = {
 };
 
 export function TableHeader({ columns }: TableHeaderProps) {
+  const gridTemplateColumns = columns.map((c) => c.width).join(' ');
+
   return (
-    <thead>
-      <tr className={style.headerRow}>
-        {columns.map((column) => (
-          <th
-            key={column.id}
-            className={style.headerCell}
-            style={{ width: column.width }}
-          >
-            {column.label}
-          </th>
-        ))}
-      </tr>
-    </thead>
+    <div
+      className={style.headerRow}
+      style={{ display: 'grid', gridTemplateColumns }}
+      role="row"
+    >
+      {columns.map((column) => (
+        <div key={column.id} className={style.headerCell} role="columnheader">
+          {column.label}
+        </div>
+      ))}
+    </div>
   );
 }
