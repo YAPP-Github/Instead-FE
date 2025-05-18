@@ -7,7 +7,6 @@ import {
   RadioCards,
   Breadcrumb,
   Icon,
-  Button,
   Modal,
   FixedBottomCTA,
 } from '@repo/ui';
@@ -132,7 +131,11 @@ export default function Create({ params }: CreatePageProps) {
         <AnimatedTitle>어떤 글을 생성할까요?</AnimatedTitle>
 
         <AnimatedContainer>
-          <form className={styles.contentStyle}>
+          <form
+            id="create"
+            className={styles.contentStyle}
+            onSubmit={handleSubmit(onSubmit)}
+          >
             {/* 생성 방식 */}
             <section className={styles.sectionStyle}>
               <Label>생성 방식</Label>
@@ -260,6 +263,7 @@ export default function Create({ params }: CreatePageProps) {
       </div>
       <FixedBottomCTA
         type="submit"
+        id="create"
         leftAddon={<Icon name="twinkle" />}
         onClick={handleSubmit(onSubmit)}
         disabled={isSubmitDisabled}

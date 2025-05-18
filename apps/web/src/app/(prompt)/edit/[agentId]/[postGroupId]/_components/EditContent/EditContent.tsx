@@ -240,7 +240,6 @@ export function EditContent({ params }: EditPageProps) {
               <DndController.SortableList
                 items={readyToUploadItems.map((item) => item.id)}
               >
-                readyToUploadItems
                 {readyToUploadItems.length > 0 ? (
                   readyToUploadItems.map((item) => (
                     <DndController.Item
