@@ -79,7 +79,9 @@ export default function Create({ params }: CreatePageProps) {
   };
 
   const isSubmitDisabled =
-    isEmptyStringOrNil(topic) || isEmptyStringOrNil(watch('newsCategory'));
+    isEmptyStringOrNil(topic) ||
+    (reference === REFERENCE_TYPE.NEWS &&
+      isEmptyStringOrNil(watch('newsCategory')));
 
   const handleImageUpload = async (files: File[]) => {
     const uploadedUrls = await uploadImages(files);
