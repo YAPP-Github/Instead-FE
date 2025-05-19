@@ -8,7 +8,6 @@ import { ScheduleDetailPageProps } from './type';
 import { getPostQueryOptions } from '@web/store/query/useGetPostQuery';
 import { getTopicQueryOptions } from '@web/store/query/useGetTopicQuery';
 import { Suspense } from 'react';
-import Loading from '@web/app/loading';
 
 export default function ScheduleDetailPage({
   params,
@@ -30,7 +29,7 @@ export default function ScheduleDetailPage({
 
   return (
     <ServerFetchBoundary fetchOptions={serverFetchOptions}>
-      <Suspense fallback={<Loading />}>
+      <Suspense>
         <ScheduleDetail params={params} />
       </Suspense>
     </ServerFetchBoundary>
