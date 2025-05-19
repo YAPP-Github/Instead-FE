@@ -263,9 +263,8 @@ export default function Create({ params }: CreatePageProps) {
       </div>
       <FixedBottomCTA
         type="submit"
-        id="create"
+        form="create"
         leftAddon={<Icon name="twinkle" />}
-        onClick={handleSubmit(onSubmit)}
         disabled={isSubmitDisabled}
         isLoading={isPending}
       >

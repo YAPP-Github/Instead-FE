@@ -96,7 +96,12 @@ export default function Schedule({ params }: EditPageProps) {
   return (
     <>
       <FormProvider {...methods}>
-        <form onSubmit={onSubmit} className={style.mainStyle} ref={scrollRef}>
+        <form
+          id="schedule-form"
+          onSubmit={onSubmit}
+          className={style.mainStyle}
+          ref={scrollRef}
+        >
           <NavBar
             leftAddon={
               <Breadcrumb>
@@ -155,7 +160,11 @@ export default function Schedule({ params }: EditPageProps) {
           </div>
         </form>
       </FormProvider>
-      <FixedBottomCTA type="submit" leftAddon={<Icon name="check" size={20} />}>
+      <FixedBottomCTA
+        type="submit"
+        form="schedule-form"
+        leftAddon={<Icon name="check" size={20} />}
+      >
         예약 완료
       </FixedBottomCTA>
     </>
