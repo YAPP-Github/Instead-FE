@@ -19,3 +19,6 @@ export type {
   CellData,
 } from './Table/Table';
 export type { Column } from './Table/types';
+
+export { BreadcrumbItemContent } from './BreadcrumbContent/BreadcrumbContent';
+export { BreadcrumbItemContentSkelton } from './BreadcrumbContent/BreadcrumbItemContentSkelton';

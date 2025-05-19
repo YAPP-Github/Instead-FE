@@ -2,8 +2,12 @@
 
 import { useScroll } from '@web/hooks';
 import * as style from './pageStyle.css';
-import { NavBar, MainBreadcrumbItem } from '@web/components/common';
-import { Breadcrumb, Button, FixedBottomCTA, Icon, Skeleton } from '@repo/ui';
+import {
+  NavBar,
+  MainBreadcrumbItem,
+  BreadcrumbItemContentSkelton,
+} from '@web/components/common';
+import { Breadcrumb, Button, FixedBottomCTA, Icon } from '@repo/ui';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@web/routes';
 import { useForm, FormProvider } from 'react-hook-form';
@@ -17,7 +21,7 @@ import { ScheduleContentSkeleton } from './_components/ScheduleContent/ScheduleC
 import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
 import { POST_STATUS } from '@web/types';
 import { EditPageProps, ScheduleFormValues } from '../types';
-import { BreadcrumbItemContent } from '../detail/_components/BreadcrumbContent/BreadcrumbContent';
+import { BreadcrumbItemContent } from '@web/components/common';
 
 export default function Schedule({ params }: EditPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLFormElement>({
@@ -92,11 +96,7 @@ export default function Schedule({ params }: EditPageProps) {
             leftAddon={
               <Breadcrumb>
                 <MainBreadcrumbItem href={ROUTES.HOME.DETAIL(params.agentId)} />
-                <Suspense
-                  fallback={
-                    <Skeleton width="12rem" height="3.2rem" radius={10} />
-                  }
-                >
+                <Suspense fallback={<BreadcrumbItemContentSkelton />}>
                   <BreadcrumbItemContent
                     agentId={params.agentId}
                     postGroupId={params.postGroupId}
