@@ -3,43 +3,33 @@
 import { useScroll } from '@web/hooks';
 import * as style from './pageStyle.css';
 import { NavBar, MainBreadcrumbItem } from '@web/components/common';
-import { Breadcrumb, Button, FixedBottomCTA, Icon } from '@repo/ui';
-import { DndController } from '@web/components/common';
-import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
-import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
-import { TitleWithDescription } from '@web/components/common/TitleWithDescription/TitleWithDescription';
+import { Breadcrumb, Button, FixedBottomCTA, Icon, Skeleton } from '@repo/ui';
 import { useRouter } from 'next/navigation';
-import { ScheduleTable } from '@web/components/schedule/ScheduleTable/ScheduleTable';
-import { EditPageProps } from '../types';
 import { ROUTES } from '@web/routes';
-import { POST_STATUS } from '@web/types';
-import { ContentItem } from '../_components/ContentItem/ContentItem';
 import { useForm, FormProvider } from 'react-hook-form';
 import { validateScheduleDate } from '@web/utils/validateScheduleDate';
 import { useToast } from '@repo/ui/hooks';
 import { isNotNil } from '@repo/ui/utils';
-import { getCurrentDateKo } from './utils/getCurrentDateKo';
 import { getFormattedHourByAMPM } from '@web/utils';
+import { Suspense } from 'react';
+import { ScheduleContent } from './_components/ScheduleContent/ScheduleContent';
+import { ScheduleContentSkeleton } from './_components/ScheduleContent/ScheduleContentSkeleton';
+import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
+import { POST_STATUS } from '@web/types';
+import { EditPageProps, ScheduleFormValues } from '../types';
+import { BreadcrumbItemContent } from '../detail/_components/BreadcrumbContent/BreadcrumbContent';
 
 export default function Schedule({ params }: EditPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLFormElement>({
     threshold: 100,
   });
-  const { data: posts } = useGetAllPostsQuery(params);
-  const { mutate: updatePosts } = useUpdatePostsMutation(params);
-  const readyToUploadPosts = posts.data.posts.READY_TO_UPLOAD;
   const router = useRouter();
   const toast = useToast();
+  const { mutate: updatePosts } = useUpdatePostsMutation(params);
 
-  const methods = useForm({
+  const methods = useForm<ScheduleFormValues>({
     defaultValues: {
-      schedules: readyToUploadPosts.map((post) => ({
-        postId: post.id,
-        amPm: '오전',
-        date: getCurrentDateKo(),
-        hour: '12',
-        minute: '00',
-      })),
+      schedules: [],
     },
   });
 
@@ -69,28 +59,24 @@ export default function Schedule({ params }: EditPageProps) {
       return;
     }
 
-    const updatePayload = {
-      posts: readyToUploadPosts.map((post, index) => {
-        const hour = data.schedules[index]?.hour ?? '00';
-        const amPm = data.schedules[index]?.amPm ?? '오전';
-        const date = data.schedules[index]?.date ?? getCurrentDateKo();
-        const minute = data.schedules[index]?.minute ?? '00';
-
-        return {
-          postId: post.id,
+    updatePosts(
+      {
+        posts: data.schedules.map((schedule) => ({
+          postId: schedule.postId,
           status: POST_STATUS.UPLOAD_RESERVED,
-          displayOrder: post.displayOrder,
-          uploadTime: `${date}T${getFormattedHourByAMPM(hour, amPm)}:${minute}:00`,
-        };
-      }),
-    };
-
-    updatePosts(updatePayload, {
-      onSuccess: () => {
-        toast.success('예약이 완료되었어요');
-        router.push(ROUTES.HOME.DETAIL(params.agentId));
+          uploadTime: `${schedule.date}T${getFormattedHourByAMPM(
+            schedule.hour,
+            schedule.amPm
+          )}:${schedule.minute}:00`,
+        })),
       },
-    });
+      {
+        onSuccess: () => {
+          toast.success('예약이 완료되었어요');
+          router.push(ROUTES.HOME.DETAIL(params.agentId));
+        },
+      }
+    );
   });
 
   return (
@@ -106,9 +92,16 @@ export default function Schedule({ params }: EditPageProps) {
             leftAddon={
               <Breadcrumb>
                 <MainBreadcrumbItem href={ROUTES.HOME.DETAIL(params.agentId)} />
-                <Breadcrumb.Item active className={style.breadcrumbItemStyle}>
-                  {posts.data.postGroup.topic}
-                </Breadcrumb.Item>
+                <Suspense
+                  fallback={
+                    <Skeleton width="12rem" height="3.2rem" radius={10} />
+                  }
+                >
+                  <BreadcrumbItemContent
+                    agentId={params.agentId}
+                    postGroupId={params.postGroupId}
+                  />
+                </Suspense>
               </Breadcrumb>
             }
             rightAddon={
@@ -133,30 +126,12 @@ export default function Schedule({ params }: EditPageProps) {
             isScrolled={isScrolled}
           />
           <div className={style.contentWrapperStyle}>
-            <div className={style.dndSectionStyle}>
-              <TitleWithDescription
-                title="업로드 예약 일정"
-                rightTitle={readyToUploadPosts.length.toString()}
-                description="개별 글의 업로드 날짜와 순서를 변경할 수 있어요"
+            <Suspense fallback={<ScheduleContentSkeleton />}>
+              <ScheduleContent
+                agentId={params.agentId}
+                postGroupId={params.postGroupId}
               />
-              <DndController
-                initialItems={posts.data.posts}
-                key={Object.values(posts.data.posts)
-                  .flat()
-                  .map(
-                    (item) => `${item.id}-${item.displayOrder}-${item.status}`
-                  )
-                  .join(',')}
-                renderDragOverlay={(activeItem) => (
-                  <ContentItem {...activeItem} />
-                )}
-              >
-                <ScheduleTable
-                  agentId={params.agentId}
-                  postStatus={POST_STATUS.READY_TO_UPLOAD}
-                />
-              </DndController>
-            </div>
+            </Suspense>
           </div>
         </form>
       </FormProvider>
