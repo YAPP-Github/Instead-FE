@@ -7,8 +7,8 @@ import { EditPageProps } from '../types';
 export default function SchedulePage({ params }: EditPageProps) {
   const tokens = getServerSideTokens();
   const serverFetchOptions = getAllPostsQueryOptions({
-    agentId: params.agentId,
-    postGroupId: params.postGroupId,
+    agentId: Number(params.agentId),
+    postGroupId: Number(params.postGroupId),
     tokens,
   });
 

@@ -15,7 +15,10 @@ export default function SchedulePage({ params }: SchedulePageProps) {
   const serverFetchOptions = [
     getAgentQueryOptions(tokens),
     getUserQueryOptions(tokens),
-    getAgentUploadReservedQueryOptions({ agentId: params.agentId, tokens }),
+    getAgentUploadReservedQueryOptions({
+      agentId: Number(params.agentId),
+      tokens,
+    }),
   ] as FetchOptions[];
 
   return (

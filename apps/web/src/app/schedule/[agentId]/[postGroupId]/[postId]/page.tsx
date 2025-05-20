@@ -14,14 +14,14 @@ export default function ScheduleDetailPage({
   const tokens = getServerSideTokens();
   const serverFetchOptions = [
     getPostQueryOptions({
-      agentId: params.agentId,
-      postGroupId: params.postGroupId,
-      postId: params.postId,
+      agentId: Number(params.agentId),
+      postGroupId: Number(params.postGroupId),
+      postId: Number(params.postId),
       tokens,
     }),
     getTopicQueryOptions({
-      agentId: params.agentId,
-      postGroupId: params.postGroupId,
+      agentId: Number(params.agentId),
+      postGroupId: Number(params.postGroupId),
       tokens,
     }),
   ] as FetchOptions[];
