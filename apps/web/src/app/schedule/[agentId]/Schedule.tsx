@@ -162,6 +162,7 @@ export default function Schedule({ params }: SchedulePageProps) {
                 [POST_STATUS.EDITING]: [],
                 [POST_STATUS.READY_TO_UPLOAD]: [],
                 [POST_STATUS.UPLOAD_RESERVED]: reservedPosts.posts,
+                [POST_STATUS.UPLOAD_CONFIRMED]: [],
                 [POST_STATUS.UPLOADED]: [],
                 [POST_STATUS.UPLOAD_FAILED]: [],
               }}
