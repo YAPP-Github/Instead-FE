@@ -1,6 +1,10 @@
 'use client';
 
-import { MainBreadcrumbItem, NavBar } from '@web/components/common';
+import {
+  MainBreadcrumbItem,
+  NavBar,
+  UserProfileDropdown,
+} from '@web/components/common';
 import { AccountSidebar } from '../../../components/common/AccountSidebar/AccountSidebar';
 import { useScroll } from '@web/hooks';
 import { ROUTES } from '@web/routes';
@@ -10,17 +14,10 @@ import {
   background,
   cardContent,
   content,
-  dropdownItem,
-  image,
   cardColumn,
   cardRow,
   flexColumn,
 } from './page.css';
-import { Dropdown } from '@repo/ui/Dropdown';
-import Image from 'next/image';
-import { Icon } from '@repo/ui/Icon';
-import { Text } from '@repo/ui/Text';
-import { isNil } from '@repo/ui/utils';
 import { GradientAnimatedText } from '@repo/ui/GradientAnimatedText';
 import CreateImage from '@web/assets/images/createImage.webp';
 import { CTACard } from './_components/CTACard/CTACard';
@@ -30,16 +27,13 @@ import { ContentGroupCard } from './_components/ContentGroupCard/ContentGroupCar
 import { Spacing } from '@repo/ui/Spacing';
 import { getAgentDetailQueryOptions } from '@web/store/query/useGetAgentDetailQuery';
 import { getAgentPostGroupsQueryOptions } from '@web/store/query/useGetAgentPostGroupsQuery';
-import { getAgentQueryOptions } from '@web/store/query/useGetAgentQuery';
 import { getAgentUploadReservedQueryOptions } from '@web/store/query/useGetAgentUploadReserved';
-import { getUserQueryOptions } from '@web/store/query/useGetUserQuery';
 import { HomePageProps } from './types';
 import { useRouter } from 'next/navigation';
 import { Agent, PostGroupId } from '@web/types';
 import { useModal } from '@repo/ui/hooks';
 import { Modal } from '@repo/ui/Modal';
 import { useDeletePostGroupMutation } from '@web/store/mutation/useDeletePostGroupMutation';
-import { useLogoutMutation } from '@web/store/mutation/useLogoutMutation';
 import { useSuspenseQueries } from '@tanstack/react-query';
 
 export default function Home({ params }: HomePageProps) {
@@ -50,27 +44,21 @@ export default function Home({ params }: HomePageProps) {
   });
 
   const [
-    { data: user },
     { data: agentDetail },
     { data: agentUploadReserved },
     { data: agentPostGroups },
-    { data: agentData },
   ] = useSuspenseQueries({
     queries: [
-      getUserQueryOptions(),
       getAgentDetailQueryOptions({ agentId: params.agentId }),
       getAgentUploadReservedQueryOptions({ agentId: params.agentId }),
       getAgentPostGroupsQueryOptions({ agentId: params.agentId }),
-      getAgentQueryOptions(),
     ],
   });
 
   const { mutate: deletePostGroups } = useDeletePostGroupMutation({
     agentId: params.agentId,
   });
-  const { mutate: logout } = useLogoutMutation();
 
-  const userData = user.data;
   const agentDetailData = agentDetail.agentPersonalSetting;
   const agentUploadReservedData = agentUploadReserved.posts.slice(0, 5);
 
@@ -89,20 +77,6 @@ export default function Home({ params }: HomePageProps) {
     });
   };
 
-  const handleLogoutClick = () => {
-    modal.confirm({
-      title: '정말 로그아웃 하시겠어요??',
-      icon: <Modal.Icon name="notice" color="warning500" />,
-      confirmButton: '로그아웃',
-      cancelButton: '취소',
-      confirmButtonProps: {
-        onClick: () => {
-          logout();
-        },
-      },
-    });
-  };
-
   return (
     <div className={background} ref={scrollRef}>
       <NavBar
@@ -113,41 +87,12 @@ export default function Home({ params }: HomePageProps) {
             </Breadcrumb.Item>
           </Breadcrumb>
         }
-        rightAddon={
-          <Dropdown>
-            <Dropdown.Trigger>
-              {isNil(userData?.profileImage) ? (
-                <div className={image} />
-              ) : (
-                <Image
-                  className={image}
-                  width={40}
-                  height={40}
-                  src={userData.profileImage}
-                  alt={''}
-                />
-              )}
-            </Dropdown.Trigger>
-            <Dropdown.Content align="right">
-              <Dropdown.Item
-                onClick={handleLogoutClick}
-                value="option1"
-                className={dropdownItem}
-              >
-                <Icon name="logout" size="2.4rem" color="grey400" />
-                <Text fontSize={18} fontWeight="medium" color="grey1000">
-                  로그아웃
-                </Text>
-              </Dropdown.Item>
-            </Dropdown.Content>
-          </Dropdown>
-        }
+        rightAddon={<UserProfileDropdown />}
         isScrolled={isScrolled}
       />
       <div className={content}>
         <AccountSidebar
-          agentData={agentData.agents}
-          selectedId={params.agentId}
+          selectedId={Number(params.agentId)}
           onAccountClick={(id: Agent['id']) =>
             router.push(ROUTES.HOME.DETAIL(id))
           }

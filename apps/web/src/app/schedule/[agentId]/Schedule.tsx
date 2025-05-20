@@ -2,8 +2,6 @@
 
 import { SchedulePageProps } from './type';
 import { getAgentUploadReservedQueryOptions } from '@web/store/query/useGetAgentUploadReserved';
-import { getAgentQueryOptions } from '@web/store/query/useGetAgentQuery';
-import { getUserQueryOptions } from '@web/store/query/useGetUserQuery';
 import { useQueryClient, useSuspenseQueries } from '@tanstack/react-query';
 import * as style from './pageStyle.css';
 import {
@@ -11,16 +9,13 @@ import {
   MainBreadcrumbItem,
   AccountSidebar,
   DndController,
+  UserProfileDropdown,
 } from '@web/components/common';
-import { Breadcrumb, Dropdown, Icon, Text, Modal } from '@repo/ui';
-import Image from 'next/image';
+import { Breadcrumb } from '@repo/ui';
 import { useScroll } from '@web/hooks';
 import { ROUTES } from '@web/routes';
-import { isNil } from '@repo/ui/utils';
-import { useLogoutMutation } from '@web/store/mutation/useLogoutMutation';
 import { Agent, POST_STATUS } from '@web/types';
 import { useRouter } from 'next/navigation';
-import { useModal } from '@repo/ui/hooks';
 import { TitleWithDescription } from '@web/components/common/TitleWithDescription/TitleWithDescription';
 import { ScheduleTable } from '@web/components/schedule/ScheduleTable/ScheduleTable';
 import { ContentItem } from '@web/components/common/DNDController/compounds';
@@ -31,23 +26,16 @@ import { parseTime } from '@web/utils';
 import { useUpdateReservedPostsMutation } from '@web/store/mutation/useUpdateReservedPostsMutation';
 
 export default function Schedule({ params }: SchedulePageProps) {
-  const [{ data: agentData }, { data: user }, { data: reservedPosts }] =
-    useSuspenseQueries({
-      queries: [
-        getAgentQueryOptions(),
-        getUserQueryOptions(),
-        getAgentUploadReservedQueryOptions({ agentId: params.agentId }),
-      ],
-    });
+  const [{ data: reservedPosts }] = useSuspenseQueries({
+    queries: [getAgentUploadReservedQueryOptions({ agentId: params.agentId })],
+  });
 
   const { mutate: updateReservedPosts } = useUpdateReservedPostsMutation(
     params.agentId
   );
-  const { mutate: logout } = useLogoutMutation();
   const queryClient = useQueryClient();
 
   const router = useRouter();
-  const modal = useModal();
   const [scrollRef, isScrolled] = useScroll<HTMLFormElement>({
     threshold: 100,
   });
@@ -55,20 +43,6 @@ export default function Schedule({ params }: SchedulePageProps) {
   const handleAccountClick = (id: Agent['id']) => {
     queryClient.clear();
     router.push(ROUTES.HOME.DETAIL(id));
-  };
-
-  const handleLogoutClick = () => {
-    modal.confirm({
-      title: '정말 로그아웃 하시겠어요??',
-      icon: <Modal.Icon name="notice" color="warning500" />,
-      confirmButton: '로그아웃',
-      cancelButton: '취소',
-      confirmButtonProps: {
-        onClick: () => {
-          logout();
-        },
-      },
-    });
   };
 
   const methods = useForm({
@@ -113,40 +87,11 @@ export default function Schedule({ params }: SchedulePageProps) {
               </Breadcrumb.Item>
             </Breadcrumb>
           }
-          rightAddon={
-            <Dropdown>
-              <Dropdown.Trigger>
-                {isNil(user.data.profileImage) ? (
-                  <div className={style.image} />
-                ) : (
-                  <Image
-                    className={style.image}
-                    width={40}
-                    height={40}
-                    src={user.data.profileImage}
-                    alt="유저 프로필 이미지"
-                  />
-                )}
-              </Dropdown.Trigger>
-              <Dropdown.Content align="right">
-                <Dropdown.Item
-                  onClick={handleLogoutClick}
-                  value="option1"
-                  className={style.dropdownItem}
-                >
-                  <Icon name="logout" size="2.4rem" color="grey400" />
-                  <Text.P fontSize={18} fontWeight="medium" color="grey1000">
-                    로그아웃
-                  </Text.P>
-                </Dropdown.Item>
-              </Dropdown.Content>
-            </Dropdown>
-          }
+          rightAddon={<UserProfileDropdown />}
           isScrolled={isScrolled}
         />
         <AccountSidebar
-          agentData={agentData.agents}
-          selectedId={params.agentId}
+          selectedId={Number(params.agentId)}
           onAccountClick={handleAccountClick}
         />
         <div className={style.contentWrapperStyle}>

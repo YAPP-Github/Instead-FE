@@ -28,7 +28,6 @@ import { PersonalCard } from './[agentId]/_components/PersonalCard/PersonalCard'
 import { UploadContentCard } from './[agentId]/_components/UploadContentCard/UploadContentCard';
 import { ContentGroupCard } from './[agentId]/_components/ContentGroupCard/ContentGroupCard';
 import { Spacing } from '@repo/ui/Spacing';
-import { getAgentQueryOptions } from '@web/store/query/useGetAgentQuery';
 import { useRouter } from 'next/navigation';
 import { Agent } from '@web/types';
 import { getUserQueryOptions } from '@web/store/query/useGetUserQuery';
@@ -45,8 +44,8 @@ export default function Home() {
     threshold: 100,
   });
 
-  const [{ data: user }, { data: agentData }] = useSuspenseQueries({
-    queries: [getUserQueryOptions(), getAgentQueryOptions()],
+  const [{ data: user }] = useSuspenseQueries({
+    queries: [getUserQueryOptions()],
   });
 
   const { mutate: logout } = useLogoutMutation();
@@ -115,7 +114,6 @@ export default function Home() {
       />
       <div className={content}>
         <AccountSidebar
-          agentData={agentData.agents}
           onAccountClick={(id: Agent['id']) =>
             router.push(ROUTES.HOME.DETAIL(id))
           }

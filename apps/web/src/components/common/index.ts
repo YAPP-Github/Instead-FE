@@ -22,3 +22,5 @@ export type { Column } from './Table/types';
 
 export { BreadcrumbItemContent } from './BreadcrumbContent/BreadcrumbContent';
 export { BreadcrumbItemContentSkelton } from './BreadcrumbContent/BreadcrumbItemContentSkelton';
+
+export { UserProfileDropdown } from './UserProfileDropdown/UserProfileDropdown';
