@@ -10,7 +10,7 @@ import { ContentItem } from '../../../_components/ContentItem/ContentItem';
 import { IdParams } from '@web/types';
 import { useFormContext } from 'react-hook-form';
 import { useEffect } from 'react';
-import { getCurrentDateKo } from '../../utils/getCurrentDateKo';
+import { getCurrentDateKo } from '@web/utils';
 import { ScheduleFormValues } from '../../../types';
 
 type ScheduleContentProps = Omit<IdParams, 'postId'>;
