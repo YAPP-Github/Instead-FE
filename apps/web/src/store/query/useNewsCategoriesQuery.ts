@@ -1,7 +1,12 @@
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import {
+  queryOptions,
+  useQueryClient,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import { GET } from '@web/shared/server/fetch';
 import { Tokens } from '@web/shared/server/types';
 import { queryKeys } from '../constants';
+import { useEffect } from 'react';
 
 export interface NewsCategory {
   /**
@@ -29,4 +34,15 @@ export function newsCategoriesQueryOptions(tokens?: Tokens) {
 
 export function useNewsCategoriesQuery() {
   return useSuspenseQuery(newsCategoriesQueryOptions());
+}
+
+export function usePrefetchNewsCategories() {
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.news.categories,
+      queryFn: () => GET<NewsCategoriesQuery>('news-categories'),
+    });
+  }, [queryClient]);
 }

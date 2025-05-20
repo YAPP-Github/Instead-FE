@@ -35,12 +35,15 @@ import {
   NewsCategorySection,
   NewsCategorySectionSkeleton,
 } from './_components/NewsCategorySection';
+import { usePrefetchNewsCategories } from '@web/store/query/useNewsCategoriesQuery';
 
 const REQUIRED_FIELDS = {
   TOPIC: 'topic',
 } as const;
 
 export default function Create({ params }: CreatePageProps) {
+  usePrefetchNewsCategories();
+
   const { mutate: createPosts, isPending } = useCreatePostsMutation({
     agentId: params.agentId,
   });
