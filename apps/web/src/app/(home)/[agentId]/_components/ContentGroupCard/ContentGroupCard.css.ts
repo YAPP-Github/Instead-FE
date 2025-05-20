@@ -14,6 +14,7 @@ export const card = style({
 
 export const leftText = style({
   display: 'flex',
+  alignItems: 'center',
   gap: '0.8rem',
 });
 

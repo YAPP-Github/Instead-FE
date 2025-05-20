@@ -8,7 +8,6 @@ import {
 import { AccountSidebar } from '../../../components/common/AccountSidebar/AccountSidebar';
 import { useScroll } from '@web/hooks';
 import { ROUTES } from '@web/routes';
-import { Breadcrumb } from '@repo/ui/Breadcrumb';
 import {
   animatedText,
   background,
@@ -18,64 +17,25 @@ import {
   cardRow,
   flexColumn,
 } from './page.css';
-import { GradientAnimatedText } from '@repo/ui/GradientAnimatedText';
+import { Breadcrumb, GradientAnimatedText, Spacing } from '@repo/ui';
 import CreateImage from '@web/assets/images/createImage.webp';
 import { CTACard } from './_components/CTACard/CTACard';
-import { PersonalCard } from './_components/PersonalCard/PersonalCard';
-import { UploadContentCard } from './_components/UploadContentCard/UploadContentCard';
-import { ContentGroupCard } from './_components/ContentGroupCard/ContentGroupCard';
-import { Spacing } from '@repo/ui/Spacing';
-import { getAgentDetailQueryOptions } from '@web/store/query/useGetAgentDetailQuery';
-import { getAgentPostGroupsQueryOptions } from '@web/store/query/useGetAgentPostGroupsQuery';
-import { getAgentUploadReservedQueryOptions } from '@web/store/query/useGetAgentUploadReserved';
 import { HomePageProps } from './types';
 import { useRouter } from 'next/navigation';
-import { Agent, PostGroupId } from '@web/types';
-import { useModal } from '@repo/ui/hooks';
-import { Modal } from '@repo/ui/Modal';
-import { useDeletePostGroupMutation } from '@web/store/mutation/useDeletePostGroupMutation';
-import { useSuspenseQueries } from '@tanstack/react-query';
+import { Agent } from '@web/types';
+import { AgentDetailPersonalCard } from './_components/AgentDetailPersonalCard/AgentDetailPersonalCard';
+import { Suspense } from 'react';
+import { PersonalCardSkeleton } from './_components/PersonalCard/PersonalCardSkeleton';
+import { ReservedUploadContentCard } from './_components/ReservedUploadContentCard/ReservedUploadContentCard';
+import { UploadContentCardSkeleton } from './_components/UploadContentCard/UploadContentCardSkeleton';
+import { PostGroupsContentGroupCard } from './_components/PostGroupsContentGroupCard/PostGroupsContentGroupCard';
+import { ContentGroupCardSkeleton } from './_components/ContentGroupCard/ContentGroupCardSkeleton';
 
 export default function Home({ params }: HomePageProps) {
   const router = useRouter();
-  const modal = useModal();
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({
     threshold: 100,
   });
-
-  const [
-    { data: agentDetail },
-    { data: agentUploadReserved },
-    { data: agentPostGroups },
-  ] = useSuspenseQueries({
-    queries: [
-      getAgentDetailQueryOptions({ agentId: params.agentId }),
-      getAgentUploadReservedQueryOptions({ agentId: params.agentId }),
-      getAgentPostGroupsQueryOptions({ agentId: params.agentId }),
-    ],
-  });
-
-  const { mutate: deletePostGroups } = useDeletePostGroupMutation({
-    agentId: params.agentId,
-  });
-
-  const agentDetailData = agentDetail.agentPersonalSetting;
-  const agentUploadReservedData = agentUploadReserved.posts.slice(0, 5);
-
-  const handleDeletePostGroup = (postGroupId: PostGroupId) => {
-    modal.confirm({
-      title: '정말 삭제하시겠어요?',
-      description: '삭제된 글은 복구할 수 없어요',
-      icon: <Modal.Icon name="notice" color="warning500" />,
-      confirmButton: '삭제하기',
-      cancelButton: '취소',
-      confirmButtonProps: {
-        onClick: () => {
-          deletePostGroups(postGroupId);
-        },
-      },
-    });
-  };
 
   return (
     <div className={background} ref={scrollRef}>
@@ -117,51 +77,30 @@ export default function Home({ params }: HomePageProps) {
                 />
                 <Spacing size={16} />
                 {/* 개인화 설정 카드 */}
-                <PersonalCard
-                  text={'개인화 설정'}
-                  data={agentDetailData}
-                  onIconClick={() =>
-                    router.push(ROUTES.PERSONALIZE(params.agentId))
-                  }
-                />
+                <Suspense fallback={<PersonalCardSkeleton />}>
+                  <AgentDetailPersonalCard
+                    agentId={Number(params.agentId)}
+                    onIconClick={() =>
+                      router.push(ROUTES.PERSONALIZE(params.agentId))
+                    }
+                  />
+                </Suspense>
               </div>
 
               {/* 업로드 예약 일정 카드 */}
-              <UploadContentCard
-                text={'업로드 예약 일정'}
-                onMoreButtonClick={() =>
-                  router.push(ROUTES.SCHEDULE.ROOT(params.agentId))
+              <Suspense
+                fallback={
+                  <UploadContentCardSkeleton agentId={Number(params.agentId)} />
                 }
-                onItemClick={(post) => {
-                  router.push(
-                    ROUTES.SCHEDULE.DETAIL({
-                      agentId: params.agentId,
-                      postGroupId: post.postGroupId,
-                      postId: post.id,
-                    })
-                  );
-                }}
-                items={agentUploadReservedData}
-                itemLength={agentUploadReserved.posts.length}
-              />
+              >
+                <ReservedUploadContentCard agentId={Number(params.agentId)} />
+              </Suspense>
             </div>
 
             {/* 생성된 주제 카드 */}
-            <ContentGroupCard
-              text="생성된 주제"
-              postGroups={agentPostGroups.postGroups}
-              onItemClick={(postGroupId) =>
-                router.push(
-                  ROUTES.EDIT.ROOT({
-                    agentId: params.agentId,
-                    postGroupId,
-                  })
-                )
-              }
-              onItemRemove={(id) => {
-                handleDeletePostGroup(id);
-              }}
-            />
+            <Suspense fallback={<ContentGroupCardSkeleton />}>
+              <PostGroupsContentGroupCard agentId={Number(params.agentId)} />
+            </Suspense>
           </div>
           <Spacing size={40} />
         </div>

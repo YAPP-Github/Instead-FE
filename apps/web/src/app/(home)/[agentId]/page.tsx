@@ -10,33 +10,29 @@ import {
 import { HomePageProps } from './types';
 import { getUserQueryOptions } from '@web/store/query/useGetUserQuery';
 import { getAgentUploadReservedQueryOptions } from '@web/store/query/useGetAgentUploadReserved';
-import { Suspense } from 'react';
-import Loading from '@web/app/loading';
 
 export default function HomeDetailPage({ params }: HomePageProps) {
   const tokens = getServerSideTokens();
   const serverFetchOptions = [
     getAgentDetailQueryOptions({
-      agentId: params.agentId,
+      agentId: Number(params.agentId),
       tokens,
     }),
     getAgentUploadReservedQueryOptions({
-      agentId: params.agentId,
+      agentId: Number(params.agentId),
       tokens,
     }),
     getAgentPostGroupsQueryOptions({
-      agentId: params.agentId,
+      agentId: Number(params.agentId),
       tokens,
     }),
     getAgentQueryOptions(tokens),
     getUserQueryOptions(tokens),
-  ];
+  ] as FetchOptions[]; // TODO 임시 타입 단언
 
   return (
-    <ServerFetchBoundary fetchOptions={serverFetchOptions as FetchOptions[]}>
-      <Suspense fallback={<Loading />}>
-        <Home params={params} />
-      </Suspense>
+    <ServerFetchBoundary fetchOptions={serverFetchOptions}>
+      <Home params={params} />
     </ServerFetchBoundary>
   );
 }

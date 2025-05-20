@@ -1,6 +1,10 @@
 'use client';
 
-import { MainBreadcrumbItem, NavBar } from '@web/components/common';
+import {
+  MainBreadcrumbItem,
+  NavBar,
+  UserProfileDropdown,
+} from '@web/components/common';
 import { AccountSidebar } from '@web/components/common/AccountSidebar/AccountSidebar';
 import { useScroll } from '@web/hooks';
 import { ROUTES } from '@web/routes';
@@ -10,17 +14,10 @@ import {
   background,
   cardContent,
   content,
-  dropdownItem,
-  image,
   cardColumn,
   cardRow,
   flexColumn,
 } from './page.css';
-import { Dropdown } from '@repo/ui/Dropdown';
-import Image from 'next/image';
-import { Icon } from '@repo/ui/Icon';
-import { Text } from '@repo/ui/Text';
-import { isNil } from '@repo/ui/utils';
 import { GradientAnimatedText } from '@repo/ui/GradientAnimatedText';
 import CreateImage from '@web/assets/images/createImage.webp';
 import { CTACard } from './[agentId]/_components/CTACard/CTACard';
@@ -30,46 +27,19 @@ import { ContentGroupCard } from './[agentId]/_components/ContentGroupCard/Conte
 import { Spacing } from '@repo/ui/Spacing';
 import { useRouter } from 'next/navigation';
 import { Agent } from '@web/types';
-import { getUserQueryOptions } from '@web/store/query/useGetUserQuery';
-import { useLogoutMutation } from '@web/store/mutation/useLogoutMutation';
-import { useModal, useToast } from '@repo/ui/hooks';
-import { Modal } from '@repo/ui/Modal';
-import { useSuspenseQueries } from '@tanstack/react-query';
+import { useToast } from '@repo/ui/hooks';
 
 export default function Home() {
   const router = useRouter();
   const toast = useToast();
-  const modal = useModal();
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({
     threshold: 100,
   });
-
-  const [{ data: user }] = useSuspenseQueries({
-    queries: [getUserQueryOptions()],
-  });
-
-  const { mutate: logout } = useLogoutMutation();
-
-  const handleLogoutClick = () => {
-    modal.confirm({
-      title: '정말 로그아웃 하시겠어요??',
-      icon: <Modal.Icon name="notice" color="warning500" />,
-      confirmButton: '로그아웃',
-      cancelButton: '취소',
-      confirmButtonProps: {
-        onClick: () => {
-          logout();
-        },
-      },
-    });
-  };
 
   const handleCreateClick = () => {
     toast.error('SNS 계정 연동이 필요해요.');
     //TODO: 액션 필요
   };
-
-  const userData = user.data;
 
   return (
     <div className={background} ref={scrollRef}>
@@ -81,35 +51,7 @@ export default function Home() {
             </Breadcrumb.Item>
           </Breadcrumb>
         }
-        rightAddon={
-          <Dropdown>
-            <Dropdown.Trigger>
-              {isNil(userData?.profileImage) ? (
-                <div className={image} />
-              ) : (
-                <Image
-                  className={image}
-                  width={40}
-                  height={40}
-                  src={userData.profileImage}
-                  alt={''}
-                />
-              )}
-            </Dropdown.Trigger>
-            <Dropdown.Content align="right">
-              <Dropdown.Item
-                onClick={handleLogoutClick}
-                value="option1"
-                className={dropdownItem}
-              >
-                <Icon name="logout" size="2.4rem" color="grey400" />
-                <Text fontSize={18} fontWeight="medium" color="grey1000">
-                  로그아웃
-                </Text>
-              </Dropdown.Item>
-            </Dropdown.Content>
-          </Dropdown>
-        }
+        rightAddon={<UserProfileDropdown />}
         isScrolled={isScrolled}
       />
       <div className={content}>
@@ -127,7 +69,6 @@ export default function Home() {
           <div className={cardColumn}>
             <div className={cardRow}>
               <div className={flexColumn}>
-                {/* 주제 생성 카드 */}
                 <CTACard
                   text={'자동으로 글을 만들어보세요'}
                   buttonText={'주제 생성하기'}
@@ -136,16 +77,12 @@ export default function Home() {
                   buttonDisabled
                 />
                 <Spacing size={16} />
-                {/* 개인화 설정 카드 */}
-                <PersonalCard text={'개인화 설정'} />
+                <PersonalCard />
               </div>
 
-              {/* 업로드 예약 일정 카드 */}
-              <UploadContentCard text={'업로드 예약 일정'} />
+              <UploadContentCard />
             </div>
-
-            {/* 생성된 주제 카드 */}
-            <ContentGroupCard text="생성된 주제" />
+            <ContentGroupCard />
           </div>
           <Spacing size={40} />
         </div>
