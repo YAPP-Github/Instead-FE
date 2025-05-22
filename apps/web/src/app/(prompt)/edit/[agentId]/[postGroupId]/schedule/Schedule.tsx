@@ -67,7 +67,7 @@ export default function Schedule({ params }: EditPageProps) {
       {
         posts: data.schedules.map((schedule) => ({
           postId: schedule.postId,
-          status: POST_STATUS.UPLOAD_RESERVED,
+          status: POST_STATUS.UPLOAD_CONFIRMED,
           uploadTime: `${schedule.date}T${getFormattedHourByAMPM(
             schedule.hour,
             schedule.amPm
