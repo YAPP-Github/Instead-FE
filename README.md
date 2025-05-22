@@ -18,7 +18,7 @@ This Turborepo includes the following packages/apps:
 - `@repo/ui`: a stub React design system component library shared by services located in `apps/**`
 - `@repo/theme`: manages shared design tokens (colors, radius, spacing, typography) for consistent UI across apps.
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/) without config files.
+Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
 ### Install Dependencies
 
