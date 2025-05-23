@@ -32,7 +32,7 @@ export function useUpdatePostsMutation({
 
   return useMutation({
     mutationFn: (data: UpdatePostsRequest) =>
-      PUT(`agents/${agentId}/post-groups/${postGroupId}/posts`, data),
+      PUT(`v1/agents/${agentId}/post-groups/${postGroupId}/posts`, data),
     onSuccess: () => {
       queryClient.invalidateQueries(
         getAllPostsQueryOptions({

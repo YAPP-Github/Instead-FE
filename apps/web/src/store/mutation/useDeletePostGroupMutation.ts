@@ -20,7 +20,7 @@ export function useDeletePostGroupMutation({ agentId }: MutationDeletePost) {
 
   return useMutation({
     mutationFn: (postGroupId: Post['postGroupId']) =>
-      DELETE(`agents/${agentId}/post-groups/${postGroupId}`),
+      DELETE(`v1/agents/${agentId}/post-groups/${postGroupId}`),
     onSuccess: () => {
       toast.success('주제가 삭제되었어요.');
       queryClient.invalidateQueries(

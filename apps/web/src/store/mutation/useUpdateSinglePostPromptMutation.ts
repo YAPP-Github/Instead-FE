@@ -26,7 +26,7 @@ export function useUpdateSinglePostPromptMutation({
   return useMutation({
     mutationFn: (data: UpdateSinglePromptRequest) => {
       return PATCH(
-        `agents/${agentId}/post-groups/${postGroupId}/posts/${postId}/prompt`,
+        `v1/agents/${agentId}/post-groups/${postGroupId}/posts/${postId}/prompt`,
         data
       );
     },

@@ -25,7 +25,7 @@ export function newsCategoriesQueryOptions(tokens?: Tokens) {
   return queryOptions({
     queryKey: queryKeys.news.categories,
     queryFn: () =>
-      GET<NewsCategoriesQuery>(`news-categories`, undefined, tokens),
+      GET<NewsCategoriesQuery>(`v1/news-categories`, undefined, tokens),
     // NOTE: 항상 fresh 상태로 유지
     staleTime: Infinity,
     gcTime: Infinity,

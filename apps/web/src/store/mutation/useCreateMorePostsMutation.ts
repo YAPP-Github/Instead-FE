@@ -30,7 +30,7 @@ export function useCreateMorePostsMutation({
       }
 
       return POST<MutationCreateMorePostsResponse>(
-        `agents/${agentId}/post-groups/${postGroupId}/posts`
+        `v1/agents/${agentId}/post-groups/${postGroupId}/posts`
       );
     },
     onSuccess: () => {
