@@ -9,7 +9,6 @@ export type { NavBarProps } from './NavBar/NavBar';
 export { DndController, useDndController } from './DNDController/DndController';
 
 export { AccountSidebar } from './AccountSidebar/AccountSidebar';
-export type { AccountSidebarProps } from './AccountSidebar/AccountSidebar';
 
 export { Table } from './Table/Table';
 export type {
