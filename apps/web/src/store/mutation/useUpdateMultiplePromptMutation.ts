@@ -29,7 +29,10 @@ export function useUpdateMultiplePromptMutation({
     onSuccess: () => {
       toast.success('프롬프트가 적용되었어요!');
       queryClient.invalidateQueries(
-        getAllPostsQueryOptions({ agentId, postGroupId })
+        getAllPostsQueryOptions({
+          agentId: Number(agentId),
+          postGroupId: Number(postGroupId),
+        })
       );
     },
     onError: (error) => {

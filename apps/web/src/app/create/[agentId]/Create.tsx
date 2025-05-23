@@ -45,7 +45,7 @@ export default function Create({ params }: CreatePageProps) {
   usePrefetchNewsCategories();
 
   const { mutate: createPosts, isPending } = useCreatePostsMutation({
-    agentId: params.agentId,
+    agentId: Number(params.agentId),
   });
   const modal = useModal();
   const router = useRouter();

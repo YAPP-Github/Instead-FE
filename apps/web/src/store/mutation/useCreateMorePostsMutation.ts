@@ -37,7 +37,10 @@ export function useCreateMorePostsMutation({
       toast.success('게시글이 5개 추가됐어요!');
 
       queryClient.invalidateQueries(
-        getAllPostsQueryOptions({ agentId, postGroupId })
+        getAllPostsQueryOptions({
+          agentId: Number(agentId),
+          postGroupId: Number(postGroupId),
+        })
       );
     },
     onError: (error) => {

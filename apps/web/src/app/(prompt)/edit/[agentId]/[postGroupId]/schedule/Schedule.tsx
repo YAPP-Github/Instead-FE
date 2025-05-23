@@ -22,6 +22,8 @@ import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutati
 import { POST_STATUS } from '@web/types';
 import { EditPageProps, ScheduleFormValues } from '../types';
 import { BreadcrumbItemContent } from '@web/components/common';
+import { useQueryClient } from '@tanstack/react-query';
+import { getAgentUploadReservedQueryOptions } from '@web/store/query/useGetAgentUploadReserved';
 
 export default function Schedule({ params }: EditPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLFormElement>({
@@ -30,6 +32,7 @@ export default function Schedule({ params }: EditPageProps) {
   const router = useRouter();
   const toast = useToast();
   const { mutate: updatePosts } = useUpdatePostsMutation(params);
+  const queryClient = useQueryClient();
 
   const methods = useForm<ScheduleFormValues>({
     defaultValues: {
@@ -76,6 +79,11 @@ export default function Schedule({ params }: EditPageProps) {
       },
       {
         onSuccess: () => {
+          queryClient.invalidateQueries(
+            getAgentUploadReservedQueryOptions({
+              agentId: Number(params.agentId),
+            })
+          );
           toast.success('예약이 완료되었어요');
           router.push(ROUTES.HOME.DETAIL(params.agentId));
         },
@@ -113,8 +121,8 @@ export default function Schedule({ params }: EditPageProps) {
                   onClick={() =>
                     router.push(
                       ROUTES.EDIT.ROOT({
-                        agentId: Number(params.agentId),
-                        postGroupId: Number(params.postGroupId),
+                        agentId: params.agentId,
+                        postGroupId: params.postGroupId,
                       })
                     )
                   }

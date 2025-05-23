@@ -31,7 +31,7 @@ export default function Personalize({ params }: PersonalizePageProps) {
   });
 
   const { mutate: updatePersonalSetting } = useUpdatePersonalSettingMutation({
-    agentId: params.agentId,
+    agentId: Number(params.agentId),
   });
   const queryClient = useQueryClient();
 

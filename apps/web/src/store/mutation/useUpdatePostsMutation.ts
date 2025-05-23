@@ -35,7 +35,10 @@ export function useUpdatePostsMutation({
       PUT(`agents/${agentId}/post-groups/${postGroupId}/posts`, data),
     onSuccess: () => {
       queryClient.invalidateQueries(
-        getAllPostsQueryOptions({ agentId, postGroupId })
+        getAllPostsQueryOptions({
+          agentId: Number(agentId),
+          postGroupId: Number(postGroupId),
+        })
       );
     },
     onError: (error) => {

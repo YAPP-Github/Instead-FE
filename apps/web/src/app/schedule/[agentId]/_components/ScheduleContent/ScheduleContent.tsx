@@ -20,10 +20,11 @@ type ScheduleContentProps = {
 
 export function ScheduleContent({ agentId }: ScheduleContentProps) {
   const { data: reservedPosts } = useGetAgentUploadReservedQuery({
-    agentId,
+    agentId: Number(agentId),
   });
-  const { mutate: updateReservedPosts } =
-    useUpdateReservedPostsMutation(agentId);
+  const { mutate: updateReservedPosts } = useUpdateReservedPostsMutation(
+    Number(agentId)
+  );
   const { setValue, getValues } = useFormContext<ScheduleFormValues>();
 
   useEffect(() => {
