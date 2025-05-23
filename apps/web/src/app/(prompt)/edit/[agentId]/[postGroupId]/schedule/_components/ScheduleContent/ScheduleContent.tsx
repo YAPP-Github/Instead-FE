@@ -28,6 +28,9 @@ export function ScheduleContent({
 
   useEffect(() => {
     const currentDate = getCurrentDateKo() ?? '';
+    if (!readyToUploadPosts) {
+      return;
+    }
 
     setValue(
       'schedules',
