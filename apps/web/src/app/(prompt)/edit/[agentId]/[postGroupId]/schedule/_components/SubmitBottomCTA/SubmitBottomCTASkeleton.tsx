@@ -1,6 +1,6 @@
 import { FixedBottomCTA, Icon } from '@repo/ui';
 
-export function SumbitBottomCTASkeleton() {
+export function SubmitBottomCTASkeleton() {
   return (
     <FixedBottomCTA
       leftAddon={<Icon name="checkCalendar" size={20} />}

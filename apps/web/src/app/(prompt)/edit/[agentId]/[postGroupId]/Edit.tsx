@@ -17,9 +17,9 @@ import {
   EditContentSkeleton,
 } from './_components/EditContent';
 import {
-  SumbitBottomCTA,
-  SumbitBottomCTASkeleton,
-} from './schedule/_components/SumbitBottomCTA';
+  SubmitBottomCTA,
+  SubmitBottomCTASkeleton,
+} from './schedule/_components/SubmitBottomCTA';
 
 export default function Edit({ params }: EditPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({ threshold: 100 });
@@ -48,13 +48,13 @@ export default function Edit({ params }: EditPageProps) {
           />
         </Suspense>
       </div>
-      <Suspense fallback={<SumbitBottomCTASkeleton />}>
-        <SumbitBottomCTA
+      <Suspense fallback={<SubmitBottomCTASkeleton />}>
+        <SubmitBottomCTA
           agentId={params.agentId}
           postGroupId={params.postGroupId}
         >
           예약하러 가기
-        </SumbitBottomCTA>
+        </SubmitBottomCTA>
       </Suspense>
     </>
   );

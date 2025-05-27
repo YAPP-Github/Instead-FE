@@ -4,14 +4,14 @@ import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
 import { IdParams, POST_STATUS } from '@web/types';
 import { useRouter } from 'next/navigation';
 
-type SumbitBottomCTAProps = Omit<IdParams, 'postId'> & FixedBottomCTAProps;
+type SubmitBottomCTAProps = Omit<IdParams, 'postId'> & FixedBottomCTAProps;
 
-export function SumbitBottomCTA({
+export function SubmitBottomCTA({
   agentId,
   postGroupId,
   children,
   ...props
-}: SumbitBottomCTAProps) {
+}: SubmitBottomCTAProps) {
   const { data: posts } = useGetAllPostsQuery({
     agentId: Number(agentId),
     postGroupId: Number(postGroupId),
