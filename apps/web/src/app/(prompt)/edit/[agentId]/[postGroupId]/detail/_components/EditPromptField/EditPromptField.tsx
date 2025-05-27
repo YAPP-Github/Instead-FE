@@ -5,7 +5,7 @@ import { wrapper } from './EditPromptField.css';
 import { isEmptyStringOrNil } from '@web/utils';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useContext, useEffect } from 'react';
-import { DetailPageContext } from '../../EditDetail';
+import { EditDetailPageContext } from '../../_providers/EditDetailPageProvider';
 import { useUpdateSinglePostPromptMutation } from '@web/store/mutation/useUpdateSinglePostPromptMutation';
 
 export function EditPromptField() {
@@ -16,7 +16,7 @@ export function EditPromptField() {
       prompt: '',
     },
   });
-  const { loadingPosts, setLoadingPosts } = useContext(DetailPageContext);
+  const { loadingPosts, setLoadingPosts } = useContext(EditDetailPageContext);
   const prompt = watch('prompt');
   const isSubmitDisabled = isEmptyStringOrNil(prompt);
   const { agentId, postGroupId } = useParams();

@@ -12,11 +12,10 @@ export default function HomePage() {
   const serverFetchOptions = [
     getAgentQueryOptions(tokens),
     getUserQueryOptions(tokens),
-  ];
+  ] as FetchOptions[]; // TODO 임시 타입 단언
 
   return (
-    // TODO 임시 타입 단언
-    <ServerFetchBoundary fetchOptions={serverFetchOptions as FetchOptions[]}>
+    <ServerFetchBoundary fetchOptions={serverFetchOptions}>
       <Home />
     </ServerFetchBoundary>
   );

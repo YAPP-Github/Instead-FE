@@ -12,7 +12,6 @@ import {
 } from '@repo/ui';
 import { AnimatedTitle } from './_components/AnimatedTitle/AnimatedTitle';
 import { ImageManager, MainBreadcrumbItem } from '@web/components/common';
-import { KeywordChipGroup } from './_components/KeywordChip/KeywordChipGroup';
 import { AnimatedContainer } from './_components/AnimatedContainer/AnimatedContainer';
 import { useForm, Controller } from 'react-hook-form';
 import { isEmptyStringOrNil } from '@web/utils';
@@ -25,22 +24,28 @@ import {
 import * as styles from './pageStyle.css';
 import { useModal } from '@repo/ui/hooks';
 import { useRouter } from 'next/navigation';
-import { useNewsCategoriesQuery } from '@web/store/query/useNewsCategoriesQuery';
 import { isNotNil } from '@repo/ui/utils';
 import { NavBar } from '@web/components/common';
 import { useScroll } from '@web/hooks';
 import { useCreatePostsMutation } from '@web/store/mutation/useCreatePostsMutation';
 import { uploadImages } from '@web/shared/image-upload/ImageUpload';
 import { ROUTES } from '@web/routes';
+import { Suspense } from 'react';
+import {
+  NewsCategorySection,
+  NewsCategorySectionSkeleton,
+} from './_components/NewsCategorySection';
+import { useClientSidePrefetchNewsCategories } from '@web/store/query/useNewsCategoriesQuery';
 
 const REQUIRED_FIELDS = {
   TOPIC: 'topic',
 } as const;
 
 export default function Create({ params }: CreatePageProps) {
-  const { data: newsCategories } = useNewsCategoriesQuery();
+  useClientSidePrefetchNewsCategories();
+
   const { mutate: createPosts, isPending } = useCreatePostsMutation({
-    agentId: params.agentId,
+    agentId: Number(params.agentId),
   });
   const modal = useModal();
   const router = useRouter();
@@ -52,8 +57,8 @@ export default function Create({ params }: CreatePageProps) {
     defaultValues: {
       topic: '',
       purpose: 'INFORMATION',
+      newsCategory: undefined,
       reference: 'NONE',
-      newsCategory: newsCategories.data[0]?.category ?? undefined,
       imageUrls: [],
       length: 'SHORT',
       content: '',
@@ -76,7 +81,10 @@ export default function Create({ params }: CreatePageProps) {
     createPosts(requestData);
   };
 
-  const isSubmitDisabled = isEmptyStringOrNil(topic);
+  const isSubmitDisabled =
+    isEmptyStringOrNil(topic) ||
+    (reference === REFERENCE_TYPE.NEWS &&
+      isEmptyStringOrNil(watch('newsCategory')));
 
   const handleImageUpload = async (files: File[]) => {
     const uploadedUrls = await uploadImages(files);
@@ -180,20 +188,9 @@ export default function Create({ params }: CreatePageProps) {
             {reference === REFERENCE_TYPE.NEWS && (
               <section className={styles.sectionStyle}>
                 <Label variant="required">뉴스 카테고리</Label>
-                <Controller
-                  name="newsCategory"
-                  control={control}
-                  render={({ field: { value, onChange } }) => (
-                    <KeywordChipGroup
-                      items={newsCategories.data.map((category) => ({
-                        key: category.category,
-                        label: category.name,
-                      }))}
-                      value={value}
-                      onChange={(value) => onChange(value)}
-                    />
-                  )}
-                />
+                <Suspense fallback={<NewsCategorySectionSkeleton />}>
+                  <NewsCategorySection control={control} />
+                </Suspense>
               </section>
             )}
 
@@ -263,9 +260,8 @@ export default function Create({ params }: CreatePageProps) {
       </div>
       <FixedBottomCTA
         type="submit"
-        id="create"
+        form="create"
         leftAddon={<Icon name="twinkle" />}
-        onClick={handleSubmit(onSubmit)}
         disabled={isSubmitDisabled}
         isLoading={isPending}
       >

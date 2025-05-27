@@ -10,7 +10,6 @@ import {
   wrapper,
 } from './EditPost.css';
 import { Text } from '@repo/ui/Text';
-import { Badge } from '@repo/ui/Badge';
 import { PostEditor } from '../PostEditor/PostEditor';
 import { EditPromptField } from '../EditPromptField/EditPromptField';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -27,7 +26,7 @@ import { Chip } from '@repo/ui/Chip';
 import { PostStatus } from '@web/types';
 import { ReactNode, useContext } from 'react';
 import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
-import { DetailPageContext } from '../../EditDetail';
+import { EditDetailPageContext } from '../../_providers/EditDetailPageProvider';
 import { Skeleton } from '@repo/ui';
 import { SkeletonEditor } from '../PostEditor/SkeletonEditor';
 
@@ -65,7 +64,7 @@ export function EditPost() {
   const { agentId, postGroupId } = useParams();
   const searchParams = useSearchParams();
   const postId = Number(searchParams.get('postId'));
-  const { loadingPosts } = useContext(DetailPageContext);
+  const { loadingPosts } = useContext(EditDetailPageContext);
   const isPostLoading = loadingPosts.includes(postId);
   const { data: posts } = useGetAllPostsQuery({
     agentId: Number(agentId),

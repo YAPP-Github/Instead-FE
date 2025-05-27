@@ -8,7 +8,7 @@ export const overlay = style({
   right: 0,
   bottom: 0,
   backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  zIndex: 0,
+  zIndex: 10000,
 });
 
 export const container = style({
@@ -18,7 +18,7 @@ export const container = style({
   backgroundColor: vars.colors.grey,
   borderRadius: '2.4rem',
   padding: `5.2rem ${vars.space[24]} ${vars.space[24]} ${vars.space[24]}`,
-  zIndex: 1,
+  zIndex: 10001,
   width: '56rem',
   display: 'flex',
   flexDirection: 'column',

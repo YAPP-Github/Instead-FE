@@ -25,11 +25,17 @@ export function useUpdateMultiplePromptMutation({
 
   return useMutation({
     mutationFn: (data: UpdatePromptRequest) =>
-      PATCH(`agents/${agentId}/post-groups/${postGroupId}/posts/prompt`, data),
+      PATCH(
+        `v1/agents/${agentId}/post-groups/${postGroupId}/posts/prompt`,
+        data
+      ),
     onSuccess: () => {
       toast.success('프롬프트가 적용되었어요!');
       queryClient.invalidateQueries(
-        getAllPostsQueryOptions({ agentId, postGroupId })
+        getAllPostsQueryOptions({
+          agentId: Number(agentId),
+          postGroupId: Number(postGroupId),
+        })
       );
     },
     onError: (error) => {
