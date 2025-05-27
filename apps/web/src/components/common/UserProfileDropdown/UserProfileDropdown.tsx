@@ -1,7 +1,7 @@
 // components/common/UserProfileDropdown/UserProfileDropdown.tsx
 'use client';
 
-import { Dropdown, Icon, Skeleton, Text } from '@repo/ui';
+import { Dropdown, Icon, Skeleton, Spacing, Text } from '@repo/ui';
 import Image from 'next/image';
 import { useGetUserQuery } from '@web/store/query/useGetUserQuery';
 import { useLogoutMutation } from '@web/store/mutation/useLogoutMutation';
@@ -9,6 +9,7 @@ import { useModal } from '@repo/ui/hooks';
 import { isNil } from '@repo/ui/utils';
 import { Suspense } from 'react';
 import * as style from './UserProfileDropdown.css';
+import iconNotice from './assets/iconNotice.png';
 
 export function UserProfileDropdown() {
   return (
@@ -25,8 +26,18 @@ function UserProfileDropdownContent() {
 
   const handleLogoutClick = () => {
     modal.confirm({
-      title: '정말 로그아웃 하시겠어요??',
-      icon: <Icon name="notice" color="warning500" />,
+      title: '로그아웃 하시겠어요?',
+      icon: (
+        <>
+          <Image
+            src={iconNotice}
+            alt="로그아웃 알림 아이콘"
+            width={80}
+            height={80}
+          />
+          <Spacing size={12} />
+        </>
+      ),
       confirmButton: '로그아웃',
       cancelButton: '취소',
       confirmButtonProps: {
