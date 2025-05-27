@@ -30,7 +30,7 @@ export function getAllPostsQueryOptions({
     queryKey: queryKeys.posts.all(Number(agentId), Number(postGroupId)),
     queryFn: () =>
       GET<GetAllPostsResponse>(
-        `agents/${agentId}/post-groups/${postGroupId}/posts`,
+        `v1/agents/${agentId}/post-groups/${postGroupId}/posts`,
         undefined,
         tokens
       ),

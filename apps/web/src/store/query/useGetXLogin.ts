@@ -16,7 +16,7 @@ export function getXLoginQueryOptions() {
   return queryOptions({
     queryKey: queryKeys.x,
     queryFn: () =>
-      GET<GetXLoginResponse>(`twitter/login`, undefined, undefined),
+      GET<GetXLoginResponse>(`v1/twitter/login`, undefined, undefined),
     staleTime: STALE_TIME,
     gcTime: GC_TIME,
     enabled: false,

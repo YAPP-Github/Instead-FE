@@ -26,14 +26,12 @@ import { Spacing } from '@repo/ui/Spacing';
 import { isNotNil } from '@repo/ui/utils';
 
 export type ContentGroupCardProps = {
-  text: string;
   postGroups?: PostGroup[];
   onItemClick?: (PostGroupId: PostGroupId) => void;
   onItemRemove?: (PostGroupId: PostGroupId) => void;
 };
 
 export function ContentGroupCard({
-  text,
   postGroups,
   onItemClick,
   onItemRemove,
@@ -42,7 +40,7 @@ export function ContentGroupCard({
     <div className={card}>
       <div className={leftText}>
         <Text fontSize={22} fontWeight="semibold" color="grey800">
-          {text}
+          생성된 주제
         </Text>
         <Text fontSize={22} fontWeight="medium" color="primary700">
           {postGroups?.length || 0}

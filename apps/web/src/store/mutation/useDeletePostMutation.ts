@@ -23,7 +23,7 @@ export function useDeletePostMutation({
 
   return useMutation({
     mutationFn: (postId: Post['id']) =>
-      DELETE(`agents/${agentId}/post-groups/${postGroupId}/posts/${postId}`),
+      DELETE(`v1/agents/${agentId}/post-groups/${postGroupId}/posts/${postId}`),
     onSuccess: () => {
       toast.success('게시글이 삭제되었어요.');
       queryClient.invalidateQueries(
