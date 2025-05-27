@@ -36,13 +36,10 @@ export function useNewsCategoriesQuery() {
   return useSuspenseQuery(newsCategoriesQueryOptions());
 }
 
-export function usePrefetchNewsCategories() {
+export function useClientSidePrefetchNewsCategories() {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.news.categories,
-      queryFn: () => GET<NewsCategoriesQuery>('news-categories'),
-    });
+    queryClient.prefetchQuery(newsCategoriesQueryOptions());
   }, [queryClient]);
 }
