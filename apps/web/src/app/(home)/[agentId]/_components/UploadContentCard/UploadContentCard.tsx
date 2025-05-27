@@ -18,7 +18,6 @@ import { Spacing } from '@repo/ui/Spacing';
 import { isNotNil } from '@repo/ui/utils';
 
 export type UploadContentCardProps = {
-  text: string;
   onMoreButtonClick?: () => void;
   items?: Post[];
   onItemClick?: (post: Post) => void;
@@ -26,7 +25,6 @@ export type UploadContentCardProps = {
 };
 
 export function UploadContentCard({
-  text,
   onMoreButtonClick,
   items,
   onItemClick,
@@ -37,7 +35,7 @@ export function UploadContentCard({
       <div className={cardText}>
         <div className={leftText}>
           <Text fontSize={22} fontWeight="semibold" color="grey800">
-            {text}
+            업로드 예약 일정
           </Text>
           <Text fontSize={22} fontWeight="medium" color="primary700">
             {itemLength ?? 0}

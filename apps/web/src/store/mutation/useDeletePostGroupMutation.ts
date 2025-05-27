@@ -2,7 +2,7 @@ import { DELETE } from '@web/shared/server';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@repo/ui/hooks';
 import { IdParams, Post } from '@web/types';
-import { queryKeys } from '../constants';
+import { getAgentPostGroupsQueryOptions } from '../query/useGetAgentPostGroupsQuery';
 
 export type MutationDeletePost = Pick<IdParams, 'agentId'>;
 
@@ -20,12 +20,12 @@ export function useDeletePostGroupMutation({ agentId }: MutationDeletePost) {
 
   return useMutation({
     mutationFn: (postGroupId: Post['postGroupId']) =>
-      DELETE(`agents/${agentId}/post-groups/${postGroupId}`),
+      DELETE(`v1/agents/${agentId}/post-groups/${postGroupId}`),
     onSuccess: () => {
       toast.success('주제가 삭제되었어요.');
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.posts.postGroups(agentId),
-      });
+      queryClient.invalidateQueries(
+        getAgentPostGroupsQueryOptions({ agentId: Number(agentId) })
+      );
     },
     onError: (error) => {
       if (error instanceof Error) {

@@ -1,9 +1,10 @@
 import { Text } from '@repo/ui';
 import * as style from './TitleWithDescription.css';
+import { ReactNode } from 'react';
 
 type TitleWithDescriptionProps = {
   title: string;
-  rightTitle?: string;
+  rightTitle?: ReactNode;
   description: string;
 };
 

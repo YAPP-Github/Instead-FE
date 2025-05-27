@@ -4,53 +4,28 @@ import * as style from './pageStyle.css';
 import { useScroll } from '@web/hooks';
 import { useRouter } from 'next/navigation';
 import { MainBreadcrumbItem, NavBar } from '@web/components/common';
-import {
-  Badge,
-  Breadcrumb,
-  Dropdown,
-  Icon,
-  IconButton,
-  Modal,
-  Text,
-} from '@repo/ui';
-import Image from 'next/image';
+import { Breadcrumb, Dropdown, Icon, IconButton, Modal, Text } from '@repo/ui';
 import { ScheduleDetailPageProps } from './type';
-import { getPostQueryOptions } from '@web/store/query/useGetPostQuery';
-import { isNil } from '@repo/ui/utils';
 import { ROUTES } from '@web/routes';
-import { getTopicQueryOptions } from '@web/store/query/useGetTopicQuery';
 import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation';
 import { useModal } from '@repo/ui/hooks';
-import { useSuspenseQueries } from '@tanstack/react-query';
+import { Suspense } from 'react';
+import { BreadcrumbItemContentSkelton } from './_components/BreadcrumbContent/BreadcrumbItemContentSkelton';
+import { BreadcrumbItemContent } from './_components/BreadcrumbContent/BreadcrumbContent';
+import {
+  ScheduleDetailContent,
+  ScheduleDetailContentSkeleton,
+} from './_components/ScheduleDetailContent';
 
 export default function ScheduleDetail({ params }: ScheduleDetailPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({ threshold: 100 });
-  const router = useRouter();
   const modal = useModal();
-
-  const [{ data: post }, { data: topic }] = useSuspenseQueries({
-    queries: [
-      getPostQueryOptions({
-        agentId: Number(params.agentId),
-        postGroupId: Number(params.postGroupId),
-        postId: Number(params.postId),
-      }),
-      getTopicQueryOptions({
-        agentId: Number(params.agentId),
-        postGroupId: Number(params.postGroupId),
-      }),
-    ],
-  });
+  const router = useRouter();
 
   const { mutate: deletePost } = useDeletePostMutation({
     agentId: Number(params.agentId),
     postGroupId: Number(params.postGroupId),
   });
-
-  if (isNil(post)) {
-    router.push(ROUTES.ERROR);
-    return;
-  }
 
   const handleDeletePost = () => {
     modal.confirm({
@@ -75,9 +50,12 @@ export default function ScheduleDetail({ params }: ScheduleDetailPageProps) {
         leftAddon={
           <Breadcrumb>
             <MainBreadcrumbItem href={ROUTES.HOME.DETAIL(params.agentId)} />
-            <Breadcrumb.Item active className={style.breadcrumbItemStyle}>
-              {topic.data.topic}
-            </Breadcrumb.Item>
+            <Suspense fallback={<BreadcrumbItemContentSkelton />}>
+              <BreadcrumbItemContent
+                agentId={params.agentId}
+                postGroupId={params.postGroupId}
+              />
+            </Suspense>
           </Breadcrumb>
         }
         rightAddon={
@@ -109,34 +87,9 @@ export default function ScheduleDetail({ params }: ScheduleDetailPageProps) {
         isScrolled={isScrolled}
       />
       <div className={style.contentWrapperStyle}>
-        <div className={style.titleSectionStyle}>
-          <Text.H1 fontSize={28} fontWeight="bold" color="grey1000">
-            {post.data.summary}
-          </Text.H1>
-          <Badge size="large" variant="neutral" shape="square">
-            요약
-          </Badge>
-        </div>
-        <Text.P
-          fontSize={18}
-          fontWeight="medium"
-          color="grey800"
-          className={style.contentStyle}
-        >
-          {post.data.content}
-        </Text.P>
-        {post.data.postImages.length > 0 &&
-          post.data.postImages.map((image) => (
-            <div key={image.id} className={style.imageWrapperStyle}>
-              <Image
-                src={image.url}
-                alt={`업로드 예정인 이미지 ${image.id}`}
-                width={185.5}
-                height={240}
-                className={style.imageStyle}
-              />
-            </div>
-          ))}
+        <Suspense fallback={<ScheduleDetailContentSkeleton />}>
+          <ScheduleDetailContent params={params} />
+        </Suspense>
       </div>
     </div>
   );
