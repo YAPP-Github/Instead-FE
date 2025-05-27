@@ -64,9 +64,3 @@ export const emptyImage = style({
 export const contentWrapper = style({
   height: '100%',
 });
-
-export const skeletonContentWrapper = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '1.6rem',
-});

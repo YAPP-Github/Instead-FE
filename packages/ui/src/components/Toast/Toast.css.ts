@@ -10,7 +10,6 @@ export const container = recipe({
     borderRadius: 100,
     backgroundColor: vars.colors.grey700,
     color: vars.colors.grey,
-    zIndex: 10000,
   },
   variants: {
     toastPosition: {

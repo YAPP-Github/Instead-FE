@@ -15,7 +15,7 @@ import { Text } from '@repo/ui/Text';
 import { Button } from '@repo/ui/Button';
 import EmojiPicker from 'emoji-picker-react';
 import { useForm } from 'react-hook-form';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { isNotNil, mergeRefs } from '@repo/ui/utils';
 import { UploadedImages } from './UploadedImages';
 import { useParams, useSearchParams } from 'next/navigation';
@@ -26,6 +26,7 @@ import { useUpdatePostMutation } from '@web/store/mutation/useUpdatePostMutation
 import { Post, PostGroupLength } from '@web/types';
 import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
 import { useToast } from '@repo/ui/hooks';
+import { DetailPageContext } from '../../EditDetail';
 
 const POST_LENGTH: Record<PostGroupLength, number> = {
   LONG: 1000,
@@ -38,6 +39,8 @@ export function PostEditor() {
   const { agentId, postGroupId } = useParams();
   const searchParams = useSearchParams();
   const postId = Number(searchParams.get('postId'));
+  const { loadingPosts } = useContext(DetailPageContext);
+  const isPostLoading = loadingPosts.includes(postId);
   const { data: posts } = useGetAllPostsQuery({
     agentId: Number(agentId),
     postGroupId: Number(postGroupId),

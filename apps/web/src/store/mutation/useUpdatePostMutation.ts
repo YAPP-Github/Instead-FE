@@ -27,7 +27,7 @@ export function useUpdatePostMutation({
   return useMutation({
     mutationFn: (values: MutationUpdatePostRequest) =>
       PUT(
-        `v1/agents/${agentId}/post-groups/${postGroupId}/posts/${postId}`,
+        `agents/${agentId}/post-groups/${postGroupId}/posts/${postId}`,
         values
       ),
     onSuccess: () => {

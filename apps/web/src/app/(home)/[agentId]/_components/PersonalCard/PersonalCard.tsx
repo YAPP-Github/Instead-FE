@@ -15,12 +15,13 @@ import { Icon } from '@repo/ui/Icon';
 import { isNotNil } from '@repo/ui/utils';
 import { isEmptyStringOrNil } from '@web/utils';
 
-export type PersonalCardProps = {
+export type PersonalCardPops = {
+  text: string;
   data?: AgentPersonalSetting;
   onIconClick?: () => void;
 };
 
-export function PersonalCard({ data, onIconClick }: PersonalCardProps) {
+export function PersonalCard({ text, data, onIconClick }: PersonalCardPops) {
   return (
     <motion.div
       className={card}
@@ -31,7 +32,7 @@ export function PersonalCard({ data, onIconClick }: PersonalCardProps) {
       <div className={cardText}>
         <div className={leftText}>
           <Text fontSize={22} fontWeight="semibold" color="grey800">
-            개인화 설정
+            {text}
           </Text>
           <div className={chipArea}>
             {isNotNil(data) ? (

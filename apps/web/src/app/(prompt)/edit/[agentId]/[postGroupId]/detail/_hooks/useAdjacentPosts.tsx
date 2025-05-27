@@ -11,9 +11,8 @@ export function useAdjacentPosts(posts: PostsByStatus, currentPost?: Post) {
     EDITING: 2,
     READY_TO_UPLOAD: 1,
     UPLOAD_RESERVED: 0,
-    UPLOAD_CONFIRMED: -1,
-    UPLOADED: -2,
-    UPLOAD_FAILED: -3,
+    UPLOADED: -1,
+    UPLOAD_FAILED: -2,
   };
 
   const allPosts = useMemo(() => {

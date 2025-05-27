@@ -32,13 +32,10 @@ export function useUpdatePostsMutation({
 
   return useMutation({
     mutationFn: (data: UpdatePostsRequest) =>
-      PUT(`v1/agents/${agentId}/post-groups/${postGroupId}/posts`, data),
+      PUT(`agents/${agentId}/post-groups/${postGroupId}/posts`, data),
     onSuccess: () => {
       queryClient.invalidateQueries(
-        getAllPostsQueryOptions({
-          agentId: Number(agentId),
-          postGroupId: Number(postGroupId),
-        })
+        getAllPostsQueryOptions({ agentId, postGroupId })
       );
     },
     onError: (error) => {

@@ -30,7 +30,7 @@ export function PostHistoryQueryQueryOptions({
     queryKey: queryKeys.postHistory.detail(postId),
     queryFn: () =>
       GET<PostHistoryQuery>(
-        `v1/agents/${agentId}/post-groups/${postGroupId}/posts/${postId}/prompt-histories`,
+        `agents/${agentId}/post-groups/${postGroupId}/posts/${postId}/prompt-histories`,
         undefined,
         tokens
       ),

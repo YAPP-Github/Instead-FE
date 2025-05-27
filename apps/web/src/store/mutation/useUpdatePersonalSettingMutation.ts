@@ -25,7 +25,7 @@ export function useUpdatePersonalSettingMutation({
 
   return useMutation({
     mutationFn: (data: UpdatePersonalRequest) =>
-      PUT(`v1/agents/${agentId}/personal-setting`, data),
+      PUT(`agents/${agentId}/personal-setting`, data),
     onSuccess: () => {
       toast.success('저장되었어요.');
       queryClient.invalidateQueries(

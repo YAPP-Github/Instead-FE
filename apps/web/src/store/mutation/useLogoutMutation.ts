@@ -13,7 +13,7 @@ export function useLogoutMutation() {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: () => DELETE(`v1/auth/logout`),
+    mutationFn: () => DELETE(`auth/logout`),
     onSuccess: () => {
       toast.success('로그아웃이 완료되었어요.');
       router.push(ROUTES.JOIN);

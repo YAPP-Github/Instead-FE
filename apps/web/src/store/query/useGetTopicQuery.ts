@@ -29,7 +29,7 @@ export function getTopicQueryOptions({
     queryKey: queryKeys.topics.detail(agentId, postGroupId),
     queryFn: () =>
       GET<GetTopicResponse>(
-        `v1/agents/${agentId}/post-groups/${postGroupId}/topic`,
+        `agents/${agentId}/post-groups/${postGroupId}/topic`,
         undefined,
         tokens
       ),

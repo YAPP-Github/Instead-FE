@@ -1,41 +1,107 @@
 'use client';
 
-import {
-  MainBreadcrumbItem,
-  NavBar,
-  UserProfileDropdown,
-} from '@web/components/common';
+import { MainBreadcrumbItem, NavBar } from '@web/components/common';
 import { AccountSidebar } from '../../../components/common/AccountSidebar/AccountSidebar';
 import { useScroll } from '@web/hooks';
 import { ROUTES } from '@web/routes';
+import { Breadcrumb } from '@repo/ui/Breadcrumb';
 import {
   animatedText,
   background,
   cardContent,
   content,
+  dropdownItem,
+  image,
   cardColumn,
   cardRow,
   flexColumn,
 } from './page.css';
-import { Breadcrumb, GradientAnimatedText, Spacing } from '@repo/ui';
+import { Dropdown } from '@repo/ui/Dropdown';
+import Image from 'next/image';
+import { Icon } from '@repo/ui/Icon';
+import { Text } from '@repo/ui/Text';
+import { isNil } from '@repo/ui/utils';
+import { GradientAnimatedText } from '@repo/ui/GradientAnimatedText';
 import CreateImage from '@web/assets/images/createImage.webp';
 import { CTACard } from './_components/CTACard/CTACard';
+import { PersonalCard } from './_components/PersonalCard/PersonalCard';
+import { UploadContentCard } from './_components/UploadContentCard/UploadContentCard';
+import { ContentGroupCard } from './_components/ContentGroupCard/ContentGroupCard';
+import { Spacing } from '@repo/ui/Spacing';
+import { getAgentDetailQueryOptions } from '@web/store/query/useGetAgentDetailQuery';
+import { getAgentPostGroupsQueryOptions } from '@web/store/query/useGetAgentPostGroupsQuery';
+import { getAgentQueryOptions } from '@web/store/query/useGetAgentQuery';
+import { getAgentUploadReservedQueryOptions } from '@web/store/query/useGetAgentUploadReserved';
+import { getUserQueryOptions } from '@web/store/query/useGetUserQuery';
 import { HomePageProps } from './types';
 import { useRouter } from 'next/navigation';
-import { Agent } from '@web/types';
-import { AgentDetailPersonalCard } from './_components/AgentDetailPersonalCard/AgentDetailPersonalCard';
-import { Suspense } from 'react';
-import { PersonalCardSkeleton } from './_components/PersonalCard/PersonalCardSkeleton';
-import { ReservedUploadContentCard } from './_components/ReservedUploadContentCard/ReservedUploadContentCard';
-import { UploadContentCardSkeleton } from './_components/UploadContentCard/UploadContentCardSkeleton';
-import { PostGroupsContentGroupCard } from './_components/PostGroupsContentGroupCard/PostGroupsContentGroupCard';
-import { ContentGroupCardSkeleton } from './_components/ContentGroupCard/ContentGroupCardSkeleton';
+import { Agent, PostGroupId } from '@web/types';
+import { useModal } from '@repo/ui/hooks';
+import { Modal } from '@repo/ui/Modal';
+import { useDeletePostGroupMutation } from '@web/store/mutation/useDeletePostGroupMutation';
+import { useLogoutMutation } from '@web/store/mutation/useLogoutMutation';
+import { useSuspenseQueries } from '@tanstack/react-query';
 
 export default function Home({ params }: HomePageProps) {
   const router = useRouter();
+  const modal = useModal();
   const [scrollRef, isScrolled] = useScroll<HTMLDivElement>({
     threshold: 100,
   });
+
+  const [
+    { data: user },
+    { data: agentDetail },
+    { data: agentUploadReserved },
+    { data: agentPostGroups },
+    { data: agentData },
+  ] = useSuspenseQueries({
+    queries: [
+      getUserQueryOptions(),
+      getAgentDetailQueryOptions({ agentId: params.agentId }),
+      getAgentUploadReservedQueryOptions({ agentId: params.agentId }),
+      getAgentPostGroupsQueryOptions({ agentId: params.agentId }),
+      getAgentQueryOptions(),
+    ],
+  });
+
+  const { mutate: deletePostGroups } = useDeletePostGroupMutation({
+    agentId: params.agentId,
+  });
+  const { mutate: logout } = useLogoutMutation();
+
+  const userData = user.data;
+  const agentDetailData = agentDetail.agentPersonalSetting;
+  const agentUploadReservedData = agentUploadReserved.posts.slice(0, 5);
+
+  const handleDeletePostGroup = (postGroupId: PostGroupId) => {
+    modal.confirm({
+      title: '정말 삭제하시겠어요?',
+      description: '삭제된 글은 복구할 수 없어요',
+      icon: <Modal.Icon name="notice" color="warning500" />,
+      confirmButton: '삭제하기',
+      cancelButton: '취소',
+      confirmButtonProps: {
+        onClick: () => {
+          deletePostGroups(postGroupId);
+        },
+      },
+    });
+  };
+
+  const handleLogoutClick = () => {
+    modal.confirm({
+      title: '정말 로그아웃 하시겠어요??',
+      icon: <Modal.Icon name="notice" color="warning500" />,
+      confirmButton: '로그아웃',
+      cancelButton: '취소',
+      confirmButtonProps: {
+        onClick: () => {
+          logout();
+        },
+      },
+    });
+  };
 
   return (
     <div className={background} ref={scrollRef}>
@@ -47,12 +113,41 @@ export default function Home({ params }: HomePageProps) {
             </Breadcrumb.Item>
           </Breadcrumb>
         }
-        rightAddon={<UserProfileDropdown />}
+        rightAddon={
+          <Dropdown>
+            <Dropdown.Trigger>
+              {isNil(userData?.profileImage) ? (
+                <div className={image} />
+              ) : (
+                <Image
+                  className={image}
+                  width={40}
+                  height={40}
+                  src={userData.profileImage}
+                  alt={''}
+                />
+              )}
+            </Dropdown.Trigger>
+            <Dropdown.Content align="right">
+              <Dropdown.Item
+                onClick={handleLogoutClick}
+                value="option1"
+                className={dropdownItem}
+              >
+                <Icon name="logout" size="2.4rem" color="grey400" />
+                <Text fontSize={18} fontWeight="medium" color="grey1000">
+                  로그아웃
+                </Text>
+              </Dropdown.Item>
+            </Dropdown.Content>
+          </Dropdown>
+        }
         isScrolled={isScrolled}
       />
       <div className={content}>
         <AccountSidebar
-          selectedId={Number(params.agentId)}
+          agentData={agentData.agents}
+          selectedId={params.agentId}
           onAccountClick={(id: Agent['id']) =>
             router.push(ROUTES.HOME.DETAIL(id))
           }
@@ -77,30 +172,51 @@ export default function Home({ params }: HomePageProps) {
                 />
                 <Spacing size={16} />
                 {/* 개인화 설정 카드 */}
-                <Suspense fallback={<PersonalCardSkeleton />}>
-                  <AgentDetailPersonalCard
-                    agentId={Number(params.agentId)}
-                    onIconClick={() =>
-                      router.push(ROUTES.PERSONALIZE(params.agentId))
-                    }
-                  />
-                </Suspense>
+                <PersonalCard
+                  text={'개인화 설정'}
+                  data={agentDetailData}
+                  onIconClick={() =>
+                    router.push(ROUTES.PERSONALIZE(params.agentId))
+                  }
+                />
               </div>
 
               {/* 업로드 예약 일정 카드 */}
-              <Suspense
-                fallback={
-                  <UploadContentCardSkeleton agentId={Number(params.agentId)} />
+              <UploadContentCard
+                text={'업로드 예약 일정'}
+                onMoreButtonClick={() =>
+                  router.push(ROUTES.SCHEDULE.ROOT(params.agentId))
                 }
-              >
-                <ReservedUploadContentCard agentId={Number(params.agentId)} />
-              </Suspense>
+                onItemClick={(post) => {
+                  router.push(
+                    ROUTES.SCHEDULE.DETAIL({
+                      agentId: params.agentId,
+                      postGroupId: post.postGroupId,
+                      postId: post.id,
+                    })
+                  );
+                }}
+                items={agentUploadReservedData}
+                itemLength={agentUploadReserved.posts.length}
+              />
             </div>
 
             {/* 생성된 주제 카드 */}
-            <Suspense fallback={<ContentGroupCardSkeleton />}>
-              <PostGroupsContentGroupCard agentId={Number(params.agentId)} />
-            </Suspense>
+            <ContentGroupCard
+              text="생성된 주제"
+              postGroups={agentPostGroups.postGroups}
+              onItemClick={(postGroupId) =>
+                router.push(
+                  ROUTES.EDIT.ROOT({
+                    agentId: params.agentId,
+                    postGroupId,
+                  })
+                )
+              }
+              onItemRemove={(id) => {
+                handleDeletePostGroup(id);
+              }}
+            />
           </div>
           <Spacing size={40} />
         </div>

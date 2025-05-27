@@ -30,17 +30,14 @@ export function useCreateMorePostsMutation({
       }
 
       return POST<MutationCreateMorePostsResponse>(
-        `v1/agents/${agentId}/post-groups/${postGroupId}/posts`
+        `agents/${agentId}/post-groups/${postGroupId}/posts`
       );
     },
     onSuccess: () => {
       toast.success('게시글이 5개 추가됐어요!');
 
       queryClient.invalidateQueries(
-        getAllPostsQueryOptions({
-          agentId: Number(agentId),
-          postGroupId: Number(postGroupId),
-        })
+        getAllPostsQueryOptions({ agentId, postGroupId })
       );
     },
     onError: (error) => {

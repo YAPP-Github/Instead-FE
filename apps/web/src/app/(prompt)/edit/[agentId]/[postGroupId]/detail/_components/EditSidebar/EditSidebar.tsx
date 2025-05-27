@@ -26,7 +26,7 @@ import { useCreateMorePostsMutation } from '@web/store/mutation/useCreateMorePos
 import { useModal } from '@repo/ui/hooks';
 import { Modal } from '@repo/ui/Modal';
 import { useDeletePostMutation } from '@web/store/mutation/useDeletePostMutation';
-import { EditDetailPageContext } from '../../_providers/EditDetailPageProvider';
+import { DetailPageContext } from '../../EditDetail';
 import { DragGuide } from '../DragGuide/DragGuide';
 import { ContentItem } from '@web/components/common/DNDController/compounds';
 import { ROUTES } from '@web/routes';
@@ -43,7 +43,7 @@ import { isEmptyStringOrNil } from '@web/utils';
 
 function EditSidebarContent() {
   const modal = useModal();
-  const { loadingPosts, setLoadingPosts } = useContext(EditDetailPageContext);
+  const { loadingPosts, setLoadingPosts } = useContext(DetailPageContext);
   const { agentId, postGroupId } = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();

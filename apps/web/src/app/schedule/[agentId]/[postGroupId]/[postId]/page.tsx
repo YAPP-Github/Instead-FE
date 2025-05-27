@@ -7,6 +7,8 @@ import { getServerSideTokens } from '@web/shared/server/serverSideTokens';
 import { ScheduleDetailPageProps } from './type';
 import { getPostQueryOptions } from '@web/store/query/useGetPostQuery';
 import { getTopicQueryOptions } from '@web/store/query/useGetTopicQuery';
+import { Suspense } from 'react';
+import Loading from '@web/app/loading';
 
 export default function ScheduleDetailPage({
   params,
@@ -14,21 +16,23 @@ export default function ScheduleDetailPage({
   const tokens = getServerSideTokens();
   const serverFetchOptions = [
     getPostQueryOptions({
-      agentId: Number(params.agentId),
-      postGroupId: Number(params.postGroupId),
-      postId: Number(params.postId),
+      agentId: params.agentId,
+      postGroupId: params.postGroupId,
+      postId: params.postId,
       tokens,
     }),
     getTopicQueryOptions({
-      agentId: Number(params.agentId),
-      postGroupId: Number(params.postGroupId),
+      agentId: params.agentId,
+      postGroupId: params.postGroupId,
       tokens,
     }),
   ] as FetchOptions[];
 
   return (
     <ServerFetchBoundary fetchOptions={serverFetchOptions}>
-      <ScheduleDetail params={params} />
+      <Suspense fallback={<Loading />}>
+        <ScheduleDetail params={params} />
+      </Suspense>
     </ServerFetchBoundary>
   );
 }

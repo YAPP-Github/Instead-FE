@@ -24,7 +24,7 @@ export function getAgentPostGroupsQueryOptions({
     queryKey: queryKeys.posts.postGroups(agentId),
     queryFn: async () => {
       const response = await GET<GetAgentPostGroupsResponse>(
-        `v1/agents/${agentId}/post-groups`,
+        `agents/${agentId}/post-groups`,
         undefined,
         tokens
       );

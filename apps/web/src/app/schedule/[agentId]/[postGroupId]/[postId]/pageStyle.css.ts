@@ -10,11 +10,38 @@ export const mainStyle = style({
 });
 
 export const contentWrapperStyle = style({
-  maxWidth: '76.8rem',
+  maxWidth: '768px',
   position: 'relative',
   display: 'flex',
   flexDirection: 'column',
   padding: `0 ${vars.space[16]}`,
+});
+
+export const titleSectionStyle = style({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'flex-start',
+  gap: vars.space[16],
+  padding: `${vars.space[24]} ${vars.space[12]}`,
+});
+
+export const contentStyle = style({
+  width: '100%',
+  padding: `0 ${vars.space[12]}`,
+});
+
+export const imageWrapperStyle = style({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: vars.space[10],
+});
+
+export const imageStyle = style({
+  width: '100%',
+  height: 'auto',
+  borderRadius: vars.borderRadius[16],
 });
 
 export const buttonWrapperStyle = style({

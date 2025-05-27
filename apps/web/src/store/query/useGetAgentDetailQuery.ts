@@ -31,7 +31,7 @@ export function getAgentDetailQueryOptions({
     queryKey: queryKeys.agents.detail(agentId),
     queryFn: async () => {
       const response = await GET<GetAgentDetailResponse>(
-        `v1/agents/${agentId}`,
+        `agents/${agentId}`,
         undefined,
         tokens
       );

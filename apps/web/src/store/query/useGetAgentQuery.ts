@@ -15,12 +15,7 @@ export function getAgentQueryOptions(tokens?: Tokens) {
   return queryOptions({
     queryKey: queryKeys.agents.agents,
     queryFn: async () => {
-      const response = await GET<GetAgentResponse>(
-        `v1/agents`,
-        undefined,
-        tokens
-      );
-
+      const response = await GET<GetAgentResponse>(`agents`, undefined, tokens);
       return response.data;
     },
     staleTime: STALE_TIME,

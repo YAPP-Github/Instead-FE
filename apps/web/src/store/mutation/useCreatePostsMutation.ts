@@ -38,7 +38,7 @@ export function useCreatePostsMutation({ agentId }: MutationCreatePostsType) {
   return useMutation({
     mutationFn: (values: MutationCreatePostsRequest) =>
       POST<MutationCreatePostsResponse>(
-        `v1/agents/${agentId}/post-groups/posts`,
+        `agents/${agentId}/post-groups/posts`,
         values
       ),
     onSuccess: (response) => {

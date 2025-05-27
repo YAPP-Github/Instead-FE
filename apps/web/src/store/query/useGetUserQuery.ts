@@ -19,7 +19,7 @@ export type GetUserParams = {
 export function getUserQueryOptions(tokens?: Tokens) {
   return queryOptions({
     queryKey: queryKeys.user,
-    queryFn: () => GET<User>(`v1/users`, undefined, tokens),
+    queryFn: () => GET<User>(`users`, undefined, tokens),
     staleTime: STALE_TIME,
     gcTime: GC_TIME,
   });

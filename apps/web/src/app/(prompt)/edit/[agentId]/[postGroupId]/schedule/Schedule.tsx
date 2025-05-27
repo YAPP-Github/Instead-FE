@@ -2,41 +2,42 @@
 
 import { useScroll } from '@web/hooks';
 import * as style from './pageStyle.css';
-import {
-  NavBar,
-  MainBreadcrumbItem,
-  BreadcrumbItemContentSkelton,
-} from '@web/components/common';
+import { NavBar, MainBreadcrumbItem } from '@web/components/common';
 import { Breadcrumb, Button, FixedBottomCTA, Icon } from '@repo/ui';
+import { DndController } from '@web/components/common';
+import { useGetAllPostsQuery } from '@web/store/query/useGetAllPostsQuery';
+import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
+import { TitleWithDescription } from '@web/components/common/TitleWithDescription/TitleWithDescription';
 import { useRouter } from 'next/navigation';
+import { ScheduleTable } from '@web/components/schedule/ScheduleTable/ScheduleTable';
+import { EditPageProps } from '../types';
 import { ROUTES } from '@web/routes';
+import { POST_STATUS } from '@web/types';
+import { ContentItem } from '../_components/ContentItem/ContentItem';
 import { useForm, FormProvider } from 'react-hook-form';
 import { validateScheduleDate } from '@web/utils/validateScheduleDate';
 import { useToast } from '@repo/ui/hooks';
 import { isNotNil } from '@repo/ui/utils';
-import { getFormattedHourByAMPM } from '@web/utils';
-import { Suspense } from 'react';
-import { ScheduleContent } from './_components/ScheduleContent/ScheduleContent';
-import { ScheduleContentSkeleton } from './_components/ScheduleContent/ScheduleContentSkeleton';
-import { useUpdatePostsMutation } from '@web/store/mutation/useUpdatePostsMutation';
-import { POST_STATUS } from '@web/types';
-import { EditPageProps, ScheduleFormValues } from '../types';
-import { BreadcrumbItemContent } from '@web/components/common';
-import { useQueryClient } from '@tanstack/react-query';
-import { getAgentUploadReservedQueryOptions } from '@web/store/query/useGetAgentUploadReserved';
+import { getCurrentDateKo } from './utils/getCurrentDateKo';
 
 export default function Schedule({ params }: EditPageProps) {
   const [scrollRef, isScrolled] = useScroll<HTMLFormElement>({
     threshold: 100,
   });
+  const { data: posts } = useGetAllPostsQuery(params);
+  const { mutate: updatePosts } = useUpdatePostsMutation(params);
+  const readyToUploadPosts = posts.data.posts.READY_TO_UPLOAD;
   const router = useRouter();
   const toast = useToast();
-  const { mutate: updatePosts } = useUpdatePostsMutation(params);
-  const queryClient = useQueryClient();
 
-  const methods = useForm<ScheduleFormValues>({
+  const methods = useForm({
     defaultValues: {
-      schedules: [],
+      schedules: readyToUploadPosts.map((post) => ({
+        postId: post.id,
+        date: getCurrentDateKo(),
+        hour: '00',
+        minute: '00',
+      })),
     },
   });
 
@@ -45,16 +46,11 @@ export default function Schedule({ params }: EditPageProps) {
       if (
         isNotNil(schedule.date) &&
         isNotNil(schedule.hour) &&
-        isNotNil(schedule.minute) &&
-        isNotNil(schedule.amPm)
+        isNotNil(schedule.minute)
       ) {
-        const formattedHour = getFormattedHourByAMPM(
-          schedule.hour,
-          schedule.amPm
-        );
         return validateScheduleDate(
           schedule.date,
-          formattedHour,
+          schedule.hour,
           schedule.minute
         );
       }
@@ -66,50 +62,34 @@ export default function Schedule({ params }: EditPageProps) {
       return;
     }
 
-    updatePosts(
-      {
-        posts: data.schedules.map((schedule) => ({
-          postId: schedule.postId,
-          status: POST_STATUS.UPLOAD_CONFIRMED,
-          uploadTime: `${schedule.date}T${getFormattedHourByAMPM(
-            schedule.hour,
-            schedule.amPm
-          )}:${schedule.minute}:00`,
-        })),
+    const updatePayload = {
+      posts: readyToUploadPosts.map((post, index) => ({
+        postId: post.id,
+        status: POST_STATUS.UPLOAD_RESERVED,
+        displayOrder: post.displayOrder,
+        uploadTime: `${data.schedules[index]?.date}T${data.schedules[index]?.hour}:${data.schedules[index]?.minute}:00`, // TODO: 임시 구현. 추후 타입 가드 필요
+      })),
+    };
+
+    updatePosts(updatePayload, {
+      onSuccess: () => {
+        toast.success('예약이 완료되었어요');
+        router.push(ROUTES.HOME.DETAIL(params.agentId));
       },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries(
-            getAgentUploadReservedQueryOptions({
-              agentId: Number(params.agentId),
-            })
-          );
-          toast.success('예약이 완료되었어요');
-          router.push(ROUTES.HOME.DETAIL(params.agentId));
-        },
-      }
-    );
+    });
   });
 
   return (
     <>
       <FormProvider {...methods}>
-        <form
-          id="schedule-form"
-          onSubmit={onSubmit}
-          className={style.mainStyle}
-          ref={scrollRef}
-        >
+        <form onSubmit={onSubmit} className={style.mainStyle} ref={scrollRef}>
           <NavBar
             leftAddon={
               <Breadcrumb>
                 <MainBreadcrumbItem href={ROUTES.HOME.DETAIL(params.agentId)} />
-                <Suspense fallback={<BreadcrumbItemContentSkelton />}>
-                  <BreadcrumbItemContent
-                    agentId={params.agentId}
-                    postGroupId={params.postGroupId}
-                  />
-                </Suspense>
+                <Breadcrumb.Item active className={style.breadcrumbItemStyle}>
+                  {posts.data.postGroup.topic}
+                </Breadcrumb.Item>
               </Breadcrumb>
             }
             rightAddon={
@@ -121,8 +101,8 @@ export default function Schedule({ params }: EditPageProps) {
                   onClick={() =>
                     router.push(
                       ROUTES.EDIT.ROOT({
-                        agentId: params.agentId,
-                        postGroupId: params.postGroupId,
+                        agentId: Number(params.agentId),
+                        postGroupId: Number(params.postGroupId),
                       })
                     )
                   }
@@ -134,20 +114,34 @@ export default function Schedule({ params }: EditPageProps) {
             isScrolled={isScrolled}
           />
           <div className={style.contentWrapperStyle}>
-            <Suspense fallback={<ScheduleContentSkeleton />}>
-              <ScheduleContent
-                agentId={params.agentId}
-                postGroupId={params.postGroupId}
+            <div className={style.dndSectionStyle}>
+              <TitleWithDescription
+                title="업로드 예약 일정"
+                rightTitle={readyToUploadPosts.length.toString()}
+                description="개별 글의 업로드 날짜와 순서를 변경할 수 있어요"
               />
-            </Suspense>
+              <DndController
+                initialItems={posts.data.posts}
+                key={Object.values(posts.data.posts)
+                  .flat()
+                  .map(
+                    (item) => `${item.id}-${item.displayOrder}-${item.status}`
+                  )
+                  .join(',')}
+                renderDragOverlay={(activeItem) => (
+                  <ContentItem {...activeItem} />
+                )}
+              >
+                <ScheduleTable
+                  agentId={params.agentId}
+                  postStatus={POST_STATUS.READY_TO_UPLOAD}
+                />
+              </DndController>
+            </div>
           </div>
         </form>
       </FormProvider>
-      <FixedBottomCTA
-        type="submit"
-        form="schedule-form"
-        leftAddon={<Icon name="check" size={20} />}
-      >
+      <FixedBottomCTA type="submit" leftAddon={<Icon name="check" size={20} />}>
         예약 완료
       </FixedBottomCTA>
     </>

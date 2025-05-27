@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import Schedule from './Schedule';
 import { SchedulePageProps } from './type';
 import { getServerSideTokens } from '@web/shared/server/serverSideTokens';
@@ -8,6 +9,7 @@ import {
   ServerFetchBoundary,
 } from '@web/store/query/ServerFetchBoundary';
 import { getAgentUploadReservedQueryOptions } from '@web/store/query/useGetAgentUploadReserved';
+import Loading from '@web/app/loading';
 
 export default function SchedulePage({ params }: SchedulePageProps) {
   const tokens = getServerSideTokens();
@@ -15,15 +17,14 @@ export default function SchedulePage({ params }: SchedulePageProps) {
   const serverFetchOptions = [
     getAgentQueryOptions(tokens),
     getUserQueryOptions(tokens),
-    getAgentUploadReservedQueryOptions({
-      agentId: Number(params.agentId),
-      tokens,
-    }),
+    getAgentUploadReservedQueryOptions({ agentId: params.agentId, tokens }),
   ] as FetchOptions[];
 
   return (
     <ServerFetchBoundary fetchOptions={serverFetchOptions}>
-      <Schedule params={params} />
+      <Suspense fallback={<Loading />}>
+        <Schedule params={params} />
+      </Suspense>
     </ServerFetchBoundary>
   );
 }

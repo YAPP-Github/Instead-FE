@@ -26,17 +26,14 @@ export function useUpdateSinglePostPromptMutation({
   return useMutation({
     mutationFn: (data: UpdateSinglePromptRequest) => {
       return PATCH(
-        `v1/agents/${agentId}/post-groups/${postGroupId}/posts/${postId}/prompt`,
+        `agents/${agentId}/post-groups/${postGroupId}/posts/${postId}/prompt`,
         data
       );
     },
     onSuccess: () => {
       toast.success('프롬프트가 적용되었어요!');
       queryClient.invalidateQueries(
-        getAllPostsQueryOptions({
-          agentId: Number(agentId),
-          postGroupId: Number(postGroupId),
-        })
+        getAllPostsQueryOptions({ agentId, postGroupId })
       );
     },
     onError: (error) => {

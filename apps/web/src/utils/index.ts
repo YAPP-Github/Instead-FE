@@ -5,4 +5,3 @@ export { getFormattedDatetime } from './getFormattedDatetime';
 export { validateScheduleDate } from './validateScheduleDate';
 export { parseTime } from './parseTime';
 export { getFormattedHourByAMPM } from './getFormattedHourByAMPM';
-export { getCurrentDateKo } from './getCurrentDateKo';

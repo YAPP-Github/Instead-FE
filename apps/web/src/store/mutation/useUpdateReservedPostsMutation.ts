@@ -24,7 +24,7 @@ export function useUpdateReservedPostsMutation(agentId: AgentId) {
 
   return useMutation({
     mutationFn: (data: UpdateReservedPostsRequest) =>
-      PUT(`v1/agents/${agentId}/posts/upload-reserved`, data),
+      PUT(`agents/${agentId}/posts/upload-reserved`, data),
     onError: (error) => {
       if (error instanceof Error) {
         toast.error(error.message);
