@@ -5,13 +5,14 @@ import * as styles from './page.css';
 import InsteadLogoImage from '@web/assets/images/instead.svg';
 import { Spacing } from '@repo/ui/Spacing';
 import JoinImage from '@web/assets/images/join.png';
-import { useToast } from '@repo/ui/hooks';
+import { useToast, useModal } from '@repo/ui/hooks';
 import { useEffect } from 'react';
 import { Text } from '@repo/ui/Text';
 import { GoogleLoginButton } from './_components/GoogleLoginButton/GoogleLoginButton';
 
 export default function JoinPage() {
   const toast = useToast();
+  const modal = useModal();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -21,9 +22,15 @@ export default function JoinPage() {
   }, [toast]);
 
   const handleGoogleLogin = async () => {
-    window.location.href = process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL ?? '';
+    //window.location.href = process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL ?? '';
+    modal.alert({
+      title: '서버 점검 중',
+      description:
+        '5/30(금) 오전 1시에 완료될 예정이에요\n이용에 불편을 드려 죄송해요',
+      alertButton: '확인',
+      isCloseOnDimmerClick: false,
+    });
   };
-
   return (
     <div className={styles.wrapper}>
       <Image
